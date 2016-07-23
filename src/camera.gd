@@ -20,8 +20,8 @@ func _input(event):
 		pitch = max(min(pitch - event.relative_y * mouse_sensitivity.y, max_pitch), -min_pitch)
 		yaw_node.set_rotation(Vector3(0, deg2rad(yaw), 0))
 		pitch_node.set_rotation(Vector3(deg2rad(pitch), 0, 0))
-	elif event.is_action_released("camera_reset"):
-		# get rotation bug:     90
+	elif event.is_action_released("player_camera_reset"):
+		# get_rotation bug:     90
 		#					0        0
 		# 					   -90
 		var y = player_node.get_rotation_deg().y

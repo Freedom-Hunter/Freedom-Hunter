@@ -1,6 +1,5 @@
 extends KinematicBody
 
-const GRAVITY = -9.81
 export var SPEED = 5
 export var JUMP = 5
 export var SPRINT_SPEED = 1.5
@@ -86,7 +85,7 @@ func _fixed_process(delta):
 	
 	# Player collision
 	velocity.x = direction.x * speed
-	velocity.y += GRAVITY * delta
+	velocity.y += global.gravity * delta
 	velocity.z = direction.z * speed
 
 	var motion = move(velocity * delta)
@@ -109,16 +108,14 @@ func _fixed_process(delta):
 		velocity = n.slide(velocity)
 		move(motion)
 	
-	if Input.is_action_pressed("player_attack"):
-		if down:
+	if Input.is_action_pressed("player_attack_left"):
+		if rot < 87.5:
 			rot = fmod(rot + delta*100, 90)
-		else:
+			weapon_node.set_rotation_deg(Vector3(rot, 0, 0))
+	if Input.is_action_pressed("player_attack_right"):
+		if rot > 2.5:
 			rot = fmod(rot - delta*100, 90)
-		if rot > 85 and down:
-			down = false
-		elif rot < 5 and not down:
-			down = true
-		weapon_node.set_rotation_deg(Vector3(rot, 0, 0))
+			weapon_node.set_rotation_deg(Vector3(rot, 0, 0))
 	
 	yaw_node.set_translation(get_translation() + Vector3(0, 1.5, 0))
 	debug.set_text("Pos %s" % [get_translation()])

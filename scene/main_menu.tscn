@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=1]
 
-[ext_resource path="res://source/main_menu.gd" type="Script" id=1]
-[ext_resource path="res://media/gui/background.png" type="Texture" id=2]
-[ext_resource path="res://media/gui/bottom_bar.png" type="Texture" id=3]
-[ext_resource path="res://media/gui/top_bar.png" type="Texture" id=4]
-[ext_resource path="res://themes/main_menu.thm" type="Theme" id=5]
+[ext_resource path="res://media/main_menu/main_menu.thm" type="Theme" id=1]
+[ext_resource path="res://src/main_menu.gd" type="Script" id=2]
+[ext_resource path="res://media/main_menu/background/background.png" type="Texture" id=3]
+[ext_resource path="res://media/main_menu/background/bottom_bar.png" type="Texture" id=4]
+[ext_resource path="res://media/main_menu/background/top_bar.png" type="Texture" id=5]
 
 [sub_resource type="Animation" id=1]
 
@@ -16,7 +16,7 @@ tracks/0/type = "value"
 tracks/0/path = NodePath("background:rect/pos")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 10 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ Vector2( 0, 100 ), Vector2( -320, 100 ) ] }
+tracks/0/keys = { "times":FloatArray( 0, 10 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ Vector2( 0, 100 ), Vector2( -960, 100 ) ] }
 
 [node name="start_menu" type="Control"]
 
@@ -27,11 +27,12 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
+theme/theme = ExtResource( 1 )
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-script/script = ExtResource( 1 )
+script/script = ExtResource( 2 )
 
 [node name="background" type="TextureFrame" parent="."]
 
@@ -43,10 +44,9 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 100.0
-margin/right = -320.0
+margin/right = -960.0
 margin/bottom = 100.0
-texture = ExtResource( 2 )
-expand = true
+texture = ExtResource( 3 )
 stretch_mode = 0
 
 [node name="bottom" type="TextureFrame" parent="."]
@@ -62,7 +62,7 @@ margin/left = 0.0
 margin/top = 100.0
 margin/right = 0.0
 margin/bottom = 0.0
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 stretch_mode = 0
 
 [node name="top" type="TextureFrame" parent="."]
@@ -76,7 +76,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 100.0
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 stretch_mode = 0
 
 [node name="menu" type="VBoxContainer" parent="."]
@@ -87,10 +87,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 100.0
-margin/top = 150.0
-margin/right = 100.0
-margin/bottom = 150.0
+margin/left = 97.0
+margin/top = 147.0
+margin/right = 103.0
+margin/bottom = 153.0
 alignment = 1
 
 [node name="singleplayer" type="Button" parent="menu"]
@@ -99,11 +99,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 3
-theme/theme = ExtResource( 5 )
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 1720.0
-margin/bottom = 192.0
+margin/bottom = 257.0
 toggle_mode = false
 enabled_focus_mode = 0
 shortcut = null
@@ -116,11 +115,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 3
-theme/theme = ExtResource( 5 )
 margin/left = 0.0
-margin/top = 196.0
+margin/top = 261.0
 margin/right = 1720.0
-margin/bottom = 388.0
+margin/bottom = 518.0
 disabled = true
 toggle_mode = false
 enabled_focus_mode = 0
@@ -134,11 +132,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 3
-theme/theme = ExtResource( 5 )
 margin/left = 0.0
-margin/top = 392.0
+margin/top = 522.0
 margin/right = 1720.0
-margin/bottom = 584.0
+margin/bottom = 780.0
 disabled = true
 toggle_mode = false
 enabled_focus_mode = 0
@@ -148,11 +145,11 @@ flat = false
 
 [node name="mods" type="Button" parent="menu"]
 
+visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 3
-theme/theme = ExtResource( 5 )
 margin/left = 0.0
 margin/top = 588.0
 margin/right = 1720.0
