@@ -18,7 +18,7 @@ tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 10 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ Vector2( 0, 100 ), Vector2( -960, 100 ) ] }
 
-[node name="start_menu" type="Control"]
+[node name="main_menu" type="Control"]
 
 anchor/right = 1
 anchor/bottom = 1

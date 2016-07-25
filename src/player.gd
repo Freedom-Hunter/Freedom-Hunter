@@ -32,6 +32,7 @@ var down = true
 func player_die():
 	get_node("audio").play("hit")
 	rotate_x(PI/2)
+	set_translation(get_translation() + Vector3(0, 0.5, 0))
 	set_fixed_process(false)
 
 func damage(hp2remove, red_hp_percent):
@@ -57,20 +58,7 @@ func rotation_player(direction, delta):
 
 func _ready():
 	set_fixed_process(true)
-	set_process_input(true)
 	print("Start play")
-
-func _input(event):
-	if event.is_action_released("debug_camera"):
-		if camera_node.is_current():
-			get_node("/root/game/cam").make_current()
-		else:
-			camera_node.make_current()
-	elif event.is_action_released("debug_reset_pos"):
-		get_tree().change_scene("res://scene/game.scn")
-	elif event.is_action_pressed("ui_cancel"):
-		get_tree().quit()
-
 
 func _fixed_process(delta):
 	var direction = Vector3(0, 0, 0)
@@ -117,7 +105,6 @@ func _fixed_process(delta):
 			floor_vel = get_collider_velocity()
 			move(floor_vel * delta)
 			var fall = int(abs(velocity.y) / 2)
-			print(fall)
 			if fall > 0:
 				damage(fall, 50)
 		motion = n.slide(motion)
