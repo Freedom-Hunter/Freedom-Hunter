@@ -4,8 +4,8 @@ export var life_regeneration = 5
 var time = 0
 
 
-onready var life_node = get_node("life")
-onready var damage_node = get_node("life/damage")
+onready var life_node = get_node("hp")
+onready var damage_node = get_node("hp/red_hp")
 
 
 func _ready():

@@ -12,11 +12,13 @@ onready var camera_node = get_node("../yaw/pitch/camera")
 onready var yaw_node = get_node("../yaw")
 onready var weapon_node = get_node("weapon/sword")
 
-onready var stamina_node = get_node("/root/game/hud/stamina")
-onready var life_node = get_node("/root/game/hud/life")
-onready var hp = life_node.get_value()
-onready var damage_node = get_node("/root/game/hud/life/damage")
-onready var debug = get_node("/root/game/hud/debug")
+onready var hud_node = get_node("/root/game/hud")
+onready var stamina_node = hud_node.get_node("stamina")
+onready var hp_node = hud_node.get_node("hp")
+onready var red_hp_node = hud_node.get_node("hp/red_hp")
+onready var debug = hud_node.get_node("debug")
+
+onready var hp = hp_node.get_max()
 
 # Player movements
 var velocity = Vector3()
@@ -27,7 +29,26 @@ var floor_vel = Vector3()
 var rot = 0
 var down = true
 
-func fh_rotation(direction, delta):
+func player_die():
+	get_node("audio").play("hit")
+	rotate_x(PI/2)
+	set_fixed_process(false)
+
+func damage(hp2remove, red_hp_percent):
+	if red_hp_percent > 100:
+		return
+	hud_node.set("time", 0)
+	hp -= hp2remove
+	var red_hp = (hp2remove * red_hp_percent) / 100
+	if hp <= 0:
+		hp_node.set_value(0)
+		red_hp_node.set_value(0)
+		player_die()
+	else:
+		hp_node.set_value(hp)
+		red_hp_node.set_value(hp + red_hp)
+
+func rotation_player(direction, delta):
 	if direction.length() != 0:
 		var target = Vector3(direction.x, 0, direction.z).normalized()
 		target = -(get_transform().basis.z).linear_interpolate(target, delta * 10)
@@ -78,12 +99,10 @@ func _fixed_process(delta):
 		else:
 			velocity.y += JUMP
 	direction = direction.normalized()
-		
-	# Model rotation
-	fh_rotation(direction, delta)
-	
-	
-	# Player collision
+
+	rotation_player(direction, delta)
+
+	# Player collision and physics
 	velocity.x = direction.x * speed
 	velocity.y += global.gravity * delta
 	velocity.z = direction.z * speed
@@ -97,13 +116,10 @@ func _fixed_process(delta):
 			on_floor = true
 			floor_vel = get_collider_velocity()
 			move(floor_vel * delta)
-			if velocity.length() >= COLLISION_SPEED_HURT:
-				hp -= 1
-				life_node.set_value(hp)
-				if hp == 0:
-					get_node("audio").play("hit")
-					rotate_x(PI/2)
-					set_fixed_process(false)
+			var fall = int(abs(velocity.y) / 2)
+			print(fall)
+			if fall > 0:
+				damage(fall, 50)
 		motion = n.slide(motion)
 		velocity = n.slide(velocity)
 		move(motion)
