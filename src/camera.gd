@@ -15,15 +15,12 @@ func _ready():
 	set_fixed_process(true)
 
 func _input(event):
-	if event.type == InputEvent.MOUSE_MOTION and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+	if event.type == InputEvent.MOUSE_MOTION:
 		yaw = fmod(yaw - event.relative_x * mouse_sensitivity.x , 360)
 		pitch = max(min(pitch - event.relative_y * mouse_sensitivity.y, max_pitch), -min_pitch)
-		yaw_node.set_rotation(Vector3(0, deg2rad(yaw), 0))
-		pitch_node.set_rotation(Vector3(deg2rad(pitch), 0, 0))
+		yaw_node.set_rotation_deg(Vector3(0, yaw, 0))
+		pitch_node.set_rotation_deg(Vector3(pitch, 0, 0))
 	elif event.is_action_released("player_camera_reset"):
-		# get_rotation bug:     90
-		#					0        0
-		# 					   -90
-		var y = player_node.get_rotation_deg().y
-		yaw_node.set_rotation_deg(Vector3(0, y, 0))
-		yaw = y
+		var basis = player_node.get_transform().basis
+		yaw = rad2deg(atan2(basis.z.x, basis.z.z))
+		yaw_node.set_rotation_deg(Vector3(0, yaw, 0))
