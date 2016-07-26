@@ -1,21 +1,10 @@
 extends Object
 
-export var life_regeneration = 5
-var time = 0
-
-
 onready var life_node = get_node("hp")
 onready var damage_node = get_node("hp/red_hp")
+onready var stamina_node = get_node("stamina")
 
-
-func _ready():
-	set_process(true)
-	
-func _process(delta):
-	time += delta
-	if time > life_regeneration:
-		time = 0
-		var damage = damage_node.get_value()
-		var life = life_node.get_value()
-		if damage - life > 0:
-			life_node.set_value(life + 1)
+func update_values(hp, reg, stamina):
+	life_node.set_value(hp)
+	damage_node.set_value(reg)
+	stamina_node.set_value(stamina)

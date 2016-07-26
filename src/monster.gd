@@ -1,16 +1,20 @@
-extends KinematicBody
+extends "entity.gd"
 
 const SPEED = 2
-const DISTANCE = 10
+const DISTANCE = 100
 
 onready var player_node = get_node("../player/body")
-var velocity = Vector3()
 var yaw = 0
 var target_yaw = 0
-var rand_time = 0
-var hp = 2
+#var rand_time = 0
+
+# @override from entity.gd
+func die():
+	set_fixed_process(false)
+	rotate_z(PI)
 
 func _ready():
+	hp = 5
 	set_fixed_process(true)
 
 func _fixed_process(delta):
@@ -20,30 +24,35 @@ func _fixed_process(delta):
 	var vely = velocity.y
 
 	if distance_from_player.length() < DISTANCE and get_transform().basis.z.dot(distance_from_player) > 0:
-		velocity = Vector3() #distance_from_player.normalized() * SPEED
+		velocity = distance_from_player.normalized() * SPEED
 		target_yaw = atan2(distance_from_player.x, distance_from_player.z)
+		if target_yaw < 0:
+			target_yaw += 2 * PI
 	#elif rand_time > 5:
 	#	velocity = Vector3(rand_range(-1, 1), vely, rand_range(-1, 1))
 	#	target_yaw = atan2(velocity.x, velocity.z)
 	#	rand_time = 0
 	#print(target_yaw)
-	yaw += (target_yaw - yaw) * delta
+	else:
+		velocity *= 0.25
+	
+	var cw
+	var ccw
+	if yaw < target_yaw:
+		ccw = target_yaw - yaw
+		cw = 2*PI - target_yaw + yaw
+	else:
+		ccw = 2*PI - yaw + target_yaw
+		cw = yaw - target_yaw
+	if cw < ccw:
+		yaw -= cw * delta
+	else:
+		yaw += ccw * delta
 	set_rotation(Vector3(0, yaw, 0))
 	
 	velocity.y = vely
 	velocity.y += global.gravity * delta
 	
-	var motion = move(velocity * delta)
-	if is_colliding():
-		var n = get_collision_normal()
-		motion = n.slide(motion)
-		velocity = n.slide(velocity)
-		move(motion)
-
-	rand_time += delta
-
-func hit():
-	hp -= 1
-	if hp == 0:
-		set_fixed_process(false)
-		rotate_z(PI/2)
+	move_entity(delta)
+	
+	#rand_time += delta
