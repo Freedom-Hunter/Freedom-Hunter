@@ -1,0 +1,128 @@
+[gd_scene load_steps=8 format=1]
+
+[ext_resource path="res://src/player.gd" type="Script" id=1]
+[ext_resource path="res://models/player.msh" type="Mesh" id=2]
+[ext_resource path="res://sounds/hit.smp" type="Sample" id=3]
+[ext_resource path="res://scene/weapon/laser_sword.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/camera.gd" type="Script" id=5]
+
+[sub_resource type="BoxShape" id=6]
+
+extents = Vector3( 0.663725, 0.916219, 0.400757 )
+
+[sub_resource type="SampleLibrary" id=7]
+
+samples/hit = { "db":0.0, "pitch":1.0, "sample":ExtResource( 3 ) }
+
+[node name="player" type="Spatial"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
+[node name="body" type="KinematicBody" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+input/ray_pickable = true
+input/capture_on_drag = false
+shape_count = 1
+shapes/0/shape = SubResource( 6 )
+shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.919694, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+collide_with/static = true
+collide_with/kinematic = true
+collide_with/rigid = true
+collide_with/character = true
+collision/margin = 0.001
+script/script = ExtResource( 1 )
+SPEED = 5
+JUMP = 5
+SPRINT_SPEED = 1.5
+
+[node name="model" type="MeshInstance" parent="body"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+layers = 1
+geometry/visible = true
+geometry/material_override = null
+geometry/cast_shadow = 1
+geometry/receive_shadows = true
+geometry/range_begin = 0.0
+geometry/range_end = 0.0
+geometry/extra_cull_margin = 0.0
+geometry/billboard = false
+geometry/billboard_y = false
+geometry/depth_scale = false
+geometry/visible_in_all_rooms = false
+geometry/use_baked_light = false
+geometry/baked_light_tex_id = 0
+mesh/mesh = ExtResource( 2 )
+mesh/skeleton = NodePath("..")
+material/0 = null
+
+[node name="shape" type="CollisionShape" parent="body"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.919694, 0 )
+shape = SubResource( 6 )
+trigger = false
+_update_shape_index = 0
+
+[node name="audio" type="SpatialSamplePlayer" parent="body"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 1.5075, 0 )
+params/volume_db = 0.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 100.0
+params/attenuation/distance_exp = 1.0
+params/emission_cone/degrees = 180.0
+params/emission_cone/attenuation_db = -6.0
+config/polyphony = 1
+config/samples = SubResource( 7 )
+
+[node name="weapon" type="Spatial" parent="body"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
+[node name="left" type="Spatial" parent="body/weapon"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.59282, 0.60728, 0 )
+
+[node name="sword" parent="body/weapon" instance=ExtResource( 4 )]
+
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.601478, 0.60728, 0 )
+
+[node name="yaw" type="Spatial" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+
+[node name="pitch" type="Spatial" parent="yaw"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
+[node name="camera" type="Camera" parent="yaw/pitch"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -5 )
+projection = 0
+fov = 60.0
+near = 0.1
+far = 500.0
+keep_aspect = 1
+current = true
+visible_layers = 1048575
+environment = null
+h_offset = 0.0
+v_offset = 0.0
+script/script = ExtResource( 5 )
+mouse_sensitivity = Vector2( 0.1, -0.1 )
+max_pitch = 30
+min_pitch = 10
+
+[connection signal="body_enter" from="body/weapon/sword" to="body" method="_on_sword_body_enter"]
+
+
