@@ -265,4 +265,25 @@ phase_2/color = Color( 1, 0, 0, 1 )
 phase_3/pos = 1.0
 phase_3/color = Color( 1, 0, 0, 1 )
 
+[node name="light" type="OmniLight" parent="explosion"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+layers = 1
+params/enabled = false
+params/editor_only = false
+params/bake_mode = 0
+params/energy = 1.0
+colors/diffuse = Color( 1, 1, 1, 1 )
+colors/specular = Color( 1, 1, 1, 1 )
+shadow/shadow = false
+shadow/darkening = 0.0
+shadow/z_offset = 0.001
+shadow/z_slope_scale = 0.0
+shadow/esm_multiplier = 60.0
+shadow/blur_passes = 1.0
+projector = null
+operator = 0
+params/radius = 10.0
+params/attenuation = 1.0
+
 
