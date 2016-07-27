@@ -17,3 +17,7 @@ func _input(event):
 			get_node("/root/game/game_menu").hide()
 			get_tree().set_pause(false)
 	
+
+func _on_restart_pressed():
+	get_tree().change_scene("res://scene/game.tscn")
+	get_tree().set_pause(false)
