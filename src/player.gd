@@ -58,7 +58,7 @@ func _fixed_process(delta):
 		if stamina > 0:
 			speed *= SPRINT_SPEED
 			stamina -= SPRINT_USE * delta
-	else:
+	elif stamina < stamina_node.get_max():
 		stamina += SPRINT_REGENERATION * delta
 	if Input.is_action_pressed("player_jump") and on_floor:
 		if Input.is_action_pressed("player_run"):
