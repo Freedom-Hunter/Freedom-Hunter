@@ -6,11 +6,11 @@
 [ext_resource path="res://scene/weapon/laser_sword.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/camera.gd" type="Script" id=5]
 
-[sub_resource type="BoxShape" id=6]
+[sub_resource type="BoxShape" id=1]
 
 extents = Vector3( 0.663725, 0.916219, 0.400757 )
 
-[sub_resource type="SampleLibrary" id=7]
+[sub_resource type="SampleLibrary" id=2]
 
 samples/hit = { "db":0.0, "pitch":1.0, "sample":ExtResource( 3 ) }
 
@@ -24,7 +24,7 @@ _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = true
 input/capture_on_drag = false
 shape_count = 1
-shapes/0/shape = SubResource( 6 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.919694, 0 )
 shapes/0/trigger = false
 collision/layers = 1
@@ -64,7 +64,7 @@ material/0 = null
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.919694, 0 )
-shape = SubResource( 6 )
+shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
@@ -80,7 +80,7 @@ params/attenuation/distance_exp = 1.0
 params/emission_cone/degrees = 180.0
 params/emission_cone/attenuation_db = -6.0
 config/polyphony = 1
-config/samples = SubResource( 7 )
+config/samples = SubResource( 2 )
 
 [node name="weapon" type="Spatial" parent="body"]
 

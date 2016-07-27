@@ -196,4 +196,42 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
+[node name="Panel" type="Panel" parent="."]
+
+anchor/top = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 80.0
+margin/right = 800.0
+margin/bottom = 0.0
+
+[node name="HButtonArray" type="HButtonArray" parent="Panel"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 20.0
+margin/top = 20.0
+margin/right = 20.0
+margin/bottom = 20.0
+button/count = 4
+button/min_button_size = -1.0
+button/align = 4
+button/0/text = "1"
+button/0/icon = null
+button/1/text = "2"
+button/1/icon = null
+button/2/text = "3"
+button/2/icon = null
+button/3/text = "4"
+button/3/icon = null
+button/selected = 0
+
 

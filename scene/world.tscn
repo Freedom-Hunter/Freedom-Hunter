@@ -1,15 +1,17 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=5 format=1]
 
-[ext_resource path="res://models/world.msh" type="Mesh" id=1]
+[ext_resource path="res://media/textures/sky.cbm" type="CubeMap" id=1]
+[ext_resource path="res://models/maps/first.msh" type="Mesh" id=2]
 
 [sub_resource type="Environment" id=1]
 
 ambient_light/enabled = true
-ambient_light/color = Color( 0.808594, 0.293747, 0.293747, 1 )
-ambient_light/energy = 1.0
+ambient_light/color = Color( 1, 1, 1, 1 )
+ambient_light/energy = 0.4
 fxaa/enabled = false
-background/mode = 2
-background/color = Color( 0.187454, 0.402621, 0.738281, 1 )
+background/mode = 4
+background/color = Color( 0, 0, 0, 1 )
+background/cubemap = ExtResource( 1 )
 background/energy = 1.0
 background/scale = 1.0
 background/glow = 0.0
@@ -21,11 +23,11 @@ glow/blur_strength = 1
 glow/blur_blend_mode = null
 glow/bloom = 0.0
 glow/bloom_treshold = 0.5
-dof_blur/enabled = false
+dof_blur/enabled = true
 dof_blur/blur_passes = 1
 dof_blur/begin = 100.0
 dof_blur/range = 10.0
-hdr/enabled = false
+hdr/enabled = true
 hdr/tonemapper = 0
 hdr/exposure = 0.4
 hdr/white = 1.0
@@ -55,10 +57,15 @@ data = Vector3Array( 89.4737, 0, -99.9998, 100, 0, -99.9998, 89.4737, 0, -89.473
 _import_path = NodePath(".")
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+environment = SubResource( 1 )
+
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 0.707107, 0, 0.707107, -0.374709, 0.848048, 0.374709, -0.599661, -0.529919, 0.599661, 0, 20, 0 )
+transform/local = Transform( 0.704654, 0.000519328, 0.709551, -0.701759, 0.148301, 0.696807, -0.104866, -0.988942, 0.104866, 0, 36.4514, 0 )
 layers = 1
 params/enabled = true
 params/editor_only = false
@@ -79,11 +86,6 @@ shadow/max_distance = 0.0
 shadow/split_weight = 0.5
 shadow/zoffset_scale = 2.0
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-environment = SubResource( 1 )
-
 [node name="mesh" type="MeshInstance" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -101,7 +103,7 @@ geometry/depth_scale = false
 geometry/visible_in_all_rooms = false
 geometry/use_baked_light = false
 geometry/baked_light_tex_id = 0
-mesh/mesh = ExtResource( 1 )
+mesh/mesh = ExtResource( 2 )
 mesh/skeleton = NodePath("..")
 material/0 = null
 
