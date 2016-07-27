@@ -15,7 +15,7 @@ Key                     | Action
 
 ## Copyright
 
-Copyright (C) 2016 Luca Argentieri <luca.argentieri@openmailbox.org>
+Copyright (C) 2016 Luca Argentieri <luca.argentieri@openmailbox.org>  
 Copyright (C) 2016 Elia Argentieri <elia.argentieri@openmailbox.org>
 
 This program is free software: you can redistribute it and/or modify
