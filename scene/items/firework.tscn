@@ -1,7 +1,11 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://sounds/firework_boom.smp" type="Sample" id=1]
 [ext_resource path="res://sounds/firework_launch.smp" type="Sample" id=2]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "\nfunc _on_animation_finished():\n\tqueue_free()\n"
 
 [sub_resource type="SampleLibrary" id=2]
 
@@ -37,6 +41,7 @@ tracks/3/keys = { "times":FloatArray( 0.5, 4 ), "transitions":FloatArray( 1, 1 )
 [node name="firework" type="Spatial"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+script/script = SubResource( 1 )
 
 [node name="RigidBody" type="RigidBody" parent="."]
 

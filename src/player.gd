@@ -32,13 +32,13 @@ func _ready():
 	# TEST CODE
 	var Item = preload("res://src/items/item.gd")
 	var null_item = Item.new()
-	null_item.init(self, preload("res://scene/items/potion/potion.png"), "None", 0, true)
+	null_item.init(self, preload("res://media/items/potion.png"), "None", 0, true)
 	var Potion = preload("res://src/items/potion.gd")
 	var potion = Potion.new()
-	potion.init(self, preload("res://scene/items/potion/potion.png"), "Potion", 10, 25)
+	potion.init(self, preload("res://media/items/potion.png"), "Potion", 10, 25)
 	var Firework = preload("res://src/items/firework.gd")
 	var firework = Firework.new()
-	firework.init(self, preload("res://scene/items/potion/potion.png"), "Potion", 10)
+	firework.init(self, preload("res://media/items/potion.png"), "Potion", 10)
 	items = [null_item, potion, firework]
 
 	set_fixed_process(true)
