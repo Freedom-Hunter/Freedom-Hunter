@@ -11,7 +11,7 @@ var target_yaw = 0
 # @override from entity.gd
 func die():
 	set_fixed_process(false)
-	rotate_z(PI)
+	rotate_z(PI/2)
 
 func _ready():
 	hp = 5
