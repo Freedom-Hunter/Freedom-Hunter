@@ -16,15 +16,47 @@ onready var stamina_node = hud_node.get_node("stamina")
 onready var hp_node = hud_node.get_node("hp")
 onready var red_hp_node = hud_node.get_node("hp/red_hp")
 onready var debug = hud_node.get_node("debug")
+onready var audio_node = get_node("audio")
 
 # Player attack
 var sword_rot = 0
 
+var items = []
+var active_item = 0
+
 func _ready():
 	hp = hp_node.get_max()
+	max_hp = hp
 	stamina = stamina_node.get_max()
+	
+	# TEST CODE
+	var Item = preload("res://src/items/item.gd")
+	var null_item = Item.new()
+	null_item.init(self, preload("res://scene/items/potion/potion.png"), "None", 0, true)
+	var Potion = preload("res://src/items/potion.gd")
+	var potion = Potion.new()
+	potion.init(self, preload("res://scene/items/potion/potion.png"), "Potion", 10, 25)
+	var Firework = preload("res://src/items/firework.gd")
+	var firework = Firework.new()
+	firework.init(self, preload("res://scene/items/potion/potion.png"), "Potion", 10)
+	items = [null_item, potion, firework]
+
 	set_fixed_process(true)
+	set_process_input(true)
 	print("Start play")
+
+func _input(event):
+	if event.is_action_pressed("player_scroll_next"):
+		active_item = (active_item + 1) % items.size()
+	elif event.is_action_pressed("player_scroll_back"):
+		active_item = (active_item - 1) % items.size()
+	elif event.is_action_pressed("player_use"):
+		items[active_item].use()
+
+func heal(amount):
+	hp += amount
+	if hp > max_hp:
+		hp = max_hp
 
 func die():
 	get_node("audio").play("hit")

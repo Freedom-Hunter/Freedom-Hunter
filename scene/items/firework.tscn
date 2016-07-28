@@ -1,17 +1,15 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=5 format=1]
 
-[ext_resource path="res://src/items/firework.gd" type="Script" id=1]
-[ext_resource path="res://sounds/firework_boom.smp" type="Sample" id=2]
-[ext_resource path="res://sounds/firework_launch.smp" type="Sample" id=3]
+[ext_resource path="res://sounds/firework_boom.smp" type="Sample" id=1]
+[ext_resource path="res://sounds/firework_launch.smp" type="Sample" id=2]
 
-[sub_resource type="SampleLibrary" id=3]
+[sub_resource type="SampleLibrary" id=2]
 
-samples/firework_boom = { "db":0.0, "pitch":1.0, "sample":ExtResource( 2 ) }
-samples/firework_launch = { "db":0.0, "pitch":1.0, "sample":ExtResource( 3 ) }
+samples/firework_boom = { "db":0.0, "pitch":1.0, "sample":ExtResource( 1 ) }
+samples/firework_launch = { "db":0.0, "pitch":1.0, "sample":ExtResource( 2 ) }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=3]
 
-resource/name = "firework"
 length = 10.0
 loop = false
 step = 0.1
@@ -39,7 +37,6 @@ tracks/3/keys = { "times":FloatArray( 0.5, 4 ), "transitions":FloatArray( 1, 1 )
 [node name="firework" type="Spatial"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-script/script = ExtResource( 1 )
 
 [node name="RigidBody" type="RigidBody" parent="."]
 
@@ -230,14 +227,14 @@ params/attenuation/distance_exp = 1.0
 params/emission_cone/degrees = 180.0
 params/emission_cone/attenuation_db = -6.0
 config/polyphony = 1
-config/samples = SubResource( 3 )
+config/samples = SubResource( 2 )
 
 [node name="animation" type="AnimationPlayer" parent="."]
 
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/firework = SubResource( 2 )
+anims/firework = SubResource( 3 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]

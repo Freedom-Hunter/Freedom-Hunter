@@ -1,6 +1,7 @@
 extends KinematicBody
 
 var hp = 0
+var max_hp = 0
 var regenerable_hp = 0
 var stamina = 0
 
