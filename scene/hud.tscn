@@ -1,12 +1,14 @@
-[gd_scene load_steps=17 format=1]
+[gd_scene load_steps=19 format=1]
 
 [ext_resource path="res://src/hud.gd" type="Script" id=1]
 [ext_resource path="res://src/FPS.gd" type="Script" id=2]
 [ext_resource path="res://item_slot.tres" type="StyleBox" id=3]
 [ext_resource path="res://media/items/potion.png" type="Texture" id=4]
-[ext_resource path="res://media/item bar/quantity.png" type="Texture" id=5]
-[ext_resource path="res://media/font/medieval sharp/MedievalSharp.ttf" type="DynamicFontData" id=6]
-[ext_resource path="res://media/item bar/name.png" type="Texture" id=7]
+[ext_resource path="res://media/items/firework.png" type="Texture" id=5]
+[ext_resource path="res://media/items/barrel.png" type="Texture" id=6]
+[ext_resource path="res://media/item bar/quantity.png" type="Texture" id=7]
+[ext_resource path="res://media/font/medieval sharp/MedievalSharp.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://media/item bar/name.png" type="Texture" id=9]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
@@ -81,12 +83,12 @@ border_size = 0
 border_blend = true
 draw_bg = true
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=7]
 
 font/size = 30
-font/font = ExtResource( 6 )
+font/font = ExtResource( 8 )
 
-[sub_resource type="Theme" id=7]
+[sub_resource type="Theme" id=8]
 
 Label/colors/font_color = Color( 1, 1, 1, 1 )
 Label/colors/font_color_shadow = Color( 0, 0, 0, 0 )
@@ -99,7 +101,7 @@ Label/fonts/font = null
 [sub_resource type="DynamicFont" id=9]
 
 font/size = 24
-font/font = ExtResource( 6 )
+font/font = ExtResource( 8 )
 
 [node name="hud" type="Control"]
 
@@ -293,13 +295,12 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
 [node name="use" type="Panel" parent="items_bar"]
 
-editor/display_folded = true
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -322,6 +323,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
+texture = ExtResource( 4 )
 expand = true
 stretch_mode = 0
 
@@ -352,7 +354,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-texture = ExtResource( 4 )
+texture = ExtResource( 6 )
 expand = true
 stretch_mode = 0
 
@@ -398,8 +400,9 @@ margin/left = 295.0
 margin/top = 95.0
 margin/right = 345.0
 margin/bottom = 145.0
-texture = ExtResource( 5 )
+texture = ExtResource( 7 )
 expand = true
+stretch_mode = 0
 
 [node name="label" type="Label" parent="items_bar/quantity"]
 
@@ -413,7 +416,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 7 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
 text = "10"
@@ -433,8 +436,9 @@ margin/left = 130.0
 margin/top = 150.0
 margin/right = 390.0
 margin/bottom = 200.0
-texture = ExtResource( 7 )
+texture = ExtResource( 9 )
 expand = true
+stretch_mode = 0
 
 [node name="label" type="Label" parent="items_bar/name"]
 
@@ -444,7 +448,7 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-theme/theme = SubResource( 7 )
+theme/theme = SubResource( 8 )
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
