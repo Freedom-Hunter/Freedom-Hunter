@@ -1,10 +1,12 @@
-[gd_scene load_steps=12 format=1]
+[gd_scene load_steps=17 format=1]
 
 [ext_resource path="res://src/hud.gd" type="Script" id=1]
 [ext_resource path="res://src/FPS.gd" type="Script" id=2]
-[ext_resource path="res://media/background.png" type="Texture" id=3]
-[ext_resource path="res://media/cross.png" type="Texture" id=4]
-[ext_resource path="res://scene/items/potion/potion.png" type="Texture" id=5]
+[ext_resource path="res://item_slot.tres" type="StyleBox" id=3]
+[ext_resource path="res://media/items/potion.png" type="Texture" id=4]
+[ext_resource path="res://media/item bar/quantity.png" type="Texture" id=5]
+[ext_resource path="res://media/font/medieval sharp/MedievalSharp.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://media/item bar/name.png" type="Texture" id=7]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
@@ -78,6 +80,26 @@ dark_color = Color( 0.8, 0.8, 0.8, 0 )
 border_size = 0
 border_blend = true
 draw_bg = true
+
+[sub_resource type="DynamicFont" id=8]
+
+font/size = 30
+font/font = ExtResource( 6 )
+
+[sub_resource type="Theme" id=7]
+
+Label/colors/font_color = Color( 1, 1, 1, 1 )
+Label/colors/font_color_shadow = Color( 0, 0, 0, 0 )
+Label/constants/line_spacing = 3
+Label/constants/shadow_as_outline = 0
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/fonts/font = null
+
+[sub_resource type="DynamicFont" id=9]
+
+font/size = 24
+font/font = ExtResource( 6 )
 
 [node name="hud" type="Control"]
 
@@ -200,18 +222,35 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="items_bar" type="Control" parent="."]
+[node name="items_bar" type="Container" parent="."]
 
+anchor/top = 1
+anchor/bottom = 1
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 660.0
-margin/top = 900.0
-margin/right = 1260.0
-margin/bottom = 1060.0
+margin/left = 20.0
+margin/top = 220.0
+margin/right = 540.0
+margin/bottom = 20.0
 
-[node name="background" type="TextureFrame" parent="items_bar"]
+[node name="left_2" type="Panel" parent="items_bar"]
+
+editor/display_folded = true
+visibility/opacity = 0.5
+rect/min_size = Vector2( 80, 80 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 20.0
+margin/right = 80.0
+margin/bottom = 100.0
+custom_styles/panel = ExtResource( 3 )
+
+[node name="icon" type="TextureFrame" parent="items_bar/left_2"]
 
 anchor/right = 1
 anchor/bottom = 1
@@ -223,76 +262,199 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 expand = true
+stretch_mode = 0
 
-[node name="left_2" type="TextureFrame" parent="items_bar"]
+[node name="left_1" type="Panel" parent="items_bar"]
 
+editor/display_folded = true
+visibility/opacity = 0.75
 rect/min_size = Vector2( 100, 100 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 90.0
+margin/top = 10.0
+margin/right = 190.0
+margin/bottom = 110.0
+custom_styles/panel = ExtResource( 3 )
+
+[node name="icon" type="TextureFrame" parent="items_bar/left_1"]
+
+anchor/right = 1
+anchor/bottom = 1
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 30.0
-margin/right = 100.0
-margin/bottom = 130.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
 texture = ExtResource( 4 )
 expand = true
+stretch_mode = 0
 
-[node name="left_1" type="TextureFrame" parent="items_bar"]
+[node name="use" type="Panel" parent="items_bar"]
 
-rect/min_size = Vector2( 100, 100 )
+editor/display_folded = true
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 110.0
-margin/top = 30.0
-margin/right = 210.0
-margin/bottom = 130.0
-texture = ExtResource( 5 )
-expand = true
-
-[node name="use" type="TextureFrame" parent="items_bar"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 220.0
+margin/left = 200.0
 margin/top = 0.0
-margin/right = 380.0
-margin/bottom = 160.0
-texture = ExtResource( 5 )
+margin/right = 320.0
+margin/bottom = 120.0
+custom_styles/panel = ExtResource( 3 )
+
+[node name="icon" type="TextureFrame" parent="items_bar/use"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
 expand = true
+stretch_mode = 0
 
-[node name="right_1" type="TextureFrame" parent="items_bar"]
+[node name="right_1" type="Panel" parent="items_bar"]
 
+editor/display_folded = true
+visibility/opacity = 0.75
 rect/min_size = Vector2( 100, 100 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 390.0
-margin/top = 25.0
-margin/right = 490.0
-margin/bottom = 125.0
-texture = ExtResource( 5 )
-expand = true
+margin/left = 330.0
+margin/top = 10.0
+margin/right = 430.0
+margin/bottom = 110.0
+custom_styles/panel = ExtResource( 3 )
 
-[node name="right_2" type="TextureFrame" parent="items_bar"]
+[node name="icon" type="TextureFrame" parent="items_bar/right_1"]
 
-rect/min_size = Vector2( 100, 100 )
+anchor/right = 1
+anchor/bottom = 1
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 500.0
-margin/top = 25.0
-margin/right = 600.0
-margin/bottom = 125.0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 0
+
+[node name="right_2" type="Panel" parent="items_bar"]
+
+editor/display_folded = true
+visibility/opacity = 0.5
+rect/min_size = Vector2( 80, 80 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 440.0
+margin/top = 20.0
+margin/right = 520.0
+margin/bottom = 100.0
+custom_styles/panel = ExtResource( 3 )
+
+[node name="icon" type="TextureFrame" parent="items_bar/right_2"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 0
+
+[node name="quantity" type="TextureFrame" parent="items_bar"]
+
+rect/min_size = Vector2( 45, 45 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 295.0
+margin/top = 95.0
+margin/right = 345.0
+margin/bottom = 145.0
 texture = ExtResource( 5 )
 expand = true
+
+[node name="label" type="Label" parent="items_bar/quantity"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
+text = "10"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="name" type="TextureFrame" parent="items_bar"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 130.0
+margin/top = 150.0
+margin/right = 390.0
+margin/bottom = 200.0
+texture = ExtResource( 7 )
+expand = true
+
+[node name="label" type="Label" parent="items_bar/name"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+theme/theme = SubResource( 7 )
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+custom_fonts/font = SubResource( 9 )
+text = "(Neesuna selezione)"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 
