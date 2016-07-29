@@ -1,14 +1,11 @@
-[gd_scene load_steps=19 format=1]
+[gd_scene load_steps=16 format=1]
 
 [ext_resource path="res://src/hud.gd" type="Script" id=1]
 [ext_resource path="res://src/FPS.gd" type="Script" id=2]
-[ext_resource path="res://item_slot.tres" type="StyleBox" id=3]
-[ext_resource path="res://media/items/potion.png" type="Texture" id=4]
-[ext_resource path="res://media/items/firework.png" type="Texture" id=5]
-[ext_resource path="res://media/items/barrel.png" type="Texture" id=6]
-[ext_resource path="res://media/item bar/quantity.png" type="Texture" id=7]
-[ext_resource path="res://media/font/medieval sharp/MedievalSharp.ttf" type="DynamicFontData" id=8]
-[ext_resource path="res://media/item bar/name.png" type="Texture" id=9]
+[ext_resource path="res://media/item_slot.tres" type="StyleBox" id=3]
+[ext_resource path="res://media/item bar/quantity.png" type="Texture" id=4]
+[ext_resource path="res://media/font/medieval sharp/MedievalSharp.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://media/item bar/name.png" type="Texture" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
@@ -85,8 +82,8 @@ draw_bg = true
 
 [sub_resource type="DynamicFont" id=7]
 
-font/size = 30
-font/font = ExtResource( 8 )
+font/size = 20
+font/font = ExtResource( 5 )
 
 [sub_resource type="Theme" id=8]
 
@@ -101,7 +98,7 @@ Label/fonts/font = null
 [sub_resource type="DynamicFont" id=9]
 
 font/size = 24
-font/font = ExtResource( 8 )
+font/font = ExtResource( 5 )
 
 [node name="hud" type="Control"]
 
@@ -126,9 +123,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 1
 size_flags/vertical = 0
-margin/left = 10.0
-margin/top = 10.0
-margin/right = 1510.0
+margin/left = 20.0
+margin/top = 20.0
+margin/right = 1270.0
 margin/bottom = 35.0
 custom_styles/fg = SubResource( 1 )
 custom_styles/bg = SubResource( 2 )
@@ -152,7 +149,7 @@ size_flags/vertical = 0
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
-margin/bottom = 25.0
+margin/bottom = 15.0
 custom_styles/fg = SubResource( 3 )
 custom_styles/bg = SubResource( 4 )
 range/min = 0.0
@@ -171,10 +168,10 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
 size_flags/stretch_ratio = 0.0
-margin/left = 10.0
-margin/top = 50.0
-margin/right = 1010.0
-margin/bottom = 65.0
+margin/left = 20.0
+margin/top = 45.0
+margin/right = 820.0
+margin/bottom = 55.0
 custom_styles/fg = SubResource( 5 )
 custom_styles/bg = SubResource( 6 )
 range/min = 0.0
@@ -228,27 +225,28 @@ max_lines_visible = -1
 
 anchor/top = 1
 anchor/bottom = 1
+rect/min_size = Vector2( 380, 160 )
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 20.0
-margin/top = 220.0
-margin/right = 540.0
-margin/bottom = 20.0
+margin/left = 15.0
+margin/top = 175.0
+margin/right = 395.0
+margin/bottom = 15.0
 
 [node name="left_2" type="Panel" parent="items_bar"]
 
+editor/display_folded = true
 visibility/opacity = 0.5
-rect/min_size = Vector2( 80, 80 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 20.0
-margin/right = 80.0
-margin/bottom = 100.0
+margin/top = 15.0
+margin/right = 60.0
+margin/bottom = 75.0
 custom_styles/panel = ExtResource( 3 )
 
 [node name="icon" type="TextureFrame" parent="items_bar/left_2"]
@@ -263,7 +261,6 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-texture = ExtResource( 4 )
 expand = true
 stretch_mode = 0
 
@@ -271,15 +268,14 @@ stretch_mode = 0
 
 editor/display_folded = true
 visibility/opacity = 0.75
-rect/min_size = Vector2( 100, 100 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 90.0
-margin/top = 10.0
-margin/right = 190.0
-margin/bottom = 110.0
+margin/left = 65.0
+margin/top = 7.0
+margin/right = 140.0
+margin/bottom = 82.0
 custom_styles/panel = ExtResource( 3 )
 
 [node name="icon" type="TextureFrame" parent="items_bar/left_1"]
@@ -294,20 +290,20 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
 
 [node name="use" type="Panel" parent="items_bar"]
 
+editor/display_folded = true
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 200.0
+margin/left = 145.0
 margin/top = 0.0
-margin/right = 320.0
-margin/bottom = 120.0
+margin/right = 235.0
+margin/bottom = 90.0
 custom_styles/panel = ExtResource( 3 )
 
 [node name="icon" type="TextureFrame" parent="items_bar/use"]
@@ -322,7 +318,6 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-texture = ExtResource( 4 )
 expand = true
 stretch_mode = 0
 
@@ -330,15 +325,14 @@ stretch_mode = 0
 
 editor/display_folded = true
 visibility/opacity = 0.75
-rect/min_size = Vector2( 100, 100 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 330.0
-margin/top = 10.0
-margin/right = 430.0
-margin/bottom = 110.0
+margin/left = 240.0
+margin/top = 7.0
+margin/right = 315.0
+margin/bottom = 82.0
 custom_styles/panel = ExtResource( 3 )
 
 [node name="icon" type="TextureFrame" parent="items_bar/right_1"]
@@ -353,7 +347,6 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-texture = ExtResource( 6 )
 expand = true
 stretch_mode = 0
 
@@ -361,15 +354,14 @@ stretch_mode = 0
 
 editor/display_folded = true
 visibility/opacity = 0.5
-rect/min_size = Vector2( 80, 80 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 440.0
-margin/top = 20.0
-margin/right = 520.0
-margin/bottom = 100.0
+margin/left = 320.0
+margin/top = 15.0
+margin/right = 380.0
+margin/bottom = 75.0
 custom_styles/panel = ExtResource( 3 )
 
 [node name="icon" type="TextureFrame" parent="items_bar/right_2"]
@@ -384,22 +376,22 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-texture = ExtResource( 4 )
 expand = true
 stretch_mode = 0
 
 [node name="quantity" type="TextureFrame" parent="items_bar"]
 
-rect/min_size = Vector2( 45, 45 )
+editor/display_folded = true
+rect/min_size = Vector2( 30, 30 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 295.0
-margin/top = 95.0
-margin/right = 345.0
-margin/bottom = 145.0
-texture = ExtResource( 7 )
+margin/left = 215.0
+margin/top = 75.0
+margin/right = 245.0
+margin/bottom = 105.0
+texture = ExtResource( 4 )
 expand = true
 stretch_mode = 0
 
@@ -427,15 +419,16 @@ max_lines_visible = -1
 
 [node name="name" type="TextureFrame" parent="items_bar"]
 
+editor/display_folded = true
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 130.0
-margin/top = 150.0
-margin/right = 390.0
-margin/bottom = 200.0
-texture = ExtResource( 9 )
+margin/left = 0.0
+margin/top = 110.0
+margin/right = 380.0
+margin/bottom = 155.0
+texture = ExtResource( 6 )
 expand = true
 stretch_mode = 0
 

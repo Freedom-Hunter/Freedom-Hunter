@@ -9,6 +9,8 @@ func _input(event):
 			pause()
 		else:
 			unpause()
+	if event.is_action_released("ui_fullscreen"):
+		OS.set_window_fullscreen(not OS.is_window_fullscreen())
 
 func pause():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
