@@ -84,6 +84,11 @@ params/emission_cone/attenuation_db = -6.0
 config/polyphony = 1
 config/samples = SubResource( 2 )
 
+[node name="drop_item" type="Position3D" parent="body"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3 )
+
 [node name="weapon" type="Spatial" parent="body"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
