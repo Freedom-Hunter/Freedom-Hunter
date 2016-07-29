@@ -1,12 +1,12 @@
 extends RigidBody
 
-var timeout = 5
-var lifetime = null
-var voice = null
-
 onready var light_node = get_node("explosion/light")
 onready var particle_node = get_node("explosion/particles")
 onready var Entity = preload("res://src/entity.gd")
+
+var timeout = 5
+var lifetime = null
+var voice = null
 
 func _ready():
 	set_process(true)
@@ -30,6 +30,12 @@ func _process(delta):
 		var r = get_node("explosion/radius").get_shape().get_radius()
 		for body in get_node("explosion").get_overlapping_bodies():
 			if body extends Entity:
-				var d = body.get_global_transform().origin - get_global_transform().origin
+				var d = body.get_translation() - get_translation()
 				var dmg = int((r - d.length()) * 5 + 1)
 				body.damage(dmg, 0.1)
+			elif body.is_in_group("explosive"):
+				var diff = body.get_translation() - get_translation()
+				var speed = (r - diff.length()) * 2
+				var direction = diff.normalized()
+				body.set_linear_velocity(direction * speed)
+				body.timeout = 0.5

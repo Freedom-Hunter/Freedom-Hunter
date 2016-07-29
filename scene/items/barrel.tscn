@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=1]
 
 [ext_resource path="res://src/items/barrel-scene.gd" type="Script" id=1]
-[ext_resource path="res://models/items/big-bomb/wood_barrel.msh" type="Mesh" id=2]
+[ext_resource path="res://models/items/big-bomb/barrel.msh" type="Mesh" id=2]
 [ext_resource path="res://models/items/big-bomb/diffuse.tex" type="Texture" id=3]
 [ext_resource path="res://models/items/big-bomb/normal.tex" type="Texture" id=4]
 [ext_resource path="res://models/items/big-bomb/specular.tex" type="Texture" id=5]
@@ -9,8 +9,8 @@
 
 [sub_resource type="CapsuleShape" id=1]
 
-radius = 0.6
-height = 0.4
+radius = 0.57618
+height = 0.752264
 
 [sub_resource type="FixedMaterial" id=2]
 
@@ -97,15 +97,14 @@ textures/glow_tc = 0
 textures/normal_tc = 0
 textures/shade_param_tc = 0
 
-[node name="barrel" type="RigidBody"]
+[node name="barrel" type="RigidBody" groups=[ "explosive" ]]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.114857, 44.2469, 14.9988 )
 input/ray_pickable = true
 input/capture_on_drag = false
 shape_count = 1
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.802212, 0 )
+shapes/0/transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
@@ -151,7 +150,7 @@ material/0 = SubResource( 2 )
 [node name="collision" type="CollisionShape" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.802212, 0 )
+transform/local = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
