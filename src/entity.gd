@@ -40,7 +40,7 @@ func die():
 	set_process(false)
 
 func damage(dmg, reg):
-	print("damage: ", get_name())
+	print("%s: damage of %s" % [get_name(), dmg])
 	if hp > 0:
 		time_hit = 0
 		hp -= dmg
