@@ -87,7 +87,7 @@ config/samples = SubResource( 2 )
 [node name="drop_item" type="Position3D" parent="body"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )
 
 [node name="weapon" type="Spatial" parent="body"]
 
@@ -114,7 +114,7 @@ _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 [node name="camera" type="Camera" parent="yaw/pitch"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 2, -8 )
+transform/local = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, -8 )
 projection = 0
 fov = 60.0
 near = 0.1
@@ -126,9 +126,6 @@ environment = null
 h_offset = 0.0
 v_offset = 0.0
 script/script = ExtResource( 6 )
-mouse_sensitivity = Vector2( 0.1, -0.1 )
-max_pitch = 30
-min_pitch = 10
 
 [connection signal="body_enter" from="body/weapon/sword" to="body" method="_on_sword_body_enter"]
 

@@ -5,9 +5,9 @@ onready var pitch_node = get_node("..")
 onready var player_node = get_node("/root/game/player/body")
 var yaw = 0
 var pitch = 0
-export var mouse_sensitivity = Vector2(0.1, 0.1)
-export var max_pitch = 30
-export var min_pitch = 10
+var mouse_sensitivity = Vector2(0.1, -0.1)
+var max_pitch = 90
+var min_pitch = -90
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -17,7 +17,7 @@ func _ready():
 func _input(event):
 	if event.type == InputEvent.MOUSE_MOTION:
 		yaw = fmod(yaw - event.relative_x * mouse_sensitivity.x , 360)
-		pitch = max(min(pitch - event.relative_y * mouse_sensitivity.y, max_pitch), -min_pitch)
+		pitch = max(min(pitch - event.relative_y * mouse_sensitivity.y, max_pitch), min_pitch)
 		yaw_node.set_rotation_deg(Vector3(0, yaw, 0))
 		pitch_node.set_rotation_deg(Vector3(pitch, 0, 0))
 	elif event.is_action_released("player_camera_reset"):

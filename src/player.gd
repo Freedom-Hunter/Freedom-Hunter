@@ -22,7 +22,7 @@ onready var audio_node = get_node("audio")
 var sword_rot = 0
 
 var items = []
-var active_item = 0
+var active_item = 1
 
 func _ready():
 	hp = hp_node.get_max()

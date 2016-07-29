@@ -1,12 +1,10 @@
-[gd_scene load_steps=8 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://scene/world.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scene/player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scene/hud.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scene/game_menu.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scene/monster/dragon.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scene/items/barrel.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scene/items/firework.tscn" type="PackedScene" id=7]
 
 [node name="game" type="Area"]
 
@@ -41,14 +39,6 @@ visibility/visible = false
 
 [node name="Dragon" parent="." instance=ExtResource( 5 )]
 
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1, 10 )
-
-[node name="barrel" parent="." instance=ExtResource( 6 )]
-
-transform/local = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 10, 10, 10 )
-
-[node name="firework" parent="." instance=ExtResource( 7 )]
-
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0328674, -21.1475, 106.477 )
+transform/local = Transform( -0.625013, 0, -0.780614, 0, 1, 0, 0.780614, 0, -0.625013, 10, 1, 10 )
 
 
