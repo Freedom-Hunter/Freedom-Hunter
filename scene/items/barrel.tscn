@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=1]
 
-[ext_resource path="res://src/barrel.gd" type="Script" id=1]
+[ext_resource path="res://src/items/barrel-scene.gd" type="Script" id=1]
 [ext_resource path="res://models/items/big-bomb/wood_barrel.msh" type="Mesh" id=2]
 [ext_resource path="res://models/items/big-bomb/diffuse.tex" type="Texture" id=3]
 [ext_resource path="res://models/items/big-bomb/normal.tex" type="Texture" id=4]
