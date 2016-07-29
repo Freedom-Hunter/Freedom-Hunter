@@ -32,14 +32,18 @@ func _ready():
 	# TEST CODE
 	var Item = preload("res://src/items/item.gd")
 	var null_item = Item.new()
-	null_item.init(self, preload("res://media/items/potion.png"), "None", 0, true)
+	null_item.init(self, preload("res://media/items/null.png"), "None", 0, true)
 	var Potion = preload("res://src/items/potion.gd")
 	var potion = Potion.new()
 	potion.init(self, preload("res://media/items/potion.png"), "Potion", 10, 25)
 	var Firework = preload("res://src/items/firework.gd")
 	var firework = Firework.new()
-	firework.init(self, preload("res://media/items/potion.png"), "Potion", 10)
-	items = [null_item, potion, firework]
+	firework.init(self, preload("res://media/items/firework.png"), "Firework", 10)
+	var Barrel = preload("res://src/items/barrel.gd")
+	var barrel = Barrel.new()
+	barrel.init(self, preload("res://media/items/barrel.png"), "Barrel", 10)
+	items = [null_item, potion, firework, barrel]
+	hud_node.scroll(items, active_item)
 
 	set_fixed_process(true)
 	set_process_input(true)
@@ -48,10 +52,13 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("player_scroll_next"):
 		active_item = (active_item + 1) % items.size()
+		hud_node.scroll(items, active_item)
 	elif event.is_action_pressed("player_scroll_back"):
 		active_item = (active_item - 1) % items.size()
+		hud_node.scroll(items, active_item)
 	elif event.is_action_pressed("player_use"):
 		items[active_item].use()
+		hud_node.update_quantity(items, active_item)
 
 func heal(amount):
 	hp += amount
