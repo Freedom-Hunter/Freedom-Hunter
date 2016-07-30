@@ -26,10 +26,10 @@ func _fixed_process(delta):
 	if distance_from_player.length() < DISTANCE and get_transform().basis.z.dot(distance_from_player) > 0:
 		if distance_from_player.length() > 7.5:
 			velocity = distance_from_player.normalized() * SPEED
-			get_node("fire").set_emitting(false)
 		else:
 			velocity = Vector3()
-			get_node("fire").set_emitting(true)
+			if not get_node("animation").is_playing():
+				get_node("animation").play("attack")
 		target_yaw = atan2(distance_from_player.x, distance_from_player.z)
 		if target_yaw < 0:
 			target_yaw += 2 * PI

@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=1]
+[gd_scene load_steps=10 format=1]
 
 [ext_resource path="res://src/entities/monster.gd" type="Script" id=1]
 [ext_resource path="res://models/monster/dragon.msh" type="Mesh" id=2]
 [ext_resource path="res://models/monster/dragon.mtl" type="Material" id=3]
-[ext_resource path="res://media/textures/flame1.png" type="Texture" id=4]
+[ext_resource path="res://sounds/dragon.smp" type="Sample" id=4]
+[ext_resource path="res://media/textures/flame1.png" type="Texture" id=5]
 
 [sub_resource type="BoxShape" id=1]
 
@@ -11,6 +12,7 @@ extents = Vector3( 3.25974, 1.43522, 2.20274 )
 
 [sub_resource type="SampleLibrary" id=2]
 
+samples/dragon = { "db":0.0, "pitch":1.0, "sample":ExtResource( 4 ) }
 
 [sub_resource type="FixedMaterial" id=3]
 
@@ -40,7 +42,7 @@ params/shader_param = 0.5
 params/glow = 0
 params/point_size = 1.0
 uv_xform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-textures/diffuse = ExtResource( 4 )
+textures/diffuse = ExtResource( 5 )
 textures/diffuse_tc = 0
 textures/detail_tc = 0
 textures/specular_tc = 0
@@ -49,6 +51,23 @@ textures/specular_exp_tc = 0
 textures/glow_tc = 0
 textures/normal_tc = 0
 textures/shade_param_tc = 0
+
+[sub_resource type="Animation" id=4]
+
+resource/name = "attack"
+length = 5.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("fire:emitting")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 3.5 ), "transitions":FloatArray( 1, 1 ), "update":1, "values":[ true, false ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath("audio:play/play")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0, 3.5 ), "transitions":FloatArray( 1, 1 ), "update":2, "values":[ "dragon", "" ] }
 
 [node name="Dragon" type="KinematicBody"]
 
@@ -97,7 +116,7 @@ shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
-[node name="SpatialSamplePlayer" type="SpatialSamplePlayer" parent="."]
+[node name="audio" type="SpatialSamplePlayer" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05851, -1.20082 )
@@ -131,7 +150,7 @@ geometry/use_baked_light = false
 geometry/baked_light_tex_id = 0
 material = SubResource( 3 )
 amount = 64
-emitting = true
+emitting = false
 visibility = AABB( -4, -4, -4, 8, 8, 8 )
 emission_extents = Vector3( 0.1, 0.1, 0.1 )
 emission_base_velocity = Vector3( 0, 0, 0 )
@@ -177,5 +196,16 @@ phase_2/pos = 0.495271
 phase_2/color = Color( 0.457031, 0, 0, 1 )
 phase_3/pos = 1.0
 phase_3/color = Color( 0, 0, 0, 0 )
+
+[node name="animation" type="AnimationPlayer" parent="."]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/attack = SubResource( 4 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
 
 
