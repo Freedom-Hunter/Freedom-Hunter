@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=8 format=1]
 
-[ext_resource path="res://src/monster.gd" type="Script" id=1]
+[ext_resource path="res://src/entities/monster.gd" type="Script" id=1]
 [ext_resource path="res://models/monster/dragon.msh" type="Mesh" id=2]
 [ext_resource path="res://models/monster/dragon.mtl" type="Material" id=3]
 

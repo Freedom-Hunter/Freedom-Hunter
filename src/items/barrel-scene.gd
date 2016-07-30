@@ -2,7 +2,7 @@ extends RigidBody
 
 onready var light_node = get_node("explosion/light")
 onready var particle_node = get_node("explosion/particles")
-onready var Entity = preload("res://src/entity.gd")
+onready var Entity = preload("res://src/entities/entity.gd")
 
 var timeout = 5
 var lifetime = null

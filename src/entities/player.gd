@@ -133,5 +133,5 @@ func _fixed_process(delta):
 	hud_node.update_values(hp, regenerable_hp, stamina)
 
 func _on_sword_body_enter(body):
-	if body != self and body extends preload("res://src/entity.gd"):
+	if body != self and body extends preload("res://src/entities/entity.gd"):
 		body.damage(2, 0.3)
