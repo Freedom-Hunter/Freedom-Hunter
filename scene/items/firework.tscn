@@ -1,18 +1,96 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=10 format=1]
 
-[ext_resource path="res://sounds/firework_boom.smp" type="Sample" id=1]
-[ext_resource path="res://sounds/firework_launch.smp" type="Sample" id=2]
+[ext_resource path="res://media/textures/firework.png" type="Texture" id=1]
+[ext_resource path="res://media/textures/smoke.png" type="Texture" id=2]
+[ext_resource path="res://sounds/firework_boom.smp" type="Sample" id=3]
+[ext_resource path="res://sounds/firework_launch.smp" type="Sample" id=4]
 
 [sub_resource type="GDScript" id=1]
 
 script/source = "\nfunc _on_animation_finished():\n\tqueue_free()\n"
 
-[sub_resource type="SampleLibrary" id=2]
+[sub_resource type="FixedMaterial" id=6]
 
-samples/firework_boom = { "db":0.0, "pitch":1.0, "sample":ExtResource( 1 ) }
-samples/firework_launch = { "db":0.0, "pitch":1.0, "sample":ExtResource( 2 ) }
+flags/visible = true
+flags/double_sided = true
+flags/invert_faces = false
+flags/unshaded = true
+flags/on_top = false
+flags/lightmap_on_uv2 = true
+flags/colarray_is_srgb = true
+params/blend_mode = 0
+params/depth_draw = 1
+params/line_width = 0.0
+fixed_flags/use_alpha = true
+fixed_flags/use_color_array = true
+fixed_flags/use_point_size = false
+fixed_flags/discard_alpha = false
+fixed_flags/use_xy_normalmap = false
+params/diffuse = Color( 1, 1, 1, 1 )
+params/specular = Color( 0, 0, 0, 1 )
+params/emission = Color( 0, 0, 0, 1 )
+params/specular_exp = 40
+params/detail_mix = 1.0
+params/normal_depth = 1
+params/shader = 0
+params/shader_param = 0.5
+params/glow = 0
+params/point_size = 1.0
+uv_xform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+textures/diffuse = ExtResource( 1 )
+textures/diffuse_tc = 0
+textures/detail_tc = 0
+textures/specular_tc = 0
+textures/emission_tc = 0
+textures/specular_exp_tc = 0
+textures/glow_tc = 0
+textures/normal_tc = 0
+textures/shade_param_tc = 0
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="FixedMaterial" id=3]
+
+flags/visible = true
+flags/double_sided = true
+flags/invert_faces = false
+flags/unshaded = true
+flags/on_top = false
+flags/lightmap_on_uv2 = true
+flags/colarray_is_srgb = true
+params/blend_mode = 0
+params/depth_draw = 1
+params/line_width = 0.0
+fixed_flags/use_alpha = true
+fixed_flags/use_color_array = true
+fixed_flags/use_point_size = false
+fixed_flags/discard_alpha = false
+fixed_flags/use_xy_normalmap = false
+params/diffuse = Color( 1, 1, 1, 1 )
+params/specular = Color( 0, 0, 0, 1 )
+params/emission = Color( 0, 0, 0, 1 )
+params/specular_exp = 40
+params/detail_mix = 1.0
+params/normal_depth = 1
+params/shader = 0
+params/shader_param = 0.5
+params/glow = 0
+params/point_size = 1.0
+uv_xform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+textures/diffuse = ExtResource( 2 )
+textures/diffuse_tc = 0
+textures/detail_tc = 0
+textures/specular_tc = 0
+textures/emission_tc = 0
+textures/specular_exp_tc = 0
+textures/glow_tc = 0
+textures/normal_tc = 0
+textures/shade_param_tc = 0
+
+[sub_resource type="SampleLibrary" id=4]
+
+samples/firework_boom = { "db":0.0, "pitch":1.0, "sample":ExtResource( 3 ) }
+samples/firework_launch = { "db":0.0, "pitch":1.0, "sample":ExtResource( 4 ) }
+
+[sub_resource type="Animation" id=5]
 
 length = 10.0
 loop = false
@@ -21,7 +99,7 @@ tracks/0/type = "value"
 tracks/0/path = NodePath("RigidBody/rocket:emitting")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 4.5 ), "transitions":FloatArray( 1, 1 ), "update":1, "values":[ true, false ] }
+tracks/0/keys = { "times":FloatArray( 0, 3.3 ), "transitions":FloatArray( 1, 1 ), "update":1, "values":[ true, false ] }
 tracks/1/type = "value"
 tracks/1/path = NodePath("RigidBody/boom:emitting")
 tracks/1/interp = 1
@@ -46,7 +124,6 @@ script/script = SubResource( 1 )
 [node name="RigidBody" type="RigidBody" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = true
 input/capture_on_drag = false
 shape_count = 0
@@ -72,12 +149,11 @@ damp_override/angular = -1.0
 [node name="boom" type="Particles" parent="RigidBody"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 layers = 1
 geometry/visible = true
 geometry/material_override = null
-geometry/cast_shadow = 1
-geometry/receive_shadows = true
+geometry/cast_shadow = 0
+geometry/receive_shadows = false
 geometry/range_begin = 0.0
 geometry/range_end = 0.0
 geometry/extra_cull_margin = 0.0
@@ -87,15 +163,15 @@ geometry/depth_scale = false
 geometry/visible_in_all_rooms = false
 geometry/use_baked_light = false
 geometry/baked_light_tex_id = 0
-material = null
-amount = 512
+material = SubResource( 6 )
+amount = 500
 emitting = false
 visibility = AABB( -4, -4, -4, 8, 8, 8 )
 emission_extents = Vector3( 0.5, 0.5, 0.5 )
 emission_base_velocity = Vector3( 0, 10, 0 )
 emission_points = Vector3Array(  )
 gravity_normal = Vector3( 0, -1, 0 )
-local_coords = true
+local_coords = false
 emit_timeout = 0.0
 vars/lifetime = 2.0
 vars/spread = 1.0
@@ -106,40 +182,39 @@ vars/linear_accel = 0.0
 vars/radial_accel = 0.0
 vars/tan_accel = 0.0
 vars/damping = 7.5
-vars/initial_size = 0.2
-vars/final_size = 0.3
-vars/initial_angle = 1.0
+vars/initial_size = 0.5
+vars/final_size = 1.0
+vars/initial_angle = 0.0
 vars/height_from_velocity = false
 vars/height = 0.0
 vars/height_speed_scale = 0.0
-rand/lifetime = -16.0
+rand/lifetime = 2.0
 rand/spread = 0.0
 rand/gravity = 0.0
-rand/linear_vel = 0.0
+rand/linear_vel = 16.0
 rand/angular_vel = 0.0
 rand/linear_accel = 0.0
 rand/radial_accel = 0.0
 rand/tan_accel = 0.0
 rand/damping = 0.0
-rand/initial_size = 0.0
-rand/final_size = 0.0
-rand/initial_angle = 0.0
+rand/initial_size = 0.3
+rand/final_size = 1.0
+rand/initial_angle = 16.0
 rand/height = 0.0
 rand/height_speed_scale = 0.0
-color_phases/count = 0
-phase_0/pos = 0.0
-phase_0/color = Color( 1, 1, 1, 1 )
-phase_1/pos = 1.0
-phase_1/color = Color( 0, 0, 0, 1 )
-phase_2/pos = 1.0
-phase_2/color = Color( 0, 0, 0, 1 )
+color_phases/count = 4
+phase_0/pos = 0.0247759
+phase_0/color = Color( 0.0416565, 0.761719, 0, 1 )
+phase_1/pos = 0.745391
+phase_1/color = Color( 0.0488281, 0.390625, 0, 1 )
+phase_2/pos = 0.85
+phase_2/color = Color( 0.0461776, 0.179688, 0.00350952, 1 )
 phase_3/pos = 1.0
-phase_3/color = Color( 0, 0, 0, 1 )
+phase_3/color = Color( 0, 0, 0, 0 )
 
 [node name="rocket" type="Particles" parent="RigidBody"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
 layers = 1
 geometry/visible = true
 geometry/material_override = null
@@ -154,54 +229,54 @@ geometry/depth_scale = false
 geometry/visible_in_all_rooms = false
 geometry/use_baked_light = false
 geometry/baked_light_tex_id = 0
-material = null
-amount = 32
-emitting = true
+material = SubResource( 3 )
+amount = 256
+emitting = false
 visibility = AABB( -4, -4, -4, 8, 8, 8 )
 emission_extents = Vector3( 0.1, 0.1, 0.1 )
-emission_base_velocity = Vector3( 0, 0, 0 )
+emission_base_velocity = Vector3( 0, -1, 0 )
 emission_points = Vector3Array(  )
 gravity_normal = Vector3( 0, -1, 0 )
 local_coords = false
 emit_timeout = 0.0
-vars/lifetime = 1.0
-vars/spread = 0.24943
-vars/gravity = 9.8
-vars/linear_vel = 1.0
-vars/angular_vel = 0.0
+vars/lifetime = 3.0
+vars/spread = 0.2
+vars/gravity = 0.0
+vars/linear_vel = 0.0
+vars/angular_vel = 1.0
 vars/linear_accel = 0.0
 vars/radial_accel = 0.0
 vars/tan_accel = 0.0
 vars/damping = 0.0
-vars/initial_size = 0.05
-vars/final_size = 0.1
+vars/initial_size = 0.1
+vars/final_size = 1.0
 vars/initial_angle = 0.0
 vars/height_from_velocity = false
 vars/height = 1.0
 vars/height_speed_scale = 0.0
-rand/lifetime = 1602.0
-rand/spread = 0.2
+rand/lifetime = 1.0
+rand/spread = 0.0
 rand/gravity = 0.0
-rand/linear_vel = 0.0
-rand/angular_vel = 0.0
+rand/linear_vel = 1.0
+rand/angular_vel = 0.5
 rand/linear_accel = 0.0
 rand/radial_accel = 0.0
 rand/tan_accel = 0.0
 rand/damping = 0.0
-rand/initial_size = 0.0
-rand/final_size = 0.0
-rand/initial_angle = 0.0
+rand/initial_size = 0.01
+rand/final_size = 1.0
+rand/initial_angle = 16.0
 rand/height = 0.0
 rand/height_speed_scale = 0.0
 color_phases/count = 4
 phase_0/pos = 0.0
-phase_0/color = Color( 0.03125, 0, 1, 1 )
-phase_1/pos = 1.0
-phase_1/color = Color( 0.170461, 0.792969, 0.117706, 1 )
-phase_2/pos = 1.0
-phase_2/color = Color( 1, 0, 0.890625, 1 )
+phase_0/color = Color( 1, 0.241333, 0.117188, 0.357608 )
+phase_1/pos = 0.25
+phase_1/color = Color( 0.170461, 0.792969, 0.117706, 0.182415 )
+phase_2/pos = 0.799087
+phase_2/color = Color( 0.0206203, 0.296875, 0.00463867, 0.0721916 )
 phase_3/pos = 1.0
-phase_3/color = Color( 0.949219, 0.0259552, 0.0259552, 1 )
+phase_3/color = Color( 0, 0, 0, 0 )
 
 [node name="light" type="OmniLight" parent="RigidBody"]
 
@@ -210,7 +285,7 @@ layers = 1
 params/enabled = true
 params/editor_only = false
 params/bake_mode = 0
-params/energy = -0.0359389
+params/energy = 0.423999
 colors/diffuse = Color( 1, 1, 1, 1 )
 colors/specular = Color( 1, 1, 1, 1 )
 shadow/shadow = false
@@ -235,33 +310,18 @@ params/attenuation/distance_exp = 1.0
 params/emission_cone/degrees = 180.0
 params/emission_cone/attenuation_db = -6.0
 config/polyphony = 1
-config/samples = SubResource( 2 )
+config/samples = SubResource( 4 )
 
 [node name="animation" type="AnimationPlayer" parent="."]
 
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/firework = SubResource( 3 )
+anims/firework = SubResource( 5 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = "firework"
-
-[node name="Camera" type="Camera" parent="."]
-
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 0.000525213, 0.628033, 0.778187, -0.000423871, 0.778187, -0.628032, -1, 0, 0.000674919, 43.3065, 7.13383, 0 )
-projection = 0
-fov = 60.0
-near = 0.1
-far = 100.0
-keep_aspect = 1
-current = false
-visible_layers = 1048575
-environment = null
-h_offset = 0.0
-v_offset = 0.0
 
 [connection signal="finished" from="animation" to="." method="_on_animation_finished"]
 
