@@ -21,10 +21,10 @@ func _on_timer_timeout():
 			var direction = diff.normalized()
 			body.set_linear_velocity(direction * speed)
 			if not body.animation_node.is_playing():
-				var timer = body.get_node("explosion/timer")
-				timer.stop()
-				timer.set_wait_time(0.5)
-				timer.start()
+				var body_timer = body.get_node("explosion/timer")
+				body_timer.stop()
+				body_timer.set_wait_time(0.5)
+				body_timer.start()
 
 func _on_animation_finished():
 	queue_free()
