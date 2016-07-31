@@ -17,6 +17,7 @@ onready var hp_node = hud_node.get_node("hp")
 onready var red_hp_node = hud_node.get_node("hp/red_hp")
 onready var debug = hud_node.get_node("debug")
 onready var audio_node = get_node("audio")
+onready var interact_node = get_node("interact")
 
 # Player attack
 var sword_rot = 0
@@ -59,6 +60,10 @@ func _input(event):
 	elif event.is_action_pressed("player_use"):
 		items[active_item].use()
 		hud_node.update_quantity(items, active_item)
+	elif event.is_action_pressed("player_interact"):
+		for body in interact_node.get_overlapping_bodies():
+			if body.is_in_group("interact"):
+				body.interact(self)
 
 func heal(amount):
 	hp += amount

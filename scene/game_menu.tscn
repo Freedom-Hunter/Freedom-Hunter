@@ -17,7 +17,7 @@ border_size = 0
 border_blend = true
 draw_bg = true
 
-[node name="game_menu" type="Control"]
+[node name="game_menu" type="Popup"]
 
 process/pause_mode = 2
 anchor/right = 1
@@ -31,6 +31,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
+popup/exclusive = true
 script/script = ExtResource( 2 )
 
 [node name="Panel" type="Panel" parent="."]

@@ -14,12 +14,12 @@ func _input(event):
 
 func pause():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	get_node("/root/game/game_menu").show()
+	show()
 	get_tree().set_pause(true)
 
 func unpause():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	get_node("/root/game/game_menu").hide()
+	hide()
 	get_tree().set_pause(false)
 
 func _on_quit_pressed():

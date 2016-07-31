@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=1]
+[gd_scene load_steps=10 format=1]
 
 [ext_resource path="res://src/entities/player.gd" type="Script" id=1]
 [ext_resource path="res://models/player.msh" type="Mesh" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://sounds/potion_drink.smp" type="Sample" id=4]
 [ext_resource path="res://scene/weapon/laser_sword.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/camera.gd" type="Script" id=6]
-
 
 [sub_resource type="BoxShape" id=1]
 
@@ -16,6 +15,10 @@ extents = Vector3( 0.663725, 0.916219, 0.400757 )
 
 samples/hit = { "db":0.0, "pitch":1.0, "sample":ExtResource( 3 ) }
 samples/potion_drink = { "db":0.0, "pitch":1.0, "sample":ExtResource( 4 ) }
+
+[sub_resource type="SphereShape" id=3]
+
+radius = 3.0
 
 [node name="player" type="Spatial"]
 
@@ -102,6 +105,36 @@ transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.59282, 0.60728, 0 )
 [node name="sword" parent="body/weapon" instance=ExtResource( 5 )]
 
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.601478, 0.60728, 0 )
+
+[node name="interact" type="Area" parent="body"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+input/ray_pickable = false
+input/capture_on_drag = false
+shape_count = 1
+shapes/0/shape = SubResource( 3 )
+shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+shapes/0/trigger = false
+space_override = 0
+gravity_point = false
+gravity_distance_scale = 0.0
+gravity_vec = Vector3( 0, -1, 0 )
+gravity = 9.8
+linear_damp = 0.1
+angular_damp = 1.0
+priority = 0.0
+monitoring = true
+monitorable = true
+collision/layers = 1
+collision/mask = 1
+
+[node name="radius" type="CollisionShape" parent="body/interact"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+shape = SubResource( 3 )
+trigger = false
+_update_shape_index = 0
 
 [node name="yaw" type="Spatial" parent="."]
 
