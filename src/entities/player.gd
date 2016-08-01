@@ -50,6 +50,11 @@ func _ready():
 	set_process_input(true)
 	print("Start play")
 
+func sort_by_distance(a, b):
+	var dist_a = (get_translation() - a.get_translation()).length()
+	var dist_b = (get_translation() - b.get_translation()).length()
+	return dist_a < dist_b
+
 func _input(event):
 	if event.is_action_pressed("player_scroll_next"):
 		active_item = (active_item + 1) % items.size()
@@ -68,12 +73,13 @@ func _input(event):
 		else:
 			hud_node.update_quantity(items, active_item)
 	elif event.is_action_pressed("player_interact"):
-		for body in interact_node.get_overlapping_bodies():
-			if body.is_in_group("interact"):
-				body.interact(self)
-		for area in interact_node.get_overlapping_areas():
-			if area.is_in_group("interact"):
-				area.interact(self)
+		var interacts = interact_node.get_overlapping_bodies()
+		interacts += interact_node.get_overlapping_areas()
+		for i in interacts:
+			if not i.is_in_group("interact"):
+				interacts.erase(i)
+		interacts.sort_custom(self, "sort_by_distance")
+		interacts[0].interact(self)
 
 func add_item(item):
 	var found = false
