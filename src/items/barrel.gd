@@ -3,7 +3,7 @@ extends "item.gd"
 var scene = preload("res://scene/items/barrel.tscn")
 
 func init(p, i, n, q):
-	.init(p, i, n, q, true, 98)
+	.init(p, i, n, q, true, 5)
 
 func effect():
 	var drop = player.get_node("drop_item").get_global_transform()

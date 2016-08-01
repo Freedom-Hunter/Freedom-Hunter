@@ -168,8 +168,9 @@ params/emission_cone/attenuation_db = -6.0
 config/polyphony = 1
 config/samples = SubResource( 7 )
 
-[node name="inventory" type="WindowDialog" parent="."]
+[node name="inventory" type="PopupPanel" parent="."]
 
+visibility/visible = false
 anchor/right = 1
 anchor/bottom = 1
 focus/ignore_mouse = false
@@ -181,7 +182,6 @@ margin/top = 100.0
 margin/right = 100.0
 margin/bottom = 100.0
 popup/exclusive = false
-window/title = "Chest Inventory"
 
 [node name="grid" type="GridContainer" parent="inventory"]
 

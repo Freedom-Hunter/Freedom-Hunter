@@ -45,8 +45,7 @@ func _ready():
 	barrel.init(self, preload("res://media/items/barrel.png"), "Barrel", 10)
 	items = [null_item, potion, firework, barrel]
 	hud_node.scroll(items, active_item)
-	
-	items = [null_item]
+
 	set_fixed_process(true)
 	set_process_input(true)
 	print("Start play")
@@ -62,7 +61,6 @@ func _input(event):
 		hud_node.scroll(items, active_item)
 	elif event.is_action_pressed("player_use"):
 		items[active_item].use()
-		print(active_item)
 		if active_item != 0 and items[active_item].quantity <= 0:
 			items.remove(active_item)
 			active_item = (active_item + 1) % items.size()
@@ -73,9 +71,9 @@ func _input(event):
 		for body in interact_node.get_overlapping_bodies():
 			if body.is_in_group("interact"):
 				body.interact(self)
-		for body in interact_node.get_overlapping_areas():
-			if body.is_in_group("interact"):
-				body.interact(self)
+		for area in interact_node.get_overlapping_areas():
+			if area.is_in_group("interact"):
+				area.interact(self)
 
 func add_item(item):
 	var found = false
