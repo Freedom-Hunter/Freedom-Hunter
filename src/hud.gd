@@ -22,3 +22,8 @@ func update_quantity(items, active_item):
 	var item = items[active_item]
 	get_node("items_bar/quantity/label").set_text(str(item.quantity))
 	get_node("items_bar/name/label").set_text(item.name)
+
+func got_item(item):
+	var label = get_node("itemget/label")
+	label.set_text("You got %s" % item.name)
+	get_node("itemget_animation").play("show")

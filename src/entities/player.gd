@@ -90,6 +90,7 @@ func add_item(item):
 	if not found:
 		items.append(item)
 	hud_node.scroll(items, active_item)
+	hud_node.got_item(item)
 
 func heal(amount):
 	hp += amount

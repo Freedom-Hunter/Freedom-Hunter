@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=1]
+[gd_scene load_steps=18 format=1]
 
 [ext_resource path="res://src/hud.gd" type="Script" id=1]
 [ext_resource path="res://src/FPS.gd" type="Script" id=2]
@@ -99,6 +99,23 @@ Label/fonts/font = null
 
 font/size = 24
 font/font = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=10]
+
+font/size = 32
+font/font = ExtResource( 5 )
+
+[sub_resource type="Animation" id=11]
+
+resource/name = "show"
+length = 2.5
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("itemget:rect/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 0.5, 2, 2.5 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":0, "values":[ Vector2( 660, -100 ), Vector2( 660, 500 ), Vector2( 660, 500 ), Vector2( 660, -100 ) ] }
 
 [node name="hud" type="Control"]
 
@@ -419,7 +436,6 @@ max_lines_visible = -1
 
 [node name="name" type="TextureFrame" parent="items_bar"]
 
-editor/display_folded = true
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -452,5 +468,51 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+
+[node name="itemget" type="Panel" parent="."]
+
+anchor/left = 3
+anchor/top = 3
+anchor/right = 3
+anchor/bottom = 3
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 300.0
+margin/top = 640.0
+margin/right = -300.0
+margin/bottom = 560.0
+
+[node name="label" type="Label" parent="itemget"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+custom_fonts/font = SubResource( 10 )
+text = "Hai ottenuto: %s"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="itemget_animation" type="AnimationPlayer" parent="."]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/show = SubResource( 11 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
 
 
