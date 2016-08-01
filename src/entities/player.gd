@@ -29,7 +29,9 @@ func _ready():
 	hp = hp_node.get_max()
 	max_hp = hp
 	stamina = stamina_node.get_max()
-	
+
+	get_node("../yaw/pitch/Quad").get_material_override().set_texture(FixedMaterial.PARAM_DIFFUSE, get_node("../Viewport").get_render_target_texture())
+
 	# TEST CODE
 	var Item = preload("res://src/items/item.gd")
 	var null_item = Item.new()
