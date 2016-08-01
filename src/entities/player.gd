@@ -57,10 +57,18 @@ func _input(event):
 		hud_node.scroll(items, active_item)
 	elif event.is_action_pressed("player_scroll_back"):
 		active_item = (active_item - 1) % items.size()
+		if active_item < 0:
+			active_item = items.size() - 1
 		hud_node.scroll(items, active_item)
 	elif event.is_action_pressed("player_use"):
 		items[active_item].use()
-		hud_node.update_quantity(items, active_item)
+		print(active_item)
+		if active_item != 0 and items[active_item].quantity <= 0:
+			items.remove(active_item)
+			active_item = (active_item + 1) % items.size()
+			hud_node.scroll(items, active_item)
+		else:
+			hud_node.update_quantity(items, active_item)
 	elif event.is_action_pressed("player_interact"):
 		for body in interact_node.get_overlapping_bodies():
 			if body.is_in_group("interact"):
