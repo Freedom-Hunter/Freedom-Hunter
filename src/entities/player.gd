@@ -78,8 +78,9 @@ func _input(event):
 		for i in interacts:
 			if not i.is_in_group("interact"):
 				interacts.erase(i)
-		interacts.sort_custom(self, "sort_by_distance")
-		interacts[0].interact(self)
+		if interacts.size() > 0:
+			interacts.sort_custom(self, "sort_by_distance")
+			interacts[0].interact(self)
 
 func add_item(item):
 	var found = false
