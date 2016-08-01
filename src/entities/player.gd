@@ -23,7 +23,7 @@ onready var interact_node = get_node("interact")
 var sword_rot = 0
 
 var items = []
-var active_item = 1
+var active_item = 0
 
 func _ready():
 	hp = hp_node.get_max()
@@ -33,7 +33,7 @@ func _ready():
 	# TEST CODE
 	var Item = preload("res://src/items/item.gd")
 	var null_item = Item.new()
-	null_item.init(self, preload("res://media/items/null.png"), "None", 0, true)
+	null_item.init(self, preload("res://media/items/null.png"), "None", 0, true, 0)
 	var Potion = preload("res://src/items/potion.gd")
 	var potion = Potion.new()
 	potion.init(self, preload("res://media/items/potion.png"), "Potion", 10, 25)
@@ -45,7 +45,8 @@ func _ready():
 	barrel.init(self, preload("res://media/items/barrel.png"), "Barrel", 10)
 	items = [null_item, potion, firework, barrel]
 	hud_node.scroll(items, active_item)
-
+	
+	items = [null_item]
 	set_fixed_process(true)
 	set_process_input(true)
 	print("Start play")
@@ -64,6 +65,19 @@ func _input(event):
 		for body in interact_node.get_overlapping_bodies():
 			if body.is_in_group("interact"):
 				body.interact(self)
+		for body in interact_node.get_overlapping_areas():
+			if body.is_in_group("interact"):
+				body.interact(self)
+
+func add_item(item):
+	var found = false
+	for e in items:
+		if e.name == item.name:
+			e.quantity += 1
+			found = true
+	if not found:
+		items.append(item)
+	hud_node.scroll(items, active_item)
 
 func heal(amount):
 	hp += amount
@@ -76,6 +90,7 @@ func die():
 	set_translation(get_translation() + Vector3(0, 0.5, 0))
 	hud_node.update_values(0, 0, stamina)
 	set_fixed_process(false)
+	set_process_input(false)
 
 func look_where_you_walk(direction, delta):
 	if direction.length() != 0:

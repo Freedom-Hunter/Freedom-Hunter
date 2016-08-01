@@ -3,6 +3,7 @@ var icon
 var name
 var quantity
 var usable
+var rarity
 
 func effect():
 	pass
@@ -12,9 +13,10 @@ func use():
 		quantity -= 1
 		effect()
 
-func init(p, i, n, q, u):
-	player = p
-	icon = i
-	name = n
-	quantity = q
-	usable = u
+func init(pla, ico, nam, qua, usa, rar):
+	player = pla
+	icon = ico
+	name = nam
+	quantity = qua
+	usable = usa
+	rarity = rar
