@@ -4,7 +4,7 @@
 [ext_resource path="res://src/FPS.gd" type="Script" id=2]
 [ext_resource path="res://media/item_slot.tres" type="StyleBox" id=3]
 [ext_resource path="res://media/item bar/quantity.png" type="Texture" id=4]
-[ext_resource path="res://media/font/medieval sharp/MedievalSharp.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://media/font/MedievalSharp.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://media/item bar/name.png" type="Texture" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
