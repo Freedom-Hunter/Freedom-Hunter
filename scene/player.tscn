@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=1]
+[gd_scene load_steps=10 format=1]
 
 [ext_resource path="res://src/entities/player.gd" type="Script" id=1]
 [ext_resource path="res://models/player.msh" type="Mesh" id=2]
@@ -19,43 +19,6 @@ samples/potion_drink = { "db":0.0, "pitch":1.0, "sample":ExtResource( 4 ) }
 [sub_resource type="SphereShape" id=3]
 
 radius = 3.0
-
-[sub_resource type="FixedMaterial" id=4]
-
-flags/visible = true
-flags/double_sided = false
-flags/invert_faces = false
-flags/unshaded = true
-flags/on_top = false
-flags/lightmap_on_uv2 = true
-flags/colarray_is_srgb = true
-params/blend_mode = 0
-params/depth_draw = 1
-params/line_width = 0.0
-fixed_flags/use_alpha = true
-fixed_flags/use_color_array = true
-fixed_flags/use_point_size = false
-fixed_flags/discard_alpha = false
-fixed_flags/use_xy_normalmap = false
-params/diffuse = Color( 1, 1, 1, 1 )
-params/specular = Color( 0, 0, 0, 1 )
-params/emission = Color( 0, 0, 0, 1 )
-params/specular_exp = 40
-params/detail_mix = 1.0
-params/normal_depth = 1
-params/shader = 0
-params/shader_param = 0.5
-params/glow = 0
-params/point_size = 1.0
-uv_xform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-textures/diffuse_tc = 0
-textures/detail_tc = 0
-textures/specular_tc = 0
-textures/emission_tc = 0
-textures/specular_exp_tc = 0
-textures/glow_tc = 0
-textures/normal_tc = 0
-textures/shade_param_tc = 0
 
 [node name="player" type="Spatial"]
 
@@ -182,29 +145,6 @@ transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
-[node name="Quad" type="Quad" parent="yaw/pitch"]
-
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( -1, -8.74228e-08, 0, -8.74228e-08, 1, -8.74228e-08, 7.64274e-15, -8.74228e-08, -1, 0, 1, 0 )
-layers = 1
-geometry/visible = true
-geometry/material_override = SubResource( 4 )
-geometry/cast_shadow = 1
-geometry/receive_shadows = false
-geometry/range_begin = 0.0
-geometry/range_end = 0.0
-geometry/extra_cull_margin = 0.0
-geometry/billboard = false
-geometry/billboard_y = false
-geometry/depth_scale = false
-geometry/visible_in_all_rooms = false
-geometry/use_baked_light = false
-geometry/baked_light_tex_id = 0
-quad/axis = 2
-quad/size = Vector2( 2, 0.3 )
-quad/offset = Vector2( 0, 0 )
-quad/centered = true
-
 [node name="camera" type="Camera" parent="yaw/pitch"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -220,38 +160,6 @@ environment = null
 h_offset = 0.0
 v_offset = 0.0
 script/script = ExtResource( 6 )
-
-[node name="Viewport" type="Viewport" parent="."]
-
-rect = Rect2( 0, 0, 179, 14 )
-own_world = false
-world = null
-transparent_bg = false
-render_target/enabled = true
-render_target/v_flip = false
-render_target/clear_on_new_frame = false
-render_target/filter = false
-render_target/gen_mipmaps = false
-render_target/update_mode = 1
-audio_listener/enable_2d = false
-audio_listener/enable_3d = false
-physics/object_picking = false
-gui/disable_input = true
-
-[node name="Label" type="Label" parent="Viewport"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 40.0
-margin/bottom = 14.0
-text = "You\'ll pay for your insolence"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
 
 [connection signal="body_enter" from="body/weapon/sword" to="body" method="_on_sword_body_enter"]
 
