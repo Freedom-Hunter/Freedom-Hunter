@@ -40,13 +40,15 @@ func die():
 	set_process(false)
 
 func damage(dmg, reg):
-	print("%s: damage of %s" % [get_name(), dmg])
 	if hp > 0:
+		print("%s: damage of %s" % [get_name(), dmg])
 		time_hit = 0
 		hp -= dmg
 		regenerable_hp = int(hp + dmg * reg)
 		if hp <= 0:
 			die()
+	else:
+		print(get_name(), " is already dead")
 
 func _process(delta):
 	time_hit += delta

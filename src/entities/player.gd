@@ -9,16 +9,16 @@ const SPRINT_REGENERATION = 4
 
 onready var camera_node = get_node("../yaw/pitch/camera")
 onready var yaw_node = get_node("../yaw")
+
 onready var weapon_node = get_node("weapon/sword")
 
-onready var hud_node = get_node("/root/game/hud")
-onready var stamina_node = hud_node.get_node("stamina")
-onready var hp_node = hud_node.get_node("hp")
-onready var red_hp_node = hud_node.get_node("hp/red_hp")
-onready var debug = hud_node.get_node("debug")
 onready var audio_node = get_node("audio")
 onready var interact_node = get_node("interact")
 
+onready var hud_node = get_node("/root/game/hud")
+onready var debug = hud_node.get_node("debug")
+
+onready var offset = yaw_node.get_translation().y
 # Player attack
 var sword_rot = 0
 
@@ -26,10 +26,10 @@ var items = []
 var active_item = 0
 
 func _ready():
-	hp = hp_node.get_max()
+	hp = hud_node.get_node("hp").get_max()
 	max_hp = hp
-	stamina = stamina_node.get_max()
-	
+	stamina = hud_node.get_node("stamina").get_max()
+
 	# TEST CODE
 	var Item = preload("res://src/items/item.gd")
 	var null_item = Item.new()
@@ -116,7 +116,7 @@ func look_where_you_walk(direction, delta):
 func _fixed_process(delta):
 	var direction = Vector3(0, 0, 0)
 	var camera = camera_node.get_global_transform()
-	
+
 	# Player movements
 	var speed = SPEED
 	if Input.is_action_pressed("player_forward"):
@@ -131,7 +131,7 @@ func _fixed_process(delta):
 		if stamina > 0:
 			speed *= SPRINT_SPEED
 			stamina -= SPRINT_USE * delta
-	elif stamina < stamina_node.get_max():
+	elif stamina < hud_node.get_node("stamina").get_max():
 		stamina += SPRINT_REGENERATION * delta
 	if Input.is_action_pressed("player_jump") and on_floor:
 		if Input.is_action_pressed("player_run"):
@@ -146,9 +146,9 @@ func _fixed_process(delta):
 	velocity.x = direction.x * speed
 	velocity.y += global.gravity * delta
 	velocity.z = direction.z * speed
-	
+
 	move_entity(delta)
-	
+
 	if Input.is_action_pressed("player_attack_left"):
 		if sword_rot < 87.5:
 			sword_rot = fmod(sword_rot + delta*100, 90)
@@ -157,13 +157,13 @@ func _fixed_process(delta):
 		if sword_rot > 2.5:
 			sword_rot = fmod(sword_rot - delta*100, 90)
 			weapon_node.set_rotation_deg(Vector3(sword_rot, 0, 0))
-	
+
 	# Camera follows the player
-	yaw_node.set_translation(get_translation() + Vector3(0, 1.5, 0))
+	yaw_node.set_translation(get_translation() + Vector3(0, offset, 0))
 
 	# Print debug info on screen
 	debug.set_text("Pos %s" % [get_translation()])
-	
+
 	hud_node.update_values(hp, regenerable_hp, stamina)
 
 func _on_sword_body_enter(body):
