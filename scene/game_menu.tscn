@@ -102,10 +102,10 @@ margin/bottom = 92.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-text = "Fullscreen"
+text = "Fullscreen (F11)"
 flat = false
 
-[node name="restart" type="Button" parent="Container/VBoxContainer"]
+[node name="main_menu" type="Button" parent="Container/VBoxContainer"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -118,7 +118,7 @@ margin/bottom = 190.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-text = "Restart"
+text = "Return to Main Menu"
 flat = false
 
 [node name="quit" type="Button" parent="Container/VBoxContainer"]
@@ -134,7 +134,7 @@ margin/bottom = 288.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-text = "Quit"
+text = "Quit to Desktop"
 flat = false
 
 [node name="return" type="Button" parent="Container/VBoxContainer"]
@@ -155,7 +155,7 @@ flat = false
 
 [connection signal="pressed" from="Container/VBoxContainer/fullscreen" to="." method="_on_fullscreen_pressed"]
 
-[connection signal="pressed" from="Container/VBoxContainer/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="Container/VBoxContainer/main_menu" to="." method="_on_main_menu_pressed"]
 
 [connection signal="pressed" from="Container/VBoxContainer/quit" to="." method="_on_quit_pressed"]
 

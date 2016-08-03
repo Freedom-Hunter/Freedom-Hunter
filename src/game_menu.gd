@@ -25,12 +25,12 @@ func unpause():
 func _on_quit_pressed():
 	get_tree().quit()
 
-func _on_restart_pressed():
-	get_tree().change_scene("res://scene/game.tscn")
-	get_tree().set_pause(false)
-
 func _on_return_pressed():
 	unpause()
 
 func _on_fullscreen_pressed():
 	OS.set_window_fullscreen(not OS.is_window_fullscreen())
+
+func _on_main_menu_pressed():
+	get_tree().set_pause(false)
+	get_tree().change_scene("res://scene/main_menu.tscn")
