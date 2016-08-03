@@ -1,12 +1,11 @@
-[gd_scene load_steps=8 format=1]
+[gd_scene load_steps=7 format=1]
 
-[ext_resource path="res://scene/game_menu.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scene/hud.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scene/world.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scene/player.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scene/monster/dragon.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scene/interact/chest.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scene/interact/mushrooms.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/game.gd" type="Script" id=1]
+[ext_resource path="res://scene/game_menu.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scene/hud.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scene/world.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scene/interact/chest.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scene/interact/mushrooms.tscn" type="PackedScene" id=6]
 
 [node name="game" type="Area"]
 
@@ -26,29 +25,27 @@ monitoring = true
 monitorable = true
 collision/layers = 1
 collision/mask = 1
+script/script = ExtResource( 1 )
 
-[node name="game_menu" parent="." instance=ExtResource( 1 )]
+[node name="game_menu" parent="." instance=ExtResource( 2 )]
 
 visibility/visible = false
 
-[node name="hud" parent="." instance=ExtResource( 2 )]
+[node name="hud" parent="." instance=ExtResource( 3 )]
 
-[node name="world" parent="." instance=ExtResource( 3 )]
+[node name="world" parent="." instance=ExtResource( 4 )]
 
-[node name="player" parent="." instance=ExtResource( 4 )]
-
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-
-[node name="Dragon" parent="." instance=ExtResource( 5 )]
-
-transform/local = Transform( -0.625013, 0, -0.780614, 0, 1, 0, 0.780614, 0, -0.625013, 10, 1, 10 )
-
-[node name="chest" parent="." instance=ExtResource( 6 )]
+[node name="chest" parent="." instance=ExtResource( 5 )]
 
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1, 0 )
 
-[node name="mushroom" parent="." instance=ExtResource( 7 )]
+[node name="mushroom" parent="." instance=ExtResource( 6 )]
 
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.51131, 0, -1.67858 )
+
+[node name="player_spawn" type="Position3D" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
 
 

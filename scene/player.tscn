@@ -41,9 +41,6 @@ collide_with/rigid = true
 collide_with/character = true
 collision/margin = 0.001
 script/script = ExtResource( 1 )
-SPEED = 5
-JUMP = 5
-SPRINT_SPEED = 1.5
 
 [node name="model" type="MeshInstance" parent="body"]
 
@@ -95,13 +92,7 @@ transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )
 
 [node name="weapon" type="Spatial" parent="body"]
 
-editor/display_folded = true
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-
-[node name="left" type="Spatial" parent="body/weapon"]
-
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.59282, 0.60728, 0 )
 
 [node name="sword" parent="body/weapon" instance=ExtResource( 5 )]
 
@@ -109,7 +100,6 @@ transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.601478, 0.60728, 0 )
 
 [node name="interact" type="Area" parent="body"]
 
-editor/display_folded = true
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
 input/ray_pickable = false
@@ -145,7 +135,6 @@ transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
 
 [node name="pitch" type="Spatial" parent="yaw"]
 
-editor/display_folded = true
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
 [node name="camera" type="Camera" parent="yaw/pitch"]

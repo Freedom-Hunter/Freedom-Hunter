@@ -1,0 +1,320 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://media/main_menu/main_menu.thm" type="Theme" id=1]
+[ext_resource path="res://src/multiplayer/config.gd" type="Script" id=2]
+
+[node name="Control" type="Control"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+theme/theme = ExtResource( 1 )
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+script/script = ExtResource( 2 )
+
+[node name="server" type="VBoxContainer" parent="."]
+
+anchor/left = 3
+anchor/top = 3
+anchor/right = 3
+anchor/bottom = 3
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 200.0
+margin/top = 300.0
+margin/right = -200.0
+margin/bottom = 100.0
+custom_constants/separation = 20
+alignment = 0
+
+[node name="Label" type="Label" parent="server"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 460.0
+margin/bottom = 38.0
+text = "Server"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="input" type="GridContainer" parent="server"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 58.0
+margin/right = 460.0
+margin/bottom = 158.0
+custom_constants/vseparation = 10
+custom_constants/hseparation = 10
+columns = 2
+
+[node name="port-label" type="Label" parent="server/input"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 5.0
+margin/right = 156.0
+margin/bottom = 43.0
+text = "UDP port: "
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="port" type="LineEdit" parent="server/input"]
+
+rect/min_size = Vector2( 300, 0 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 166.0
+margin/top = 0.0
+margin/right = 466.0
+margin/bottom = 48.0
+text = "30500"
+placeholder/text = "UDP port"
+placeholder/alpha = 0.6
+max_length = 5
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="username-label" type="Label" parent="server/input"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 63.0
+margin/right = 156.0
+margin/bottom = 101.0
+text = "Username:"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="username" type="LineEdit" parent="server/input"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 166.0
+margin/top = 58.0
+margin/right = 466.0
+margin/bottom = 106.0
+text = "TestServer"
+placeholder/alpha = 0.6
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="start" type="Button" parent="server"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 178.0
+margin/right = 460.0
+margin/bottom = 256.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Start Server"
+flat = false
+
+[node name="client" type="VBoxContainer" parent="."]
+
+anchor/left = 3
+anchor/top = 3
+anchor/right = 3
+anchor/bottom = 3
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 200.0
+margin/top = 0.0
+margin/right = -200.0
+margin/bottom = 0.0
+custom_constants/separation = 20
+alignment = 0
+
+[node name="Label" type="Label" parent="client"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 482.0
+margin/bottom = 38.0
+text = "Client"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="input" type="GridContainer" parent="client"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 58.0
+margin/right = 482.0
+margin/bottom = 222.0
+custom_constants/vseparation = 10
+custom_constants/hseparation = 10
+columns = 2
+
+[node name="ip-label" type="Label" parent="client/input"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 5.0
+margin/right = 172.0
+margin/bottom = 43.0
+text = "IP address: "
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ip" type="LineEdit" parent="client/input"]
+
+rect/min_size = Vector2( 300, 0 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 182.0
+margin/top = 0.0
+margin/right = 482.0
+margin/bottom = 48.0
+text = "127.0.0.1"
+placeholder/text = "XXX.XXX.XXX.XXX"
+placeholder/alpha = 0.6
+max_length = 15
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="port-label" type="Label" parent="client/input"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 63.0
+margin/right = 172.0
+margin/bottom = 101.0
+text = "UDP port: "
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="port" type="LineEdit" parent="client/input"]
+
+rect/min_size = Vector2( 300, 0 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 182.0
+margin/top = 58.0
+margin/right = 482.0
+margin/bottom = 106.0
+text = "30500"
+placeholder/alpha = 0.6
+max_length = 5
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="username-label" type="Label" parent="client/input"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 121.0
+margin/right = 172.0
+margin/bottom = 159.0
+text = "Username:"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="username" type="LineEdit" parent="client/input"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 182.0
+margin/top = 116.0
+margin/right = 482.0
+margin/bottom = 164.0
+text = "TestClient"
+placeholder/alpha = 0.6
+max_length = 20
+focus_mode = 2
+caret/caret_blink = true
+caret/caret_blink_speed = 0.65
+
+[node name="connect" type="Button" parent="client"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 242.0
+margin/right = 482.0
+margin/bottom = 320.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Connect"
+flat = false
+
+[connection signal="pressed" from="server/start" to="." method="_on_start_pressed"]
+
+[connection signal="pressed" from="client/connect" to="." method="_on_connect_pressed"]
+
+

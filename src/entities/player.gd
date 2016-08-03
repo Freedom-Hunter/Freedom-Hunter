@@ -1,11 +1,12 @@
 extends "entity.gd"
 
-export var SPEED = 2
-export var JUMP = 5
-export var SPRINT_SPEED = 1.5
+var SPEED = 5
+var JUMP = 5
+var SPRINT_SPEED = 1.5
 const SPRINT_USE = 5
 const SPRINT_REGENERATION = 4
 
+var local = true
 
 onready var camera_node = get_node("../yaw/pitch/camera")
 onready var yaw_node = get_node("../yaw")
@@ -15,7 +16,7 @@ onready var weapon_node = get_node("weapon/sword")
 onready var audio_node = get_node("audio")
 onready var interact_node = get_node("interact")
 
-onready var hud_node = get_node("/root/game/hud")
+onready var hud_node = get_node("../../../hud")
 onready var debug = hud_node.get_node("debug")
 
 onready var offset = yaw_node.get_translation().y
@@ -25,10 +26,9 @@ var sword_rot = 0
 var items = []
 var active_item = 0
 
-func _ready():
-	hp = hud_node.get_node("hp").get_max()
-	max_hp = hp
-	stamina = hud_node.get_node("stamina").get_max()
+func init(local, hp, stamina):
+	.init(hp, stamina)
+	self.local = local
 
 	# TEST CODE
 	var Item = preload("res://src/items/item.gd")
@@ -44,11 +44,12 @@ func _ready():
 	var barrel = Barrel.new()
 	barrel.init(self, preload("res://media/items/barrel.png"), "Barrel", 10)
 	items = [null_item, potion, firework, barrel]
-	hud_node.scroll(items, active_item)
 
-	set_fixed_process(true)
-	set_process_input(true)
-	print("Start play")
+func _ready():
+	if local:
+		set_fixed_process(true)
+		set_process_input(true)
+		hud_node.scroll(items, active_item)
 
 func sort_by_distance(a, b):
 	var dist_a = (get_translation() - a.get_translation()).length()
@@ -90,8 +91,9 @@ func add_item(item):
 			found = true
 	if not found:
 		items.append(item)
-	hud_node.scroll(items, active_item)
-	hud_node.got_item(item)
+	if local:
+		hud_node.scroll(items, active_item)
+		hud_node.got_item(item)
 
 func heal(amount):
 	hp += amount
@@ -99,10 +101,12 @@ func heal(amount):
 		hp = max_hp
 
 func die():
+	.die()
 	get_node("audio").play("hit")
 	rotate_x(PI/2)
 	set_translation(get_translation() + Vector3(0, 0.5, 0))
-	hud_node.update_values(0, 0, stamina)
+	if local:
+		hud_node.update_values(0, 0, stamina)
 	set_fixed_process(false)
 	set_process_input(false)
 
@@ -131,8 +135,10 @@ func _fixed_process(delta):
 		if stamina > 0:
 			speed *= SPRINT_SPEED
 			stamina -= SPRINT_USE * delta
-	elif stamina < hud_node.get_node("stamina").get_max():
+	elif stamina < max_stamina:
 		stamina += SPRINT_REGENERATION * delta
+		if stamina > max_stamina:
+			stamina = max_stamina
 	if Input.is_action_pressed("player_jump") and on_floor:
 		if Input.is_action_pressed("player_run"):
 			velocity.y += JUMP * SPRINT_SPEED
@@ -147,7 +153,18 @@ func _fixed_process(delta):
 	velocity.y += global.gravity * delta
 	velocity.z = direction.z * speed
 
+	var prev_t = get_global_transform()
 	move_entity(delta)
+	var t = get_global_transform()
+	
+	if global.multiplayer and t != prev_t:
+		var pckt = {'name': get_parent().get_name(), 'transform': t}
+		if global.server:
+			for client in global.clients:
+				global.packet.set_send_address(client['ip'], client['port'])
+				global.packet.put_var(pckt)
+		else:
+			global.packet.put_var(pckt)
 
 	if Input.is_action_pressed("player_attack_left"):
 		if sword_rot < 87.5:

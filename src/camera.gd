@@ -2,7 +2,7 @@ extends Camera
 
 onready var yaw_node = get_node("../..")
 onready var pitch_node = get_node("..")
-onready var player_node = get_node("/root/game/player/body")
+onready var player_node = yaw_node.get_node("../body")
 
 var yaw = 0
 var pitch = 0

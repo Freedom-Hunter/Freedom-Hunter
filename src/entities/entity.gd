@@ -4,6 +4,7 @@ var hp = 0
 var max_hp = 0
 var regenerable_hp = 0
 var stamina = 0
+var max_stamina = 0
 
 var hp_regeneration = 1
 var hp_regeneration_interval = 5
@@ -15,6 +16,12 @@ var on_floor = false
 var floor_vel = Vector3()
 
 const MAX_SLOPE_ANGLE = 30
+
+func init(hp, stamina):
+	self.hp = hp
+	self.max_hp = hp
+	self.stamina = stamina
+	self.max_stamina = stamina
 
 func move_entity(delta):
 	var motion = move(velocity * delta)
