@@ -154,17 +154,16 @@ func _fixed_process(delta):
 	velocity.z = direction.z * speed
 
 	var prev_t = get_global_transform()
-	move_entity(delta)
+	var motion = move_entity(delta)
 	var t = get_global_transform()
 	
-	if global.multiplayer and t != prev_t:
-		var pckt = {'name': get_parent().get_name(), 'transform': t}
-		if global.server:
-			for client in global.clients:
-				global.packet.set_send_address(client['ip'], client['port'])
-				global.packet.put_var(pckt)
+	if networking.multiplayer and t != prev_t:
+		if networking.server:
+			var pckt = networking.new_packet(networking.CMD_SC_MOVE, {'player': get_parent().get_name(), 'transform': t})
+			networking.server_broadcast(pckt)
 		else:
-			global.packet.put_var(pckt)
+			var pckt = networking.new_packet(networking.CMD_CS_MOVE, {'player': get_parent().get_name(), 'transform': t})
+			networking.udp.put_var(pckt)
 
 	if Input.is_action_pressed("player_attack_left"):
 		if sword_rot < 87.5:

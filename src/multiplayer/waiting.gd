@@ -1,25 +1,36 @@
 extends Control
 
-var players = ["local"]
-
 func _ready():
 	print("Waiting for players...")
-	set_process(true)
+	networking.connect("player_connected", self, "_on_player_connected")
+	networking.connect("player_disconnected", self, "_on_player_disconnected")
+	networking.connect("game_begins", self, "_on_game_begins")
+	networking.connect("server_down", self, "_on_server_down")
+	if not networking.server:
+		get_node("play").set_disabled(true)
+	networking.set_process(true)
+	_on_player_connected(networking.local_player)
 
-func _process(delta):
-	if global.packet.get_available_packet_count() > 0:
-		var name = global.packet.get_var()
-		global.clients.append({'ip': global.packet.get_packet_ip(), 'port': global.packet.get_packet_port(), 'name': name})
-		get_node("list").add_child(Label.new().set_text(name))
-		players.append(name)
+func _on_player_connected(player_name):
+	var label = Label.new()
+	label.set_text(player_name)
+	get_node("list").add_child(label)
+
+func _on_player_disconnected(player_name):
+	for child in get_node("list").get_children():
+		if child.get_text() == player_name:
+			child.queue_free()
+			break
 
 func _on_play_pressed():
-	if players.size() > 0:
-		for client in global.clients:
-			print("Invio la lista a %s:%s" % [client['ip'], client['port']])
-			global.packet.set_send_address(client['ip'], client['port'])
-			global.packet.put_var(players)
-		var local = players[0]
-		players.pop_front()
-		global.start_game(local, players)
+	if networking.players.size() > 0:
+		networking.server_begin_game()
+		global.start_game(networking.local_player, networking.players)
 		queue_free()
+
+func _on_game_begins():
+	global.start_game(networking.local_player, networking.players)
+	queue_free()
+
+func _on_server_down():
+	get_tree().change_scene("res://scene/multiplayer/config.tscn")
