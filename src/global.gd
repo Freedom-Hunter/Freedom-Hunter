@@ -23,4 +23,5 @@ func start_game(local, players=[]):
 			i += 1
 	var local_player = add_player(game, local, true, Vector3())
 	local_player.get_node("yaw/pitch/camera").make_current()
+	get_node("/root/game/hud").init()
 	get_tree().set_current_scene(game)
