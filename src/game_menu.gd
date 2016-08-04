@@ -32,5 +32,7 @@ func _on_fullscreen_pressed():
 	OS.set_window_fullscreen(not OS.is_window_fullscreen())
 
 func _on_main_menu_pressed():
+	if networking.multiplayer:
+		networking.close()
 	get_tree().set_pause(false)
 	get_tree().change_scene("res://scene/main_menu.tscn")

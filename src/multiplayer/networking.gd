@@ -25,6 +25,9 @@ const CMD_SC_CLIENT_DISCONNECTED = 110
 const CMD_SC_MOVE = 111
 const CMD_SC_DOWN = 200
 
+func _ready():
+	set_pause_mode(PAUSE_MODE_PROCESS)
+
 func new_packet(command, args=null):
 	var pckt = {'command': command}
 	if args != null:
@@ -117,9 +120,10 @@ func _process(delta):
 func close():
 	if not multiplayer:
 		return
-	if server and players.size() > 1:
-		print("Sending shutdown command to clients")
-		server_broadcast(new_packet(CMD_SC_DOWN))
+	if server:
+		if players.size() > 1:
+			print("Sending shutdown command to clients")
+			server_broadcast(new_packet(CMD_SC_DOWN))
 	else:
 		print("Sending disconnect command to server")
 		udp.put_var(new_packet(CMD_CS_DISCONNECT, local_player))
