@@ -148,7 +148,7 @@ transform/local = Transform( 1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.93969
 [node name="camera" type="Camera" parent="yaw/pitch"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 8 )
 projection = 0
 fov = 60.0
 near = 0.1

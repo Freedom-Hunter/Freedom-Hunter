@@ -57,10 +57,10 @@ func sort_by_distance(a, b):
 	return dist_a < dist_b
 
 func _input(event):
-	if event.is_action_pressed("player_scroll_next"):
+	if Input.is_action_pressed("player_scroll_next") and not Input.is_action_pressed("camera_rotation_lock"):
 		active_item = (active_item + 1) % items.size()
 		hud_node.scroll(items, active_item)
-	elif event.is_action_pressed("player_scroll_back"):
+	elif Input.is_action_pressed("player_scroll_back") and not Input.is_action_pressed("camera_rotation_lock"):
 		active_item = (active_item - 1) % items.size()
 		if active_item < 0:
 			active_item = items.size() - 1
@@ -113,7 +113,7 @@ func die():
 func look_where_you_walk(direction, delta):
 	if direction.length() != 0:
 		var target = Vector3(direction.x, 0, direction.z).normalized()
-		target = -(get_transform().basis.z).linear_interpolate(target, delta * 10)
+		target = -(get_transform().basis.z).linear_interpolate(target, delta * 15)
 		target += get_global_transform().origin
 		look_at(target, Vector3(0, 1, 0))
 
@@ -146,17 +146,18 @@ func _fixed_process(delta):
 			velocity.y += JUMP
 	direction = direction.normalized()
 
+	
 	look_where_you_walk(direction, delta)
-
-	# Player collision and physics
+	
 	velocity.x = direction.x * speed
-	velocity.y += global.gravity * delta
 	velocity.z = direction.z * speed
-
+	velocity.y += global.gravity * delta
+	
+	# Player collision and physics
 	var prev_t = get_global_transform()
 	var motion = move_entity(delta)
 	var t = get_global_transform()
-	
+
 	if networking.multiplayer and t != prev_t:
 		if networking.server:
 			var pckt = networking.new_packet(networking.CMD_SC_MOVE, {'player': get_parent().get_name(), 'transform': t})
