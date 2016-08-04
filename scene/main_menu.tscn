@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=8 format=1]
 
 [ext_resource path="res://media/main_menu/main_menu.thm" type="Theme" id=1]
 [ext_resource path="res://src/main_menu.gd" type="Script" id=2]
 [ext_resource path="res://media/main_menu/background/background.png" type="Texture" id=3]
 [ext_resource path="res://media/main_menu/background/bottom_bar.png" type="Texture" id=4]
 [ext_resource path="res://media/main_menu/background/top_bar.png" type="Texture" id=5]
+[ext_resource path="res://scene/multiplayer/config.tscn" type="PackedScene" id=6]
 
 [sub_resource type="Animation" id=1]
 
@@ -79,8 +80,9 @@ margin/bottom = 100.0
 texture = ExtResource( 5 )
 stretch_mode = 0
 
-[node name="menu" type="VBoxContainer" parent="."]
+[node name="mode" type="VBoxContainer" parent="."]
 
+editor/display_folded = true
 anchor/right = 1
 anchor/bottom = 1
 focus/ignore_mouse = false
@@ -93,7 +95,7 @@ margin/right = 103.0
 margin/bottom = 153.0
 alignment = 1
 
-[node name="singleplayer" type="Button" parent="menu"]
+[node name="singleplayer" type="Button" parent="mode"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -109,7 +111,7 @@ shortcut = null
 text = "Singleplayer"
 flat = false
 
-[node name="multiplayer" type="Button" parent="menu"]
+[node name="multiplayer" type="Button" parent="mode"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -125,7 +127,7 @@ shortcut = null
 text = "Multiplayer"
 flat = false
 
-[node name="options" type="Button" parent="menu"]
+[node name="options" type="Button" parent="mode"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -142,7 +144,7 @@ shortcut = null
 text = "Options"
 flat = false
 
-[node name="mods" type="Button" parent="menu"]
+[node name="mods" type="Button" parent="mode"]
 
 visibility/visible = false
 focus/ignore_mouse = false
@@ -171,8 +173,12 @@ playback/speed = 1.0
 blend_times = [  ]
 autoplay = "background"
 
-[connection signal="pressed" from="menu/singleplayer" to="." method="_on_singleplayer_pressed"]
+[node name="multiplayer" parent="." instance=ExtResource( 6 )]
 
-[connection signal="pressed" from="menu/multiplayer" to="." method="_on_multiplayer_pressed"]
+visibility/visible = false
+
+[connection signal="pressed" from="mode/singleplayer" to="." method="_on_singleplayer_pressed"]
+
+[connection signal="pressed" from="mode/multiplayer" to="." method="_on_multiplayer_pressed"]
 
 

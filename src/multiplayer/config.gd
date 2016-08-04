@@ -7,7 +7,9 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
 		networking.close()
-		get_tree().change_scene("res://scene/main_menu.tscn")
+		hide()
+		get_node("..").mode_node.show()
+		accept_event()
 
 func _on_start_pressed():
 	# Server
