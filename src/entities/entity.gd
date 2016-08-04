@@ -15,7 +15,7 @@ var velocity = Vector3()
 var on_floor = false
 var floor_vel = Vector3()
 
-const MAX_SLOPE_ANGLE = 30
+const MAX_SLOPE_ANGLE = 40
 
 func init(hp, stamina):
 	self.hp = hp
@@ -33,12 +33,15 @@ func move_entity(delta):
 			on_floor = true
 			floor_vel = get_collider_velocity()
 			move(floor_vel * delta)
-			var fall = int(-velocity.y / 5)
+			var fall = int(- velocity.y - 10)
 			if fall > 0:
 				damage(fall, 0.5)
-		var slided_motion = n.slide(motion)
-		velocity = n.slide(velocity)
-		motion -= move(slided_motion)
+			var slided_motion = n.slide(motion)
+			velocity = n.slide(velocity)
+			motion -= move(slided_motion)
+		else:
+			var slided_motion = n.slide(motion)
+			motion -= move(slided_motion)
 	return motion
 
 func die():
