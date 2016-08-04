@@ -6,10 +6,10 @@ onready var player_node = get_node("../../../body")
 
 var yaw
 var pitch
-var mouse_sensitivity = Vector2(0.1, -0.1)
+var mouse_sensitivity = Vector2(0.1, 0.1)
 var max_pitch = 90
 var min_pitch = -90
-var move_pitch = false
+var move_pitch = true
 var pitch_unit = 12.5
 
 func _ready():
