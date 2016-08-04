@@ -2,7 +2,7 @@ extends "entity.gd"
 
 var SPEED = 5
 var JUMP = 5
-var SPRINT_SPEED = 1.5
+var SPRINT_SPEED = 7.5
 const SPRINT_USE = 5
 const SPRINT_REGENERATION = 4
 
@@ -20,6 +20,7 @@ onready var hud_node = get_node("../../../hud")
 onready var debug = hud_node.get_node("debug")
 
 onready var offset = yaw_node.get_translation().y
+
 # Player attack
 var sword_rot = 0
 
@@ -122,7 +123,9 @@ func _fixed_process(delta):
 	var camera = camera_node.get_global_transform()
 
 	# Player movements
+	var run = Input.is_action_pressed("player_run")
 	var speed = SPEED
+
 	if Input.is_action_pressed("player_forward"):
 		direction -= Vector3(camera.basis.z.x, 0, camera.basis.z.z)
 	if Input.is_action_pressed("player_backward"):
@@ -131,28 +134,27 @@ func _fixed_process(delta):
 		direction -= Vector3(camera.basis.x.x, 0, camera.basis.x.z)
 	if Input.is_action_pressed("player_right"):
 		direction += Vector3(camera.basis.x.x, 0, camera.basis.x.z)
-	if Input.is_action_pressed("player_run"):
-		if stamina > 0:
-			speed *= SPRINT_SPEED
+	if run and stamina > 0 and direction != Vector3():
+			speed = SPRINT_SPEED
 			stamina -= SPRINT_USE * delta
 	elif stamina < max_stamina:
-		stamina += SPRINT_REGENERATION * delta
-		if stamina > max_stamina:
-			stamina = max_stamina
+			stamina += SPRINT_REGENERATION * delta
+			if stamina > max_stamina:
+				stamina = max_stamina
 	if Input.is_action_pressed("player_jump") and on_floor:
-		if Input.is_action_pressed("player_run"):
-			velocity.y += JUMP * SPRINT_SPEED
+		if run:
+			velocity.y += SPRINT_SPEED
 		else:
 			velocity.y += JUMP
 	direction = direction.normalized()
 
-	
+
 	look_where_you_walk(direction, delta)
-	
+
 	velocity.x = direction.x * speed
 	velocity.z = direction.z * speed
 	velocity.y += global.gravity * delta
-	
+
 	# Player collision and physics
 	var prev_t = get_global_transform()
 	var motion = move_entity(delta)
