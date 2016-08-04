@@ -44,6 +44,7 @@ func update_items():
 	get_node("items_bar/name/label").set_text(item.name)
 
 func update_names():
+	var local_player_pos = local_player.get_global_transform().origin
 	for player in get_node("../player_spawn").get_children():
 		var name = player.get_name()
 		if not names_node.has_node(name):
@@ -53,8 +54,14 @@ func update_names():
 			label.set_align(Label.ALIGN_CENTER)
 			label.set_valign(Label.VALIGN_CENTER)
 			names_node.add_child(label)
+		var player_pos = player.get_node("body/name").get_global_transform().origin
+		var camera = get_viewport().get_camera()
 		var label = get_node("names/" + player.get_name())
-		var pos = get_viewport().get_camera().unproject_position(player.get_node("body/name").get_global_transform().origin)
+		if camera.is_position_behind(player_pos):
+			label.hide()
+		else:
+			label.show()
+		var pos = camera.unproject_position(player_pos)
 		var size = label.get_size()
 		label.set_pos(pos - Vector2(size.x/2, size.y/2))
 		if not get_node("players_list").has_node(player.get_name()):
