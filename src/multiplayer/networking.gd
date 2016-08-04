@@ -11,18 +11,16 @@ var local_player
 
 signal player_connected
 signal player_disconnected
-signal game_begins
 signal server_down
 
 #Client to Server
 const CMD_CS_CONNECT = 0
 const CMD_CS_MOVE = 1
-const CMD_CS_DISCONNECT = 100
+const CMD_CS_DISCONNECT = 99
 
 #Server to Client
-const CMD_SC_GAME_BEGIN = 101
-const CMD_SC_CLIENT_CONNECTED = 102
-const CMD_SC_PLAYERS_LIST = 103
+const CMD_SC_CLIENT_CONNECTED = 100
+const CMD_SC_PLAYERS_LIST = 101
 const CMD_SC_CLIENT_DISCONNECTED = 110
 const CMD_SC_MOVE = 111
 const CMD_SC_DOWN = 200
@@ -39,6 +37,7 @@ func server_start(port, username):
 	udp.listen(port)
 	players = [username]
 	local_player = username
+	set_process(true)
 
 func client_start(ip, port, username):
 	multiplayer = true
@@ -48,11 +47,7 @@ func client_start(ip, port, username):
 	udp.put_var(new_packet(CMD_CS_CONNECT, username))
 	players = [username]
 	local_player = username
-
-func server_begin_game():
-	for client in clients.values():
-		udp.set_send_address(client.ip, client.port)
-		udp.put_var(new_packet(CMD_SC_GAME_BEGIN, players))
+	set_process(true)
 
 func server_broadcast(pckt, except=null):
 	for player in clients.keys():
@@ -68,8 +63,6 @@ func server_send_to_player(pckt, player):
 func process_client(pckt, delta):
 	if pckt.command == CMD_SC_MOVE:
 		get_node("/root/game/player_spawn/" + pckt.args.player).set_global_transform(pckt.args.transform)
-	elif pckt.command == CMD_SC_GAME_BEGIN:
-		emit_signal("game_begins")
 	elif pckt.command == CMD_SC_CLIENT_CONNECTED:
 		players.append(pckt.args)
 		emit_signal("player_connected", pckt.args)
@@ -100,8 +93,10 @@ func process_server(pckt, delta):
 		server_send_to_player(new_packet(CMD_SC_PLAYERS_LIST, players), player)
 		emit_signal("player_connected", player)
 	elif pckt.command == CMD_CS_MOVE:
-		server_broadcast(new_packet(CMD_SC_MOVE, pckt.args), pckt.args.player)
-		get_node("/root/game/player_spawn/" + pckt.args.player).set_global_transform(pckt.args.transform)
+		var spawn = get_node("/root/game/player_spawn")
+		if pckt.args.player in clients.keys() and spawn.has_node(pckt.args.player):
+			server_broadcast(new_packet(CMD_SC_MOVE, pckt.args), pckt.args.player)
+			spawn.get_node(pckt.args.player).set_global_transform(pckt.args.transform)
 	elif pckt.command == CMD_CS_DISCONNECT:
 		var player = pckt.args
 		players.erase(player)
@@ -119,10 +114,22 @@ func _process(delta):
 		else:
 			print("Unknown Variant received!")
 
-func _exit_tree():
+func close():
+	if not multiplayer:
+		return
 	if server and players.size() > 1:
 		print("Sending shutdown command to clients")
 		server_broadcast(new_packet(CMD_SC_DOWN))
 	else:
 		print("Sending disconnect command to server")
 		udp.put_var(new_packet(CMD_CS_DISCONNECT, local_player))
+	udp.close()
+	multiplayer = false
+	server = false
+	clients = {}
+	players = []
+
+func _exit_tree():
+	close()
+
+

@@ -13,15 +13,12 @@ func add_player(game, name, local, translation):
 	game.get_node("player_spawn").add_child(player)
 	return player
 
-func start_game(local, players=[]):
+func start_game(local_player_name):
 	var game = preload("res://scene/game.tscn").instance()
 	get_node("/root/").add_child(game)
-	var i = 1
-	for name in players:
-		if name != local:
-			add_player(game, name, false, Vector3(i, 0, 0))
-			i += 1
-	var local_player = add_player(game, local, true, Vector3())
+	var local_player = add_player(game, local_player_name, true, Vector3())
 	local_player.get_node("yaw/pitch/camera").make_current()
-	get_node("/root/game/hud").init()
+	get_node("/root/game/hud").init(local_player)
+	if networking.multiplayer:
+		get_node("/root/game").begin_multiplayer()
 	get_tree().set_current_scene(game)

@@ -16,9 +16,6 @@ onready var weapon_node = get_node("weapon/sword")
 onready var audio_node = get_node("audio")
 onready var interact_node = get_node("interact")
 
-onready var hud_node = get_node("../../../hud")
-onready var debug = hud_node.get_node("debug")
-
 onready var offset = yaw_node.get_translation().y
 
 # Player attack
@@ -50,7 +47,6 @@ func _ready():
 	if local:
 		set_fixed_process(true)
 		set_process_input(true)
-		hud_node.scroll(items, active_item)
 
 func sort_by_distance(a, b):
 	var dist_a = (get_translation() - a.get_translation()).length()
@@ -60,20 +56,15 @@ func sort_by_distance(a, b):
 func _input(event):
 	if Input.is_action_pressed("player_scroll_next") and not Input.is_action_pressed("camera_rotation_lock"):
 		active_item = (active_item + 1) % items.size()
-		hud_node.scroll(items, active_item)
 	elif Input.is_action_pressed("player_scroll_back") and not Input.is_action_pressed("camera_rotation_lock"):
 		active_item = (active_item - 1) % items.size()
 		if active_item < 0:
 			active_item = items.size() - 1
-		hud_node.scroll(items, active_item)
 	elif event.is_action_pressed("player_use"):
 		items[active_item].use()
 		if active_item != 0 and items[active_item].quantity <= 0:
 			items.remove(active_item)
 			active_item = (active_item + 1) % items.size()
-			hud_node.scroll(items, active_item)
-		else:
-			hud_node.update_quantity(items, active_item)
 	elif event.is_action_pressed("player_interact"):
 		var interacts = interact_node.get_overlapping_bodies()
 		interacts += interact_node.get_overlapping_areas()
@@ -92,9 +83,6 @@ func add_item(item):
 			found = true
 	if not found:
 		items.append(item)
-	if local:
-		hud_node.scroll(items, active_item)
-		hud_node.got_item(item)
 
 func heal(amount):
 	hp += amount
@@ -106,8 +94,6 @@ func die():
 	get_node("audio").play("hit")
 	rotate_x(PI/2)
 	set_translation(get_translation() + Vector3(0, 0.5, 0))
-	if local:
-		hud_node.update_values(0, 0, stamina)
 	set_fixed_process(false)
 	set_process_input(false)
 
@@ -179,11 +165,6 @@ func _fixed_process(delta):
 
 	# Camera follows the player
 	yaw_node.set_translation(get_translation() + Vector3(0, offset, 0))
-
-	# Print debug info on screen
-	debug.set_text("Pos %s" % [get_translation()])
-
-	hud_node.update_values(hp, regenerable_hp, stamina)
 
 func _on_sword_body_enter(body):
 	if body != self and body extends preload("res://src/entities/entity.gd"):

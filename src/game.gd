@@ -1,13 +1,22 @@
 extends Node
 
-func _ready():
-	if global.multiplayer:
-		set_process(true)
+func begin_multiplayer():
+	networking.connect("player_connected", self, "_on_player_connected")
+	networking.connect("player_disconnected", self, "_on_player_disconnected")
+	networking.connect("server_down", self, "_on_server_down")
 
-func _process(delta):
-	if global.packet.get_available_packet_count() > 0:
-		var pckt = global.packet.get_var()
-		for player in get_node("player_spawn").get_children():
-			var body = player.get_node("body")
-			if not body.local and pckt['name'] == player.get_name():
-				body.set_global_transform(pckt['transform'])
+func _on_player_connected(player_name):
+	print("%s connected" % player_name)
+	global.add_player(self, player_name, false, Vector3())
+	get_node("player_spawn/" + networking.local_player + "/yaw/pitch/camera").make_current()
+
+func _on_player_disconnected(player_name):
+	print("%s disconnected" % player_name)
+	for player in get_node("player_spawn").get_children():
+		if player.get_name() == player_name:
+			get_node("player_spawn").remove_child(player)
+			break
+
+func _on_server_down():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	get_tree().change_scene("res://scene/multiplayer/config.tscn")

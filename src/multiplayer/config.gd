@@ -6,7 +6,7 @@ func _ready():
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
-		global.packet.close()
+		networking.close()
 		get_tree().change_scene("res://scene/main_menu.tscn")
 
 func _on_start_pressed():
@@ -16,7 +16,8 @@ func _on_start_pressed():
 	if port.is_valid_integer() and username.length() > 0:
 		print("Listen on port ", port)
 		networking.server_start(int(port), username)
-		get_tree().change_scene("res://scene/multiplayer/waiting.tscn")
+		global.start_game(username)
+		queue_free()
 	else:
 		print("La porta %s non è valida!" % port)
 
@@ -28,4 +29,5 @@ func _on_connect_pressed():
 
 	if port.is_valid_integer() and username.length() > 0:
 		networking.client_start(host, int(port), username)
-		get_tree().change_scene("res://scene/multiplayer/waiting.tscn")
+		global.start_game(username)
+		queue_free()

@@ -10,8 +10,6 @@
 [sub_resource type="DynamicFont" id=1]
 
 font/size = 20
-font/use_mipmaps = false
-font/use_filter = false
 font/font = ExtResource( 2 )
 
 [sub_resource type="Theme" id=2]
@@ -100,8 +98,6 @@ draw_bg = true
 [sub_resource type="DynamicFont" id=9]
 
 font/size = 20
-font/use_mipmaps = false
-font/use_filter = false
 font/font = ExtResource( 2 )
 
 [sub_resource type="Theme" id=10]
@@ -117,15 +113,11 @@ Label/fonts/font = null
 [sub_resource type="DynamicFont" id=11]
 
 font/size = 24
-font/use_mipmaps = false
-font/use_filter = false
 font/font = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=12]
 
 font/size = 32
-font/use_mipmaps = false
-font/use_filter = false
 font/font = ExtResource( 2 )
 
 [sub_resource type="Animation" id=13]
@@ -549,5 +541,18 @@ playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
+
+[node name="players_list" type="VBoxContainer" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 20.0
+margin/top = 200.0
+margin/right = 420.0
+margin/bottom = 800.0
+alignment = 0
 
 

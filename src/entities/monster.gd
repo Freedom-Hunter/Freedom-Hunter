@@ -40,7 +40,7 @@ func _fixed_process(delta):
 	#print(target_yaw)
 	else:
 		velocity *= 0.25
-	
+
 	var cw
 	var ccw
 	if yaw < target_yaw:
@@ -54,10 +54,10 @@ func _fixed_process(delta):
 	else:
 		yaw += ccw * delta
 	set_rotation(Vector3(0, yaw, 0))
-	
+
 	velocity.y = vely
 	velocity.y += global.gravity * delta
-	
+
 	move_entity(delta)
-	
+
 	#rand_time += delta
