@@ -102,17 +102,6 @@ func die(net=true):
 	set_fixed_process(false)
 	set_process_input(false)
 
-func damage(dmg, reg):
-	.damage(dmg, reg)
-	if networking.multiplayer:
-		var name = get_parent().get_name()
-		var pckt = networking.new_packet(networking.CMD_CS_DAMAGE, {'player': name, 'hp': hp, 'regenerable': reg})
-		if networking.server:
-			pckt.command = networking.CMD_SC_DAMAGE
-			networking.server_broadcast(pckt)
-		else:
-			networking.udp.put_var(pckt)
-
 func look_where_you_walk(direction, delta):
 	if direction.length() != 0:
 		var target = Vector3(direction.x, 0, direction.z).normalized()
@@ -120,8 +109,8 @@ func look_where_you_walk(direction, delta):
 		target += get_global_transform().origin
 		look_at(target, Vector3(0, 1, 0))
 
-func get_name():
-	return get_parent().get_name()
+func get_name():  # this script is attached to a node always called body
+	return get_parent().get_name()  # parent's name is more meaningful
 
 func _fixed_process(delta):
 	var direction = Vector3(0, 0, 0)

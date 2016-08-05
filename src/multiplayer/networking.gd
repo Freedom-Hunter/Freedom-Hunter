@@ -94,8 +94,7 @@ func process_client(pckt, delta):
 	elif pckt.command == CMD_SC_DAMAGE:
 		if spawn_node.has_node(pckt.args.player):
 			var player = spawn_node.get_node(pckt.args.player + "/body")
-			player.hp = pckt.args.hp
-			player.regenerable_hp = pckt.args.regenerable
+			player.damage(pckt.args.damage, pckt.args.regenerable, false)
 	elif pckt.command == CMD_SC_ATTACK:
 		if spawn_node.has_node(pckt.args.player):
 			var player = spawn_node.get_node(pckt.args.player + "/body")
@@ -150,8 +149,7 @@ func process_server(pckt, delta):
 		if spawn_node.has_node(pckt.args.player):
 			server_broadcast(new_packet(CMD_SC_DAMAGE, pckt.args), pckt.args.player)
 			var player = spawn_node.get_node(pckt.args.player + "/body")
-			player.hp = pckt.args.hp
-			player.regenerable_hp = pckt.args.regenerable
+			player.damage(pckt.args.damage, pckt.args.regenerable, false)
 	elif pckt.command == CMD_CS_ATTACK:
 		if spawn_node.has_node(pckt.args.player):
 			server_broadcast(new_packet(CMD_SC_ATTACK, pckt.args), pckt.args.player)

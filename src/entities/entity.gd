@@ -56,7 +56,7 @@ func die(net=true):
 			networking.udp.put_var(pckt)
 	set_process(false)
 
-func damage(dmg, reg):
+func damage(dmg, reg, net=true):
 	if hp > 0:
 		print("%s: damage of %s" % [get_name(), dmg])
 		time_hit = 0
@@ -64,6 +64,15 @@ func damage(dmg, reg):
 		regenerable_hp = int(hp + dmg * reg)
 		if hp <= 0:
 			die()
+		if networking.multiplayer and net:
+			var name = get_parent().get_name()
+			var args = {'player': get_name(), 'damage': dmg, 'regenerable': reg}
+			if networking.server:
+				var pckt = networking.new_packet(networking.CMD_SC_DAMAGE, args)
+				networking.server_broadcast(pckt)
+			else:
+				var pckt = networking.new_packet(networking.CMD_CS_DAMAGE, args)
+				networking.udp.put_var(pckt)
 	else:
 		print(get_name(), " is already dead")
 
