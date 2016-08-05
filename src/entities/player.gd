@@ -173,14 +173,26 @@ func _fixed_process(delta):
 			var pckt = networking.new_packet(networking.CMD_CS_MOVE, {'player': name, 'transform': tf})
 			networking.udp.put_var(pckt)
 
+	var attack = false
 	if Input.is_action_pressed("player_attack_left"):
 		if sword_rot < 87.5:
 			sword_rot = fmod(sword_rot + delta*100, 90)
 			weapon_node.set_rotation_deg(Vector3(sword_rot, 0, 0))
+			attack = true
 	if Input.is_action_pressed("player_attack_right"):
 		if sword_rot > 2.5:
 			sword_rot = fmod(sword_rot - delta*100, 90)
 			weapon_node.set_rotation_deg(Vector3(sword_rot, 0, 0))
+			attack = true
+
+	if networking.multiplayer and attack:
+		var name = get_parent().get_name()
+		if networking.server:
+			var pckt = networking.new_packet(networking.CMD_SC_ATTACK, {'player': name, 'rot': sword_rot})
+			networking.server_broadcast(pckt)
+		else:
+			var pckt = networking.new_packet(networking.CMD_CS_ATTACK, {'player': name, 'rot': sword_rot})
+			networking.udp.put_var(pckt)
 
 	# Camera follows the player
 	yaw_node.set_translation(get_translation() + Vector3(0, offset, 0))
