@@ -10,7 +10,7 @@ func _ready():
 	load_config(CLIENT_CONF, "client")
 
 func _input(event):
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("ui_cancel") and not get_node("..").mode_node.is_visible():
 		networking.close()
 		hide()
 		get_node("..").mode_node.show()
