@@ -10,6 +10,7 @@ var local_player
 
 func init(local_player):
 	self.local_player = local_player.get_node("body")
+	local_player.get_node("body").connect("got_item", self, "_on_got_item")
 
 func _ready():
 	set_process(true)
@@ -17,14 +18,15 @@ func _ready():
 		set_process_input(true)
 
 func _input(event):
-	if Input.is_action_pressed("players_list"):
+	if event.is_action_pressed("players_list"):
 		players_list_node.show()
-	else:
+	elif event.is_action_released("players_list"):
 		players_list_node.hide()
+	if event.is_action_pressed("player_scroll_next") or event.is_action_pressed("player_scroll_back"):
+		update_items()
 
 func _process(delta):
 	update_values()
-	update_items()
 	update_names()
 
 func update_values():
@@ -70,7 +72,7 @@ func update_names():
 			label.set_text(name)
 			players_list_node.add_child(label)
 
-func got_item(item):
+func _on_got_item(item):
 	var label = get_node("itemget/label")
 	label.set_text("You got %s" % item.name)
 	get_node("itemget/animation").play("show")

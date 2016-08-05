@@ -24,6 +24,8 @@ var sword_rot = 0
 var items = []
 var active_item = 0
 
+signal got_item
+
 func init(local, hp, stamina):
 	.init(hp, stamina)
 	self.local = local
@@ -83,6 +85,7 @@ func add_item(item):
 			found = true
 	if not found:
 		items.append(item)
+	emit_signal("got_item", item)
 
 func heal(amount):
 	hp += amount
