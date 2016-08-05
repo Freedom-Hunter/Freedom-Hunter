@@ -265,7 +265,6 @@ max_lines_visible = -1
 
 [node name="items_bar" type="Container" parent="."]
 
-editor/display_folded = true
 anchor/top = 1
 anchor/bottom = 1
 rect/min_size = Vector2( 380, 160 )
@@ -488,7 +487,7 @@ margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
 custom_fonts/font = SubResource( 11 )
-text = "(Neesuna selezione)"
+text = "(Nessuna selezione)"
 align = 1
 valign = 1
 percent_visible = 1.0

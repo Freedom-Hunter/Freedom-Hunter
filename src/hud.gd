@@ -11,17 +11,19 @@ var local_player
 func init(local_player):
 	self.local_player = local_player.get_node("body")
 	local_player.get_node("body").connect("got_item", self, "_on_got_item")
+	local_player.get_node("body").connect("used_item", self, "_on_used_item")
+	update_items()
 
 func _ready():
 	set_process(true)
-	if networking.multiplayer:
-		set_process_input(true)
+	set_process_input(true)
 
 func _input(event):
-	if event.is_action_pressed("players_list"):
-		players_list_node.show()
-	elif event.is_action_released("players_list"):
-		players_list_node.hide()
+	if networking.multiplayer:
+		if event.is_action_pressed("players_list"):
+			players_list_node.show()
+		elif event.is_action_released("players_list"):
+			players_list_node.hide()
 	if event.is_action_pressed("player_scroll_next") or event.is_action_pressed("player_scroll_back"):
 		update_items()
 
@@ -76,3 +78,7 @@ func _on_got_item(item):
 	var label = get_node("itemget/label")
 	label.set_text("You got %s" % item.name)
 	get_node("itemget/animation").play("show")
+	update_items()
+
+func _on_used_item(item):
+	update_items()

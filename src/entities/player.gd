@@ -25,6 +25,7 @@ var items = []
 var active_item = 0
 
 signal got_item
+signal used_item
 
 func init(local, hp, stamina):
 	.init(hp, stamina)
@@ -64,6 +65,7 @@ func _input(event):
 			active_item = items.size() - 1
 	elif event.is_action_pressed("player_use"):
 		items[active_item].use()
+		emit_signal("used_item", items[active_item])
 		if active_item != 0 and items[active_item].quantity <= 0:
 			items.remove(active_item)
 			active_item = (active_item + 1) % items.size()
