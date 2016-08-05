@@ -3,7 +3,7 @@ extends Node
 func begin_multiplayer():
 	networking.connect("player_connected", self, "_on_player_connected")
 	networking.connect("player_disconnected", self, "_on_player_disconnected")
-	networking.connect("server_down", self, "_on_server_down")
+	networking.connect("disconnected", self, "_on_disconnected")
 
 func _on_player_connected(player_name):
 	print("%s connected" % player_name)
@@ -17,6 +17,6 @@ func _on_player_disconnected(player_name):
 			get_node("player_spawn").remove_child(player)
 			break
 
-func _on_server_down():
+func _on_disconnected():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	get_tree().change_scene("res://scene/multiplayer/config.tscn")
+	get_tree().change_scene("res://scene/main_menu.tscn")

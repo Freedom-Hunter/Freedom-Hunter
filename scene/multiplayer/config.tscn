@@ -20,6 +20,7 @@ script/script = ExtResource( 2 )
 
 [node name="server" type="VBoxContainer" parent="."]
 
+editor/display_folded = true
 anchor/left = 3
 anchor/top = 3
 anchor/right = 3
@@ -150,6 +151,7 @@ flat = false
 
 [node name="client" type="VBoxContainer" parent="."]
 
+editor/display_folded = true
 anchor/left = 3
 anchor/top = 3
 anchor/right = 3

@@ -21,4 +21,5 @@ func start_game(local_player_name):
 	get_node("/root/game/hud").init(local_player)
 	if networking.multiplayer:
 		get_node("/root/game").begin_multiplayer()
+		networking.spawn_node = game.get_node("player_spawn")
 	get_tree().set_current_scene(game)
