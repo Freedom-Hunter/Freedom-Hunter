@@ -19,6 +19,7 @@ const CMD_CS_CONNECT = 0
 const CMD_CS_MOVE = 1
 const CMD_CS_DAMAGE = 2
 const CMD_CS_ATTACK = 3
+const CMD_CS_DIE = 4
 const CMD_CS_DISCONNECT = 99
 
 #Server to Client
@@ -30,6 +31,7 @@ const CMD_SC_CLIENT_DISCONNECTED = 110
 const CMD_SC_MOVE = 111
 const CMD_SC_DAMAGE = 112
 const CMD_SC_ATTACK = 113
+const CMD_SC_DIE = 114
 const CMD_SC_DOWN = 200
 
 var client_connected = false
@@ -98,6 +100,11 @@ func process_client(pckt, delta):
 		if spawn_node.has_node(pckt.args.player):
 			var player = spawn_node.get_node(pckt.args.player + "/body")
 			player.weapon_node.set_rotation_deg(Vector3(pckt.args.rot, 0, 0))
+	elif pckt.command == CMD_SC_DIE:
+		if spawn_node.has_node(pckt.args):
+			var player = spawn_node.get_node(pckt.args + "/body")
+			if player.hp > 0:
+				player.die(false)
 	elif pckt.command == CMD_SC_USERNAME_IN_USE:
 		close()
 		emit_signal("disconnected")
@@ -150,6 +157,12 @@ func process_server(pckt, delta):
 			server_broadcast(new_packet(CMD_SC_ATTACK, pckt.args), pckt.args.player)
 			var player = spawn_node.get_node(pckt.args.player + "/body")
 			player.weapon_node.set_rotation_deg(Vector3(pckt.args.rot, 0, 0))
+	elif pckt.command == CMD_CS_DIE:
+		if spawn_node.has_node(pckt.args):
+			server_broadcast(new_packet(CMD_SC_DIE, pckt.args), pckt.args)
+			var player = spawn_node.get_node(pckt.args + "/body")
+			if player.hp > 0:
+				player.die(false)
 	elif pckt.command == CMD_CS_DISCONNECT:
 		var player = pckt.args
 		players.erase(player)

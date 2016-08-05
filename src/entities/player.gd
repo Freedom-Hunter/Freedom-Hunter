@@ -94,8 +94,8 @@ func heal(amount):
 	if hp > max_hp:
 		hp = max_hp
 
-func die():
-	.die()
+func die(net=true):
+	.die(net)
 	get_node("audio").play("hit")
 	rotate_x(PI/2)
 	set_translation(get_translation() + Vector3(0, 0.5, 0))
@@ -119,6 +119,9 @@ func look_where_you_walk(direction, delta):
 		target = -(get_transform().basis.z).linear_interpolate(target, delta * 15)
 		target += get_global_transform().origin
 		look_at(target, Vector3(0, 1, 0))
+
+func get_name():
+	return get_parent().get_name()
 
 func _fixed_process(delta):
 	var direction = Vector3(0, 0, 0)
