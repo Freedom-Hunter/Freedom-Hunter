@@ -36,13 +36,12 @@ func move_entity(delta):
 			var fall = int(- velocity.y - 10)
 			if fall > 0:
 				damage(fall, 0.5)
-			var slided_motion = n.slide(motion)
+			motion = n.slide(motion)
 			velocity = n.slide(velocity)
-			motion -= move(slided_motion)
+			move(motion)
 		else:
-			var slided_motion = n.slide(motion)
-			motion -= move(slided_motion)
-	return motion
+			motion = n.slide(motion)
+			move(motion)
 
 func die():
 	print("die: ", get_name())

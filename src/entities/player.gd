@@ -102,6 +102,17 @@ func die():
 	set_fixed_process(false)
 	set_process_input(false)
 
+func damage(dmg, reg):
+	.damage(dmg, reg)
+	if networking.multiplayer:
+		var name = get_parent().get_name()
+		var pckt = networking.new_packet(networking.CMD_CS_DAMAGE, {'player': name, 'hp': hp, 'regenerable': reg})
+		if networking.server:
+			pckt.command = networking.CMD_SC_DAMAGE
+			networking.server_broadcast(pckt)
+		else:
+			networking.udp.put_var(pckt)
+
 func look_where_you_walk(direction, delta):
 	if direction.length() != 0:
 		var target = Vector3(direction.x, 0, direction.z).normalized()
@@ -147,16 +158,19 @@ func _fixed_process(delta):
 	velocity.y += global.gravity * delta
 
 	# Player collision and physics
-	var prev_t = get_global_transform()
-	var motion = move_entity(delta)
-	var t = get_global_transform()
+	var ti = get_global_transform()
+	move_entity(delta)
+	var tf = get_global_transform()
+	var dist = tf.origin - ti.origin
+	var yaw_diff = abs(atan2(dist.x, dist.z))
 
-	if networking.multiplayer and t != prev_t:
+	if networking.multiplayer and dist.length() > 0.01 and yaw_diff > 0:
+		var name = get_parent().get_name()
 		if networking.server:
-			var pckt = networking.new_packet(networking.CMD_SC_MOVE, {'player': get_parent().get_name(), 'transform': t})
+			var pckt = networking.new_packet(networking.CMD_SC_MOVE, {'player': name, 'transform': tf})
 			networking.server_broadcast(pckt)
 		else:
-			var pckt = networking.new_packet(networking.CMD_CS_MOVE, {'player': get_parent().get_name(), 'transform': t})
+			var pckt = networking.new_packet(networking.CMD_CS_MOVE, {'player': name, 'transform': tf})
 			networking.udp.put_var(pckt)
 
 	if Input.is_action_pressed("player_attack_left"):

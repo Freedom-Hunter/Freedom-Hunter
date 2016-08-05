@@ -75,6 +75,7 @@ func server_broadcast(pckt, except=null):
 	for player in clients.keys():
 		if player != except:
 			var client = clients[player]
+			print("sending '%s' to %s [%s:%s]" % [pckt, player, client.ip, client.port])
 			udp.set_send_address(client.ip, client.port)
 			udp.put_var(pckt)
 
@@ -88,7 +89,9 @@ func process_client(pckt, delta):
 			spawn_node.get_node(pckt.args.player).set_global_transform(pckt.args.transform)
 	elif pckt.command == CMD_SC_DAMAGE:
 		if spawn_node.has_node(pckt.args.player):
-			spawn_node.get_node(pckt.args.player + "/body").damage(pckt.args.damage, pckt.args.regenerable)
+			var player = spawn_node.get_node(pckt.args.player + "/body")
+			player.hp = pckt.args.hp
+			player.regenerable_hp = pckt.args.regenerable
 	elif pckt.command == CMD_SC_USERNAME_IN_USE:
 		close()
 		emit_signal("disconnected")
@@ -133,7 +136,9 @@ func process_server(pckt, delta):
 	elif pckt.command == CMD_CS_DAMAGE:
 		if spawn_node.has_node(pckt.args.player):
 			server_broadcast(new_packet(CMD_SC_DAMAGE, pckt.args), pckt.args.player)
-			spawn_node.get_node(pckt.args.player + "/body").damage(pckt.args.damage, pckt.args.regenerable)
+			var player = spawn_node.get_node(pckt.args.player + "/body")
+			player.hp = pckt.args.hp
+			player.regenerable_hp = pckt.args.regenerable
 	elif pckt.command == CMD_CS_DISCONNECT:
 		var player = pckt.args
 		players.erase(player)
