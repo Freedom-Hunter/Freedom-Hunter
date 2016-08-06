@@ -56,6 +56,17 @@ func sort_by_distance(a, b):
 	var dist_b = (get_translation() - b.get_translation()).length()
 	return dist_a < dist_b
 
+func get_interact():
+	var interacts = interact_node.get_overlapping_bodies()
+	interacts += interact_node.get_overlapping_areas()
+	for i in interacts:
+		if not i.is_in_group("interact"):
+			interacts.erase(i)
+	if interacts.size() > 0:
+		interacts.sort_custom(self, "sort_by_distance")
+		return interacts[0]
+	return null
+
 func _input(event):
 	if Input.is_action_pressed("player_scroll_next") and not Input.is_action_pressed("camera_rotation_lock"):
 		active_item = (active_item + 1) % items.size()
@@ -70,14 +81,7 @@ func _input(event):
 			items.remove(active_item)
 			active_item = (active_item + 1) % items.size()
 	elif event.is_action_pressed("player_interact"):
-		var interacts = interact_node.get_overlapping_bodies()
-		interacts += interact_node.get_overlapping_areas()
-		for i in interacts:
-			if not i.is_in_group("interact"):
-				interacts.erase(i)
-		if interacts.size() > 0:
-			interacts.sort_custom(self, "sort_by_distance")
-			interacts[0].interact(self)
+		get_interact().interact(self)
 
 func add_item(item):
 	var found = false

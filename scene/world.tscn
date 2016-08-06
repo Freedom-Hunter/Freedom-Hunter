@@ -107,7 +107,7 @@ mesh/mesh = ExtResource( 2 )
 mesh/skeleton = NodePath("..")
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="mesh"]
+[node name="terrain" type="StaticBody" parent="mesh"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = true
@@ -123,7 +123,7 @@ bounce = 0.0
 constant_linear_velocity = Vector3( 0, 0, 0 )
 constant_angular_velocity = Vector3( 0, 0, 0 )
 
-[node name="CollisionShape" type="CollisionShape" parent="mesh/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="mesh/terrain"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 shape = SubResource( 2 )

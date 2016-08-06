@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=1]
+[gd_scene load_steps=21 format=1]
 
 [ext_resource path="res://src/hud.gd" type="Script" id=1]
 [ext_resource path="res://media/font/MedievalSharp.ttf" type="DynamicFontData" id=2]
@@ -10,6 +10,8 @@
 [sub_resource type="DynamicFont" id=1]
 
 font/size = 20
+font/use_mipmaps = false
+font/use_filter = false
 font/font = ExtResource( 2 )
 
 [sub_resource type="Theme" id=2]
@@ -23,7 +25,14 @@ Label/constants/shadow_offset_x = 1
 Label/constants/shadow_offset_y = 1
 Label/fonts/font = null
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="DynamicFont" id=3]
+
+font/size = 20
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=4]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -36,14 +45,14 @@ border_size = 0
 border_blend = false
 draw_bg = true
 
-[sub_resource type="StyleBoxEmpty" id=4]
+[sub_resource type="StyleBoxEmpty" id=5]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
 content_margin/top = -1.0
 content_margin/bottom = -1.0
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=6]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -56,26 +65,13 @@ border_size = 0
 border_blend = false
 draw_bg = true
 
-[sub_resource type="StyleBoxFlat" id=6]
-
-content_margin/left = -1.0
-content_margin/right = -1.0
-content_margin/top = -1.0
-content_margin/bottom = -1.0
-bg_color = Color( 0, 0, 0, 1 )
-light_color = Color( 0.8, 0.8, 0.8, 1 )
-dark_color = Color( 0.8, 0.8, 0.8, 1 )
-border_size = 0
-border_blend = false
-draw_bg = true
-
 [sub_resource type="StyleBoxFlat" id=7]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
 content_margin/top = -1.0
 content_margin/bottom = -1.0
-bg_color = Color( 1, 0.867188, 0, 1 )
+bg_color = Color( 0, 0, 0, 1 )
 light_color = Color( 0.8, 0.8, 0.8, 1 )
 dark_color = Color( 0.8, 0.8, 0.8, 1 )
 border_size = 0
@@ -88,6 +84,19 @@ content_margin/left = -1.0
 content_margin/right = -1.0
 content_margin/top = -1.0
 content_margin/bottom = -1.0
+bg_color = Color( 1, 0.867188, 0, 1 )
+light_color = Color( 0.8, 0.8, 0.8, 1 )
+dark_color = Color( 0.8, 0.8, 0.8, 1 )
+border_size = 0
+border_blend = false
+draw_bg = true
+
+[sub_resource type="StyleBoxFlat" id=9]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
 bg_color = Color( 0, 0, 0, 1 )
 light_color = Color( 0.8, 0.8, 0.8, 1 )
 dark_color = Color( 0.8, 0.8, 0.8, 1 )
@@ -95,12 +104,14 @@ border_size = 0
 border_blend = false
 draw_bg = true
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=10]
 
 font/size = 20
+font/use_mipmaps = false
+font/use_filter = false
 font/font = ExtResource( 2 )
 
-[sub_resource type="Theme" id=10]
+[sub_resource type="Theme" id=11]
 
 Label/colors/font_color = Color( 1, 1, 1, 1 )
 Label/colors/font_color_shadow = Color( 0, 0, 0, 0 )
@@ -110,17 +121,21 @@ Label/constants/shadow_offset_x = 1
 Label/constants/shadow_offset_y = 1
 Label/fonts/font = null
 
-[sub_resource type="DynamicFont" id=11]
-
-font/size = 24
-font/font = ExtResource( 2 )
-
 [sub_resource type="DynamicFont" id=12]
 
-font/size = 32
+font/size = 24
+font/use_mipmaps = false
+font/use_filter = false
 font/font = ExtResource( 2 )
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="DynamicFont" id=13]
+
+font/size = 32
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 2 )
+
+[sub_resource type="Animation" id=14]
 
 length = 2.5
 loop = false
@@ -159,8 +174,45 @@ margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
 
+[node name="action" type="Panel" parent="."]
+
+visibility/visible = false
+anchor/left = 3
+anchor/top = 3
+anchor/right = 3
+anchor/bottom = 3
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 20.0
+margin/top = 20.0
+margin/right = -20.0
+margin/bottom = -20.0
+
+[node name="key" type="Label" parent="action"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+custom_fonts/font = SubResource( 3 )
+text = "E"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 [node name="hp" type="ProgressBar" parent="."]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 1
@@ -169,8 +221,8 @@ margin/left = 20.0
 margin/top = 20.0
 margin/right = 1270.0
 margin/bottom = 35.0
-custom_styles/fg = SubResource( 3 )
-custom_styles/bg = SubResource( 4 )
+custom_styles/fg = SubResource( 4 )
+custom_styles/bg = SubResource( 5 )
 range/min = 0.0
 range/max = 150.0
 range/step = 1.0
@@ -192,8 +244,8 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 15.0
-custom_styles/fg = SubResource( 5 )
-custom_styles/bg = SubResource( 6 )
+custom_styles/fg = SubResource( 6 )
+custom_styles/bg = SubResource( 7 )
 range/min = 0.0
 range/max = 150.0
 range/step = 1.0
@@ -214,8 +266,8 @@ margin/left = 20.0
 margin/top = 45.0
 margin/right = 820.0
 margin/bottom = 55.0
-custom_styles/fg = SubResource( 7 )
-custom_styles/bg = SubResource( 8 )
+custom_styles/fg = SubResource( 8 )
+custom_styles/bg = SubResource( 9 )
 range/min = 0.0
 range/max = 100.0
 range/step = 1.0
@@ -265,6 +317,7 @@ max_lines_visible = -1
 
 [node name="items_bar" type="Container" parent="."]
 
+editor/display_folded = true
 anchor/top = 1
 anchor/bottom = 1
 rect/min_size = Vector2( 380, 160 )
@@ -449,7 +502,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 10 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
 text = "10"
@@ -481,12 +534,12 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-theme/theme = SubResource( 10 )
+theme/theme = SubResource( 11 )
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 12 )
 text = "(Nessuna selezione)"
 align = 1
 valign = 1
@@ -522,7 +575,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 13 )
 text = "Hai ottenuto: %s"
 align = 1
 valign = 1
@@ -535,7 +588,7 @@ max_lines_visible = -1
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/show = SubResource( 13 )
+anims/show = SubResource( 14 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]

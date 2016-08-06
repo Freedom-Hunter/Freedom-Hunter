@@ -5,6 +5,7 @@ onready var damage_node = get_node("hp/red_hp")
 onready var stamina_node = get_node("stamina")
 onready var names_node = get_node("names")
 onready var players_list_node = get_node("players_list")
+onready var action_node = get_node("action")
 
 var local_player
 var other_players = []
@@ -25,6 +26,13 @@ func init(local_player):
 	var size = label.get_size()
 	label.set_pos(pos - Vector2(size.x/2, size.y/2))
 
+	var keys = InputMap.get_action_list("player_interact")
+	var string = ""
+	for key in keys:
+		string += OS.get_scancode_string(key.scancode) + ","
+	string[-1] = ""
+	get_node("action/key").set_text(string)
+
 func _ready():
 	set_fixed_process(true)
 	set_process_input(true)
@@ -40,6 +48,7 @@ func _input(event):
 
 func _fixed_process(delta):
 	update_values()
+	show_interact()
 	if networking.multiplayer and other_players.size() > 0:
 		update_names()
 
@@ -77,6 +86,20 @@ func update_items():
 	var item = local_player.items[local_player.active_item]
 	get_node("items_bar/quantity/label").set_text(str(item.quantity))
 	get_node("items_bar/name/label").set_text(item.name)
+
+func show_interact():
+	var interact = local_player.get_interact()
+	if interact != null:
+		var pos = interact.get_translation() + Vector3(0, 1, 0)
+		if camera_node.is_position_behind(pos):
+			action_node.hide()
+		else:
+			action_node.show()
+			var action_pos = camera_node.unproject_position(pos)
+			var size = action_node.get_size()
+			action_node.set_pos(action_pos - Vector2(size.x/2, size.y/2))
+	else:
+		action_node.hide()
 
 func update_names():
 	var local_player_pos = local_player.camera_node.get_global_transform().origin
