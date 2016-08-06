@@ -9,11 +9,13 @@ func _on_player_connected(player_name):
 	print("%s connected" % player_name)
 	global.add_player(self, player_name, false, Vector3())
 	get_node("player_spawn/" + networking.local_player + "/yaw/pitch/camera").make_current()
+	get_node("hud").player_connected(player_name)
 
 func _on_player_disconnected(player_name):
 	print("%s disconnected" % player_name)
 	for player in get_node("player_spawn").get_children():
 		if player.get_name() == player_name:
+			get_node("hud").player_disconnected(player_name)
 			get_node("player_spawn").remove_child(player)
 			break
 

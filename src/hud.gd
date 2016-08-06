@@ -7,15 +7,26 @@ onready var names_node = get_node("names")
 onready var players_list_node = get_node("players_list")
 
 var local_player
+var other_players = []
+var ray_exceptions = []
+var camera_node
 
 func init(local_player):
 	self.local_player = local_player.get_node("body")
-	local_player.get_node("body").connect("got_item", self, "_on_got_item")
-	local_player.get_node("body").connect("used_item", self, "_on_used_item")
+	self.local_player.connect("got_item", self, "_on_got_item")
+	self.local_player.connect("used_item", self, "_on_used_item")
 	update_items()
+	camera_node = get_viewport().get_camera()
+
+	ray_exceptions.append(self.local_player)
+
+	var label = new_label(local_player.get_name())
+	var pos = camera_node.unproject_position(self.local_player.get_node("name").get_global_transform().origin)
+	var size = label.get_size()
+	label.set_pos(pos - Vector2(size.x/2, size.y/2))
 
 func _ready():
-	set_process(true)
+	set_fixed_process(true)
 	set_process_input(true)
 
 func _input(event):
@@ -27,9 +38,29 @@ func _input(event):
 	if event.is_action_pressed("player_scroll_next") or event.is_action_pressed("player_scroll_back"):
 		update_items()
 
-func _process(delta):
+func _fixed_process(delta):
 	update_values()
-	update_names()
+	if networking.multiplayer and other_players.size() > 0:
+		update_names()
+
+func player_connected(player_name):
+	new_label(player_name)
+	var p = get_node("../player_spawn/" + player_name + "/body")
+	other_players.append(p)
+	ray_exceptions.append(p)
+
+func player_disconnected(player_name):
+	var p = get_node("../player_spawn/" + player_name + "/body")
+	other_players.erase(p)
+	ray_exceptions.erase(p)
+	names_node.get_node(player_name).queue_free()
+
+func new_label(name):
+	var label = Label.new()
+	label.set_name(name)
+	label.set_text(name)
+	names_node.add_child(label)
+	return label
 
 func update_values():
 	life_node.set_value(local_player.hp)
@@ -48,31 +79,24 @@ func update_items():
 	get_node("items_bar/name/label").set_text(item.name)
 
 func update_names():
-	var local_player_pos = local_player.get_global_transform().origin
-	for player in get_node("../player_spawn").get_children():
+	var local_player_pos = local_player.camera_node.get_global_transform().origin
+	var space_state = get_node("/root/game").get_world().get_direct_space_state()
+	for player in other_players:
 		var name = player.get_name()
-		if not names_node.has_node(name):
-			var label = Label.new()
-			label.set_name(name)
-			label.set_text(name)
-			label.set_align(Label.ALIGN_CENTER)
-			label.set_valign(Label.VALIGN_CENTER)
-			names_node.add_child(label)
-		var player_pos = player.get_node("body/name").get_global_transform().origin
-		var camera = get_viewport().get_camera()
-		var label = get_node("names/" + player.get_name())
-		if camera.is_position_behind(player_pos):
+		var player_pos = player.get_node("name").get_global_transform().origin
+		var label = names_node.get_node(name)
+		if camera_node.is_position_behind(player_pos):
 			label.hide()
 		else:
-			label.show()
-		var pos = camera.unproject_position(player_pos)
-		var size = label.get_size()
-		label.set_pos(pos - Vector2(size.x/2, size.y/2))
-		if not get_node("players_list").has_node(player.get_name()):
-			var label = Label.new()
-			label.set_name(name)
-			label.set_text(name)
-			players_list_node.add_child(label)
+			# use global coordinates, not local to node
+			var result = space_state.intersect_ray(local_player_pos, player_pos, ray_exceptions)
+			if not result.empty():
+				label.hide()
+			else:
+				label.show()
+				var pos = camera_node.unproject_position(player_pos)
+				var size = label.get_size()
+				label.set_pos(pos - Vector2(size.x/2, size.y/2))
 
 func _on_got_item(item):
 	var label = get_node("itemget/label")
