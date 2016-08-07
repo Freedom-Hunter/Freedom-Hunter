@@ -81,7 +81,9 @@ func _input(event):
 			items.remove(active_item)
 			active_item = (active_item + 1) % items.size()
 	elif event.is_action_pressed("player_interact"):
-		get_interact().interact(self)
+		var interact = get_interact()
+		if interact != null:
+			interact.interact(self)
 
 func add_item(item):
 	var found = false
