@@ -11,6 +11,7 @@ var local_player
 var other_players = []
 var ray_exceptions = []
 var camera_node
+var notify_queue = []
 
 func init(local_player):
 	self.local_player = local_player.get_node("body")
@@ -121,11 +122,27 @@ func update_names():
 				var size = label.get_size()
 				label.set_pos(pos - Vector2(size.x/2, size.y/2))
 
+func play_notify(text):
+		get_node("notification/text").set_text(text)
+		get_node("notification/animation").play("show")
+
+func _on_animation_finished():
+	if not notify_queue.empty():
+		notify_queue.pop_front()
+		if not notify_queue.empty():
+			play_notify(notify_queue[0])
+
+func notify(text):
+	notify_queue.append(text)
+	if not get_node("notification/animation").is_playing():
+		play_notify(notify_queue[0])
+
 func _on_got_item(item):
-	var label = get_node("itemget/label")
-	label.set_text("You got %s" % item.name)
-	get_node("itemget/animation").play("show")
+	notify("You got %s" % item.name)
 	update_items()
 
 func _on_used_item(item):
 	update_items()
+
+
+

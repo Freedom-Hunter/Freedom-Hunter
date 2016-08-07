@@ -137,14 +137,19 @@ font/font = ExtResource( 2 )
 
 [sub_resource type="Animation" id=14]
 
-length = 2.5
+length = 2.0
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("../itemget:rect/pos")
+tracks/0/path = NodePath(".:rect/pos")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 0.5, 2, 2.5 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":0, "values":[ Vector2( 660, -100 ), Vector2( 660, 500 ), Vector2( 660, 500 ), Vector2( 660, -100 ) ] }
+tracks/0/keys = { "times":FloatArray( 0, 0.3, 1.5 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Vector2( 660, -100 ), Vector2( 660, 500 ), Vector2( 660, 500 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visibility/opacity")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 1.5, 1.7 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 1.0, 0.0 ] }
 
 [node name="hud" type="Control"]
 
@@ -547,9 +552,9 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="itemget" type="Panel" parent="."]
+[node name="notification" type="Panel" parent="."]
 
-editor/display_folded = true
+visibility/opacity = 0.0
 anchor/left = 3
 anchor/top = 3
 anchor/right = 3
@@ -559,11 +564,11 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 300.0
-margin/top = 640.0
+margin/top = 40.0
 margin/right = -300.0
-margin/bottom = 560.0
+margin/bottom = -40.0
 
-[node name="label" type="Label" parent="itemget"]
+[node name="text" type="Label" parent="notification"]
 
 anchor/right = 1
 anchor/bottom = 1
@@ -583,7 +588,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="animation" type="AnimationPlayer" parent="itemget"]
+[node name="animation" type="AnimationPlayer" parent="notification"]
 
 playback/process_mode = 1
 playback/default_blend_time = 0.0
@@ -606,5 +611,7 @@ margin/top = 200.0
 margin/right = 420.0
 margin/bottom = 800.0
 alignment = 0
+
+[connection signal="finished" from="notification/animation" to="." method="_on_animation_finished"]
 
 

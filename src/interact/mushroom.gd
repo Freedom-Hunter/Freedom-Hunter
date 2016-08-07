@@ -12,6 +12,7 @@ var obtainable = [barrel, firework, potion]
 var quantity = rand_range(2, 10)
 var rarity = 0
 
+
 func _init():
 	potion.init(self, preload("res://media/items/potion.png"), "Potion", 1, 25)
 	firework.init(self, preload("res://media/items/firework.png"), "Firework", 1)
@@ -22,7 +23,6 @@ func _init():
 func interact(player):
 	var rand = randi() % rarity
 	var last = 0
-	print (rand)
 	for i in obtainable:
 		if last <= rand and rand < last + i.rarity:
 			print("add ", i.name)
