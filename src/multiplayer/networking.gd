@@ -25,23 +25,34 @@ const CMD_CS_DAMAGE = 2
 const CMD_CS_ATTACK = 3
 const CMD_CS_DIE = 4
 const CMD_CS_USE = 5
+const CMD_CS_PING = 50
+const CMD_CS_PONG = 51
 const CMD_CS_DISCONNECT = 99
 
 #Server to Client
-const CMD_SC_CLIENT_CONNECTED = 100
+const CMD_SC_PLAYER_CONNECTED = 100
 const CMD_SC_CONNECT_ACCEPT = 101
 const CMD_SC_USERNAME_IN_USE = 102
 const CMD_SC_MAX_PLAYERS = 103
-const CMD_SC_CLIENT_DISCONNECTED = 110
+const CMD_SC_PLAYER_DISCONNECTED = 110
 const CMD_SC_MOVE = 111
 const CMD_SC_DAMAGE = 112
 const CMD_SC_ATTACK = 113
 const CMD_SC_DIE = 114
 const CMD_SC_USE = 115
+const CMD_SC_PING = 150
+const CMD_SC_PONG = 151
 const CMD_SC_DOWN = 200
 
+const SERVER_PING_TIMEOUT = 3
+const CLIENT_PING_TIMEOUT = 1
+const PING_RETRY = 3
+
 var client_connected = false
-const CLIENT_CONNECT_TIMEOUT = 5
+var client_ping
+var client_retry = 0
+var client_server_ip
+var client_server_port
 
 func _ready():
 	set_pause_mode(PAUSE_MODE_PROCESS)
@@ -69,35 +80,61 @@ func server_start(port, player):
 func client_start(ip, port, player):
 	server = false
 	udp.listen(0)
+	client_server_ip = ip
+	client_server_port = port
 	udp.set_send_address(ip, port)
 	udp.put_var(new_packet(CMD_CS_CONNECT, player.get_name()))
-	var connect_timeout = Timer.new()
-	connect_timeout.set_wait_time(CLIENT_CONNECT_TIMEOUT)
-	connect_timeout.set_one_shot(true)
-	add_child(connect_timeout)
-	connect_timeout.connect("timeout", self, "_on_connect_timeout")
-	connect_timeout.start()
+	client_ping = OS.get_unix_time()
 	_common_start(player)
 
-func _on_connect_timeout():
-	if not client_connected:
-		close()
-		emit_signal("disconnected")
+func client_stop():
+	close()
+	emit_signal("disconnected")
+
+func server_send(pckt, ip, port):
+	udp.set_send_address(ip, port)
+	udp.put_var(pckt)
 
 func server_broadcast(pckt, except=null):
 	for player in clients.keys():
 		if player != except:
 			var client = clients[player]
-			#print("sending '%s' to %s [%s:%s]" % [pckt, player, client.ip, client.port])
-			udp.set_send_address(client.ip, client.port)
-			udp.put_var(pckt)
+			server_send(pckt, client.ip, client.port)
 
 func server_send_to_player(pckt, player):
-	udp.set_send_address(clients[player].ip, clients[player].port)
+	server_send(pckt, clients[player].ip, clients[player].port)
+
+func client_send(pckt):
 	udp.put_var(pckt)
 
+func server_player_disconnect(player_name):
+	emit_signal("player_disconnected", players[player_name])
+	players.erase(player_name)
+	clients.erase(player_name)
+	server_broadcast(new_packet(CMD_SC_PLAYER_DISCONNECTED, player_name))
+
 func process_client(pckt, delta):
-	if pckt.command == CMD_SC_MOVE:
+	if not client_connected:
+		if pckt.command == CMD_SC_CONNECT_ACCEPT:
+			client_connected = true
+			print("Server accepted connection")
+			for player_name in pckt.args:
+				if not player_name in players.keys():
+					var player = global.add_player(game_node, player_name, false)
+					emit_signal("player_connected", player)
+					players[player_name] = player
+			for player_name in players.keys():
+				if not player_name in pckt.args:
+					emit_signal("player_disconnected", players[player_name])
+					players.erase(player_name)
+	elif pckt.command == CMD_SC_PING:
+		client_send(new_packet(CMD_CS_PONG))
+		client_ping = OS.get_unix_time()
+		client_retry = 0
+	elif pckt.command == CMD_SC_PONG:
+		client_ping = OS.get_unix_time()
+		client_retry = 0
+	elif pckt.command == CMD_SC_MOVE:
 		if pckt.args.player in players.keys():
 			players[pckt.args.player].set_global_transform(pckt.args.transform)
 	elif pckt.command == CMD_SC_DAMAGE:
@@ -107,37 +144,23 @@ func process_client(pckt, delta):
 		if pckt.args.player in players.keys():
 			players[pckt.args.player].weapon_node.set_rotation_deg(Vector3(pckt.args.rot, 0, 0))
 	elif pckt.command == CMD_SC_DIE:
-		if pckt.args.player in players.keys():
-			if players[pckt.args.player].hp > 0:
-				players[pckt.args.player].die(false)
+		if pckt.args in players.keys():
+			if players[pckt.args].hp > 0:
+				players[pckt.args].die(false)
 	elif pckt.command == CMD_SC_USE:
 		if pckt.args.player in players.keys():
 			players[pckt.args.player].items[pckt.args.item].use()
 	elif pckt.command == CMD_SC_USERNAME_IN_USE:
-		close()
-		emit_signal("disconnected")
-	elif pckt.command == CMD_SC_CLIENT_CONNECTED:
+		client_stop()
+	elif pckt.command == CMD_SC_PLAYER_CONNECTED:
 		players[pckt.args.player] = global.add_player(game_node, pckt.args.player, false)
 		players[pckt.args.player].set_global_transform(pckt.args.transform)
 		emit_signal("player_connected", players[pckt.args.player])
-	elif pckt.command == CMD_SC_CONNECT_ACCEPT:
-		client_connected = true
-		print("Server accepted connection")
-		for player_name in pckt.args:
-			if not player_name in players.keys():
-				var player = global.add_player(game_node, player_name, false)
-				emit_signal("player_connected", player)
-				players[player_name] = player
-		for player_name in players.keys():
-			if not player_name in pckt.args:
-				emit_signal("player_disconnected", players[player_name])
-				players.erase(player_name)
-	elif pckt.command == CMD_SC_CLIENT_DISCONNECTED:
+	elif pckt.command == CMD_SC_PLAYER_DISCONNECTED:
 		emit_signal("player_disconnected", players[pckt.args])
 		players.erase(pckt.args)
 	elif pckt.command == CMD_SC_DOWN:
-		close()
-		emit_signal("disconnected")
+		client_stop()
 		print("Server shutdown!")
 
 func process_server(pckt, delta):
@@ -149,9 +172,14 @@ func process_server(pckt, delta):
 		else:
 			var player = global.add_player(game_node, player_name, false)
 			players[player_name] = player
-			clients[player_name] = {'ip': udp.get_packet_ip(), 'port': udp.get_packet_port()}
+			clients[player_name] = {
+				'ip': udp.get_packet_ip(),
+				'port': udp.get_packet_port(),
+				'ping': OS.get_unix_time(),
+				'retry': 0
+			}
 			var args = {'player': player_name, 'transform': players[player_name].get_global_transform()}
-			server_broadcast(new_packet(CMD_SC_CLIENT_CONNECTED, args), player_name)
+			server_broadcast(new_packet(CMD_SC_PLAYER_CONNECTED, args), player_name)
 			server_send_to_player(new_packet(CMD_SC_CONNECT_ACCEPT, players.keys()), player_name)
 			emit_signal("player_connected", player)
 	elif pckt.command == CMD_CS_MOVE:
@@ -175,10 +203,14 @@ func process_server(pckt, delta):
 		if pckt.args.player in players.keys():
 			players[pckt.args.player].items[pckt.args.item].use()
 	elif pckt.command == CMD_CS_DISCONNECT:
-		var player_name = pckt.args
-		emit_signal("player_disconnected", players[player_name])
-		players.erase(player_name)
-		clients.erase(player_name)
+		server_player_disconnect(pckt.args)
+	elif pckt.command == CMD_CS_PING:
+		server_send_to_player(new_packet(CMD_SC_PONG), pckt.args)
+		clients[pckt.args].ping = OS.get_unix_time()
+		clients[pckt.args].retry = 0
+	elif pckt.command == CMD_CS_PONG:
+		clients[pckt.args].ping = OS.get_unix_time()
+		clients[pckt.args].retry = 0
 
 func _process(delta):
 	if udp.get_available_packet_count() > 0:
@@ -190,6 +222,26 @@ func _process(delta):
 				process_client(pckt, delta)
 		else:
 			print("Invalid Variant received!")
+
+	if server:
+		for player in clients.keys():
+			var client = clients[player]
+			if OS.get_unix_time() - client.ping > SERVER_PING_TIMEOUT:
+				if client.retry > PING_RETRY:
+					server_player_disconnect(player)
+				else:
+					server_send_to_player(new_packet(CMD_SC_PING, player), player)
+					client.ping = OS.get_unix_time()
+					client.retry += 1
+	else:
+		if OS.get_unix_time() - client_ping > CLIENT_PING_TIMEOUT:
+			if client_retry > PING_RETRY:
+				client_stop()
+				print("Server didn't reply!")
+			else:
+				client_send(new_packet(CMD_CS_PING, global.local_player.get_name()))
+				client_ping = OS.get_unix_time()
+				client_retry += 1
 
 func close():
 	set_process(false)
