@@ -2,13 +2,18 @@ extends Node
 
 #Autoload
 
+var Player = preload("res://src/entities/player.gd")
+
+onready var udp = PacketPeerUDP.new()
+
 var multiplayer = false
 var server = false
-onready var udp = PacketPeerUDP.new()
 var clients = {}
-var players = []
+var players = {}
 var local_player
+
 var spawn_node
+var game_node
 
 signal player_connected
 signal player_disconnected
@@ -46,29 +51,32 @@ func new_packet(command, args=null):
 		pckt['args'] = args
 	return pckt
 
-func _common_start(username):
+func _common_start(player):
+	players = {player.get_name(): player}
+	local_player = player.get_name()
 	multiplayer = true
-	players = [username]
-	local_player = username
 	set_process(true)
+	connect("player_connected", game_node, "_on_player_connected")
+	connect("player_disconnected", game_node, "_on_player_disconnected")
+	connect("disconnected", game_node, "_on_disconnected")
 
-func server_start(port, username):
+func server_start(port, player):
 	server = true
 	udp.listen(port)
-	_common_start(username)
+	_common_start(player)
 
-func client_start(ip, port, username):
+func client_start(ip, port, player):
 	server = false
 	udp.listen(0)
 	udp.set_send_address(ip, port)
-	udp.put_var(new_packet(CMD_CS_CONNECT, username))
+	udp.put_var(new_packet(CMD_CS_CONNECT, player.get_name()))
 	var connect_timeout = Timer.new()
 	connect_timeout.set_wait_time(CLIENT_CONNECT_TIMEOUT)
 	connect_timeout.set_one_shot(true)
 	add_child(connect_timeout)
 	connect_timeout.connect("timeout", self, "_on_connect_timeout")
 	connect_timeout.start()
-	_common_start(username)
+	_common_start(player)
 
 func _on_connect_timeout():
 	if not client_connected:
@@ -109,21 +117,22 @@ func process_client(pckt, delta):
 		emit_signal("disconnected")
 	elif pckt.command == CMD_SC_CLIENT_CONNECTED:
 		players.append(pckt.args)
-		emit_signal("player_connected", pckt.args)
+		emit_signal("player_connected", players[pckt.args])
 	elif pckt.command == CMD_SC_CONNECT_ACCEPT:
 		client_connected = true
 		print("Server accepted connection")
-		for player in pckt.args:
-			if not player in players:
+		for player_name in pckt.args:
+			if not player_name in players.keys():
+				var player = global.add_player(game_node, player_name, false)
 				emit_signal("player_connected", player)
-				players.append(player)
-		for player in players:
-			if not player in pckt.args:
-				emit_signal("player_disconnected", player)
-				players.erase(player)
+				players[player_name] = player
+		for player_name in players.keys():
+			if not player_name in pckt.args:
+				emit_signal("player_disconnected", players[player_name])
+				players.erase(player_name)
 	elif pckt.command == CMD_SC_CLIENT_DISCONNECTED:
+		emit_signal("player_disconnected", players[pckt.args])
 		players.erase(pckt.args)
-		emit_signal("player_connected", pckt.args)
 	elif pckt.command == CMD_SC_DOWN:
 		close()
 		emit_signal("disconnected")
@@ -131,41 +140,40 @@ func process_client(pckt, delta):
 
 func process_server(pckt, delta):
 	if pckt.command == CMD_CS_CONNECT:
-		var player = pckt.args
-		if player in players:
+		var player_name = pckt.args
+		if player_name in players.keys():
 			udp.set_send_address(udp.get_packet_ip(), udp.get_packet_port())
 			udp.put_var(new_packet(CMD_SC_USERNAME_IN_USE))
 		else:
-			players.append(player)
-			clients[player] = {'ip': udp.get_packet_ip(), 'port': udp.get_packet_port()}
-			server_broadcast(new_packet(CMD_SC_CLIENT_CONNECTED, player), player)
-			server_send_to_player(new_packet(CMD_SC_CONNECT_ACCEPT, players), player)
+			print(game_node.get_path())
+			var player = global.add_player(game_node, player_name, false)
+			players[player_name] = player
+			clients[player_name] = {'ip': udp.get_packet_ip(), 'port': udp.get_packet_port()}
+			server_broadcast(new_packet(CMD_SC_CLIENT_CONNECTED, player_name), player_name)
+			server_send_to_player(new_packet(CMD_SC_CONNECT_ACCEPT, players.keys()), player_name)
 			emit_signal("player_connected", player)
 	elif pckt.command == CMD_CS_MOVE:
-		if spawn_node.has_node(pckt.args.player):
+		if pckt.args.player in players.keys():
 			server_broadcast(new_packet(CMD_SC_MOVE, pckt.args), pckt.args.player)
-			spawn_node.get_node(pckt.args.player).set_global_transform(pckt.args.transform)
+			players[pckt.args.player].set_global_transform(pckt.args.transform)
 	elif pckt.command == CMD_CS_DAMAGE:
-		if spawn_node.has_node(pckt.args.player):
+		if pckt.args.player in players.keys():
 			server_broadcast(new_packet(CMD_SC_DAMAGE, pckt.args), pckt.args.player)
-			var player = spawn_node.get_node(pckt.args.player + "/body")
-			player.damage(pckt.args.damage, pckt.args.regenerable, false)
+			players[pckt.args.player].damage(pckt.args.damage, pckt.args.regenerable, false)
 	elif pckt.command == CMD_CS_ATTACK:
-		if spawn_node.has_node(pckt.args.player):
+		if pckt.args.player in players.keys():
 			server_broadcast(new_packet(CMD_SC_ATTACK, pckt.args), pckt.args.player)
-			var player = spawn_node.get_node(pckt.args.player + "/body")
-			player.weapon_node.set_rotation_deg(Vector3(pckt.args.rot, 0, 0))
+			players[pckt.args.player].weapon_node.set_rotation_deg(Vector3(pckt.args.rot, 0, 0))
 	elif pckt.command == CMD_CS_DIE:
-		if spawn_node.has_node(pckt.args):
+		if pckt.args in players.keys():
 			server_broadcast(new_packet(CMD_SC_DIE, pckt.args), pckt.args)
-			var player = spawn_node.get_node(pckt.args + "/body")
-			if player.hp > 0:
-				player.die(false)
+			if players[pckt.args].hp > 0:
+				players[pckt.args].die(false)
 	elif pckt.command == CMD_CS_DISCONNECT:
-		var player = pckt.args
-		players.erase(player)
-		clients.erase(player)
-		emit_signal("player_disconnected", player)
+		var player_name = pckt.args
+		emit_signal("player_disconnected", players[player_name])
+		players.erase(player_name)
+		clients.erase(player_name)
 
 func _process(delta):
 	if udp.get_available_packet_count() > 0:
@@ -193,7 +201,7 @@ func close():
 	multiplayer = false
 	server = false
 	clients = {}
-	players = []
+	players = {}
 	client_connected = false
 
 func _exit_tree():

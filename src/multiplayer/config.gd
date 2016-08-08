@@ -43,8 +43,8 @@ func _on_start_pressed():
 	if port.is_valid_integer() and username.length() > 0:
 		print("Listen on port ", port)
 		save_server_config(username, port)
-		networking.server_start(int(port), username)
-		global.start_game(username)
+		var local_player = global.start_game(username, true)
+		networking.server_start(int(port), local_player)
 		get_parent().queue_free()
 	else:
 		print("La porta %s non è valida!" % port)
@@ -57,6 +57,6 @@ func _on_connect_pressed():
 
 	if port.is_valid_integer() and username.length() > 0:
 		save_client_config(username, port, host)
-		networking.client_start(host, int(port), username)
-		global.start_game(username)
+		var local_player = global.start_game(username, true)
+		networking.client_start(host, int(port), local_player)
 		get_parent().queue_free()

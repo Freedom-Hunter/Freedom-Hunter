@@ -4,22 +4,25 @@ var gravity = -10
 
 var player_scn = preload("res://scene/player.tscn")
 
-func add_player(game, name, local, translation):
+var local_player = null
+
+func add_player(game, name, local, translation=Vector3()):
 	var player = player_scn.instance()
 	player.set_name(name)
 	var body = player.get_node("body")
 	body.init(local, 150, 100)
 	body.set_translation(translation)
 	game.get_node("player_spawn").add_child(player)
-	return player
+	return player.get_node("body")
 
-func start_game(local_player_name):
+func start_game(local_player_name, multiplayer=false):
 	var game = preload("res://scene/game.tscn").instance()
 	get_node("/root/").add_child(game)
-	var local_player = add_player(game, local_player_name, true, Vector3())
-	local_player.get_node("yaw/pitch/camera").make_current()
-	get_node("/root/game/hud").init(local_player)
-	if networking.multiplayer:
-		get_node("/root/game").begin_multiplayer()
+	local_player = add_player(game, local_player_name, true)
+	local_player.camera_node.make_current()
+	get_node("/root/game/hud").init()
+	if multiplayer:
 		networking.spawn_node = game.get_node("player_spawn")
+		networking.game_node = game
 	get_tree().set_current_scene(game)
+	return local_player

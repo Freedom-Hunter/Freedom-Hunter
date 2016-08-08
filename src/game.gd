@@ -1,23 +1,14 @@
 extends Node
 
-func begin_multiplayer():
-	networking.connect("player_connected", self, "_on_player_connected")
-	networking.connect("player_disconnected", self, "_on_player_disconnected")
-	networking.connect("disconnected", self, "_on_disconnected")
-
-func _on_player_connected(player_name):
-	print("%s connected" % player_name)
-	global.add_player(self, player_name, false, Vector3())
+func _on_player_connected(player):
+	print("%s connected" % player.get_name())
 	get_node("player_spawn/" + networking.local_player + "/yaw/pitch/camera").make_current()
-	get_node("hud").player_connected(player_name)
+	get_node("hud").player_connected(player)
 
-func _on_player_disconnected(player_name):
-	print("%s disconnected" % player_name)
-	for player in get_node("player_spawn").get_children():
-		if player.get_name() == player_name:
-			get_node("hud").player_disconnected(player_name)
-			get_node("player_spawn").remove_child(player)
-			break
+func _on_player_disconnected(player):
+	print("%s disconnected" % player.get_name())
+	get_node("hud").player_disconnected(player)
+	get_node("player_spawn/" + player.get_name()).queue_free()
 
 func _on_disconnected():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

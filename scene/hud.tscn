@@ -181,6 +181,7 @@ margin/bottom = 0.0
 
 [node name="action" type="Panel" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 anchor/left = 3
 anchor/top = 3
@@ -554,6 +555,7 @@ max_lines_visible = -1
 
 [node name="notification" type="Panel" parent="."]
 
+editor/display_folded = true
 visibility/opacity = 0.0
 anchor/left = 3
 anchor/top = 3
@@ -601,6 +603,7 @@ autoplay = ""
 
 [node name="players_list" type="VBoxContainer" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = false
@@ -611,6 +614,21 @@ margin/top = 200.0
 margin/right = 420.0
 margin/bottom = 800.0
 alignment = 0
+
+[node name="list" type="Label" parent="players_list"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 400.0
+margin/bottom = 14.0
+text = "Lista dei giocatori collegati:"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [connection signal="finished" from="notification/animation" to="." method="_on_animation_finished"]
 
