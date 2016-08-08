@@ -111,7 +111,8 @@ func process_client(pckt, delta):
 			if players[pckt.args.player].hp > 0:
 				players[pckt.args.player].die(false)
 	elif pckt.command == CMD_SC_USE:
-		players[pckt.args.player].items[pckt.args.item].use()
+		if pckt.args.player in players.keys():
+			players[pckt.args.player].items[pckt.args.item].use()
 	elif pckt.command == CMD_SC_USERNAME_IN_USE:
 		close()
 		emit_signal("disconnected")
@@ -171,7 +172,8 @@ func process_server(pckt, delta):
 			if players[pckt.args].hp > 0:
 				players[pckt.args].die(false)
 	elif pckt.command == CMD_CS_USE:
-		players[pckt.args.player].items[pckt.args.item].use()
+		if pckt.args.player in players.keys():
+			players[pckt.args.player].items[pckt.args.item].use()
 	elif pckt.command == CMD_CS_DISCONNECT:
 		var player_name = pckt.args
 		emit_signal("player_disconnected", players[player_name])
