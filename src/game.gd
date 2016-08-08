@@ -2,7 +2,7 @@ extends Node
 
 func _on_player_connected(player):
 	print("%s connected" % player.get_name())
-	get_node("player_spawn/" + networking.local_player + "/yaw/pitch/camera").make_current()
+	global.local_player.camera_node.make_current()
 	get_node("hud").player_connected(player)
 
 func _on_player_disconnected(player):

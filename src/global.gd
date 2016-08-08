@@ -6,12 +6,11 @@ var player_scn = preload("res://scene/player.tscn")
 
 var local_player = null
 
-func add_player(game, name, local, translation=Vector3()):
+func add_player(game, name, local):
 	var player = player_scn.instance()
 	player.set_name(name)
 	var body = player.get_node("body")
 	body.init(local, 150, 100)
-	body.set_translation(translation)
 	game.get_node("player_spawn").add_child(player)
 	return player.get_node("body")
 
