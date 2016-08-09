@@ -1,13 +1,20 @@
 
 extends Control
 
-const SERVER_CONF = "user://server.conf"
-const CLIENT_CONF = "user://client.conf"
+const CONF_FILE = "user://multiplayer.conf"
+
+var config
 
 func _ready():
 	set_process_input(true)
-	load_config(SERVER_CONF, "server")
-	load_config(CLIENT_CONF, "client")
+
+	config = ConfigFile.new()
+	var err = config.load(CONF_FILE)
+	if err == OK:
+		load_client_config()
+		load_server_config()
+	else:
+		print("Error %s while loading config file." % err)
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel") and not get_node("..").mode_node.is_visible():
@@ -16,25 +23,33 @@ func _input(event):
 		get_node("..").mode_node.show()
 		accept_event()
 
-func load_config(path, type):
-	var f = File.new()
-	if f.file_exists(path):
-		f.open(path, f.READ)
-		var conf = f.get_var()
-		for k in conf:
-			get_node(type + "/input").get_node(k).set_text(conf[k])
+func load_client_config():
+	if config.has_section("client"):
+		var input = get_node("client/input")
+		input.get_node("host").set_text(config.get_value("client", "host", "127.0.0.1"))
+		input.get_node("port").set_text(config.get_value("client", "port", "30500"))
+		input.get_node("username").set_text(config.get_value("client", "username", ""))
 
-func save(path, conf):
-	var f = File.new()
-	f.open(path, f.WRITE)
-	f.store_var(conf)
-	f.close()
+func load_server_config():
+	if config.has_section("server"):
+		var input = get_node("server/input")
+		input.get_node("port").set_text(config.get_value("server", "port", "30500"))
+		input.get_node("username").set_text(config.get_value("server", "username", ""))
 
 func save_client_config(username, port, host):
-	save(CLIENT_CONF, {'username': username, 'port': port, 'host': host})
+	config.set_value("client", "username", username)
+	config.set_value("client", "port", port)
+	config.set_value("client", "host", host)
+	var err = config.save(CONF_FILE)
+	if err != OK:
+		print("Error %s while saving configuration file." % err)
 
 func save_server_config(username, port):
-	save(SERVER_CONF, {'username': username, 'port': port})
+	config.set_value("server", "username", username)
+	config.set_value("server", "port", port)
+	var err = config.save(CONF_FILE)
+	if err != OK:
+		print("Error %s while saving configuration file." % err)
 
 func _on_start_pressed():
 	# Server
