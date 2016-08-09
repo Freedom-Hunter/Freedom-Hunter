@@ -73,19 +73,25 @@ func _common_start(player):
 	global.local_player.connect("used_item", self, "_on_used_item")
 
 func server_start(port, player):
-	server = true
-	udp.listen(port)
-	_common_start(player)
+	if udp.listen(port) == OK:
+		server = true
+		_common_start(player)
+		return true
+	else:
+		return false
 
 func client_start(ip, port, player):
 	server = false
-	udp.listen(0)
-	client_server_ip = ip
-	client_server_port = port
-	udp.set_send_address(ip, port)
-	udp.put_var(new_packet(CMD_CS_CONNECT, player.get_name()))
-	client_ping = OS.get_unix_time()
-	_common_start(player)
+	if udp.listen(0) == OK:
+		client_server_ip = ip
+		client_server_port = port
+		udp.set_send_address(ip, port)
+		udp.put_var(new_packet(CMD_CS_CONNECT, player.get_name()))
+		client_ping = OS.get_unix_time()
+		_common_start(player)
+		return true
+	else:
+		return false
 
 func client_stop():
 	close()
@@ -128,7 +134,7 @@ func process_client(pckt, delta):
 					emit_signal("player_disconnected", players[player_name])
 					players.erase(player_name)
 	elif pckt.command == CMD_SC_PING:
-		client_send(new_packet(CMD_CS_PONG))
+		client_send(new_packet(CMD_CS_PONG), global.local_player.get_name())
 		client_ping = OS.get_unix_time()
 		client_retry = 0
 	elif pckt.command == CMD_SC_PONG:
@@ -215,13 +221,14 @@ func process_server(pckt, delta):
 func _process(delta):
 	if udp.get_available_packet_count() > 0:
 		var pckt = udp.get_var()
-		if typeof(pckt) == TYPE_DICTIONARY:
+		var err = udp.get_packet_error()
+		if err == OK and typeof(pckt) == TYPE_DICTIONARY:
 			if server:
 				process_server(pckt, delta)
 			else:
 				process_client(pckt, delta)
 		else:
-			print("Invalid Variant received!")
+			print("Invalid packet received: error %s, type %s" % [err, typeof(pckt)])
 
 	if server:
 		for player in clients.keys():
