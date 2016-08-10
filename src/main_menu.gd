@@ -3,6 +3,8 @@ extends Control
 onready var mode_node = get_node("mode")
 onready var multiplayer_node = get_node("multiplayer")
 
+onready var global = get_node("/root/global")
+
 func _ready():
 	set_process_input(true)
 

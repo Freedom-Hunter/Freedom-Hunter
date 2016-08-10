@@ -43,20 +43,13 @@ func move_entity(delta):
 			motion = n.slide(motion)
 			move(motion)
 
-func die(net=true):
+func die():
 	print("die: ", get_name())
 	hp = 0
 	regenerable_hp = 0
-	if networking.multiplayer and net:
-		if networking.server:
-			var pckt = networking.new_packet(networking.CMD_SC_DIE, get_name())
-			networking.server_broadcast(pckt, get_name())
-		else:
-			var pckt = networking.new_packet(networking.CMD_CS_DIE, get_name())
-			networking.udp.put_var(pckt)
 	set_process(false)
 
-func damage(dmg, reg, net=true):
+func damage(dmg, reg):
 	if hp > 0:
 		print("%s: damage of %s" % [get_name(), dmg])
 		time_hit = 0
@@ -64,15 +57,6 @@ func damage(dmg, reg, net=true):
 		regenerable_hp = int(hp + dmg * reg)
 		if hp <= 0:
 			die()
-		if networking.multiplayer and net:
-			var name = get_parent().get_name()
-			var args = {'player': get_name(), 'damage': dmg, 'regenerable': reg}
-			if networking.server:
-				var pckt = networking.new_packet(networking.CMD_SC_DAMAGE, args)
-				networking.server_broadcast(pckt)
-			else:
-				var pckt = networking.new_packet(networking.CMD_CS_DAMAGE, args)
-				networking.udp.put_var(pckt)
 	else:
 		print(get_name(), " is already dead")
 

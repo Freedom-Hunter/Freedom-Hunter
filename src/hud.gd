@@ -1,5 +1,8 @@
 extends Control
 
+onready var global = get_node("/root/global")
+onready var networking = get_node("/root/networking")
+
 onready var life_node = get_node("hp")
 onready var damage_node = get_node("hp/red_hp")
 onready var stamina_node = get_node("stamina")
@@ -23,11 +26,8 @@ func init():
 		string += OS.get_scancode_string(key.scancode) + ","
 	string[-1] = ""
 	get_node("action/key").set_text(string)
-
-	player_connected(global.local_player)
 	update_items()
 
-func _ready():
 	set_fixed_process(true)
 	set_process_input(true)
 
@@ -81,19 +81,19 @@ func new_label(text):
 	label.set_text(text)
 	return label
 
-func player_connected(player):
-	names_node.add_child(new_label(player.get_name()))
-	players_list_node.add_child(new_label(player.get_name()))
+func player_connected(player_name):
+	names_node.add_child(new_label(player_name))
+	players_list_node.add_child(new_label(player_name))
 
-func player_disconnected(player):
-	names_node.get_node(player.get_name()).queue_free()
-	players_list_node.get_node(player.get_name()).queue_free()
+func player_disconnected(player_name):
+	names_node.get_node(player_name).queue_free()
+	players_list_node.get_node(player_name).queue_free()
 
 func update_names():
 	var camera_pos = global.local_player.camera_node.get_global_transform().origin
 	var space_state = get_node("/root/game").get_world().get_direct_space_state()
 	if networking.multiplayer:
-		for player in networking.players.values():
+		for player in networking.get_players():
 				var name = player.get_name()
 				var player_pos = player.get_node("name").get_global_transform().origin
 				var label = names_node.get_node(name)
@@ -101,7 +101,7 @@ func update_names():
 					label.hide()
 				else:
 					# use global coordinates, not local to node
-					var result = space_state.intersect_ray(camera_pos, player_pos, networking.players.values())
+					var result = space_state.intersect_ray(camera_pos, player_pos, networking.get_players())
 					if not result.empty():
 						label.hide()
 					else:

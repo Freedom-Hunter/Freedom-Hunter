@@ -8,6 +8,9 @@ const SPRINT_REGENERATION = 4
 
 var local = true
 
+onready var global = get_node("/root/global")
+onready var networking = get_node("/root/networking")
+
 onready var camera_node = get_node("../yaw/pitch/camera")
 onready var yaw_node = get_node("../yaw")
 
@@ -164,12 +167,12 @@ func _fixed_process(delta):
 
 	if networking.multiplayer and dist.length() > 0.01 and yaw_diff > 0:
 		var name = get_parent().get_name()
-		if networking.server:
-			var pckt = networking.new_packet(networking.CMD_SC_MOVE, {'player': name, 'transform': tf})
-			networking.server_broadcast(pckt)
+		if networking.server != null:
+			var pckt = networking.server.new_packet(networking.server.CMD_SC_MOVE, {'player': name, 'transform': tf})
+			networking.server.broadcast(pckt)
 		else:
-			var pckt = networking.new_packet(networking.CMD_CS_MOVE, {'player': name, 'transform': tf})
-			networking.udp.put_var(pckt)
+			var pckt = networking.client.new_packet(networking.client.CMD_CS_MOVE, {'player': name, 'transform': tf})
+			networking.client.send(pckt)
 
 	var attack = false
 	if Input.is_action_pressed("player_attack_left"):
@@ -184,13 +187,12 @@ func _fixed_process(delta):
 			attack = true
 
 	if networking.multiplayer and attack:
-		var name = get_parent().get_name()
-		if networking.server:
-			var pckt = networking.new_packet(networking.CMD_SC_ATTACK, {'player': name, 'rot': sword_rot})
-			networking.server_broadcast(pckt)
+		if networking.server != null:
+			var pckt = networking.server.new_packet(networking.server.CMD_SC_ATTACK, {'player': get_name(), 'rot': sword_rot})
+			networking.server.broadcast(pckt)
 		else:
-			var pckt = networking.new_packet(networking.CMD_CS_ATTACK, {'player': name, 'rot': sword_rot})
-			networking.udp.put_var(pckt)
+			var pckt = networking.client.new_packet(networking.client.CMD_CS_ATTACK, {'player': get_name(), 'rot': sword_rot})
+			networking.client.send(pckt)
 
 	# Camera follows the player
 	yaw_node.set_translation(get_translation() + Vector3(0, offset, 0))

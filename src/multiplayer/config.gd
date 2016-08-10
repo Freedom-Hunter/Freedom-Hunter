@@ -18,7 +18,7 @@ func _ready():
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel") and not get_node("..").mode_node.is_visible():
-		networking.close()
+		networking.stop()
 		hide()
 		get_node("..").mode_node.show()
 		accept_event()
@@ -58,8 +58,7 @@ func _on_start_pressed():
 	if port.is_valid_integer() and username.length() > 0:
 		print("Listen on port ", port)
 		save_server_config(username, port)
-		var local_player = global.start_game(username, true)
-		networking.server_start(int(port), local_player)
+		networking.server_start(int(port), username)
 		get_parent().queue_free()
 	else:
 		print("La porta %s non è valida!" % port)
@@ -72,6 +71,5 @@ func _on_connect_pressed():
 
 	if port.is_valid_integer() and username.length() > 0:
 		save_client_config(username, port, host)
-		var local_player = global.start_game(username, true)
-		networking.client_start(host, int(port), local_player)
+		networking.client_start(host, int(port), username)
 		get_parent().queue_free()
