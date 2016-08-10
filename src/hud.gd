@@ -71,8 +71,7 @@ func show_interact():
 		else:
 			action_node.show()
 			var action_pos = camera_node.unproject_position(pos)
-			var size = action_node.get_size()
-			action_node.set_pos(action_pos - Vector2(size.x/2, size.y/2))
+			action_node.set_pos(action_pos - (action_node.get_size()/2))
 	else:
 		action_node.hide()
 

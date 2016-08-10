@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=1]
+[gd_scene load_steps=15 format=1]
 
 [ext_resource path="res://src/items/barrel-scene.gd" type="Script" id=1]
 [ext_resource path="res://models/items/big-bomb/barrel.msh" type="Mesh" id=2]
@@ -10,8 +10,12 @@
 
 [sub_resource type="CapsuleShape" id=1]
 
-radius = 0.57618
-height = 0.752264
+radius = 0.6
+height = 0.504477
+
+[sub_resource type="BoxShape" id=7]
+
+extents = Vector3( 0.42, 0.2, 0.42 )
 
 [sub_resource type="FixedMaterial" id=2]
 
@@ -109,7 +113,7 @@ tracks/0/type = "value"
 tracks/0/path = NodePath("particles:emitting")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 1.5 ), "transitions":FloatArray( 1, 1 ), "update":1, "values":[ true, false ] }
+tracks/0/keys = { "times":FloatArray( 0, 1.2 ), "transitions":FloatArray( 1, 1 ), "update":1, "values":[ true, false ] }
 tracks/1/type = "value"
 tracks/1/path = NodePath("light:params/enabled")
 tracks/1/interp = 1
@@ -119,7 +123,7 @@ tracks/2/type = "value"
 tracks/2/path = NodePath("light:params/energy")
 tracks/2/interp = 2
 tracks/2/imported = false
-tracks/2/keys = { "times":FloatArray( 0, 0.2, 1.5 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ 0.0, 1.0, 0.0 ] }
+tracks/2/keys = { "times":FloatArray( 0, 0.2, 1.5 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ 0.0, 5.0, 0.0 ] }
 tracks/3/type = "value"
 tracks/3/path = NodePath("sound:play/play")
 tracks/3/interp = 1
@@ -129,17 +133,20 @@ tracks/4/type = "value"
 tracks/4/path = NodePath("../mesh:geometry/visible")
 tracks/4/interp = 1
 tracks/4/imported = false
-tracks/4/keys = { "times":FloatArray( 0, 1.5 ), "transitions":FloatArray( 1, 1 ), "update":1, "values":[ true, false ] }
+tracks/4/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":1, "values":[ false ] }
 
 [node name="barrel" type="RigidBody" groups=[ "explosive" ]]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = true
 input/capture_on_drag = false
-shape_count = 1
+shape_count = 2
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+shapes/0/transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.0767757, 0 )
 shapes/0/trigger = false
+shapes/1/shape = SubResource( 7 )
+shapes/1/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.58, 0 )
+shapes/1/trigger = false
 collision/layers = 1
 collision/mask = 1
 mode = 0
@@ -184,15 +191,22 @@ material/0 = SubResource( 2 )
 [node name="collision" type="CollisionShape" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.0767757, 0 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
+[node name="base" type="CollisionShape" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.58, 0 )
+shape = SubResource( 7 )
+trigger = false
+_update_shape_index = 1
+
 [node name="explosion" type="Area" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.728027, 0 )
 input/ray_pickable = false
 input/capture_on_drag = false
 shape_count = 1
@@ -294,7 +308,7 @@ phase_0/color = Color( 0.957031, 0.899436, 0.523376, 1 )
 phase_1/pos = 0.4
 phase_1/color = Color( 0.910156, 0.678784, 0.0639954, 1 )
 phase_2/pos = 0.9
-phase_2/color = Color( 0.351562, 0.311973, 0.227966, 1 )
+phase_2/color = Color( 0.352941, 0.313726, 0.235294, 0.784314 )
 phase_3/pos = 1.0
 phase_3/color = Color( 0, 0, 0, 0 )
 
@@ -302,7 +316,7 @@ phase_3/color = Color( 0, 0, 0, 0 )
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 layers = 1
-params/enabled = true
+params/enabled = false
 params/editor_only = false
 params/bake_mode = 0
 params/energy = 0.0
@@ -316,7 +330,7 @@ shadow/esm_multiplier = 60.0
 shadow/blur_passes = 1.0
 projector = null
 operator = 0
-params/radius = 10.0
+params/radius = 20.0
 params/attenuation = 1.0
 
 [node name="animation" type="AnimationPlayer" parent="explosion"]
@@ -333,7 +347,7 @@ autoplay = ""
 [node name="timer" type="Timer" parent="explosion"]
 
 process_mode = 1
-wait_time = 5.0
+wait_time = 20.0
 one_shot = true
 autostart = true
 
