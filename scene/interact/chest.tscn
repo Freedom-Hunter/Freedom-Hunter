@@ -1,16 +1,18 @@
-[gd_scene load_steps=10 format=1]
+[gd_scene load_steps=17 format=1]
 
 [ext_resource path="res://src/interact/chest.gd" type="Script" id=1]
 [ext_resource path="res://models/chest-hinge.msh" type="Mesh" id=2]
 [ext_resource path="res://models/chest-upper.msh" type="Mesh" id=3]
 [ext_resource path="res://models/chest-down.msh" type="Mesh" id=4]
 [ext_resource path="res://sounds/hinge_chest.smp" type="Sample" id=5]
+[ext_resource path="res://media/font/RobotoCondensed-Light.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://media/chest/arrow.png" type="Texture" id=7]
 
 [sub_resource type="BoxShape" id=1]
 
 extents = Vector3( 1, 1, 2 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 
 length = 1.0
 loop = false
@@ -26,7 +28,7 @@ tracks/1/interp = 1
 tracks/1/imported = false
 tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":2, "values":[ "hinge_chest" ] }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=3]
 
 length = 1.0
 loop = false
@@ -42,9 +44,62 @@ tracks/1/interp = 1
 tracks/1/imported = false
 tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":2, "values":[ "hinge_chest" ] }
 
-[sub_resource type="SampleLibrary" id=7]
+[sub_resource type="SampleLibrary" id=4]
 
 samples/hinge_chest = { "db":0.0, "pitch":1.0, "sample":ExtResource( 5 ) }
+
+[sub_resource type="DynamicFont" id=5]
+
+font/size = 15
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 6 )
+
+[sub_resource type="Theme" id=6]
+
+default_font = SubResource( 5 )
+Label/colors/font_color = Color( 1, 1, 1, 1 )
+Label/colors/font_color_shadow = Color( 0.196078, 0.196078, 0.196078, 1 )
+Label/constants/line_spacing = 1
+Label/constants/shadow_as_outline = 1
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/fonts/font = null
+
+[sub_resource type="StyleBoxTexture" id=7]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+texture = ExtResource( 7 )
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+modulate/color = Color( 1, 1, 1, 1 )
+draw_center = true
+
+[sub_resource type="Theme" id=8]
+
+Button/colors/font_color = Color( 0.878431, 0.878431, 0.878431, 1 )
+Button/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
+Button/colors/font_color_hover = Color( 0.941176, 0.941176, 0.941176, 1 )
+Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+Button/constants/hseparation = 2
+Button/fonts/font = null
+Button/styles/disabled = null
+Button/styles/focus = null
+Button/styles/hover = null
+Button/styles/normal = SubResource( 7 )
+Button/styles/pressed = null
+
+[sub_resource type="Theme" id=9]
+
 
 [node name="chest" type="StaticBody" groups=[ "interact" ]]
 
@@ -63,7 +118,6 @@ bounce = 0.0
 constant_linear_velocity = Vector3( 0, 0, 0 )
 constant_angular_velocity = Vector3( 0, 0, 0 )
 script/script = ExtResource( 1 )
-max_items = 100
 
 [node name="Hinge" type="MeshInstance" parent="."]
 
@@ -139,8 +193,8 @@ _import_path = NodePath("AnimationPlayer")
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/close = SubResource( 4 )
-anims/open = SubResource( 5 )
+anims/close = SubResource( 2 )
+anims/open = SubResource( 3 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -164,38 +218,184 @@ params/attenuation/distance_exp = 1.0
 params/emission_cone/degrees = 180.0
 params/emission_cone/attenuation_db = -6.0
 config/polyphony = 1
-config/samples = SubResource( 7 )
+config/samples = SubResource( 4 )
 
 [node name="inventory" type="PopupPanel" parent="."]
 
 visibility/visible = false
+anchor/left = 1
 anchor/right = 1
 anchor/bottom = 1
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 100.0
-margin/top = 100.0
-margin/right = 100.0
-margin/bottom = 100.0
+theme/theme = SubResource( 6 )
+margin/left = 710.0
+margin/top = 190.0
+margin/right = 10.0
+margin/bottom = 190.0
 popup/exclusive = false
 
-[node name="grid" type="GridContainer" parent="inventory"]
+[node name="sort" type="Container" parent="inventory"]
 
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 20.0
+margin/top = 20.0
+margin/right = 680.0
+margin/bottom = 50.0
+
+[node name="Label" type="Label" parent="inventory/sort"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 120.0
+margin/bottom = 30.0
+text = "Sort by:"
+align = 2
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="OptionButton" type="OptionButton" parent="inventory/sort"]
+
+rect/min_size = Vector2( 200, 20 )
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 140.0
+margin/top = 0.0
+margin/right = 520.0
+margin/bottom = 30.0
+toggle_mode = false
+enabled_focus_mode = 0
+shortcut = null
+text = "Name"
+flat = false
+align = 0
+selected = 0
+items = [ "Name", null, false, -1, null, "Quantity", null, false, -1, null, "Rarety", null, false, -1, null ]
+
+[node name="Button" type="Button" parent="inventory/sort"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 540.0
+margin/top = 0.0
+margin/right = 660.0
+margin/bottom = 30.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Sort"
+flat = false
+
+[node name="items" type="GridContainer" parent="inventory"]
+
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 20.0
+margin/top = 70.0
+margin/right = 520.0
+margin/bottom = 130.0
+custom_constants/vseparation = 0
+custom_constants/hseparation = 0
+columns = 10
+
+[node name="player" type="GridContainer" parent="inventory"]
+
+anchor/left = 1
 anchor/right = 1
 anchor/bottom = 1
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 100.0
-margin/top = 100.0
+margin/left = 170.0
+margin/top = 70.0
+margin/right = 20.0
+margin/bottom = 130.0
+custom_constants/vseparation = 0
+custom_constants/hseparation = 0
+columns = 3
+
+[node name="tab" type="Container" parent="inventory"]
+
+anchor/top = 1
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+theme/theme = SubResource( 8 )
+margin/left = 120.0
+margin/top = 70.0
+margin/right = 350.0
+margin/bottom = 20.0
+
+[node name="previous" type="Button" parent="inventory/tab"]
+
+rect/rotation = 180.0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 50.0
+margin/top = 50.0
 margin/right = 100.0
 margin/bottom = 100.0
-custom_constants/vseparation = 10
-custom_constants/hseparation = 10
-columns = 10
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+
+[node name="next" type="Button" parent="inventory/tab"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+theme/theme = SubResource( 9 )
+margin/left = 250.0
+margin/top = 0.0
+margin/right = 300.0
+margin/bottom = 50.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+
+[node name="index" type="Label" parent="inventory/tab"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 70.0
+margin/top = 0.0
+margin/right = 230.0
+margin/bottom = 50.0
+text = "1/1"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [connection signal="finished" from="animation" to="." method="_on_animation_finished"]
 

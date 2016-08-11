@@ -1,27 +1,27 @@
-[gd_scene load_steps=23 format=1]
+[gd_scene load_steps=21 format=1]
 
-[ext_resource path="res://src/hud.gd" type="Script" id=1]
-[ext_resource path="res://media/font/MedievalSharp.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://src/FPS.gd" type="Script" id=3]
-[ext_resource path="res://media/item_slot.tres" type="StyleBox" id=4]
-[ext_resource path="res://media/item bar/quantity.png" type="Texture" id=5]
-[ext_resource path="res://media/item bar/name.png" type="Texture" id=6]
-[ext_resource path="res://sounds/beatbox.wav" type="Sample" id=7]
+[ext_resource path="res://media/font/RobotoCondensed-Light.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://src/hud.gd" type="Script" id=2]
+[ext_resource path="res://media/font/MedievalSharp.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://src/FPS.gd" type="Script" id=4]
+[ext_resource path="res://media/item_slot.tres" type="StyleBox" id=5]
+[ext_resource path="res://media/item bar/quantity.png" type="Texture" id=6]
+[ext_resource path="res://media/item bar/name.png" type="Texture" id=7]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=15]
 
-font/size = 20
+font/size = 16
 font/use_mipmaps = false
 font/use_filter = false
-font/font = ExtResource( 2 )
+font/font = ExtResource( 1 )
 
 [sub_resource type="Theme" id=2]
 
-default_font = SubResource( 1 )
+default_font = SubResource( 15 )
 Label/colors/font_color = Color( 1, 1, 1, 1 )
-Label/colors/font_color_shadow = Color( 0, 0.00363159, 0.00363159, 0 )
-Label/constants/line_spacing = 3
-Label/constants/shadow_as_outline = 0
+Label/colors/font_color_shadow = Color( 0.196078, 0.196078, 0.196078, 1 )
+Label/constants/line_spacing = 0
+Label/constants/shadow_as_outline = 1
 Label/constants/shadow_offset_x = 1
 Label/constants/shadow_offset_y = 1
 Label/fonts/font = null
@@ -31,7 +31,7 @@ Label/fonts/font = null
 font/size = 20
 font/use_mipmaps = false
 font/use_filter = false
-font/font = ExtResource( 2 )
+font/font = ExtResource( 3 )
 
 [sub_resource type="StyleBoxFlat" id=4]
 
@@ -105,38 +105,21 @@ border_size = 0
 border_blend = false
 draw_bg = true
 
-[sub_resource type="DynamicFont" id=10]
-
-font/size = 20
-font/use_mipmaps = false
-font/use_filter = false
-font/font = ExtResource( 2 )
-
-[sub_resource type="Theme" id=11]
-
-Label/colors/font_color = Color( 1, 1, 1, 1 )
-Label/colors/font_color_shadow = Color( 0, 0, 0, 0 )
-Label/constants/line_spacing = 3
-Label/constants/shadow_as_outline = 0
-Label/constants/shadow_offset_x = 1
-Label/constants/shadow_offset_y = 1
-Label/fonts/font = null
-
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=11]
 
 font/size = 24
 font/use_mipmaps = false
 font/use_filter = false
-font/font = ExtResource( 2 )
+font/font = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=13]
+[sub_resource type="DynamicFont" id=12]
 
 font/size = 32
 font/use_mipmaps = false
 font/use_filter = false
-font/font = ExtResource( 2 )
+font/font = ExtResource( 3 )
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=13]
 
 length = 2.0
 loop = false
@@ -157,9 +140,9 @@ tracks/2/interp = 1
 tracks/2/imported = false
 tracks/2/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":2, "values":[ "beatbox" ] }
 
-[sub_resource type="SampleLibrary" id=15]
+[sub_resource type="SampleLibrary" id=14]
 
-samples/beatbox = { "db":0.0, "pitch":1.0, "sample":ExtResource( 7 ) }
+samples/beatbox = { "db":0.0, "pitch":1.0, "sample":null }
 
 [node name="hud" type="Control"]
 
@@ -170,12 +153,12 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-size_flags/stretch_ratio = 2.0
+theme/theme = SubResource( 2 )
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-script/script = ExtResource( 1 )
+script/script = ExtResource( 2 )
 
 [node name="names" type="Control" parent="."]
 
@@ -183,7 +166,6 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-theme/theme = SubResource( 2 )
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
@@ -233,10 +215,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 1
 size_flags/vertical = 0
-margin/left = 20.0
-margin/top = 20.0
-margin/right = 1270.0
-margin/bottom = 35.0
+margin/left = 10.0
+margin/top = 10.0
+margin/right = 1260.0
+margin/bottom = 25.0
 custom_styles/fg = SubResource( 4 )
 custom_styles/bg = SubResource( 5 )
 range/min = 0.0
@@ -278,10 +260,10 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
 size_flags/stretch_ratio = 0.0
-margin/left = 20.0
-margin/top = 45.0
-margin/right = 820.0
-margin/bottom = 55.0
+margin/left = 10.0
+margin/top = 35.0
+margin/right = 810.0
+margin/bottom = 45.0
 custom_styles/fg = SubResource( 8 )
 custom_styles/bg = SubResource( 9 )
 range/min = 0.0
@@ -301,14 +283,16 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 60.0
+margin/left = 71.0
 margin/top = 10.0
 margin/right = 10.0
-margin/bottom = 40.0
+margin/bottom = 30.0
+text = "FPS: 60"
+align = 2
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-script/script = ExtResource( 3 )
+script/script = ExtResource( 4 )
 
 [node name="debug" type="Label" parent="."]
 
@@ -333,7 +317,6 @@ max_lines_visible = -1
 
 [node name="items_bar" type="Container" parent="."]
 
-editor/display_folded = true
 anchor/top = 1
 anchor/bottom = 1
 rect/min_size = Vector2( 380, 160 )
@@ -341,10 +324,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 15.0
-margin/top = 175.0
-margin/right = 395.0
-margin/bottom = 15.0
+margin/left = 10.0
+margin/top = 170.0
+margin/right = 390.0
+margin/bottom = 10.0
 
 [node name="left_2" type="Panel" parent="items_bar"]
 
@@ -358,7 +341,7 @@ margin/left = 0.0
 margin/top = 15.0
 margin/right = 60.0
 margin/bottom = 75.0
-custom_styles/panel = ExtResource( 4 )
+custom_styles/panel = ExtResource( 5 )
 
 [node name="icon" type="TextureFrame" parent="items_bar/left_2"]
 
@@ -387,7 +370,7 @@ margin/left = 65.0
 margin/top = 7.0
 margin/right = 140.0
 margin/bottom = 82.0
-custom_styles/panel = ExtResource( 4 )
+custom_styles/panel = ExtResource( 5 )
 
 [node name="icon" type="TextureFrame" parent="items_bar/left_1"]
 
@@ -415,7 +398,7 @@ margin/left = 145.0
 margin/top = 0.0
 margin/right = 235.0
 margin/bottom = 90.0
-custom_styles/panel = ExtResource( 4 )
+custom_styles/panel = ExtResource( 5 )
 
 [node name="icon" type="TextureFrame" parent="items_bar/use"]
 
@@ -444,7 +427,7 @@ margin/left = 240.0
 margin/top = 7.0
 margin/right = 315.0
 margin/bottom = 82.0
-custom_styles/panel = ExtResource( 4 )
+custom_styles/panel = ExtResource( 5 )
 
 [node name="icon" type="TextureFrame" parent="items_bar/right_1"]
 
@@ -473,7 +456,7 @@ margin/left = 320.0
 margin/top = 15.0
 margin/right = 380.0
 margin/bottom = 75.0
-custom_styles/panel = ExtResource( 4 )
+custom_styles/panel = ExtResource( 5 )
 
 [node name="icon" type="TextureFrame" parent="items_bar/right_2"]
 
@@ -502,7 +485,7 @@ margin/left = 215.0
 margin/top = 75.0
 margin/right = 245.0
 margin/bottom = 105.0
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 expand = true
 stretch_mode = 0
 
@@ -518,9 +501,12 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-custom_fonts/font = SubResource( 10 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
-custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 1
+custom_constants/shadow_as_outline = 1
 text = "10"
 align = 1
 valign = 1
@@ -530,6 +516,7 @@ max_lines_visible = -1
 
 [node name="name" type="TextureFrame" parent="items_bar"]
 
+editor/display_folded = true
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -538,7 +525,7 @@ margin/left = 0.0
 margin/top = 110.0
 margin/right = 380.0
 margin/bottom = 155.0
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 expand = true
 stretch_mode = 0
 
@@ -550,12 +537,17 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-theme/theme = SubResource( 11 )
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
-margin/bottom = 0.0
-custom_fonts/font = SubResource( 12 )
+margin/bottom = -5.0
+custom_fonts/font = SubResource( 11 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/line_spacing = 1
+custom_constants/shadow_offset_y = 1
+custom_constants/shadow_as_outline = 1
 text = "(Nessuna selezione)"
 align = 1
 valign = 1
@@ -566,6 +558,7 @@ max_lines_visible = -1
 [node name="notification" type="Panel" parent="."]
 
 editor/display_folded = true
+visibility/visible = false
 visibility/opacity = 0.0
 anchor/left = 3
 anchor/top = 3
@@ -592,7 +585,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 12 )
 text = "Hai ottenuto: %s"
 align = 1
 valign = 1
@@ -605,7 +598,7 @@ max_lines_visible = -1
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/show = SubResource( 14 )
+anims/show = SubResource( 13 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -614,7 +607,7 @@ autoplay = ""
 [node name="sound" type="SamplePlayer" parent="notification"]
 
 config/polyphony = 1
-config/samples = SubResource( 15 )
+config/samples = SubResource( 14 )
 default/volume_db = 0.0
 default/pitch_scale = 1.0
 default/pan = 0.0
@@ -636,9 +629,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 20.0
+margin/left = 10.0
 margin/top = 200.0
-margin/right = 420.0
+margin/right = 410.0
 margin/bottom = 800.0
 alignment = 0
 
@@ -651,8 +644,9 @@ size_flags/vertical = 0
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 400.0
-margin/bottom = 14.0
+margin/bottom = 20.0
 text = "Lista dei giocatori collegati:"
+valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1

@@ -23,6 +23,7 @@ var sword_rot = 0
 
 var items = []
 var active_item = 0
+var max_items = 30
 
 signal got_item
 signal used_item

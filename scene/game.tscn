@@ -37,11 +37,9 @@ visibility/visible = false
 
 [node name="chest" parent="." instance=ExtResource( 5 )]
 
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1, 0 )
+transform/local = Transform( -3.27835e-08, 0, 0.75, 0, 0.75, 0, -0.75, 0, -3.27835e-08, 0, 0.75, 7 )
 
 [node name="mushroom" parent="." instance=ExtResource( 6 )]
-
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.51131, 0, -1.67858 )
 
 [node name="player_spawn" type="Position3D" parent="."]
 

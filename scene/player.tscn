@@ -88,7 +88,7 @@ config/samples = SubResource( 2 )
 [node name="drop_item" type="Position3D" parent="body"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2 )
 
 [node name="weapon" type="Spatial" parent="body"]
 
@@ -103,7 +103,6 @@ transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.601478, 0.60728, 0 )
 
 editor/display_folded = true
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
 input/ray_pickable = false
 input/capture_on_drag = false
 shape_count = 1

@@ -61,6 +61,7 @@ func update_items():
 			i += 1
 	var item = player.items[player.active_item]
 	get_node("items_bar/quantity/label").set_text(str(item.quantity))
+	item.set_label_color(get_node("items_bar/quantity/label"))
 	get_node("items_bar/name/label").set_text(item.name)
 
 func show_interact():
