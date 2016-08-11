@@ -44,6 +44,7 @@ func _fixed_process(delta):
 	update_values()
 	show_interact()
 	update_names()
+	update_debug()
 
 func update_values():
 	life_node.set_value(global.local_player.hp)
@@ -115,9 +116,16 @@ func update_names():
 		var size = label.get_size()
 		label.set_pos(pos - Vector2(size.x/2, size.y/2))
 
+func update_debug():
+	var pos = global.local_player.get_translation()
+	var out = "POS: %.2f %.2f %.2f" % [pos.x, pos.y, pos.z]
+	if networking.multiplayer and not networking.is_connected():
+		out += "\nClient is not connected!"
+	get_node("debug").set_text(out)
+
 func play_notify(text):
-		get_node("notification/text").set_text(text)
-		get_node("notification/animation").play("show")
+	get_node("notification/text").set_text(text)
+	get_node("notification/animation").play("show")
 
 func _on_animation_finished():
 	if not notify_queue.empty():
