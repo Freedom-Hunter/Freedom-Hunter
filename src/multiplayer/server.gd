@@ -62,7 +62,7 @@ func player_damage(args):
 
 func player_attack(args):
 	if args.player in clients.keys():
-		broadcast(new_packet(CMD_SC_DAMAGE, args), args.player)
+		broadcast(new_packet(CMD_SC_ATTACK, args), args.player)
 		players[args.player].weapon_node.set_rotation_deg(Vector3(args.rot, 0, 0))
 
 func player_die(args):
