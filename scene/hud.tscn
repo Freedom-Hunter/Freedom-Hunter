@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=1]
+[gd_scene load_steps=23 format=1]
 
 [ext_resource path="res://src/hud.gd" type="Script" id=1]
 [ext_resource path="res://media/font/MedievalSharp.ttf" type="DynamicFontData" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://media/item_slot.tres" type="StyleBox" id=4]
 [ext_resource path="res://media/item bar/quantity.png" type="Texture" id=5]
 [ext_resource path="res://media/item bar/name.png" type="Texture" id=6]
+[ext_resource path="res://sounds/beatbox.wav" type="Sample" id=7]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -150,6 +151,15 @@ tracks/1/path = NodePath(".:visibility/opacity")
 tracks/1/interp = 1
 tracks/1/imported = false
 tracks/1/keys = { "times":FloatArray( 1.5, 1.7 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 1.0, 0.0 ] }
+tracks/2/type = "value"
+tracks/2/path = NodePath("sound:play/play")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":2, "values":[ "beatbox" ] }
+
+[sub_resource type="SampleLibrary" id=15]
+
+samples/beatbox = { "db":0.0, "pitch":1.0, "sample":ExtResource( 7 ) }
 
 [node name="hud" type="Control"]
 
@@ -600,6 +610,23 @@ playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
+
+[node name="sound" type="SamplePlayer" parent="notification"]
+
+config/polyphony = 1
+config/samples = SubResource( 15 )
+default/volume_db = 0.0
+default/pitch_scale = 1.0
+default/pan = 0.0
+default/depth = 0.0
+default/height = 0.0
+default/filter/type = 0
+default/filter/cutoff = 5000.0
+default/filter/resonance = 1.0
+default/filter/gain = 1.0
+default/reverb_room = 2
+default/reverb_send = 0.0
+default/chorus_send = 0.0
 
 [node name="players_list" type="VBoxContainer" parent="."]
 
