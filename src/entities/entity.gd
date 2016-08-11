@@ -1,5 +1,8 @@
 extends KinematicBody
 
+onready var global = get_node("/root/global")
+onready var networking = get_node("/root/networking")
+
 var hp = 0
 var max_hp = 0
 var regenerable_hp = 0
@@ -44,7 +47,7 @@ func move_entity(delta):
 			move(motion)
 
 func die():
-	print("die: ", get_name())
+	print("%s died" % get_name())
 	hp = 0
 	regenerable_hp = 0
 	set_process(false)

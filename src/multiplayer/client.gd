@@ -63,9 +63,14 @@ func player_die(args):
 		if players[args].hp > 0:
 			players[args].die(false)
 
-func player_use(args):
+func player_use_item(args):
 	if args.player in players.keys():
 		players[args.player].items[args.item].use()
+
+func player_got_item(args):
+	if args.player in players.keys():
+		var item = dict2inst(args.item)
+		players[args.player].add_item(item)
 
 func player_connected(args):
 	players[args.player] = global.add_player(game_node, args.player, false)
@@ -97,7 +102,9 @@ func handle_packet(pckt, ip, port):
 	elif pckt.command == CMD_SC_DIE:
 		player_die(pckt.args)
 	elif pckt.command == CMD_SC_USE:
-		player_use(pckt.args)
+		player_use_item(pckt.args)
+	elif pckt.command == CMD_SC_GOT:
+		player_got_item(pckt.args)
 	elif pckt.command == CMD_SC_PLAYER_CONNECTED:
 		player_connected(pckt.args)
 	elif pckt.command == CMD_SC_PLAYER_DISCONNECTED:
@@ -106,6 +113,8 @@ func handle_packet(pckt, ip, port):
 		stop()
 		global.stop_game()
 		print("Server shutdown!")
+	else:
+		print("Unknown command %s received" % pckt.command)
 
 func process(delta):
 	.process(delta)
@@ -113,6 +122,7 @@ func process(delta):
 	if OS.get_unix_time() - ping > PING_TIMEOUT:
 		if retry > PING_RETRY:
 			stop()
+			global.stop_game()
 			print("Server didn't reply!")
 		else:
 			send(new_packet(CMD_CS_PING, global.local_player.get_name()))
@@ -125,13 +135,32 @@ func stop():
 		print("Sending disconnect command to server")
 		send(new_packet(CMD_CS_DISCONNECT, global.local_player.get_name()))
 	connected = false
-	emit_signal("disconnected")
 
 func _exit_tree():
 	stop()
 
-func _on_used_item(item):
+func local_player_move(transform):
+	var name = global.local_player.get_name()
+	send(new_packet(CMD_CS_MOVE, {'player': name, 'transform': transform}))
+
+func local_player_attack(rot):
+	var name = global.local_player.get_name()
+	send(new_packet(CMD_CS_ATTACK, {'player': name, 'rot': rot}))
+
+func local_player_died():
+	var name = global.local_player.get_name()
+	send(new_packet(CMD_CS_DIE, name))
+
+func local_player_damage(dmg, reg):
+	var name = global.local_player.get_name()
+	send(new_packet(CMD_CS_DAMAGE, name))
+
+func local_player_used_item(item):
 	var player = global.local_player
 	var item_i = player.items.find(item)
-	var pckt = new_packet(CMD_CS_USE, {'player': player.get_name(), 'item': item_i})
-	udp.put_var(pckt)
+	send(new_packet(CMD_CS_USE, {'player': player.get_name(), 'item': item_i}))
+
+func local_player_got_item(item):
+	var name = global.local_player.get_name()
+	var item_dict = inst2dict(item)
+	send(new_packet(CMD_CS_GOT, {'player': name, 'item': item_dict}))

@@ -8,9 +8,6 @@ const SPRINT_REGENERATION = 4
 
 var local = true
 
-onready var global = get_node("/root/global")
-onready var networking = get_node("/root/networking")
-
 onready var camera_node = get_node("../yaw/pitch/camera")
 onready var yaw_node = get_node("../yaw")
 
@@ -104,12 +101,14 @@ func heal(amount):
 		hp = max_hp
 
 func die(net=true):
-	.die(net)
+	.die()
 	get_node("audio").play("hit")
 	rotate_x(PI/2)
 	set_translation(get_translation() + Vector3(0, 0.5, 0))
 	set_fixed_process(false)
 	set_process_input(false)
+	if net and networking.multiplayer:
+		networking.peer.local_player_died()
 
 func look_where_you_walk(direction, delta):
 	if direction.length() != 0:
@@ -151,7 +150,6 @@ func _fixed_process(delta):
 			velocity.y += JUMP
 	direction = direction.normalized()
 
-
 	look_where_you_walk(direction, delta)
 
 	velocity.x = direction.x * speed
@@ -165,14 +163,8 @@ func _fixed_process(delta):
 	var dist = tf.origin - ti.origin
 	var yaw_diff = abs(atan2(dist.x, dist.z))
 
-	if networking.multiplayer and dist.length() > 0.01 and yaw_diff > 0:
-		var name = get_parent().get_name()
-		if networking.server != null:
-			var pckt = networking.server.new_packet(networking.server.CMD_SC_MOVE, {'player': name, 'transform': tf})
-			networking.server.broadcast(pckt)
-		else:
-			var pckt = networking.client.new_packet(networking.client.CMD_CS_MOVE, {'player': name, 'transform': tf})
-			networking.client.send(pckt)
+	if dist.length() > 0.01 and yaw_diff > 0 and networking.multiplayer:
+		networking.peer.local_player_move(tf)
 
 	var attack = false
 	if Input.is_action_pressed("player_attack_left"):
@@ -186,13 +178,8 @@ func _fixed_process(delta):
 			weapon_node.set_rotation_deg(Vector3(sword_rot, 0, 0))
 			attack = true
 
-	if networking.multiplayer and attack:
-		if networking.server != null:
-			var pckt = networking.server.new_packet(networking.server.CMD_SC_ATTACK, {'player': get_name(), 'rot': sword_rot})
-			networking.server.broadcast(pckt)
-		else:
-			var pckt = networking.client.new_packet(networking.client.CMD_CS_ATTACK, {'player': get_name(), 'rot': sword_rot})
-			networking.client.send(pckt)
+	if attack and networking.multiplayer:
+		networking.peer.local_player_attack(sword_rot)
 
 	# Camera follows the player
 	yaw_node.set_translation(get_translation() + Vector3(0, offset, 0))
