@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=1]
+[gd_scene load_steps=22 format=1]
 
 [ext_resource path="res://media/font/RobotoCondensed-Light.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/hud.gd" type="Script" id=2]
@@ -7,8 +7,9 @@
 [ext_resource path="res://media/item_slot.tres" type="StyleBox" id=5]
 [ext_resource path="res://media/item bar/quantity.png" type="Texture" id=6]
 [ext_resource path="res://media/item bar/name.png" type="Texture" id=7]
+[ext_resource path="res://sounds/beatbox.wav" type="Sample" id=8]
 
-[sub_resource type="DynamicFont" id=15]
+[sub_resource type="DynamicFont" id=1]
 
 font/size = 16
 font/use_mipmaps = false
@@ -17,7 +18,7 @@ font/font = ExtResource( 1 )
 
 [sub_resource type="Theme" id=2]
 
-default_font = SubResource( 15 )
+default_font = SubResource( 1 )
 Label/colors/font_color = Color( 1, 1, 1, 1 )
 Label/colors/font_color_shadow = Color( 0.196078, 0.196078, 0.196078, 1 )
 Label/constants/line_spacing = 0
@@ -105,21 +106,21 @@ border_size = 0
 border_blend = false
 draw_bg = true
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=10]
 
 font/size = 24
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=11]
 
 font/size = 32
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 3 )
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=12]
 
 length = 2.0
 loop = false
@@ -140,9 +141,9 @@ tracks/2/interp = 1
 tracks/2/imported = false
 tracks/2/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":2, "values":[ "beatbox" ] }
 
-[sub_resource type="SampleLibrary" id=14]
+[sub_resource type="SampleLibrary" id=13]
 
-samples/beatbox = { "db":0.0, "pitch":1.0, "sample":null }
+samples/beatbox = { "db":0.0, "pitch":1.0, "sample":ExtResource( 8 ) }
 
 [node name="hud" type="Control"]
 
@@ -317,6 +318,7 @@ max_lines_visible = -1
 
 [node name="items_bar" type="Container" parent="."]
 
+editor/display_folded = true
 anchor/top = 1
 anchor/bottom = 1
 rect/min_size = Vector2( 380, 160 )
@@ -541,7 +543,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = -5.0
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 10 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 1
@@ -558,7 +560,6 @@ max_lines_visible = -1
 [node name="notification" type="Panel" parent="."]
 
 editor/display_folded = true
-visibility/visible = false
 visibility/opacity = 0.0
 anchor/left = 3
 anchor/top = 3
@@ -585,7 +586,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 11 )
 text = "Hai ottenuto: %s"
 align = 1
 valign = 1
@@ -598,7 +599,7 @@ max_lines_visible = -1
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/show = SubResource( 13 )
+anims/show = SubResource( 12 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -607,7 +608,7 @@ autoplay = ""
 [node name="sound" type="SamplePlayer" parent="notification"]
 
 config/polyphony = 1
-config/samples = SubResource( 14 )
+config/samples = SubResource( 13 )
 default/volume_db = 0.0
 default/pitch_scale = 1.0
 default/pan = 0.0
