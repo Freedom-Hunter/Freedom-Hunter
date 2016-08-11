@@ -1,5 +1,7 @@
 extends Area
 
+onready var global = get_node("/root/global")
+
 var Potion = preload("res://src/items/potion.gd")
 var Firework = preload("res://src/items/firework.gd")
 var Barrel = preload("res://src/items/barrel.gd")
@@ -21,6 +23,8 @@ func _init():
 		rarity += i.rarity
 
 func interact(player):
+	if player == global.local_player and get_node("../hud/notification/animation").is_playing():
+		return
 	var rand = randi() % rarity
 	var last = 0
 	for i in obtainable:
