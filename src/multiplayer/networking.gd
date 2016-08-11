@@ -35,7 +35,8 @@ func _process(delta):
 		peer.process(delta)
 
 func stop():
-	peer.stop()
+	if peer != null:
+		peer.stop()
 	peer = null
 	multiplayer = false
 	set_process(false)

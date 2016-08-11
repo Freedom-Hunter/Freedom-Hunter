@@ -153,7 +153,7 @@ func local_player_died():
 
 func local_player_damage(dmg, reg):
 	var name = global.local_player.get_name()
-	send(new_packet(CMD_CS_DAMAGE, name))
+	send(new_packet(CMD_CS_DAMAGE, {'damage': dmg, 'regenerable': reg}))
 
 func local_player_used_item(item):
 	var player = global.local_player
