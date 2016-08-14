@@ -6,6 +6,11 @@ var player_scn = preload("res://scene/player.tscn")
 
 var local_player = null
 
+func add_monster(game, scene):
+	var monster = scene.instance()
+	game.get_node("monster_spawn").add_child(monster)
+	monster.init()
+
 func add_player(game, name, local):
 	var player = player_scn.instance()
 	player.set_name(name)
@@ -23,6 +28,7 @@ func remove_player(game, name):
 func start_game(local_player_name):
 	var game = preload("res://scene/game.tscn").instance()
 	get_node("/root/").add_child(game)
+	add_monster(game, load("res://scene/monsters/dragon.tscn"))
 	if local_player_name != null:
 		local_player = add_player(game, local_player_name, true)
 		game.get_node("hud").init()

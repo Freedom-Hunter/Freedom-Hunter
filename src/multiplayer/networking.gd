@@ -12,21 +12,26 @@ onready var global = get_node("/root/global")
 func _ready():
 	set_pause_mode(PAUSE_MODE_PROCESS)
 
+func is_server():
+	if multiplayer:
+		return (peer extends Server)
+	return false
+
 func server_start(port, username=null):
+	multiplayer = true
 	peer = Server.new()
 	peer.global = global
 	var game = global.start_game(username)
 	peer.start(game, port)
-	multiplayer = true
 	set_process(true)
 	return peer
 
 func client_start(ip, port, username=null):
+	multiplayer = true
 	peer = Client.new()
 	peer.global = global
 	var game = global.start_game(username)
 	peer.start(game, ip, port)
-	multiplayer = true
 	set_process(true)
 	return peer
 

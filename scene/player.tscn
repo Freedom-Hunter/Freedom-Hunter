@@ -24,7 +24,7 @@ radius = 3.0
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
-[node name="body" type="KinematicBody" parent="."]
+[node name="body" type="KinematicBody" parent="." groups=[ "player" ]]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = true

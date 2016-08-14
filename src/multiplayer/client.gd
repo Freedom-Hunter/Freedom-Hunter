@@ -50,6 +50,13 @@ func player_move(args):
 	if args.player in players.keys():
 		players[args.player].set_global_transform(args.transform)
 
+func monster_move(args):
+	if args.monster in monsters.keys():
+		monsters[args.monster].set_global_transform(args.transform)
+
+func monster_attack(args):
+	if args.monster in monsters.keys():
+		monsters[args.monster].get_node("animation").play("attack")
 func player_damage(args):
 	if args.player in players.keys():
 		players[args.player].damage(args.damage, args.regenerable, false)
@@ -109,6 +116,10 @@ func handle_packet(pckt, ip, port):
 		player_connected(pckt.args)
 	elif pckt.command == CMD_SC_PLAYER_DISCONNECTED:
 		player_disconnected(pckt.args)
+	elif pckt.command == CMD_SC_M_MOVE:
+		monster_move(pckt.args)
+	elif pckt.command == CMD_SC_M_ATTACK:
+		monster_attack(pckt.args)
 	elif pckt.command == CMD_SC_DOWN:
 		stop()
 		global.stop_game()

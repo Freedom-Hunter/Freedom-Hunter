@@ -40,7 +40,7 @@ func player_connect(player_name, ip, port):
 		players[player_name] = player
 		var args = {'player': player_name, 'transform': player.get_global_transform()}
 		broadcast(new_packet(CMD_SC_PLAYER_CONNECTED, args), player_name)
-		send_to_player(new_packet(CMD_SC_CONNECT_ACCEPT, clients.keys()), player_name)
+		send_to_player(new_packet(CMD_SC_CONNECT_ACCEPT, players.keys()), player_name)
 		print('Player "%s" connected' % player_name)
 
 func player_disconnect(player_name):
@@ -95,6 +95,10 @@ func handle_packet(pckt, ip, port):
 	print("Received %s from %s:%s" % [pckt, ip, port])
 	if pckt.command == CMD_CS_CONNECT:
 		player_connect(pckt.args, ip, port)
+	elif pckt.command == CMD_CS_PING:
+		ping(pckt.args)
+	elif pckt.command == CMD_CS_PONG:
+		pong(pckt.args)
 	elif pckt.command == CMD_CS_MOVE:
 		player_move(pckt.args)
 	elif pckt.command == CMD_CS_DAMAGE:
@@ -109,10 +113,6 @@ func handle_packet(pckt, ip, port):
 		player_got_item(pckt.args)
 	elif pckt.command == CMD_CS_DISCONNECT:
 		player_disconnect(pckt.args)
-	elif pckt.command == CMD_CS_PING:
-		ping(pckt.args)
-	elif pckt.command == CMD_CS_PONG:
-		pong(pckt.args)
 	else:
 		print("Unknown command %s received" % pckt.command)
 
@@ -123,6 +123,7 @@ func stop():
 		broadcast(new_packet(CMD_SC_DOWN))
 	clients = {}
 	players = {}
+	monsters = {}
 
 func process(delta):
 	.process(delta)
@@ -146,6 +147,13 @@ func local_player_move(transform):
 func local_player_attack(rot):
 	var name = global.local_player.get_name()
 	broadcast(new_packet(CMD_SC_ATTACK, {'player': name, 'rot': rot}))
+
+func local_monster_move(name, transform):
+	broadcast(new_packet(CMD_SC_M_MOVE, {'monster': name, 'transform': transform}))
+
+func local_monster_attack(name):
+	broadcast(new_packet(CMD_SC_M_ATTACK, {'monster': name}))
+
 
 func local_player_died():
 	var name = global.local_player.get_name()

@@ -53,8 +53,8 @@ func _ready():
 		set_process_input(true)
 
 func sort_by_distance(a, b):
-	var dist_a = (get_translation() - a.get_translation()).length()
-	var dist_b = (get_translation() - b.get_translation()).length()
+	var dist_a = (get_global_transform().origin - a.get_global_transform().origin).length()
+	var dist_b = (get_global_transform().origin - b.get_global_transform().origin).length()
 	return dist_a < dist_b
 
 func get_interact():
@@ -111,18 +111,12 @@ func die(net=true):
 	if net and networking.multiplayer:
 		networking.peer.local_player_died()
 
-func look_where_you_walk(direction, delta):
-	if direction.length() != 0:
-		var target = Vector3(direction.x, 0, direction.z).normalized()
-		target = -(get_transform().basis.z).linear_interpolate(target, delta * 15)
-		target += get_global_transform().origin
-		look_at(target, Vector3(0, 1, 0))
-
 func get_name():  # this script is attached to a node always called body
 	return get_parent().get_name()  # parent's name is more meaningful
 
 func _fixed_process(delta):
-	var direction = Vector3(0, 0, 0)
+	direction = Vector3(0, 0, 0)
+	var jump = 0
 	var camera = camera_node.get_global_transform()
 
 	# Player movements
@@ -145,27 +139,22 @@ func _fixed_process(delta):
 			if stamina > max_stamina:
 				stamina = max_stamina
 	if Input.is_action_pressed("player_jump") and on_floor:
+		jumping = true
 		if run:
-			velocity.y += SPRINT_SPEED
+			jump = SPRINT_SPEED
+			stamina -= 3
 		else:
-			velocity.y += JUMP
+			jump = JUMP
 	direction = direction.normalized()
 
-	look_where_you_walk(direction, delta)
+	look_ahead(delta)
 
-	velocity.x = direction.x * speed
-	velocity.z = direction.z * speed
-	velocity.y += global.gravity * delta
+	direction.x = direction.x * speed
+	direction.y = jump
+	direction.z = direction.z * speed
 
 	# Player collision and physics
-	var ti = get_global_transform()
 	move_entity(delta)
-	var tf = get_global_transform()
-	var dist = tf.origin - ti.origin
-	var yaw_diff = abs(atan2(dist.x, dist.z))
-
-	if dist.length() > 0.01 and yaw_diff > 0 and networking.multiplayer:
-		networking.peer.local_player_move(tf)
 
 	var attack = false
 	if Input.is_action_pressed("player_attack_left"):

@@ -24,14 +24,18 @@ const CMD_SC_ATTACK = 113
 const CMD_SC_DIE = 114
 const CMD_SC_USE = 115
 const CMD_SC_GOT = 116
+const CMD_SC_M_MOVE = 125
+const CMD_SC_M_ATTACK = 126
 const CMD_SC_PING = 150
 const CMD_SC_PONG = 151
 const CMD_SC_DOWN = 200
 
 var udp
 var players
+var monsters
 var game_node
 var spawn_node
+var monster_spawn_node
 var global
 
 var player_scn = preload("res://scene/player.tscn")
@@ -49,9 +53,13 @@ func start(game):
 	udp = PacketPeerUDP.new()
 	game_node = game
 	spawn_node = game.get_node("player_spawn")
+	monster_spawn_node = game.get_node("monster_spawn")
 	players = {}
+	monsters = {}
 	for player in spawn_node.get_children():
 		players[player.get_name()] = player.get_node("body")
+	for monster in monster_spawn_node.get_children():
+		monsters[monster.get_name()] = monster
 	if global.local_player != null:
 		global.local_player.connect("used_item", self, "local_player_used_item")
 		global.local_player.connect("got_item", self, "local_player_got_item")
