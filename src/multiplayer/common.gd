@@ -1,34 +1,40 @@
 extends Node
 
 #Client to Server
+	# System comands
 const CMD_CS_CONNECT = 0
-const CMD_CS_MOVE = 1
-const CMD_CS_DAMAGE = 2
-const CMD_CS_ATTACK = 3
-const CMD_CS_DIE = 4
-const CMD_CS_USE = 5
-const CMD_CS_GOT = 6
-const CMD_CS_PING = 50
-const CMD_CS_PONG = 51
-const CMD_CS_DISCONNECT = 99
+const CMD_CS_DISCONNECT = 10
+const CMD_CS_PING = 98
+const CMD_CS_PONG = 99
+	# Game comands
+const CMD_CS_MOVE = 100
+const CMD_CS_DAMAGE = 120
+const CMD_CS_L_ATTACK = 130
+const CMD_CS_R_ATTACK = 140
+const CMD_CS_DIE = 150
+const CMD_CS_USE = 160
+const CMD_CS_GOT = 170
 
 #Server to Client
-const CMD_SC_PLAYER_CONNECTED = 100
-const CMD_SC_CONNECT_ACCEPT = 101
-const CMD_SC_USERNAME_IN_USE = 102
-const CMD_SC_MAX_clients = 103
-const CMD_SC_PLAYER_DISCONNECTED = 110
-const CMD_SC_MOVE = 111
-const CMD_SC_DAMAGE = 112
-const CMD_SC_ATTACK = 113
-const CMD_SC_DIE = 114
-const CMD_SC_USE = 115
-const CMD_SC_GOT = 116
-const CMD_SC_M_MOVE = 125
-const CMD_SC_M_ATTACK = 126
-const CMD_SC_PING = 150
-const CMD_SC_PONG = 151
-const CMD_SC_DOWN = 200
+	# System comands
+const CMD_SC_PLAYER_CONNECTED = 0
+const CMD_SC_CONNECT_ACCEPT = 1
+const CMD_SC_USERNAME_IN_USE = 2
+const CMD_SC_MAX_PLAYERS = 3
+const CMD_SC_PLAYER_DISCONNECTED = 10
+const CMD_SC_DOWN = 97
+const CMD_SC_PING = 98
+const CMD_SC_PONG = 99
+	# Game comands
+const CMD_SC_MOVE = 100
+const CMD_SC_DAMAGE = 120
+const CMD_SC_L_ATTACK = 130
+const CMD_SC_R_ATTACK = 140
+const CMD_SC_DIE = 150
+const CMD_SC_USE = 160
+const CMD_SC_GOT = 170
+const CMD_SC_M_MOVE = 500
+const CMD_SC_M_ATTACK = 500
 
 var udp
 var players

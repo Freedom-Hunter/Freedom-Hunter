@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=1]
+[gd_scene load_steps=12 format=1]
 
 [ext_resource path="res://src/entities/player.gd" type="Script" id=1]
 [ext_resource path="res://models/player.msh" type="Mesh" id=2]
@@ -19,6 +19,30 @@ samples/potion_drink = { "db":0.0, "pitch":1.0, "sample":ExtResource( 4 ) }
 [sub_resource type="SphereShape" id=3]
 
 radius = 3.0
+
+[sub_resource type="Animation" id=4]
+
+resource/name = "left_attack_0"
+length = 1.2
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("weapon/sword:transform/rotation")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 0.5, 1 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Vector3( 0, 0, 0 ), Vector3( 90, 0, 0 ), Vector3( 0, 0, 0 ) ] }
+
+[sub_resource type="Animation" id=5]
+
+resource/name = "right_attack_0"
+length = 1.7
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("weapon/sword:transform/rotation")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 0.5, 1, 1.5 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":0, "values":[ Vector3( 0, 0, 0 ), Vector3( 90, 0, 45 ), Vector3( 90, 0, -45 ), Vector3( 0, 0, 0 ) ] }
 
 [node name="player" type="Spatial"]
 
@@ -92,7 +116,6 @@ transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2 )
 
 [node name="weapon" type="Spatial" parent="body"]
 
-editor/display_folded = true
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
 [node name="sword" parent="body/weapon" instance=ExtResource( 5 )]
@@ -133,6 +156,18 @@ _update_shape_index = 0
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+
+[node name="animation" type="AnimationPlayer" parent="body"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/left_attack_0 = SubResource( 4 )
+anims/right_attack_0 = SubResource( 5 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
 
 [node name="yaw" type="Spatial" parent="."]
 

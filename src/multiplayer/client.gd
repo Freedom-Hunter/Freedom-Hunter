@@ -57,13 +57,18 @@ func monster_move(args):
 func monster_attack(args):
 	if args.monster in monsters.keys():
 		monsters[args.monster].get_node("animation").play("attack")
+
 func player_damage(args):
 	if args.player in players.keys():
 		players[args.player].damage(args.damage, args.regenerable, false)
 
-func player_attack(args):
+func player_left_attack(args):
 	if args.player in players.keys():
-		players[args.player].weapon_node.set_rotation_deg(Vector3(args.rot, 0, 0))
+		players[args.player].animation.play("left_attack_0")
+
+func player_right_attack(args):
+	if args.player in players.keys():
+		players[args.player].animation.play("right_attack_0")
 
 func player_die(args):
 	if args in players.keys():
@@ -104,8 +109,10 @@ func handle_packet(pckt, ip, port):
 		player_move(pckt.args)
 	elif pckt.command == CMD_SC_DAMAGE:
 		player_damage(pckt.args)
-	elif pckt.command == CMD_SC_ATTACK:
-		player_attack(pckt.args)
+	elif pckt.command == CMD_SC_L_ATTACK:
+		player_left_attack(pckt.args)
+	elif pckt.command == CMD_SC_R_ATTACK:
+		player_right_attack(pckt.args)
 	elif pckt.command == CMD_SC_DIE:
 		player_die(pckt.args)
 	elif pckt.command == CMD_SC_USE:
@@ -154,9 +161,13 @@ func local_player_move(transform):
 	var name = global.local_player.get_name()
 	send(new_packet(CMD_CS_MOVE, {'player': name, 'transform': transform}))
 
-func local_player_attack(rot):
+func local_player_left_attack():
 	var name = global.local_player.get_name()
-	send(new_packet(CMD_CS_ATTACK, {'player': name, 'rot': rot}))
+	send(new_packet(CMD_SC_L_ATTACK, {'player': name}))
+
+func local_player_right_attack():
+	var name = global.local_player.get_name()
+	send(new_packet(CMD_SC_R_ATTACK, {'player': name}))
 
 func local_player_died():
 	var name = global.local_player.get_name()

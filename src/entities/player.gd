@@ -1,25 +1,24 @@
 extends "entity.gd"
 
-var SPEED = 5
-var JUMP = 5
-var SPRINT_SPEED = 7.5
-const SPRINT_USE = 5
-const SPRINT_REGENERATION = 4
-
-var local = true
 
 onready var camera_node = get_node("../yaw/pitch/camera")
 onready var yaw_node = get_node("../yaw")
-
 onready var weapon_node = get_node("weapon/sword")
-
 onready var audio_node = get_node("audio")
 onready var interact_node = get_node("interact")
-
+onready var animation = get_node("animation")
 onready var offset = yaw_node.get_translation().y
 
-# Player attack
-var sword_rot = 0
+
+const SPRINT_USE = 5
+const SPRINT_REGENERATION = 4
+
+var SPEED = 5
+var JUMP = 5
+var SPRINT_SPEED = 7.5
+
+#multiplayer
+var local = true
 
 var items = []
 var active_item = 0
@@ -156,23 +155,22 @@ func _fixed_process(delta):
 	# Player collision and physics
 	move_entity(delta)
 
-	var attack = false
 	if Input.is_action_pressed("player_attack_left"):
-		if sword_rot < 87.5:
-			sword_rot = fmod(sword_rot + delta*100, 90)
-			weapon_node.set_rotation_deg(Vector3(sword_rot, 0, 0))
-			attack = true
+		if not animation.is_playing():
+			animation.play("left_attack_0")
+			if networking.multiplayer:
+				networking.peer.local_player_left_attack()
 	if Input.is_action_pressed("player_attack_right"):
-		if sword_rot > 2.5:
-			sword_rot = fmod(sword_rot - delta*100, 90)
-			weapon_node.set_rotation_deg(Vector3(sword_rot, 0, 0))
-			attack = true
-
-	if attack and networking.multiplayer:
-		networking.peer.local_player_attack(sword_rot)
+		if not animation.is_playing():
+			animation.play("right_attack_0")
+			if networking.multiplayer:
+				networking.peer.local_player_right_attack()
 
 	# Camera follows the player
 	yaw_node.set_translation(get_translation() + Vector3(0, offset, 0))
+
+#func get_sword_damage():
+
 
 func _on_sword_body_enter(body):
 	if body != self and body extends preload("res://src/entities/entity.gd"):
