@@ -144,9 +144,6 @@ func process(delta):
 				client.ping = OS.get_unix_time()
 				client.retry += 1
 
-func _exit_tree():
-	stop()
-
 func local_player_move(transform):
 	var name = global.local_player.get_name()
 	broadcast(new_packet(CMD_SC_MOVE, {'player': name, 'transform': transform}))
@@ -164,7 +161,6 @@ func local_monster_move(name, transform):
 
 func local_monster_attack(name):
 	broadcast(new_packet(CMD_SC_M_ATTACK, {'monster': name}))
-
 
 func local_player_died():
 	var name = global.local_player.get_name()

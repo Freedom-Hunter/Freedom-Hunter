@@ -128,7 +128,6 @@ func handle_packet(pckt, ip, port):
 	elif pckt.command == CMD_SC_M_ATTACK:
 		monster_attack(pckt.args)
 	elif pckt.command == CMD_SC_DOWN:
-		stop()
 		global.stop_game()
 		print("Server shutdown!")
 	else:
@@ -139,7 +138,6 @@ func process(delta):
 
 	if OS.get_unix_time() - ping > PING_TIMEOUT:
 		if retry > PING_RETRY:
-			stop()
 			global.stop_game()
 			print("Server didn't reply!")
 		else:
@@ -153,9 +151,6 @@ func stop():
 		print("Sending disconnect command to server")
 		send(new_packet(CMD_CS_DISCONNECT, global.local_player.get_name()))
 	connected = false
-
-func _exit_tree():
-	stop()
 
 func local_player_move(transform):
 	var name = global.local_player.get_name()

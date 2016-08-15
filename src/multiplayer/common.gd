@@ -1,5 +1,3 @@
-extends Node
-
 #Client to Server
 	# System comands
 const CMD_CS_CONNECT = 0
