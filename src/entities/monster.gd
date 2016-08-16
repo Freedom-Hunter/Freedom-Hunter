@@ -1,25 +1,41 @@
 extends "entity.gd"
 
 onready var view_node = get_node("view")
+onready var animation = get_node("animation")
+
+export (int, FLAGS, "Fire", "Water", "Ice", "Thunder", "Dragon", \
+"Poison", "Paralysis") var weakness_type = 0
+export var weakness_effect = Array()  # Float value from 0 to 1
+export var hardness = IntArray()
 
 const SPEED = 5
 
 var yaw = 0
 var target_yaw = 0
 
-# @override from entity.gd
-func die():
-	set_fixed_process(false)
-	rotate_z(PI/2)
+var weakness = {}
 
 func init():
 	hp = 500
 	if networking.is_server() or not networking.multiplayer:
 		set_fixed_process(true)
 
+	# It builds a dictionary with the name of the weapon's elements as key
+	# and as a value taken from the power of the element
+	var j = 0
+	for i in range(global.ELEMENTS.size()):
+		if int(pow(2, i)) & weakness_type:
+			weakness[global.ELEMENTS[i]] = weakness_effect[j]
+			j += 1
+
+# @override from entity.gd
+func die():
+	set_fixed_process(false)
+	rotate_z(PI/2)
+
 func attack():
-	if not get_node("animation").is_playing():
-		get_node("animation").play("attack")
+	if not animation.is_playing():
+		animation.play("attack")
 		if networking.is_server():
 			networking.peer.local_monster_attack(get_name())
 

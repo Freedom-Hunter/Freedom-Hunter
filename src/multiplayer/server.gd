@@ -63,12 +63,12 @@ func player_damage(args):
 func player_left_attack(args):
 	if args.player in clients.keys():
 		broadcast(new_packet(CMD_SC_L_ATTACK, args), args.player)
-		players[args.player].animation.play("left_attack_0")
+		players[args.player].weapon_animation.play("left_attack_0")
 
 func player_right_attack(args):
 	if args.player in clients.keys():
 		broadcast(new_packet(CMD_SC_R_ATTACK, args), args.player)
-		players[args.player].animation.play("right_attack_0")
+		players[args.player].weapon_animation.play("right_attack_0")
 
 func player_die(args):
 	if args in clients.keys():

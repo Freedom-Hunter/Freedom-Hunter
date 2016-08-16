@@ -56,7 +56,7 @@ func monster_move(args):
 
 func monster_attack(args):
 	if args.monster in monsters.keys():
-		monsters[args.monster].get_node("animation").play("attack")
+		monsters[args.monster].animation.play("attack")
 
 func player_damage(args):
 	if args.player in players.keys():
@@ -64,11 +64,11 @@ func player_damage(args):
 
 func player_left_attack(args):
 	if args.player in players.keys():
-		players[args.player].animation.play("left_attack_0")
+		players[args.player].weapon_animation.play("left_attack_0")
 
 func player_right_attack(args):
 	if args.player in players.keys():
-		players[args.player].animation.play("right_attack_0")
+		players[args.player].weapon_animation.play("right_attack_0")
 
 func player_die(args):
 	if args in players.keys():

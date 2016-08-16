@@ -14,11 +14,11 @@ extents = Vector3( 3.14567, 1.23119, 1.56026 )
 
 samples/dragon = { "db":0.0, "pitch":1.0, "sample":ExtResource( 4 ) }
 
-[sub_resource type="SphereShape" id=5]
+[sub_resource type="SphereShape" id=3]
 
 radius = 20.0
 
-[sub_resource type="FixedMaterial" id=3]
+[sub_resource type="FixedMaterial" id=4]
 
 flags/visible = true
 flags/double_sided = false
@@ -56,7 +56,7 @@ textures/glow_tc = 0
 textures/normal_tc = 0
 textures/shade_param_tc = 0
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
 
 length = 5.0
 loop = false
@@ -89,6 +89,8 @@ collide_with/rigid = true
 collide_with/character = true
 collision/margin = 0.001
 script/script = ExtResource( 1 )
+weakness_type = 2
+weakness_effect = [ 0.75 ]
 
 [node name="mesh" type="MeshInstance" parent="."]
 
@@ -140,7 +142,7 @@ transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25136, 0 )
 input/ray_pickable = false
 input/capture_on_drag = false
 shape_count = 1
-shapes/0/shape = SubResource( 5 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 shapes/0/trigger = false
 space_override = 0
@@ -159,7 +161,7 @@ collision/mask = 1
 [node name="radius" type="CollisionShape" parent="view"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-shape = SubResource( 5 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
@@ -181,7 +183,7 @@ geometry/depth_scale = false
 geometry/visible_in_all_rooms = false
 geometry/use_baked_light = false
 geometry/baked_light_tex_id = 0
-material = SubResource( 3 )
+material = SubResource( 4 )
 amount = 64
 emitting = false
 visibility = AABB( -4, -4, -4, 8, 8, 8 )
@@ -235,7 +237,7 @@ phase_3/color = Color( 0, 0, 0, 0 )
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/attack = SubResource( 4 )
+anims/attack = SubResource( 5 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
