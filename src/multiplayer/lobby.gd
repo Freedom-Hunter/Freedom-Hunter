@@ -33,18 +33,19 @@ func update_servers_list():
 		if child.get_name().split('|').size() > 1:
 			child.queue_free()
 
-	for server in servers:
-		for field in fields:
-			var l = Label.new()
-			l.set_name(str(field, '|', server.id))
-			l.set_text(str(server[field]))
-			lobby_grid.add_child(l)
-		var connect_btn = Button.new()
-		connect_btn.set_text("Connect")
-		connect_btn.set_name(str("connect|", server.id))
-		connect_btn.set_disabled(disable)
-		lobby_grid.add_child(connect_btn)
-		connect_btn.connect("pressed", self, "_on_lobby_connect_pressed", [connect_btn])
+	if typeof(servers) == TYPE_ARRAY:
+		for server in servers:
+			for field in fields:
+				var l = Label.new()
+				l.set_name(str(field, '|', server.id))
+				l.set_text(str(server[field]))
+				lobby_grid.add_child(l)
+			var connect_btn = Button.new()
+			connect_btn.set_text("Connect")
+			connect_btn.set_name(str("connect|", server.id))
+			connect_btn.set_disabled(disable)
+			lobby_grid.add_child(connect_btn)
+			connect_btn.connect("pressed", self, "_on_lobby_connect_pressed", [connect_btn])
 	server_start.set_disabled(disable)
 	client_connect.set_disabled(disable)
 
