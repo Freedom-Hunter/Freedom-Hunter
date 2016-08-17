@@ -26,7 +26,7 @@ func broadcast(pckt, except=null):
 			send_to_player(pckt, player)
 
 func player_connect(player_name, ip, port):
-	if player_name in clients.keys():
+	if player_name in players.keys():
 		send(new_packet(CMD_SC_USERNAME_IN_USE), ip, port)
 		print('Refused connection from %s:%s because "%s" is in use' % [ip, port, player_name])
 	else:
@@ -88,13 +88,15 @@ func player_got_item(args):
 		players[args.player].add_item(item)
 
 func ping(args):
-	send_to_player(new_packet(CMD_SC_PONG, args), args)
-	clients[args].ping = OS.get_unix_time()
-	clients[args].retry = 0
+	if args in clients.keys():
+		send_to_player(new_packet(CMD_SC_PONG, args), args)
+		clients[args].ping = OS.get_unix_time()
+		clients[args].retry = 0
 
 func pong(args):
-	clients[args].ping = OS.get_unix_time()
-	clients[args].retry = 0
+	if args in clients.keys():
+		clients[args].ping = OS.get_unix_time()
+		clients[args].retry = 0
 
 func handle_packet(pckt, ip, port):
 	print("Received %s from %s:%s" % [pckt, ip, port])

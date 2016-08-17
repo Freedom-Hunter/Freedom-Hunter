@@ -23,6 +23,8 @@ var on_floor = false
 
 var jumping = false
 
+var interpolation_factor = 15  # how fast we interpolate rotations
+
 # Multiplayer
 var ti
 var tf
@@ -47,6 +49,7 @@ func move_entity(delta, gravity=true):
 		velocity.y += direction.y
 	velocity.z = direction.z
 
+	look_ahead(delta)
 	var motion = move(velocity * delta)
 	on_floor = false
 
@@ -89,7 +92,7 @@ func move_entity(delta, gravity=true):
 func look_ahead(delta):
 	if direction.length() != 0:
 		var target = Vector3(direction.x, 0, direction.z).normalized()
-		target = -(get_transform().basis.z).linear_interpolate(target, delta * 15)
+		target = -(get_transform().basis.z).linear_interpolate(target, delta * interpolation_factor)
 		target += get_global_transform().origin
 		look_at(target, Vector3(0, 1, 0))
 

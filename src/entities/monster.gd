@@ -10,13 +10,11 @@ export var hardness = IntArray()
 
 const SPEED = 5
 
-var yaw = 0
-var target_yaw = 0
-
 var weakness = {}
 
 func init():
 	hp = 500
+	interpolation_factor = 1
 	if networking.is_server() or not networking.multiplayer:
 		set_fixed_process(true)
 
@@ -65,23 +63,6 @@ func _fixed_process(delta):
 			if distance_from_player.length() > 7.5:
 				direction = distance_from_player.normalized() * SPEED
 			else:
+				direction = distance_from_player.normalized() * 0.01
 				attack()
-			target_yaw = atan2(distance_from_player.x, distance_from_player.z)
-			if target_yaw < 0:
-				target_yaw += 2 * PI
-
-	var cw
-	var ccw
-	if yaw < target_yaw:
-		ccw = target_yaw - yaw
-		cw = 2*PI - target_yaw + yaw
-	else:
-		ccw = 2*PI - yaw + target_yaw
-		cw = yaw - target_yaw
-	if cw < ccw:
-		yaw -= cw * delta
-	else:
-		yaw += ccw * delta
-
-	set_rotation(Vector3(0, yaw, 0))
 	move_entity(delta)

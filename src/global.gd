@@ -37,9 +37,9 @@ func start_game(local_player_name):
 	return game
 
 func stop_game():
-	local_player = null
 	get_node("/root/game").queue_free()
 	get_node("/root/networking").stop()
+	local_player = null
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_tree().set_pause(false)
 	get_tree().change_scene("res://scene/main_menu.tscn")

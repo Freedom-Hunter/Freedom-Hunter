@@ -145,8 +145,6 @@ func _fixed_process(delta):
 			jump = JUMP
 	direction = direction.normalized()
 
-	look_ahead(delta)
-
 	direction.x = direction.x * speed
 	direction.y = jump
 	direction.z = direction.z * speed

@@ -44,10 +44,16 @@ func show_inventory(node, items, max_items):
 	for child in node.get_children():
 		child.queue_free()
 	for i in range(max_items):
+		var slot
 		if i < items.size():
-			Slot.new(node, items[i])
+			slot = Slot.new(items[i])
 		else:
-			Slot.new(node)
+			slot = Slot.new()
+		node.add_child(slot)
+		slot.button.connect("pressed", self, "_on_inventory_slot_pressed", [slot])
+
+func _on_inventory_slot_pressed(slot):
+	print("Hai premuto su %s" % slot.item.name)
 
 func _on_animation_finished():
 	if player != null:
@@ -58,26 +64,24 @@ func _on_animation_finished():
 func _on_inventory_modal_close():
 	close()
 
-class Slot extends Control:
+class Slot extends Panel:
 	var item  = null
 	var icon  = null
-	var panel = Panel.new()
+	var button = TextureButton.new()
 	var label = Label.new()
 
-	func _init(parent, item = null):
+	func _init(item = null):
 		self.item = item
-		self.panel.set_custom_minimum_size(ITEM_SIZE)
-		var button = TextureButton.new()
-		if self.item != null:
-			self.icon = item.icon.get_data().resized(ITEM_SIZE.x, ITEM_SIZE.y, Image.INTERPOLATE_CUBIC)
+		set_custom_minimum_size(ITEM_SIZE)
+		if item != null:
+			icon = item.icon.get_data().resized(ITEM_SIZE.x, ITEM_SIZE.y, Image.INTERPOLATE_CUBIC)
 			var tex = ImageTexture.new()
-			tex.create_from_image(self.icon)
+			tex.create_from_image(icon)
 			button.set_normal_texture(tex)
-			self.label.set_text(str(item.quantity))
-			item.set_label_color(self.label)
-			self.panel.set_theme(preload("res://media/chest/slot_full.tres"))
+			label.set_text(str(item.quantity))
+			item.set_label_color(label)
+			set_theme(preload("res://media/chest/slot_full.tres"))
 		else:
-			self.panel.set_theme(preload("res://media/chest/slot_empty.tres"))
-		self.panel.add_child(button)
-		self.panel.add_child(self.label)
-		parent.add_child(self.panel)
+			set_theme(preload("res://media/chest/slot_empty.tres"))
+		add_child(button)
+		add_child(label)

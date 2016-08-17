@@ -32,7 +32,7 @@ const CMD_SC_DIE = 150
 const CMD_SC_USE = 160
 const CMD_SC_GOT = 170
 const CMD_SC_M_MOVE = 500
-const CMD_SC_M_ATTACK = 500
+const CMD_SC_M_ATTACK = 501
 
 var udp
 var players

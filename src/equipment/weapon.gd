@@ -38,7 +38,7 @@ func get_weapon_damage(monster):
 	return damage
 
 func _on_sword_body_enter(body):
-	if body != global.local_player and body extends preload("res://src/entities/entity.gd"):
+	if global.local_player != null and body != global.local_player and body extends preload("res://src/entities/entity.gd"):
 		if global.local_player.weapon_animation.is_playing():
 			body.damage(get_weapon_damage(body), 0.0)
 			hit()

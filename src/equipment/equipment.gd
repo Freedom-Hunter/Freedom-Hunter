@@ -6,6 +6,7 @@ export (int, FLAGS, "Fire", "Water", "Ice", "Thunder", "Dragon", \
 export var elements_effect = IntArray()
 
 var elements = {}
+onready var global = get_node("/root/global")
 
 func _ready():
 	# It builds a dictionary with the name of the weapon's elements as key
