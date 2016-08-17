@@ -83,8 +83,9 @@ func handle_packet(pckt, ip, port):
 
 func process(delta):
 	var ret = get_available_packet()
-	if ret != null:
+	while ret != null:
 		handle_packet(ret.pckt, ret.ip, ret.port)
+		ret = get_available_packet()
 
 func stop():
 	if udp.is_listening():
