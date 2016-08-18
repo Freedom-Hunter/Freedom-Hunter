@@ -12,13 +12,11 @@ func _ready():
 	for i in range(sharpening_type.size()):
 		if sharpening[i] > 0:
 			sharpening_node.play(sharpening_type[i])
-			print(sharpening_type[i])
 			return
 	sharpening_node.play("red")
 
 func hit():
 	var anim = sharpening_node.get_current_animation()
-	print(sharpening)
 	for i in range(sharpening_type.size()):
 		if sharpening[i] > 0:
 			sharpening[i] -= 1

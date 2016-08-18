@@ -13,5 +13,5 @@ func _init():
 	firework.init(self, preload("res://media/items/firework.png"), "Firework", 1)
 	barrel.init(self, preload("res://media/items/barrel.png"), "Barrel", 1)
 	obtainable = [barrel, firework, potion]
-	quantity = rand_range(2, 10)
+	quantity = 3
 	.init()

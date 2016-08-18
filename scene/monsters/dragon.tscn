@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=1]
+[gd_scene load_steps=13 format=1]
 
 [ext_resource path="res://src/entities/monster.gd" type="Script" id=1]
 [ext_resource path="res://models/monster/dragon.msh" type="Mesh" id=2]
@@ -8,7 +8,7 @@
 
 [sub_resource type="BoxShape" id=1]
 
-extents = Vector3( 3.14567, 1.23119, 1.56026 )
+extents = Vector3( 3.1, 1.2, 1.6 )
 
 [sub_resource type="SampleLibrary" id=2]
 
@@ -18,7 +18,11 @@ samples/dragon = { "db":0.0, "pitch":1.0, "sample":ExtResource( 4 ) }
 
 radius = 20.0
 
-[sub_resource type="FixedMaterial" id=4]
+[sub_resource type="BoxShape" id=8]
+
+extents = Vector3( 3.6, 1.7, 2.1 )
+
+[sub_resource type="FixedMaterial" id=5]
 
 flags/visible = true
 flags/double_sided = false
@@ -56,7 +60,7 @@ textures/glow_tc = 0
 textures/normal_tc = 0
 textures/shade_param_tc = 0
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=6]
 
 length = 5.0
 loop = false
@@ -72,6 +76,13 @@ tracks/1/interp = 1
 tracks/1/imported = false
 tracks/1/keys = { "times":FloatArray( 0, 3.5 ), "transitions":FloatArray( 1, 1 ), "update":2, "values":[ "dragon", "" ] }
 
+[sub_resource type="Animation" id=7]
+
+resource/name = "dissolve"
+length = 1.0
+loop = false
+step = 0.1
+
 [node name="dragon" type="KinematicBody"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -79,7 +90,7 @@ input/ray_pickable = true
 input/capture_on_drag = false
 shape_count = 1
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25136, 0 )
+shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
 shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
@@ -91,6 +102,7 @@ collision/margin = 0.001
 script/script = ExtResource( 1 )
 weakness_type = 2
 weakness_effect = [ 0.75 ]
+hardness = IntArray(  )
 
 [node name="mesh" type="MeshInstance" parent="."]
 
@@ -116,7 +128,7 @@ material/0 = ExtResource( 3 )
 [node name="collision" type="CollisionShape" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25136, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
@@ -165,6 +177,36 @@ shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
+[node name="interact" type="Area" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+input/ray_pickable = false
+input/capture_on_drag = false
+shape_count = 1
+shapes/0/shape = SubResource( 8 )
+shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
+shapes/0/trigger = false
+space_override = 0
+gravity_point = false
+gravity_distance_scale = 0.0
+gravity_vec = Vector3( 0, -1, 0 )
+gravity = 9.8
+linear_damp = 0.1
+angular_damp = 1.0
+priority = 0.0
+monitoring = true
+monitorable = true
+collision/layers = 1
+collision/mask = 1
+
+[node name="radius" type="CollisionShape" parent="interact"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
+shape = SubResource( 8 )
+trigger = false
+_update_shape_index = 0
+
 [node name="fire" type="Particles" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -183,7 +225,7 @@ geometry/depth_scale = false
 geometry/visible_in_all_rooms = false
 geometry/use_baked_light = false
 geometry/baked_light_tex_id = 0
-material = SubResource( 4 )
+material = SubResource( 5 )
 amount = 64
 emitting = false
 visibility = AABB( -4, -4, -4, 8, 8, 8 )
@@ -237,7 +279,8 @@ phase_3/color = Color( 0, 0, 0, 0 )
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/attack = SubResource( 5 )
+anims/attack = SubResource( 6 )
+anims/dissolve = SubResource( 7 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]

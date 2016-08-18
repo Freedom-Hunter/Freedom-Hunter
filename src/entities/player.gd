@@ -56,8 +56,7 @@ func sort_by_distance(a, b):
 	return dist_a < dist_b
 
 func get_interact():
-	var interacts = interact_node.get_overlapping_bodies()
-	interacts += interact_node.get_overlapping_areas()
+	var interacts = interact_node.get_overlapping_areas()
 	for i in interacts:
 		if not i.is_in_group("interact"):
 			interacts.erase(i)
@@ -79,12 +78,13 @@ func _input(event):
 		if active_item != 0 and items[active_item].quantity <= 0:
 			items.remove(active_item)
 			active_item = (active_item + 1) % items.size()
-	elif event.is_action_pressed("player_interact"):
-		var interact = get_interact()
-		if interact != null:
-			interact.interact(self)
+	elif Input.is_action_pressed("player_interact"):
+		if not get_node("../../../hud/notification/animation").is_playing():
+			var interact = get_interact()
+			if interact != null:
+				interact.get_node("..").interact(self)
 
-func add_item(item):
+func add_item(item, emit_signal=true):
 	var found = false
 	for e in items:
 		if e.name == item.name:
@@ -92,7 +92,8 @@ func add_item(item):
 			found = true
 	if not found:
 		items.append(item)
-	emit_signal("got_item", item)
+	if emit_signal:
+		emit_signal("got_item", item)
 
 func heal(amount):
 	hp += amount

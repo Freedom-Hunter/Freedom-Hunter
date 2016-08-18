@@ -2,6 +2,7 @@ extends "entity.gd"
 
 onready var view_node = get_node("view")
 onready var animation = get_node("animation")
+onready var interact_node = get_node("interact")
 
 export (int, FLAGS, "Fire", "Water", "Ice", "Thunder", "Dragon", \
 "Poison", "Paralysis") var weakness_type = 0
@@ -30,6 +31,9 @@ func init():
 func die():
 	set_fixed_process(false)
 	rotate_z(PI/2)
+	get_node("fire").hide()
+	interact_node.add_to_group("interact")
+	set_script(preload("res://src/interact/monster drop.gd"))
 
 func attack():
 	if not animation.is_playing():

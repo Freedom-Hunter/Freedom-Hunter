@@ -40,9 +40,9 @@ tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 0.5, 1, 1.5 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":0, "values":[ Vector3( 0, 0, 0 ), Vector3( 90, 0, 45 ), Vector3( 90, 0, -45 ), Vector3( 0, 0, 0 ) ] }
 
-[sub_resource type="SphereShape" id=5]
+[sub_resource type="BoxShape" id=5]
 
-radius = 3.0
+extents = Vector3( 1, 1, 0.5 )
 
 [node name="player" type="Spatial"]
 
@@ -138,13 +138,12 @@ autoplay = ""
 
 [node name="interact" type="Area" parent="body"]
 
-editor/display_folded = true
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = false
 input/capture_on_drag = false
 shape_count = 1
 shapes/0/shape = SubResource( 5 )
-shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5 )
 shapes/0/trigger = false
 space_override = 0
 gravity_point = false
@@ -159,9 +158,10 @@ monitorable = true
 collision/layers = 1
 collision/mask = 1
 
-[node name="radius" type="CollisionShape" parent="body/interact"]
+[node name="shape" type="CollisionShape" parent="body/interact"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5 )
 shape = SubResource( 5 )
 trigger = false
 _update_shape_index = 0

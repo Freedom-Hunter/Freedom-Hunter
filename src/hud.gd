@@ -67,7 +67,7 @@ func update_items():
 func show_interact():
 	var interact = global.local_player.get_interact()
 	if interact != null:
-		var pos = interact.get_translation() + Vector3(0, 1, 0)
+		var pos = interact.get_global_transform().origin + Vector3(0, 1, 0)
 		if camera_node.is_position_behind(pos):
 			action_node.hide()
 		else:

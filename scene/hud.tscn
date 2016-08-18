@@ -107,7 +107,7 @@ border_size = 0
 border_blend = false
 draw_bg = true
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=10]
 
 resource/name = "blue"
 length = 2.0
@@ -119,7 +119,7 @@ tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 1, 2 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 1 ), Color( 0.182877, 0.386181, 0.996094, 1 ), Color( 1, 1, 1, 1 ) ] }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=11]
 
 resource/name = "green"
 length = 2.0
@@ -131,7 +131,7 @@ tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 1, 2 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 1 ), Color( 0.34375, 1, 0.343765, 1 ), Color( 1, 1, 1, 1 ) ] }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=12]
 
 resource/name = "orange"
 length = 1.6
@@ -143,7 +143,7 @@ tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 0.8, 1.6 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 1 ), Color( 1, 0.534884, 0.242188, 1 ), Color( 1, 1, 1, 1 ) ] }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=13]
 
 resource/name = "purple"
 length = 2.0
@@ -155,7 +155,7 @@ tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0.1, 1, 2 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 1 ), Color( 0.501961, 0.235294, 1, 1 ), Color( 1, 1, 1, 1 ) ] }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=14]
 
 resource/name = "red"
 length = 1.4
@@ -167,7 +167,7 @@ tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 0.7, 1.4 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 1 ), Color( 1, 0.392157, 0.392157, 1 ), Color( 1, 1, 1, 1 ) ] }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=15]
 
 resource/name = "white"
 length = 2.0
@@ -179,7 +179,7 @@ tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 1, 2 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 1 ), Color( 0.417969, 0.417969, 0.417969, 1 ), Color( 1, 1, 1, 1 ) ] }
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=16]
 
 resource/name = "yellow"
 length = 1.8
@@ -191,21 +191,21 @@ tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 0.9, 1.8 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 1 ), Color( 1, 1, 0, 1 ), Color( 1, 1, 1, 1 ) ] }
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=17]
 
 font/size = 24
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=18]
 
 font/size = 32
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 4 )
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=19]
 
 length = 2.0
 loop = false
@@ -226,7 +226,7 @@ tracks/2/interp = 1
 tracks/2/imported = false
 tracks/2/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":2, "values":[ "beatbox" ] }
 
-[sub_resource type="SampleLibrary" id=13]
+[sub_resource type="SampleLibrary" id=20]
 
 samples/beatbox = { "db":0.0, "pitch":1.0, "sample":ExtResource( 9 ) }
 
@@ -404,6 +404,7 @@ percent/visible = false
 
 [node name="sharpening" type="Container" parent="."]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -434,13 +435,13 @@ stretch_mode = 0
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/blue = SubResource( 14 )
-anims/green = SubResource( 15 )
-anims/orange = SubResource( 16 )
-anims/purple = SubResource( 17 )
-anims/red = SubResource( 18 )
-anims/white = SubResource( 19 )
-anims/yellow = SubResource( 20 )
+anims/blue = SubResource( 10 )
+anims/green = SubResource( 11 )
+anims/orange = SubResource( 12 )
+anims/purple = SubResource( 13 )
+anims/red = SubResource( 14 )
+anims/white = SubResource( 15 )
+anims/yellow = SubResource( 16 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -673,7 +674,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = -5.0
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 1
@@ -716,7 +717,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 18 )
 text = "Hai ottenuto: %s"
 align = 1
 valign = 1
@@ -729,7 +730,7 @@ max_lines_visible = -1
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/show = SubResource( 12 )
+anims/show = SubResource( 19 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -738,7 +739,7 @@ autoplay = ""
 [node name="sound" type="SamplePlayer" parent="notification"]
 
 config/polyphony = 1
-config/samples = SubResource( 13 )
+config/samples = SubResource( 20 )
 default/volume_db = 0.0
 default/pitch_scale = 1.0
 default/pan = 0.0
