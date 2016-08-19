@@ -10,6 +10,7 @@ var server
 
 
 func _init():
+	OS.set_iterations_per_second(10)
 	global.set_name("global")
 	networking.set_name("networking")
 	get_root().add_child(global)

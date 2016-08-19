@@ -25,7 +25,7 @@ func unpause():
 	get_tree().set_pause(false)
 
 func _on_quit_pressed():
-	get_tree().quit()
+	global.exit_clean()
 
 func _on_return_pressed():
 	unpause()

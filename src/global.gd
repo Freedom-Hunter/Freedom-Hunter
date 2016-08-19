@@ -43,3 +43,18 @@ func stop_game():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_tree().set_pause(false)
 	get_tree().change_scene("res://scene/main_menu.tscn")
+
+func exit_clean():
+	var networking = get_node("/root/networking")
+	networking.stop()
+	if networking.lobby.player_id != null:
+		networking.lobby.unregister_player()
+		yield(networking.lobby.http, "request_completed")
+	if networking.lobby.server_id != null:
+		networking.lobby.unregister_server()
+		yield(networking.lobby.http, "request_completed")
+	get_tree().quit()
+
+func _notification(what):
+	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+		exit_clean()

@@ -10,7 +10,7 @@ func _ready():
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel") and mode_node.is_visible():
-		get_tree().quit()
+		global.exit_clean()
 
 func _on_singleplayer_pressed():
 	global.start_game("Player")

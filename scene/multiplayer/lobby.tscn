@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://media/main_menu/main_menu.thm" type="Theme" id=1]
-[ext_resource path="res://src/multiplayer/lobby.gd" type="Script" id=2]
+[ext_resource path="res://src/multiplayer/lobby-ui.gd" type="Script" id=2]
 
 [node name="multiplayer" type="Control"]
 
@@ -41,7 +41,7 @@ size_flags/vertical = 2
 margin/left = 7.0
 margin/top = 7.0
 margin/right = 593.0
-margin/bottom = 108.0
+margin/bottom = 118.0
 custom_constants/separation = 15
 alignment = 0
 
@@ -54,7 +54,7 @@ size_flags/vertical = 0
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 586.0
-margin/bottom = 38.0
+margin/bottom = 43.0
 text = "Freedom Hunter Multiplayer Lobby"
 align = 1
 percent_visible = 1.0
@@ -68,9 +68,9 @@ focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = 0.0
-margin/top = 53.0
+margin/top = 58.0
 margin/right = 586.0
-margin/bottom = 101.0
+margin/bottom = 111.0
 custom_constants/separation = 15
 alignment = 0
 
@@ -82,8 +82,8 @@ size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = 0.0
 margin/top = 5.0
-margin/right = 156.0
-margin/bottom = 43.0
+margin/right = 128.0
+margin/bottom = 48.0
 text = "Username:"
 align = 2
 valign = 1
@@ -98,10 +98,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 3
 size_flags/vertical = 2
-margin/left = 171.0
+margin/left = 143.0
 margin/top = 0.0
 margin/right = 586.0
-margin/bottom = 48.0
+margin/bottom = 53.0
 placeholder/text = "Enter player\'s name"
 placeholder/alpha = 0.6
 focus_mode = 2
@@ -110,6 +110,7 @@ caret/caret_blink_speed = 0.65
 
 [node name="direct" type="PanelContainer" parent="."]
 
+editor/display_folded = true
 visibility/self_opacity = 0.6
 focus/ignore_mouse = false
 focus/stop_mouse = false
@@ -118,7 +119,7 @@ size_flags/vertical = 2
 margin/left = 1325.0
 margin/top = 150.0
 margin/right = 1803.0
-margin/bottom = 754.0
+margin/bottom = 850.0
 
 [node name="vbox" type="VBoxContainer" parent="direct"]
 
@@ -129,7 +130,7 @@ size_flags/vertical = 2
 margin/left = 7.0
 margin/top = 7.0
 margin/right = 471.0
-margin/bottom = 597.0
+margin/bottom = 693.0
 custom_constants/separation = 10
 alignment = 0
 
@@ -142,7 +143,7 @@ size_flags/vertical = 0
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 464.0
-margin/bottom = 38.0
+margin/bottom = 43.0
 text = "Direct Connection"
 align = 1
 percent_visible = 1.0
@@ -156,9 +157,9 @@ focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 48.0
+margin/top = 53.0
 margin/right = 464.0
-margin/bottom = 310.0
+margin/bottom = 312.0
 custom_constants/separation = 20
 alignment = 0
 
@@ -171,7 +172,7 @@ size_flags/vertical = 0
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 464.0
-margin/bottom = 38.0
+margin/bottom = 43.0
 text = "Client"
 align = 1
 percent_visible = 1.0
@@ -180,15 +181,14 @@ max_lines_visible = -1
 
 [node name="input" type="GridContainer" parent="direct/vbox/client"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 58.0
+margin/top = 63.0
 margin/right = 464.0
-margin/bottom = 164.0
+margin/bottom = 159.0
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
 columns = 2
@@ -200,8 +200,8 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = 0.0
-margin/top = 5.0
-margin/right = 154.0
+margin/top = 0.0
+margin/right = 120.0
 margin/bottom = 43.0
 text = "Host: "
 align = 2
@@ -216,10 +216,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 164.0
+margin/left = 130.0
 margin/top = 0.0
-margin/right = 464.0
-margin/bottom = 48.0
+margin/right = 430.0
+margin/bottom = 43.0
 placeholder/text = "IP address or hostname"
 placeholder/alpha = 0.6
 focus_mode = 2
@@ -233,9 +233,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = 0.0
-margin/top = 63.0
-margin/right = 154.0
-margin/bottom = 101.0
+margin/top = 53.0
+margin/right = 120.0
+margin/bottom = 96.0
 text = "UDP port: "
 align = 2
 percent_visible = 1.0
@@ -249,10 +249,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 164.0
-margin/top = 58.0
-margin/right = 464.0
-margin/bottom = 106.0
+margin/left = 130.0
+margin/top = 53.0
+margin/right = 430.0
+margin/bottom = 96.0
 text = "30500"
 placeholder/text = "UDP port"
 placeholder/alpha = 0.6
@@ -263,14 +263,15 @@ caret/caret_blink_speed = 0.65
 
 [node name="connect" type="Button" parent="direct/vbox/client"]
 
+rect/min_size = Vector2( 0, 80 )
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 184.0
+margin/top = 179.0
 margin/right = 464.0
-margin/bottom = 262.0
+margin/bottom = 259.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -284,9 +285,9 @@ focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 320.0
+margin/top = 322.0
 margin/right = 464.0
-margin/bottom = 590.0
+margin/bottom = 623.0
 custom_constants/separation = 20
 alignment = 0
 
@@ -299,7 +300,7 @@ size_flags/vertical = 0
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 464.0
-margin/bottom = 38.0
+margin/bottom = 43.0
 text = "Server"
 align = 1
 percent_visible = 1.0
@@ -308,18 +309,49 @@ max_lines_visible = -1
 
 [node name="input" type="GridContainer" parent="direct/vbox/server"]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 58.0
+margin/top = 63.0
 margin/right = 464.0
-margin/bottom = 106.0
+margin/bottom = 159.0
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
 columns = 2
+
+[node name="host-label" type="Label" parent="direct/vbox/server/input"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 120.0
+margin/bottom = 43.0
+text = "Host:"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="host" type="LineEdit" parent="direct/vbox/server/input"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 130.0
+margin/top = 0.0
+margin/right = 430.0
+margin/bottom = 43.0
+placeholder/text = "External address"
+placeholder/alpha = 0.6
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
 
 [node name="port-label" type="Label" parent="direct/vbox/server/input"]
 
@@ -328,9 +360,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = 0.0
-margin/top = 5.0
-margin/right = 154.0
-margin/bottom = 43.0
+margin/top = 53.0
+margin/right = 120.0
+margin/bottom = 96.0
 text = "UDP port: "
 align = 2
 percent_visible = 1.0
@@ -344,10 +376,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 164.0
-margin/top = 0.0
-margin/right = 464.0
-margin/bottom = 48.0
+margin/left = 130.0
+margin/top = 53.0
+margin/right = 430.0
+margin/bottom = 96.0
 text = "30500"
 placeholder/text = "UDP port"
 placeholder/alpha = 0.6
@@ -362,10 +394,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 0
 size_flags/vertical = 2
-margin/left = 123.0
-margin/top = 126.0
-margin/right = 340.0
-margin/bottom = 172.0
+margin/left = 162.0
+margin/top = 179.0
+margin/right = 302.0
+margin/bottom = 201.0
 toggle_mode = true
 is_pressed = true
 enabled_focus_mode = 2
@@ -376,14 +408,15 @@ align = 0
 
 [node name="start" type="Button" parent="direct/vbox/server"]
 
+rect/min_size = Vector2( 0, 80 )
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 192.0
+margin/top = 221.0
 margin/right = 464.0
-margin/bottom = 270.0
+margin/bottom = 301.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -402,11 +435,17 @@ size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 277.5
 margin/right = 1216.0
-margin/bottom = -322.5
+margin/bottom = -422.5
 
-[node name="grid" type="GridContainer" parent="lobby"]
+[node name="refresh" type="Timer" parent="lobby"]
 
-editor/display_folded = true
+process_mode = 1
+wait_time = 10.0
+one_shot = false
+autostart = false
+
+[node name="scroll" type="ScrollContainer" parent="lobby"]
+
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -414,93 +453,139 @@ size_flags/vertical = 2
 margin/left = 7.0
 margin/top = 7.0
 margin/right = 1209.0
-margin/bottom = 593.0
+margin/bottom = 693.0
+scroll/horizontal = true
+scroll/vertical = true
+
+[node name="grid" type="GridContainer" parent="lobby/scroll"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 759.0
+margin/bottom = 80.0
+custom_constants/vseparation = 20
+custom_constants/hseparation = 50
 columns = 5
 
-[node name="hostname" type="Label" parent="lobby/grid"]
+[node name="hostname" type="Label" parent="lobby/scroll/grid"]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = 0.0
-margin/top = 0.0
-margin/right = 144.0
-margin/bottom = 38.0
+margin/top = 18.0
+margin/right = 125.0
+margin/bottom = 61.0
 text = "Hostname"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="port" type="Label" parent="lobby/grid"]
+[node name="port" type="Label" parent="lobby/scroll/grid"]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 154.0
-margin/top = 0.0
-margin/right = 220.0
-margin/bottom = 38.0
+margin/left = 175.0
+margin/top = 18.0
+margin/right = 225.0
+margin/bottom = 61.0
 text = "Port"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="players" type="Label" parent="lobby/grid"]
+[node name="players" type="Label" parent="lobby/scroll/grid"]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 230.0
-margin/top = 0.0
-margin/right = 342.0
-margin/bottom = 38.0
+margin/left = 275.0
+margin/top = 18.0
+margin/right = 364.0
+margin/bottom = 61.0
 text = "Players"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="max_players" type="Label" parent="lobby/grid"]
+[node name="max_players" type="Label" parent="lobby/scroll/grid"]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 352.0
-margin/top = 0.0
-margin/right = 529.0
-margin/bottom = 38.0
+margin/left = 414.0
+margin/top = 18.0
+margin/right = 559.0
+margin/bottom = 61.0
 text = "Max players"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="space" type="Control" parent="lobby/grid"]
+[node name="refresh" type="Button" parent="lobby/scroll/grid"]
 
-focus/ignore_mouse = true
+rect/min_size = Vector2( 150, 80 )
+focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 539.0
-margin/top = 19.0
-margin/right = 539.0
-margin/bottom = 19.0
+size_flags/vertical = 2
+margin/left = 609.0
+margin/top = 0.0
+margin/right = 759.0
+margin/bottom = 80.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Refresh"
+flat = false
 
-[node name="refresh" type="Timer" parent="lobby"]
+[node name="back" type="Button" parent="."]
 
-process_mode = 1
-wait_time = 2.0
-one_shot = false
-autostart = true
+rect/min_size = Vector2( 100, 80 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 72.0
+margin/bottom = 78.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Back"
+flat = false
 
 [connection signal="text_changed" from="header/vbox/input/username" to="." method="_on_username_text_changed"]
 
+[connection signal="text_changed" from="direct/vbox/client/input/host" to="." method="client_validate_input"]
+
+[connection signal="text_changed" from="direct/vbox/client/input/port" to="." method="client_validate_input"]
+
 [connection signal="pressed" from="direct/vbox/client/connect" to="." method="_on_connect_pressed"]
+
+[connection signal="text_changed" from="direct/vbox/server/input/host" to="." method="server_validate_input"]
+
+[connection signal="text_changed" from="direct/vbox/server/input/port" to="." method="server_validate_input"]
+
+[connection signal="toggled" from="direct/vbox/server/announce" to="." method="server_validate_input"]
 
 [connection signal="pressed" from="direct/vbox/server/start" to="." method="_on_start_pressed"]
 
-[connection signal="timeout" from="lobby/refresh" to="." method="update_servers_list"]
+[connection signal="timeout" from="lobby/refresh" to="." method="request_servers_list"]
+
+[connection signal="pressed" from="lobby/scroll/grid/refresh" to="." method="request_servers_list"]
+
+[connection signal="pressed" from="back" to="." method="hide"]
 
 
