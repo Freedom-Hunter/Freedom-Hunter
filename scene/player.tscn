@@ -42,7 +42,7 @@ tracks/0/keys = { "times":FloatArray( 0, 0.5, 1, 1.5 ), "transitions":FloatArray
 
 [sub_resource type="BoxShape" id=5]
 
-extents = Vector3( 1, 1, 0.5 )
+extents = Vector3( 0.672363, 1, 0.10089 )
 
 [node name="player" type="Spatial"]
 

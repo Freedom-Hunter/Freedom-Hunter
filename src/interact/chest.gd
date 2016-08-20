@@ -2,7 +2,6 @@ extends StaticBody
 
 onready var inventory = get_node("inventory")
 onready var chest_items = inventory.get_node("items")
-onready var player_items = inventory.get_node("player")
 
 var max_items = 100
 var items = []
@@ -58,8 +57,8 @@ func _on_inventory_slot_pressed(slot):
 func _on_animation_finished():
 	if player != null:
 		show_inventory(chest_items, items, max_items)
-		show_inventory(player_items, player.items, player.max_items)
 		inventory.show_modal()
+		get_node("/root/game/hud").show_inventory()
 
 func _on_inventory_modal_close():
 	close()
@@ -80,8 +79,8 @@ class Slot extends Panel:
 			button.set_normal_texture(tex)
 			label.set_text(str(item.quantity))
 			item.set_label_color(label)
-			set_theme(preload("res://media/chest/slot_full.tres"))
+			set_theme(preload("res://media/inventory/slot_full.tres"))
 		else:
-			set_theme(preload("res://media/chest/slot_empty.tres"))
+			set_theme(preload("res://media/inventory/slot_empty.tres"))
 		add_child(button)
 		add_child(label)

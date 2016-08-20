@@ -1,6 +1,6 @@
 extends "equipment.gd"
 
-onready var sharpening_node = get_node("/root/game/hud/sharpening/blinking")
+onready var sharpening_node = get_node("/root/game/hud/sharpening/fading")
 
 export (int, 2000) var attack = 100
 # red sharpening is not in list because it is default value
@@ -15,7 +15,7 @@ func _ready():
 			return
 	sharpening_node.play("red")
 
-func hit():
+func fading():
 	var anim = sharpening_node.get_current_animation()
 	for i in range(sharpening_type.size()):
 		if sharpening[i] > 0:
@@ -39,4 +39,4 @@ func _on_sword_body_enter(body):
 	if global.local_player != null and body != global.local_player and body extends preload("res://src/entities/entity.gd"):
 		if global.local_player.weapon_animation.is_playing():
 			body.damage(get_weapon_damage(body), 0.0)
-			hit()
+			fading()

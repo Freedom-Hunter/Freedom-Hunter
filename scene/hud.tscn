@@ -1,14 +1,16 @@
-[gd_scene load_steps=30 format=1]
+[gd_scene load_steps=37 format=1]
 
 [ext_resource path="res://media/font/RobotoCondensed-Light.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/hud.gd" type="Script" id=2]
 [ext_resource path="res://src/FPS.gd" type="Script" id=3]
 [ext_resource path="res://media/font/MedievalSharp.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://media/sharpening.png" type="Texture" id=5]
-[ext_resource path="res://media/item_slot.tres" type="StyleBox" id=6]
-[ext_resource path="res://media/item bar/quantity.png" type="Texture" id=7]
-[ext_resource path="res://media/item bar/name.png" type="Texture" id=8]
-[ext_resource path="res://sounds/beatbox.wav" type="Sample" id=9]
+[ext_resource path="res://media/hud/sharpening/sharpening.png" type="Texture" id=5]
+[ext_resource path="res://media/hud/sharpening/sharpening_type.tex" type="Texture" id=6]
+[ext_resource path="res://media/hud/item_bar/slot.png" type="Texture" id=7]
+[ext_resource path="res://media/hud/item_bar/quantity.png" type="Texture" id=8]
+[ext_resource path="res://media/hud/item_bar/name.png" type="Texture" id=9]
+[ext_resource path="res://sounds/beatbox.wav" type="Sample" id=10]
+[ext_resource path="res://scene/inventory.tscn" type="PackedScene" id=11]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -114,10 +116,10 @@ length = 2.0
 loop = true
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("texture:modulate")
-tracks/0/interp = 1
+tracks/0/path = NodePath("type:modulate")
+tracks/0/interp = 2
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 1, 2 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 1 ), Color( 0.182877, 0.386181, 0.996094, 1 ), Color( 1, 1, 1, 1 ) ] }
+tracks/0/keys = { "times":FloatArray( 0, 1, 2 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 0 ), Color( 0.182877, 0.386181, 0.996094, 1 ), Color( 1, 1, 1, 0 ) ] }
 
 [sub_resource type="Animation" id=11]
 
@@ -126,10 +128,10 @@ length = 2.0
 loop = true
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("texture:modulate")
-tracks/0/interp = 1
+tracks/0/path = NodePath("type:modulate")
+tracks/0/interp = 2
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 1, 2 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 1 ), Color( 0.34375, 1, 0.343765, 1 ), Color( 1, 1, 1, 1 ) ] }
+tracks/0/keys = { "times":FloatArray( 0, 1, 2 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 0 ), Color( 0.34375, 1, 0.343765, 1 ), Color( 1, 1, 1, 0 ) ] }
 
 [sub_resource type="Animation" id=12]
 
@@ -138,10 +140,10 @@ length = 1.6
 loop = true
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("texture:modulate")
-tracks/0/interp = 1
+tracks/0/path = NodePath("type:modulate")
+tracks/0/interp = 2
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 0.8, 1.6 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 1 ), Color( 1, 0.534884, 0.242188, 1 ), Color( 1, 1, 1, 1 ) ] }
+tracks/0/keys = { "times":FloatArray( 0, 0.8, 1.6 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 0 ), Color( 1, 0.534884, 0.242188, 1 ), Color( 1, 1, 1, 0 ) ] }
 
 [sub_resource type="Animation" id=13]
 
@@ -150,10 +152,10 @@ length = 2.0
 loop = true
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("texture:modulate")
-tracks/0/interp = 1
+tracks/0/path = NodePath("type:modulate")
+tracks/0/interp = 2
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0.1, 1, 2 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 1 ), Color( 0.501961, 0.235294, 1, 1 ), Color( 1, 1, 1, 1 ) ] }
+tracks/0/keys = { "times":FloatArray( 0, 1, 2 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 0 ), Color( 0.501961, 0.235294, 1, 1 ), Color( 1, 1, 1, 0 ) ] }
 
 [sub_resource type="Animation" id=14]
 
@@ -162,10 +164,10 @@ length = 1.4
 loop = true
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("texture:modulate")
-tracks/0/interp = 1
+tracks/0/path = NodePath("type:modulate")
+tracks/0/interp = 2
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 0.7, 1.4 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 1 ), Color( 1, 0.392157, 0.392157, 1 ), Color( 1, 1, 1, 1 ) ] }
+tracks/0/keys = { "times":FloatArray( 0, 0.7, 1.4 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 0 ), Color( 1, 0.235294, 0.235294, 1 ), Color( 1, 1, 1, 0 ) ] }
 
 [sub_resource type="Animation" id=15]
 
@@ -174,10 +176,10 @@ length = 2.0
 loop = true
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("texture:modulate")
-tracks/0/interp = 1
+tracks/0/path = NodePath("type:modulate")
+tracks/0/interp = 2
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 1, 2 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 1 ), Color( 0.417969, 0.417969, 0.417969, 1 ), Color( 1, 1, 1, 1 ) ] }
+tracks/0/keys = { "times":FloatArray( 0, 1, 2 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ] }
 
 [sub_resource type="Animation" id=16]
 
@@ -186,26 +188,88 @@ length = 1.8
 loop = true
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("texture:modulate")
-tracks/0/interp = 1
+tracks/0/path = NodePath("type:modulate")
+tracks/0/interp = 2
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 0.9, 1.8 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 1 ), Color( 1, 1, 0, 1 ), Color( 1, 1, 1, 1 ) ] }
+tracks/0/keys = { "times":FloatArray( 0, 0.9, 0.9, 1.8, 1.8 ), "transitions":FloatArray( 1, 1, 1, 1, 1 ), "update":0, "values":[ Color( 1, 1, 1, 0 ), Color( 1, 1, 0, 1 ), Color( 1, 1, 6.62274e-08, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ] }
 
-[sub_resource type="DynamicFont" id=17]
+[sub_resource type="StyleBoxTexture" id=17]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+texture = ExtResource( 7 )
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=18]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=19]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="Theme" id=20]
+
+Panel/styles/panel = SubResource( 17 )
+Panel/styles/panelf = SubResource( 18 )
+Panel/styles/panelnc = SubResource( 19 )
+
+[sub_resource type="DynamicFont" id=25]
+
+font/size = 20
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=21]
 
 font/size = 24
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=18]
+[sub_resource type="DynamicFont" id=22]
 
 font/size = 32
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 4 )
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=23]
 
 length = 2.0
 loop = false
@@ -226,9 +290,9 @@ tracks/2/interp = 1
 tracks/2/imported = false
 tracks/2/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":2, "values":[ "beatbox" ] }
 
-[sub_resource type="SampleLibrary" id=20]
+[sub_resource type="SampleLibrary" id=24]
 
-samples/beatbox = { "db":0.0, "pitch":1.0, "sample":ExtResource( 9 ) }
+samples/beatbox = { "db":0.0, "pitch":1.0, "sample":ExtResource( 10 ) }
 
 [node name="hud" type="Control"]
 
@@ -404,7 +468,6 @@ percent/visible = false
 
 [node name="sharpening" type="Container" parent="."]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -414,7 +477,7 @@ margin/top = 50.0
 margin/right = 150.0
 margin/bottom = 75.0
 
-[node name="texture" type="TextureFrame" parent="sharpening"]
+[node name="sword" type="TextureFrame" parent="sharpening"]
 
 anchor/right = 1
 anchor/bottom = 1
@@ -427,10 +490,27 @@ margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
 texture = ExtResource( 5 )
-modulate = Color( 1, 1, 0, 1 )
+expand = true
 stretch_mode = 0
 
-[node name="blinking" type="AnimationPlayer" parent="sharpening"]
+[node name="type" type="TextureFrame" parent="sharpening"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+texture = ExtResource( 6 )
+modulate = Color( 1, 1, 1, 0 )
+expand = true
+stretch_mode = 0
+
+[node name="fading" type="AnimationPlayer" parent="sharpening"]
 
 playback/process_mode = 1
 playback/default_blend_time = 0.0
@@ -452,13 +532,14 @@ autoplay = ""
 editor/display_folded = true
 anchor/top = 1
 anchor/bottom = 1
-rect/min_size = Vector2( 380, 160 )
+rect/min_size = Vector2( 380, 155 )
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
+theme/theme = SubResource( 20 )
 margin/left = 10.0
-margin/top = 170.0
+margin/top = 165.0
 margin/right = 390.0
 margin/bottom = 10.0
 
@@ -474,7 +555,6 @@ margin/left = 0.0
 margin/top = 15.0
 margin/right = 60.0
 margin/bottom = 75.0
-custom_styles/panel = ExtResource( 6 )
 
 [node name="icon" type="TextureFrame" parent="items_bar/left_2"]
 
@@ -503,7 +583,6 @@ margin/left = 65.0
 margin/top = 7.0
 margin/right = 140.0
 margin/bottom = 82.0
-custom_styles/panel = ExtResource( 6 )
 
 [node name="icon" type="TextureFrame" parent="items_bar/left_1"]
 
@@ -531,7 +610,6 @@ margin/left = 145.0
 margin/top = 0.0
 margin/right = 235.0
 margin/bottom = 90.0
-custom_styles/panel = ExtResource( 6 )
 
 [node name="icon" type="TextureFrame" parent="items_bar/use"]
 
@@ -560,7 +638,6 @@ margin/left = 240.0
 margin/top = 7.0
 margin/right = 315.0
 margin/bottom = 82.0
-custom_styles/panel = ExtResource( 6 )
 
 [node name="icon" type="TextureFrame" parent="items_bar/right_1"]
 
@@ -589,7 +666,6 @@ margin/left = 320.0
 margin/top = 15.0
 margin/right = 380.0
 margin/bottom = 75.0
-custom_styles/panel = ExtResource( 6 )
 
 [node name="icon" type="TextureFrame" parent="items_bar/right_2"]
 
@@ -614,11 +690,11 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 215.0
+margin/left = 220.0
 margin/top = 75.0
-margin/right = 245.0
+margin/right = 250.0
 margin/bottom = 105.0
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 expand = true
 stretch_mode = 0
 
@@ -634,12 +710,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-custom_colors/font_color = Color( 1, 0, 0, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 1
-custom_constants/line_spacing = 0
-custom_constants/shadow_offset_y = 1
-custom_constants/shadow_as_outline = 1
+custom_fonts/font = SubResource( 25 )
 text = "10"
 align = 1
 valign = 1
@@ -658,7 +729,7 @@ margin/left = 0.0
 margin/top = 110.0
 margin/right = 380.0
 margin/bottom = 155.0
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 expand = true
 stretch_mode = 0
 
@@ -673,8 +744,8 @@ size_flags/vertical = 0
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
-margin/bottom = -5.0
-custom_fonts/font = SubResource( 17 )
+margin/bottom = 0.0
+custom_fonts/font = SubResource( 21 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 1
@@ -692,18 +763,15 @@ max_lines_visible = -1
 
 editor/display_folded = true
 visibility/opacity = 0.0
-anchor/left = 3
-anchor/top = 3
-anchor/right = 3
-anchor/bottom = 3
+anchor/right = 1
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 300.0
-margin/top = 40.0
-margin/right = -300.0
-margin/bottom = -40.0
+margin/left = 660.0
+margin/top = -80.0
+margin/right = 660.0
+margin/bottom = 0.0
 
 [node name="text" type="Label" parent="notification"]
 
@@ -717,7 +785,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 22 )
 text = "Hai ottenuto: %s"
 align = 1
 valign = 1
@@ -730,7 +798,7 @@ max_lines_visible = -1
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/show = SubResource( 19 )
+anims/show = SubResource( 23 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -739,7 +807,7 @@ autoplay = ""
 [node name="sound" type="SamplePlayer" parent="notification"]
 
 config/polyphony = 1
-config/samples = SubResource( 20 )
+config/samples = SubResource( 24 )
 default/volume_db = 0.0
 default/pitch_scale = 1.0
 default/pan = 0.0
@@ -776,13 +844,26 @@ size_flags/vertical = 0
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 400.0
-margin/bottom = 20.0
+margin/bottom = 21.0
 text = "Lista dei giocatori collegati:"
 valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
+[node name="inventory" parent="." instance=ExtResource( 11 )]
+
+visibility/visible = false
+margin/left = 1370.0
+margin/top = 210.0
+margin/right = 1910.0
+margin/bottom = 280.0
+
+[node name="OptionButton" parent="inventory/sort"]
+
+items = [ "Name", null, false, -1, null, "Quantity", null, false, -1, null, "Rarety", null, false, -1, null ]
+
 [connection signal="finished" from="notification/animation" to="." method="_on_animation_finished"]
 
 
+[editable path="inventory"]

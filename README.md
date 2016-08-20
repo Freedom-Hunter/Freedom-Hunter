@@ -11,7 +11,9 @@ Key                     | Action
 <kbd>Space</kbd>        | jump
 <kbd>Left click</kbd>   | primary attack
 <kbd>Right click</kbd>  | secondary attack
+<kbd>e</kbd>            | Use item
 <kbd>Middle click</kbd> | center camera
+<kbd>Tab</kbd>          | Show players list
 
 ## Copyright
 

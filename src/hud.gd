@@ -9,6 +9,7 @@ onready var stamina_node = get_node("stamina")
 onready var names_node = get_node("names")
 onready var players_list_node = get_node("players_list")
 onready var action_node = get_node("action")
+onready var inventory = get_node("inventory")
 
 var camera_node
 var notify_queue = []
@@ -39,6 +40,11 @@ func _input(event):
 			players_list_node.hide()
 	if event.is_action_pressed("player_scroll_next") or event.is_action_pressed("player_scroll_back"):
 		update_items()
+	if event.is_action_released("player_inventory"):
+		if inventory.is_hidden():
+			show_inventory()
+		else:
+			inventory.hide()
 
 func _fixed_process(delta):
 	update_values()
@@ -50,6 +56,40 @@ func update_values():
 	life_node.set_value(global.local_player.hp)
 	damage_node.set_value(global.local_player.regenerable_hp)
 	stamina_node.set_value(global.local_player.stamina)
+
+func show_inventory():
+	inventory.show()
+	var player = global.local_player
+	for child in get_node("inventory/items").get_children():
+		child.free()
+	for i in range(player.max_items):
+		var slot
+		if i < player.items.size():
+			slot = slot_new(player.items[i])
+		else:
+			slot = slot_new()
+		get_node("inventory/items").add_child(slot)
+
+func slot_new(item=null):
+	var button = TextureButton.new()
+	var label  = Label.new()
+	var panel  = Panel.new()
+	var ITEM_SIZE  = Vector2(50, 50)
+	panel.set_custom_minimum_size(ITEM_SIZE)
+	if item != null:
+		var icon = item.icon.get_data().resized(ITEM_SIZE.x, ITEM_SIZE.y, Image.INTERPOLATE_CUBIC)
+		var tex = ImageTexture.new()
+		tex.create_from_image(icon)
+		button.set_normal_texture(tex)
+		label.set_text(str(item.quantity))
+		item.set_label_color(label)
+		panel.set_theme(preload("res://media/inventory/slot_full.tres"))
+	else:
+		panel.set_theme(preload("res://media/inventory/slot_empty.tres"))
+	panel.add_child(button)
+	panel.add_child(label)
+	return panel
+
 
 func update_items():
 	var player = global.local_player
@@ -96,21 +136,21 @@ func update_names():
 	var space_state = get_node("/root/game").get_world().get_direct_space_state()
 	if networking.multiplayer:
 		for player in networking.get_players():
-				var name = player.get_name()
-				var player_pos = player.get_node("name").get_global_transform().origin
-				var label = names_node.get_node(name)
-				if camera_node.is_position_behind(player_pos):
+			var name = player.get_name()
+			var player_pos = player.get_node("name").get_global_transform().origin
+			var label = names_node.get_node(name)
+			if camera_node.is_position_behind(player_pos):
+				label.hide()
+			else:
+				# use global coordinates, not local to node
+				var result = space_state.intersect_ray(camera_pos, player_pos, networking.get_players())
+				if not result.empty():
 					label.hide()
 				else:
-					# use global coordinates, not local to node
-					var result = space_state.intersect_ray(camera_pos, player_pos, networking.get_players())
-					if not result.empty():
-						label.hide()
-					else:
-						label.show()
-						var pos = camera_node.unproject_position(player_pos)
-						var size = label.get_size()
-						label.set_pos(pos - Vector2(size.x/2, size.y/2))
+					label.show()
+					var pos = camera_node.unproject_position(player_pos)
+					var size = label.get_size()
+					label.set_pos(pos - Vector2(size.x/2, size.y/2))
 	else:
 		var label = names_node.get_node(global.local_player.get_name())
 		var pos = camera_node.unproject_position(global.local_player.get_node("name").get_global_transform().origin)
