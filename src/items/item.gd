@@ -23,6 +23,16 @@ func init(pla, ico, nam, qua, usa, rar):
 	usable = usa
 	rarity = rar
 
+func clone(item):
+	player = item.player
+	icon = item.icon
+	name = item.name
+	quantity = item.quantity
+	max_quantity = item.max_quantity
+	usable = item.usable
+	rarity = item.rarity
+	return self
+
 func set_label_color(label):
 	if quantity >= max_quantity:
 		label.add_color_override("font_color", Color(1, 0, 0))

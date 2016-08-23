@@ -1,11 +1,11 @@
-[gd_scene load_steps=14 format=1]
+[gd_scene load_steps=12 format=1]
 
 [ext_resource path="res://src/interact/chest.gd" type="Script" id=1]
 [ext_resource path="res://models/interact/chest/chest-hinge.msh" type="Mesh" id=2]
 [ext_resource path="res://models/interact/chest/chest-upper.msh" type="Mesh" id=3]
 [ext_resource path="res://models/interact/chest/chest-down.msh" type="Mesh" id=4]
 [ext_resource path="res://sounds/hinge_chest.smp" type="Sample" id=5]
-[ext_resource path="res://media/font/RobotoCondensed-Light.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://scene/inventory.tscn" type="PackedScene" id=6]
 
 [sub_resource type="BoxShape" id=1]
 
@@ -50,24 +50,6 @@ samples/hinge_chest = { "db":0.0, "pitch":1.0, "sample":ExtResource( 5 ) }
 [sub_resource type="BoxShape" id=5]
 
 extents = Vector3( 1, 1.2, 2.5 )
-
-[sub_resource type="DynamicFont" id=6]
-
-font/size = 15
-font/use_mipmaps = false
-font/use_filter = false
-font/font = ExtResource( 6 )
-
-[sub_resource type="Theme" id=7]
-
-default_font = SubResource( 6 )
-Label/colors/font_color = Color( 1, 1, 1, 1 )
-Label/colors/font_color_shadow = Color( 0.196078, 0.196078, 0.196078, 1 )
-Label/constants/line_spacing = 1
-Label/constants/shadow_as_outline = 1
-Label/constants/shadow_offset_x = 1
-Label/constants/shadow_offset_y = 1
-Label/fonts/font = null
 
 [node name="chest" type="StaticBody"]
 
@@ -218,103 +200,8 @@ shape = SubResource( 5 )
 trigger = false
 _update_shape_index = 0
 
-[node name="inventory" type="PopupPanel" parent="."]
+[node name="inventory" parent="." instance=ExtResource( 6 )]
 
-anchor/bottom = 1
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-theme/theme = SubResource( 7 )
-margin/left = 10.0
-margin/top = 200.0
-margin/right = 550.0
-margin/bottom = 290.0
-popup/exclusive = false
-
-[node name="sort" type="Container" parent="inventory"]
-
-editor/display_folded = true
-anchor/right = 1
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 20.0
-margin/top = 20.0
-margin/right = 20.0
-margin/bottom = 50.0
-
-[node name="Label" type="Label" parent="inventory/sort"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 90.0
-margin/bottom = 30.0
-text = "Sort by:"
-align = 2
-valign = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="OptionButton" type="OptionButton" parent="inventory/sort"]
-
-rect/min_size = Vector2( 200, 20 )
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 100.0
-margin/top = 0.0
-margin/right = 411.0
-margin/bottom = 30.0
-toggle_mode = false
-enabled_focus_mode = 0
-shortcut = null
-text = "Rarity"
-flat = false
-align = 0
-selected = 2
-items = [ "Name", null, false, -1, null, "Quantity", null, false, -1, null, "Rarety", null, false, -1, null ]
-
-[node name="Button" type="Button" parent="inventory/sort"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 420.0
-margin/top = 0.0
-margin/right = 500.0
-margin/bottom = 30.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-text = "Sort"
-flat = false
-
-[node name="items" type="GridContainer" parent="inventory"]
-
-anchor/bottom = 1
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 20.0
-margin/top = 70.0
-margin/right = 520.0
-margin/bottom = 20.0
-custom_constants/vseparation = 0
-custom_constants/hseparation = 0
-columns = 10
-
-[connection signal="finished" from="animation" to="." method="_on_animation_finished"]
-
-[connection signal="modal_close" from="inventory" to="." method="_on_inventory_modal_close"]
+visibility/visible = false
 
 

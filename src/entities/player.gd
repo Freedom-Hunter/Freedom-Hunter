@@ -74,10 +74,10 @@ func _input(event):
 			active_item = items.size() - 1
 	elif event.is_action_pressed("player_use"):
 		items[active_item].use()
-		emit_signal("used_item", items[active_item])
 		if active_item != 0 and items[active_item].quantity <= 0:
 			items.remove(active_item)
 			active_item = (active_item + 1) % items.size()
+		emit_signal("used_item", items[active_item])
 	elif Input.is_action_pressed("player_interact"):
 		if not get_node("../../../hud/notification/animation").is_playing():
 			var interact = get_interact()
@@ -112,6 +112,16 @@ func die(net=true):
 
 func get_name():  # this script is attached to a node always called body
 	return get_parent().get_name()  # parent's name is more meaningful
+
+func pause_player():
+	set_process_input(false)
+	set_fixed_process(false)
+	camera_node.set_process_input(false)
+
+func resume_player():
+	set_process_input(true)
+	set_fixed_process(true)
+	camera_node.set_process_input(true)
 
 func _fixed_process(delta):
 	direction = Vector3(0, 0, 0)
