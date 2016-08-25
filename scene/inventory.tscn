@@ -21,9 +21,8 @@ Label/constants/shadow_offset_x = 1
 Label/constants/shadow_offset_y = 1
 Label/fonts/font = null
 
-[node name="inventory" type="PopupPanel"]
+[node name="inventory" type="Panel"]
 
-anchor/bottom = 1
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -32,8 +31,7 @@ theme/theme = SubResource( 2 )
 margin/left = 10.0
 margin/top = 200.0
 margin/right = 550.0
-margin/bottom = 290.0
-popup/exclusive = false
+margin/bottom = 790.0
 script/script = ExtResource( 2 )
 
 [node name="sort" type="Container" parent="."]

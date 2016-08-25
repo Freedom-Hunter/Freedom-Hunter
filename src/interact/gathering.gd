@@ -1,13 +1,10 @@
 extends Node
 
-var hud_anim
-
 var obtainable = []
 var quantity = 0
 var rarity = 0
 
 func init():
-
 	for item in obtainable:
 		rarity += item.rarity
 

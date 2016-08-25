@@ -1,29 +1,79 @@
-extends PopupPanel
+extends Panel
 
 const ITEM_SIZE = Vector2(50, 50)
 
-func _notification(what):
-	if what == NOTIFICATION_POPUP_HIDE:
-		print("Popup hide ", get_path())
+var items = []
+var items_node
+var max_items
+var active_item = 0
+var hud
 
-func show_inventory(items, max_items):
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	var columns = get_node("items").get_columns()
-	for i in range(max_items):
-		var slot
-		if i < items.size() and items[i].quantity > 0:
-			slot = Slot.new(items[i])
-		else:
-			slot = Slot.new()
+var columns
+
+func init(items_array, max_items_int, hud_node=null):
+	items = items_array
+	items_node = get_node("items")
+	max_items = max_items_int
+	hud = hud_node
+	columns = items_node.get_columns()
+	var added = 0
+	for item in items:
+		if item.quantity > 0:
+			var slot = Slot.new(self, item)
+			slot.set_name(item.name)
+			items_node.add_child(slot)
+			added += 1
+	for i in range(added, max_items):
+		var slot = Slot.new(self)
 		slot.set_name(str(i % columns, '|', int(i / columns)))
-		get_node('items').add_child(slot)
-	popup()
+		items_node.add_child(slot)
 
-func hide_inventory():
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	for child in get_node('items').get_children():
-		child.free()
-	hide()
+func add_item(item):
+	for e in items:
+		if e.name == item.name:
+			var r = e.add(item.quantity)
+			items_node.get_node(item.name).set_item(e)
+			return r
+	if items.size() < max_items:
+		items.append(item)
+		for slot in items_node.get_children():
+			if slot.get_name().find('|') != -1:
+				slot.set_item(item)
+				slot.set_name(item.name)
+				return 0
+	return item.quantity
+
+func use_item(i):
+	var item = items[i]
+	item.use()
+	if item.quantity <= 0:
+		remove_item(i)
+	return item
+
+func remove_item(i):
+	var slot = items_node.get_node(items[i].name)
+	slot.set_item(null)
+	slot.set_name(str(slot.get_index() % columns, '|', int(slot.get_index() / columns)))
+	items.remove(i)
+	if items.size() > 0 and i == active_item:
+		active_item = (active_item + 1) % items.size()
+
+func erase_item(item):
+	var i = items.find(item)
+	if i != -1:
+		remove_item(i)
+
+func use_active_item():
+	return use_item(active_item)
+
+func activate_next():
+	active_item = (active_item + 1) % items.size()
+
+func activate_prev():
+	active_item = (active_item - 1) % items.size()
+	if active_item < 0:
+		active_item = items.size() - 1
+
 
 class ItemStack extends TextureFrame:
 	var label = Label.new()
@@ -48,16 +98,18 @@ class Slot extends Panel:
 	var Item = preload("res://src/items/item.gd")
 	var item
 	var stack
+	var inventory
 
-	func _init(item = null):
-		self.item = item
+	func _init(inv, _item = null):
 		stack = ItemStack.new()
 		stack.set_name("stack")
 		add_child(stack)
-		layout()
+		set_item(_item)
 		set_custom_minimum_size(ITEM_SIZE)
+		inventory = inv
 
-	func layout():
+	func set_item(i):
+		item = i
 		if item != null:
 			set_theme(preload("res://media/inventory/slot_full.tres"))
 		else:
@@ -65,28 +117,19 @@ class Slot extends Panel:
 		stack.layout(item)
 
 	func get_drag_data(pos):
-		print_stack()
 		if item != null:
 			var preview = ItemStack.new()
 			preview.layout(item)
 			set_drag_preview(preview)
-			var ret_item = Item.new()
-			ret_item.clone(item)
-			item = null
-			layout()
-			return {'slot': self, 'item': ret_item}
+			var ret_item = item
+			inventory.erase_item(item)
+			return {'item': ret_item, 'inventory': inventory}
 
 	func can_drop_data(pos, data):
-		print_stack()
 		return true
 
 	func drop_data(pos, data):
-		print_stack()
-		if item == null:
-			item = data.item
-		elif data.item.name == item.name:
-			item.quantity += data.item.quantity
+		if item == null or data.item.name == item.name:
+			inventory.add_item(data.item) # take this item
 		else:
-			data.slot.item = data.item
-			data.slot.layout()
-		layout()
+			data.inventory.add_item(data.item) # give this item back

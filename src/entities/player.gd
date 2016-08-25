@@ -8,6 +8,8 @@ onready var weapon_animation = get_node("weapon/animation")
 onready var audio_node = get_node("audio")
 onready var interact_node = get_node("interact")
 onready var offset = yaw_node.get_translation().y
+onready var hud = get_node("/root/game/hud")
+var inventory = preload("res://scene/inventory.tscn").instance()
 
 
 const SPRINT_USE = 5
@@ -15,10 +17,6 @@ const SPRINT_REGENERATION = 4
 const SPEED = 5
 const JUMP = 5
 const SPRINT_SPEED = 7.5
-
-var items = []
-var active_item = 0
-var max_items = 30
 
 #multiplayer
 var local = true
@@ -43,7 +41,9 @@ func init(local, hp, stamina):
 	var Barrel = preload("res://src/items/barrel.gd")
 	var barrel = Barrel.new()
 	barrel.init(self, preload("res://media/items/barrel.png"), "Barrel", 10)
-	items = [null_item, potion, firework, barrel]
+	inventory.init([null_item, potion, firework, barrel], 30)
+	inventory.set_pos(Vector2(1370, 200))
+	inventory.set_name("player_inventory")
 
 func _ready():
 	if local:
@@ -67,33 +67,29 @@ func get_interact():
 
 func _input(event):
 	if Input.is_action_pressed("player_scroll_next") and not Input.is_action_pressed("camera_rotation_lock"):
-		active_item = (active_item + 1) % items.size()
+		inventory.activate_next()
+		hud.update_items()
 	elif Input.is_action_pressed("player_scroll_back") and not Input.is_action_pressed("camera_rotation_lock"):
-		active_item = (active_item - 1) % items.size()
-		if active_item < 0:
-			active_item = items.size() - 1
+		inventory.activate_prev()
+		hud.update_items()
 	elif event.is_action_pressed("player_use"):
-		items[active_item].use()
-		if active_item != 0 and items[active_item].quantity <= 0:
-			items.remove(active_item)
-			active_item = (active_item + 1) % items.size()
-		emit_signal("used_item", items[active_item])
+		inventory.use_active_item()
+		hud.update_items()
 	elif Input.is_action_pressed("player_interact"):
-		if not get_node("../../../hud/notification/animation").is_playing():
+		if not hud.get_node("notification/animation").is_playing():
 			var interact = get_interact()
 			if interact != null:
 				interact.get_node("..").interact(self)
 
-func add_item(item, emit_signal=true):
-	var found = false
-	for e in items:
-		if e.name == item.name:
-			e.quantity += 1
-			found = true
-	if not found:
-		items.append(item)
-	if emit_signal:
-		emit_signal("got_item", item)
+func add_item(item):
+	var remainder = inventory.add_item(item)
+	if local:
+		hud.update_items()
+		if remainder > 0:
+			hud.notify("You got %d out of %d %s" % [remainder - item.quantity, item.quantity, item.name])
+		else:
+			hud.notify("You got %d %s" % [item.quantity, item.name])
+	return remainder
 
 func heal(amount):
 	hp += amount
@@ -119,9 +115,10 @@ func pause_player():
 	camera_node.set_process_input(false)
 
 func resume_player():
-	set_process_input(true)
-	set_fixed_process(true)
-	camera_node.set_process_input(true)
+	if local:
+		set_process_input(true)
+		set_fixed_process(true)
+		camera_node.set_process_input(true)
 
 func _fixed_process(delta):
 	direction = Vector3(0, 0, 0)

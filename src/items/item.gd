@@ -33,6 +33,15 @@ func clone(item):
 	rarity = item.rarity
 	return self
 
+func add(n):
+	# returns how many items can't be added due to max_quantity limit
+	var max_n = max_quantity - quantity
+	if n <= max_n:
+		quantity += n
+		return 0
+	quantity += max_n
+	return n - max_n
+
 func set_label_color(label):
 	if quantity >= max_quantity:
 		label.add_color_override("font_color", Color(1, 0, 0))

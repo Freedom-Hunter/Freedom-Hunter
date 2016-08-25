@@ -15,9 +15,6 @@ var camera_node
 var notify_queue = []
 
 func init():
-	global.local_player.connect("got_item", self, "_on_got_item")
-	global.local_player.connect("used_item", self, "_on_used_item")
-
 	camera_node = get_viewport().get_camera()
 
 	# Get interact keys
@@ -38,13 +35,11 @@ func _input(event):
 			players_list_node.show()
 		elif event.is_action_released("players_list"):
 			players_list_node.hide()
-	if event.is_action_pressed("player_scroll_next") or event.is_action_pressed("player_scroll_back"):
-		update_items()
 	if event.is_action_released("player_inventory"):
 		if inventory.is_hidden():
-			show_player_inventory()
+			open_inventories([global.local_player.inventory])
 		else:
-			hide_player_inventory()
+			close_inventories()
 
 func _fixed_process(delta):
 	update_values()
@@ -57,25 +52,32 @@ func update_values():
 	damage_node.set_value(global.local_player.regenerable_hp)
 	stamina_node.set_value(global.local_player.stamina)
 
-func show_player_inventory():
+func open_inventories(inventories):
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	global.local_player.pause_player()
-	inventory.show_inventory(global.local_player.items, global.local_player.max_items)
-	inventory.connect("modal_close", self, "hide_player_inventory")
+	for inv in inventories:
+		inventory.add_child(inv)
+	inventory.popup()
+	inventory.connect("modal_close", self, "close_inventories")
 
-func hide_player_inventory():
+func close_inventories():
+	if inventory.is_connected("modal_close", self, "close_inventories"):
+		inventory.disconnect("modal_close", self, "close_inventories")
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	global.local_player.resume_player()
-	inventory.hide_inventory()
-	inventory.disconnect("modal_close", self, "hide_player_inventory")
+	for i in inventory.get_children():
+		inventory.remove_child(i)
+	inventory.hide()
 
 func update_items():
-	var player = global.local_player
+	var inventory = global.local_player.inventory
 	var i = -2
 	for child in get_node("items_bar").get_children():
 		if child extends Panel:
-			var item = player.items[(player.active_item + i) % player.items.size()]
+			var item = inventory.items[(inventory.active_item + i) % inventory.items.size()]
 			child.get_node("icon").set_texture(item.icon)
 			i += 1
-	var item = player.items[player.active_item]
+	var item = inventory.items[inventory.active_item]
 	get_node("items_bar/quantity/label").set_text(str(item.quantity))
 	item.set_label_color(get_node("items_bar/quantity/label"))
 	get_node("items_bar/name/label").set_text(item.name)
@@ -154,13 +156,3 @@ func notify(text):
 	notify_queue.append(text)
 	if not get_node("notification/animation").is_playing():
 		play_notify(notify_queue[0])
-
-func _on_got_item(item):
-	notify("You got %s" % item.name)
-	update_items()
-
-func _on_used_item(item):
-	update_items()
-
-
-
