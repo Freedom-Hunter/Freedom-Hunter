@@ -15,8 +15,8 @@ func add_monster(game, scene):
 func add_player(game, name, local):
 	var player = player_scn.instance()
 	player.set_name(name)
-	player.get_node("body").init(local, 150, 100)
 	game.get_node("player_spawn").add_child(player)
+	player.get_node("body").init(local, 150, 100)
 	game.get_node("hud").player_connected(name)
 	if local_player != null:
 		local_player.camera_node.make_current()
