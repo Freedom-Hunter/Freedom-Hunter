@@ -31,11 +31,20 @@ func _process(delta):
 	pitch_node.set_rotation_deg(Vector3(pitch, 0, 0))
 	camera_zoom(delta * 10)
 
+func rotate_view(relative):
+	target_yaw -= relative.x
+	if target_yaw >= 360:
+		target_yaw -= 360
+		yaw -= 360
+	if target_yaw <= -360:
+		target_yaw += 360
+		yaw += 360
+	if move_pitch:
+		target_pitch = max(min(target_pitch - relative.y, max_pitch), min_pitch)
+
 func _input(event):
 	if event.type == InputEvent.MOUSE_MOTION:
-		target_yaw = fmod(target_yaw - event.relative_x * mouse_sensitivity.x , 360)
-		if move_pitch:
-			target_pitch = max(min(target_pitch - event.relative_y * mouse_sensitivity.y, max_pitch), min_pitch)
+		rotate_view(event.relative_pos * mouse_sensitivity)
 	elif event.is_action_released("player_camera_reset"):
 		var basis = player_node.get_transform().basis
 		target_yaw = rad2deg(atan2(-basis.z.x, -basis.z.z))
