@@ -9,11 +9,14 @@ var target_pitch
 var yaw
 var pitch
 var mouse_sensitivity = Vector2(0.1, 0.1)
+var gyro_sensitivity = Vector2(1, -1)
+var gyro_enabled = true
 var max_pitch = 90
 var min_pitch = -90
 var move_pitch = true
 var pitch_unit = 12.5
 var camera_distance = 8
+
 
 func _ready():
 	target_yaw = 180 # yaw_node.get_rotation_deg().y
@@ -30,6 +33,10 @@ func _process(delta):
 	yaw_node.set_rotation_deg(Vector3(0, yaw, 0))
 	pitch_node.set_rotation_deg(Vector3(pitch, 0, 0))
 	camera_zoom(delta * 10)
+	if gyro_enabled:
+		var gyro = Input.get_gyroscope()
+		if gyro != Vector3():
+			rotate_view(gyro * gyro_sensitivity)
 
 func rotate_view(relative):
 	target_yaw -= relative.x
