@@ -55,7 +55,7 @@ func sort_by_distance(a, b):
 	var dist_b = (get_global_transform().origin - b.get_global_transform().origin).length()
 	return dist_a < dist_b
 
-func get_interact():
+func get_nearest_interact():
 	var interacts = interact_node.get_overlapping_areas()
 	for i in interacts:
 		if not i.is_in_group("interact"):
@@ -64,6 +64,13 @@ func get_interact():
 		interacts.sort_custom(self, "sort_by_distance")
 		return interacts[0]
 	return null
+
+func interact_with(interact):
+	if interact != null and not hud.get_node("notification/animation").is_playing():
+		interact.get_parent().interact(self)
+
+func interact_with_nearest():
+	interact_with(get_nearest_interact())
 
 func _input(event):
 	if Input.is_action_pressed("player_scroll_next") and not Input.is_action_pressed("camera_rotation_lock"):
@@ -75,11 +82,8 @@ func _input(event):
 	elif event.is_action_pressed("player_use"):
 		inventory.use_active_item()
 		hud.update_items()
-	elif Input.is_action_pressed("player_interact"):
-		if not hud.get_node("notification/animation").is_playing():
-			var interact = get_interact()
-			if interact != null:
-				interact.get_node("..").interact(self)
+	elif event.is_action_pressed("player_interact"):
+		interact_with_nearest()
 
 func add_item(item):
 	var remainder = inventory.add_item(item)

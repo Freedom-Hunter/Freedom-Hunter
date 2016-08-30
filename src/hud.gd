@@ -23,7 +23,7 @@ func init():
 	for key in keys:
 		string += OS.get_scancode_string(key.scancode) + ","
 	string[-1] = ""
-	get_node("action/key").set_text(string)
+	get_node("action").set_text(string)
 	update_items()
 
 	set_fixed_process(true)
@@ -65,8 +65,9 @@ func close_inventories():
 		inventory.disconnect("modal_close", self, "close_inventories")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	global.local_player.resume_player()
-	for i in inventory.get_children():
-		inventory.remove_child(i)
+	for child in inventory.get_children():
+		if child.get_name() != "quit":
+			inventory.remove_child(child)
 	inventory.hide()
 
 func update_items():
@@ -83,7 +84,7 @@ func update_items():
 	get_node("items_bar/name/label").set_text(item.name)
 
 func show_interact():
-	var interact = global.local_player.get_interact()
+	var interact = global.local_player.get_nearest_interact()
 	if interact != null:
 		var pos = interact.get_global_transform().origin + Vector3(0, 1, 0)
 		if camera_node.is_position_behind(pos):
@@ -94,6 +95,9 @@ func show_interact():
 			action_node.set_pos(action_pos - (action_node.get_size()/2))
 	else:
 		action_node.hide()
+
+func _on_action_pressed():
+	global.local_player.interact_with_nearest()
 
 func new_label(text):
 	var label = Label.new()

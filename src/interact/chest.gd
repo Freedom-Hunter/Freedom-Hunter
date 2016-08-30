@@ -23,11 +23,11 @@ func open():
 	yield(animation, "finished")
 	if player != null:
 		hud.open_inventories([inventory, player.inventory])
-		hud.inventory.connect("modal_close", self, "close")
+		hud.inventory.connect("popup_hide", self, "close")
 
 func close():
-	if hud.inventory.is_connected("modal_close", self, "close"):
-		hud.inventory.disconnect("modal_close", self, "close")
+	if hud.inventory.is_connected("popup_hide", self, "close"):
+		hud.inventory.disconnect("popup_hide", self, "close")
 	hud.close_inventories()
 	animation.play("close")
 	set_process_input(false)
