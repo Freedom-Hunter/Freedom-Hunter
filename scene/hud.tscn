@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=1]
+[gd_scene load_steps=39 format=1]
 
 [ext_resource path="res://media/font/RobotoCondensed-Light.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/hud.gd" type="Script" id=2]
@@ -10,6 +10,9 @@
 [ext_resource path="res://media/hud/item_bar/quantity.png" type="Texture" id=8]
 [ext_resource path="res://media/hud/item_bar/name.png" type="Texture" id=9]
 [ext_resource path="res://sounds/beatbox.wav" type="Sample" id=10]
+[ext_resource path="res://media/onscreen_controls/circlepad.png" type="Texture" id=11]
+[ext_resource path="res://src/onscreen_controls/circlepad.gd" type="Script" id=12]
+[ext_resource path="res://media/onscreen_controls/circlepad_stick.png" type="Texture" id=13]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -860,6 +863,34 @@ margin/top = 0.0
 margin/right = 1920.0
 margin/bottom = 1080.0
 popup/exclusive = false
+
+[node name="analog" type="TextureFrame" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 1474.0
+margin/top = 660.0
+margin/right = 1634.0
+margin/bottom = 820.0
+texture = ExtResource( 11 )
+stretch_mode = 0
+script/script = ExtResource( 12 )
+
+[node name="stick" type="TextureFrame" parent="analog"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 40.0
+margin/top = 40.0
+margin/right = 120.0
+margin/bottom = 120.0
+texture = ExtResource( 13 )
+expand = true
+stretch_mode = 0
 
 [connection signal="finished" from="notification/animation" to="." method="_on_animation_finished"]
 
