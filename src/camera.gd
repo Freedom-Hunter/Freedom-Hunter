@@ -36,7 +36,7 @@ func _process(delta):
 	if gyro_enabled:
 		var gyro = Input.get_gyroscope()
 		if gyro != Vector3():
-			rotate_view(gyro * gyro_sensitivity)
+			rotate_view(Vector2(gyro.y, gyro.x) * gyro_sensitivity)
 
 func rotate_view(relative):
 	target_yaw -= relative.x
