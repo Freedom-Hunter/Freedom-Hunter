@@ -1,0 +1,46 @@
+# Godot
+export.cfg
+
+# Linux
+.*
+*~
+
+# Gimp
+*.xcf
+
+# Vim
+*.un~
+Session.vim
+
+# OSX
+Icon
+# Windows
+*.old
+Thumbs.db
+thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Packages
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.bz2
+*.tar.xz
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# Git
+!.git
+!.gitignore
+!.gitattributes
+!.gitmodules
