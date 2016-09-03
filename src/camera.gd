@@ -3,6 +3,7 @@ extends Camera
 onready var yaw_node = get_node("../..")
 onready var pitch_node = get_node("..")
 onready var player_node = get_node("../../../body")
+onready var onscreen_node = get_node("/root/game/hud/onscreen")
 
 var target_yaw
 var target_pitch
@@ -11,12 +12,13 @@ var pitch
 var mouse_sensitivity = Vector2(0.1, 0.1)
 var gyro_sensitivity = Vector2(1, -1)
 var gyro_enabled = true
+var touch_sensitivity = Vector2(0.25, 0.25)
+var touch_index = null
 var max_pitch = 90
 var min_pitch = -90
 var move_pitch = true
 var pitch_unit = 12.5
 var camera_distance = 8
-
 
 func _ready():
 	target_yaw = 180 # yaw_node.get_rotation_deg().y
@@ -50,7 +52,14 @@ func rotate_view(relative):
 		target_pitch = max(min(target_pitch - relative.y, max_pitch), min_pitch)
 
 func _input(event):
-	if event.type == InputEvent.MOUSE_MOTION:
+	if event.type == InputEvent.SCREEN_TOUCH:
+		if event.is_pressed() and event.index != onscreen_node.touch_index:
+			touch_index = event.index
+		else:
+			touch_index = null
+	elif event.type == InputEvent.SCREEN_DRAG and event.index == touch_index and event.index != onscreen_node.touch_index:
+		rotate_view(event.relative_pos * touch_sensitivity)
+	elif event.type == InputEvent.MOUSE_MOTION and not onscreen_node.is_visible():
 		rotate_view(event.relative_pos * mouse_sensitivity)
 	elif event.is_action_released("player_camera_reset"):
 		var basis = player_node.get_transform().basis
