@@ -169,7 +169,10 @@ func _input(event):
 func _on_start_pressed():
 	# Server
 	save_config()
-	networking.server_start(get_valid_server_port(), get_valid_username(), get_valid_server_host())
+	if announce_node.is_pressed():
+		networking.server_start(get_valid_server_port(), get_valid_username(), get_valid_server_host())
+	else:
+		networking.server_start(get_valid_server_port(), get_valid_username())
 	get_parent().queue_free()
 
 func _on_connect_pressed():
