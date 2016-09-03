@@ -141,8 +141,8 @@ func _fixed_process(delta):
 		direction -= Vector3(camera.basis.x.x, 0, camera.basis.x.z)
 	if Input.is_action_pressed("player_right"):
 		direction += Vector3(camera.basis.x.x, 0, camera.basis.x.z)
-	if hud.get_node("analog").is_visible():
-		var d = hud.get_node("analog").direction
+	if hud.get_node("onscreen").is_visible():
+		var d = hud.get_node("onscreen").direction
 		direction = d.y * camera.basis.z + d.x * camera.basis.x
 	if run and stamina > 0 and direction != Vector3():
 			speed = SPRINT_SPEED
