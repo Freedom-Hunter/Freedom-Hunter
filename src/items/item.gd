@@ -5,6 +5,7 @@ var quantity
 var max_quantity
 var usable
 var rarity
+var keep
 
 func effect():
 	pass
@@ -14,14 +15,15 @@ func use():
 		quantity -= 1
 		effect()
 
-func init(pla, ico, nam, qua, usa, rar):
-	player = pla
-	icon = ico
-	name = nam
-	quantity = qua
-	max_quantity = 10
-	usable = usa
-	rarity = rar
+func init(_player, _icon, _name, _quantity, _max_quantity, _usable, _rarity, _keep=false):
+	player = _player
+	icon = _icon
+	name = _name
+	quantity = _quantity
+	max_quantity = _max_quantity
+	usable = _usable
+	rarity = _rarity
+	keep = _keep
 
 func clone(item):
 	player = item.player

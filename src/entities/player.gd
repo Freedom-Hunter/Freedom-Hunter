@@ -32,7 +32,7 @@ func init(local, hp, stamina):
 	# TEST CODE
 	var Item = preload("res://src/items/item.gd")
 	var null_item = Item.new()
-	null_item.init(self, preload("res://media/items/null.png"), "None", 0, true, 0)
+	null_item.init(self, preload("res://media/items/null.png"), "None", 0, 0, true, 0, true)
 	var Potion = preload("res://src/items/potion.gd")
 	var potion = Potion.new()
 	potion.init(self, preload("res://media/items/potion.png"), "Potion", 10, 25)
@@ -41,7 +41,7 @@ func init(local, hp, stamina):
 	firework.init(self, preload("res://media/items/firework.png"), "Firework", 10)
 	var Barrel = preload("res://src/items/barrel.gd")
 	var barrel = Barrel.new()
-	barrel.init(self, preload("res://media/items/barrel.png"), "Barrel", 10)
+	barrel.init(self, preload("res://media/items/barrel.png"), "Barrel", 5)
 	inventory.init([null_item, potion, firework, barrel], 30)
 	inventory.set_pos(Vector2(1370, 200))
 	inventory.set_name("player_inventory")

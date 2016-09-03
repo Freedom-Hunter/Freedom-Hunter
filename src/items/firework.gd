@@ -3,7 +3,7 @@ extends "item.gd"
 var scene = preload("res://scene/items/firework.tscn")
 
 func init(p, i, n, q):
-	.init(p, i, n, q, true, 10)
+	.init(p, i, n, q, 20, true, 10)
 
 func effect():
 	var player_t = player.get_global_transform()

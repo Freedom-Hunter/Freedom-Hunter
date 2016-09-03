@@ -46,7 +46,7 @@ func add_item(item):
 func use_item(i):
 	var item = items[i]
 	item.use()
-	if item.quantity <= 0:
+	if item.quantity <= 0 and not item.keep:
 		remove_item(i)
 	return item
 
@@ -88,8 +88,9 @@ class ItemStack extends TextureFrame:
 	func layout(item):
 		if item != null:
 			set_texture(item.icon)
-			label.set_text(str(item.quantity))
-			item.set_label_color(label)
+			if item.max_quantity > 1:
+				label.set_text(str(item.quantity))
+				item.set_label_color(label)
 		else:
 			set_texture(null)
 			label.set_text("")
