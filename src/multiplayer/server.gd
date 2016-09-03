@@ -5,19 +5,12 @@ const PING_RETRY = 3
 
 var clients = {}
 
-func start(game, port):
-	.start(game)
-	if udp.listen(port) == OK:
-		return true
-	else:
-		return false
-
 func send(pckt, ip, port):
 	udp.set_send_address(ip, port)
 	udp.put_var(pckt)
 
 func send_to_player(pckt, player):
-	print("Sending %s to %s at %s:%s" % [pckt, player, clients[player].ip, clients[player].port])
+	#print("Sending %s to %s at %s:%s" % [pckt, player, clients[player].ip, clients[player].port])
 	send(pckt, clients[player].ip, clients[player].port)
 
 func broadcast(pckt, except=null):
@@ -28,7 +21,7 @@ func broadcast(pckt, except=null):
 func player_connect(player_name, ip, port):
 	if player_name in players.keys():
 		send(new_packet(CMD_SC_USERNAME_IN_USE), ip, port)
-		print('Refused connection from %s:%s because "%s" is in use' % [ip, port, player_name])
+		printerr('Refused connection from %s:%s because "%s" is in use' % [ip, port, player_name])
 	else:
 		clients[player_name] = {
 			'ip': ip,
@@ -38,6 +31,7 @@ func player_connect(player_name, ip, port):
 		}
 		var player = global.add_player(game_node, player_name, false)
 		players[player_name] = player
+		entities[player_name] = player
 		var args = {'player': player_name, 'transform': player.get_global_transform()}
 		broadcast(new_packet(CMD_SC_PLAYER_CONNECTED, args), player_name)
 		send_to_player(new_packet(CMD_SC_CONNECT_ACCEPT, players.keys()), player_name)
@@ -47,34 +41,31 @@ func player_disconnect(player_name):
 	global.remove_player(game_node, player_name)
 	clients.erase(player_name)
 	players.erase(player_name)
+	entities.erase(player_name)
 	broadcast(new_packet(CMD_SC_PLAYER_DISCONNECTED, player_name))
 	print('Player "%s" disconnected' % player_name)
 
-func player_move(args):
-	if args.player in clients.keys():
-		broadcast(new_packet(CMD_SC_MOVE, args), args.player)
-		players[args.player].set_global_transform(args.transform)
+func entity_move(args):
+	if args.entity in entities.keys():
+		broadcast(new_packet(CMD_SC_MOVE, args), args.entity)
+		entities[args.entity].set_global_transform(args.transform)
 
-func player_damage(args):
-	if args.player in clients.keys():
-		broadcast(new_packet(CMD_SC_DAMAGE, args), args.player)
-		players[args.player].damage(args.damage, args.regenerable)
+func entity_damage(args):
+	if args.entity in entities.keys():
+		broadcast(new_packet(CMD_SC_DAMAGE, args), args.entity)
+		entities[args.entity].hp = args.hp
+		entities[args.entity].regenerable_hp = args.regenerable
 
-func player_left_attack(args):
-	if args.player in clients.keys():
-		broadcast(new_packet(CMD_SC_L_ATTACK, args), args.player)
-		players[args.player].weapon_animation.play("left_attack_0")
+func entity_attack(args):
+	if args.entity in entities.keys():
+		broadcast(new_packet(CMD_SC_ATTACK, args), args.entity)
+		entities[args.entity].weapon_animation.play(args.attack)
 
-func player_right_attack(args):
-	if args.player in clients.keys():
-		broadcast(new_packet(CMD_SC_R_ATTACK, args), args.player)
-		players[args.player].weapon_animation.play("right_attack_0")
-
-func player_die(args):
-	if args in clients.keys():
+func entity_die(args):
+	if args in entities.keys():
 		broadcast(new_packet(CMD_SC_DIE, args), args)
-		if players[args].hp > 0:
-			players[args].die()
+		if entities[args].hp > 0:
+			entities[args].die()
 
 func player_use_item(args):
 	if args.player in clients.keys():
@@ -88,34 +79,33 @@ func player_got_item(args):
 		players[args.player].add_item(item)
 
 func ping(args):
-	if args in clients.keys():
-		send_to_player(new_packet(CMD_SC_PONG, args), args)
-		clients[args].ping = OS.get_unix_time()
-		clients[args].retry = 0
+	send_to_player(new_packet(CMD_SC_PONG, args), args)
+	clients[args].ping = OS.get_unix_time()
+	clients[args].retry = 0
 
 func pong(args):
-	if args in clients.keys():
-		clients[args].ping = OS.get_unix_time()
-		clients[args].retry = 0
+	clients[args].ping = OS.get_unix_time()
+	clients[args].retry = 0
 
 func handle_packet(pckt, ip, port):
-	print("Received %s from %s:%s" % [pckt, ip, port])
+	if pckt.command != CMD_CS_CONNECT and not pckt.sender in clients.keys():
+		printerr("Sender %s from %s:%s is not connected! Ignoring packet..." % [pckt.sender, ip, port])
+		return
+	#print("Received %s from %s:%s by %s" % [pckt, ip, port, pckt.sender])
 	if pckt.command == CMD_CS_CONNECT:
 		player_connect(pckt.args, ip, port)
 	elif pckt.command == CMD_CS_PING:
-		ping(pckt.args)
+		ping(pckt.sender)
 	elif pckt.command == CMD_CS_PONG:
-		pong(pckt.args)
+		pong(pckt.sender)
 	elif pckt.command == CMD_CS_MOVE:
-		player_move(pckt.args)
+		entity_move(pckt.args)
 	elif pckt.command == CMD_CS_DAMAGE:
-		player_damage(pckt.args)
-	elif pckt.command == CMD_CS_L_ATTACK:
-		player_left_attack(pckt.args)
-	elif pckt.command == CMD_CS_R_ATTACK:
-		player_right_attack(pckt.args)
+		entity_damage(pckt.args)
+	elif pckt.command == CMD_CS_ATTACK:
+		entity_attack(pckt.args)
 	elif pckt.command == CMD_CS_DIE:
-		player_die(pckt.args)
+		entity_die(pckt.args)
 	elif pckt.command == CMD_CS_USE:
 		player_use_item(pckt.args)
 	elif pckt.command == CMD_CS_GOT:
@@ -123,16 +113,13 @@ func handle_packet(pckt, ip, port):
 	elif pckt.command == CMD_CS_DISCONNECT:
 		player_disconnect(pckt.args)
 	else:
-		print("Unknown command %s received" % pckt.command)
+		printerr("Unknown command %s received" % pckt.command)
 
 func stop():
-	.stop()
 	if clients.size() > 0:
 		print("Sending shutdown command to clients")
 		broadcast(new_packet(CMD_SC_DOWN))
-	clients = {}
-	players = {}
-	monsters = {}
+	.stop()
 
 func process(delta):
 	.process(delta)
@@ -146,31 +133,17 @@ func process(delta):
 				client.ping = OS.get_unix_time()
 				client.retry += 1
 
-func local_player_move(transform):
-	var name = global.local_player.get_name()
-	broadcast(new_packet(CMD_SC_MOVE, {'player': name, 'transform': transform}))
+func local_entity_move(entity, transform):
+	broadcast(new_packet(CMD_SC_MOVE, {'player': entity, 'transform': transform}))
 
-func local_player_left_attack():
-	var name = global.local_player.get_name()
-	broadcast(new_packet(CMD_SC_L_ATTACK, {'player': name}))
+func local_entity_attack(entity, attack):
+	broadcast(new_packet(CMD_SC_ATTACK, {'entity': entity, 'attack': attack}))
 
-func local_player_right_attack():
-	var name = global.local_player.get_name()
-	broadcast(new_packet(CMD_SC_R_ATTACK, {'player': name}))
+func local_entity_died(entity):
+	broadcast(new_packet(CMD_SC_DIE, entity))
 
-func local_monster_move(name, transform):
-	broadcast(new_packet(CMD_SC_M_MOVE, {'monster': name, 'transform': transform}))
-
-func local_monster_attack(name):
-	broadcast(new_packet(CMD_SC_M_ATTACK, {'monster': name}))
-
-func local_player_died():
-	var name = global.local_player.get_name()
-	broadcast(new_packet(CMD_SC_DIE, name))
-
-func local_player_damage(dmg, reg):
-	var name = global.local_player.get_name()
-	broadcast(new_packet(CMD_SC_DAMAGE, {'damage': dmg, 'regenerable': reg}))
+func local_entity_damage(entity, dmg, reg):
+	broadcast(new_packet(CMD_SC_DAMAGE, {'entity': entity, 'damage': dmg, 'regenerable': reg}))
 
 func local_player_used_item(item):
 	var player = global.local_player

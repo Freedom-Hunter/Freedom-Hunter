@@ -7,8 +7,7 @@ const CMD_CS_PONG = 99
 	# Game comands
 const CMD_CS_MOVE = 100
 const CMD_CS_DAMAGE = 120
-const CMD_CS_L_ATTACK = 130
-const CMD_CS_R_ATTACK = 140
+const CMD_CS_ATTACK = 130
 const CMD_CS_DIE = 150
 const CMD_CS_USE = 160
 const CMD_CS_GOT = 170
@@ -26,20 +25,18 @@ const CMD_SC_PONG = 99
 	# Game comands
 const CMD_SC_MOVE = 100
 const CMD_SC_DAMAGE = 120
-const CMD_SC_L_ATTACK = 130
-const CMD_SC_R_ATTACK = 140
+const CMD_SC_ATTACK = 130
 const CMD_SC_DIE = 150
 const CMD_SC_USE = 160
 const CMD_SC_GOT = 170
-const CMD_SC_M_MOVE = 500
-const CMD_SC_M_ATTACK = 501
 
 var udp
 var players
 var monsters
+var entities  # players + monsters
 var game_node
-var spawn_node
-var monster_spawn_node
+var players_spawn_node
+var monsters_spawn_node
 var global
 
 var player_scn = preload("res://scene/player.tscn")
@@ -48,25 +45,28 @@ signal player_connected
 signal player_disconnected
 
 func new_packet(command, args=null):
-	var pckt = {'command': command}
+	var pckt = {'sender': global.local_player.get_name(), 'command': command}
 	if args != null:
 		pckt['args'] = args
 	return pckt
 
-func start(game):
+func start(game, port):
 	udp = PacketPeerUDP.new()
-	game_node = game
-	spawn_node = game.get_node("player_spawn")
-	monster_spawn_node = game.get_node("monster_spawn")
-	players = {}
-	monsters = {}
-	for player in spawn_node.get_children():
-		players[player.get_name()] = player.get_node("body")
-	for monster in monster_spawn_node.get_children():
-		monsters[monster.get_name()] = monster
-	if global.local_player != null:
-		global.local_player.connect("used_item", self, "local_player_used_item")
-		global.local_player.connect("got_item", self, "local_player_got_item")
+	if udp.listen(port) == OK:
+		game_node = game
+		players_spawn_node = game.get_node("player_spawn")
+		monsters_spawn_node = game.get_node("monster_spawn")
+		players = {}
+		monsters = {}
+		entities = {}
+		for player in players_spawn_node.get_children():
+			players[player.get_name()] = player.get_node("body")
+			entities[player.get_name()] = player.get_node("body")
+		for monster in monsters_spawn_node.get_children():
+			monsters[monster.get_name()] = monster
+			entities[monster.get_name()] = monster
+		return true
+	return false
 
 func get_available_packet():
 	if udp.get_available_packet_count() > 0:
@@ -90,3 +90,6 @@ func process(delta):
 func stop():
 	if udp.is_listening():
 		udp.close()
+	players = {}
+	monsters = {}
+	entities = {}

@@ -34,11 +34,6 @@ var tf
 func _ready():
 	set_process(true)
 
-func init(hp, stamina):
-	self.hp = hp
-	self.max_hp = hp
-	self.stamina = stamina
-	self.max_stamina = stamina
 func init(_hp, _stamina, attack):
 	hp = _hp
 	max_hp = _hp
@@ -92,10 +87,7 @@ func move_entity(delta, gravity=true):
 		var yaw_diff = abs(atan2(dist.x, dist.z))
 
 		if dist.length() > 0.01 and yaw_diff > 0.01:
-			if self extends preload("res://src/entities/player.gd"):
-				networking.peer.local_player_move(tf)
-			elif networking.is_server():
-				networking.peer.local_monster_move(get_name(), tf)
+			networking.peer.local_entity_move(get_name(), tf)
 
 func look_ahead(delta):
 	if direction.length() != 0:
@@ -126,7 +118,6 @@ func damage(dmg, reg):
 
 func attack(attack_name):
 	attack_animation_node.play(attack_name)
-	attacked = true
 
 func _process(delta):
 	time_hit += delta

@@ -10,16 +10,14 @@ var ping
 var retry = 0
 
 func start(game, ip, port):
-	.start(game)
-	if udp.listen(0) == OK:
+	if .start(game, 0):
 		server_ip = ip
 		server_port = port
 		udp.set_send_address(ip, port)
 		udp.put_var(new_packet(CMD_CS_CONNECT, global.local_player.get_name()))
 		ping = OS.get_unix_time()
 		return true
-	else:
-		return false
+	return false
 
 func send(pckt):
 	udp.put_var(pckt)
@@ -32,10 +30,12 @@ func connection_accepted(args):
 			var player = global.add_player(game_node, player_name, false)
 			emit_signal("player_connected", player)
 			players[player_name] = player
+			entities[player_name] = player
 	for player_name in players.keys():
 		if not player_name in args:
 			emit_signal("player_disconnected", players[player_name])
 			players.erase(player_name)
+			entities.erase(player_name)
 
 func ping(args):
 	send(new_packet(CMD_CS_PONG, global.local_player.get_name()))
@@ -46,34 +46,23 @@ func pong(args):
 	ping = OS.get_unix_time()
 	retry = 0
 
-func player_move(args):
-	if args.player in players.keys():
-		players[args.player].set_global_transform(args.transform)
+func entity_move(args):
+	if args.entity in entities.keys():
+		entities[args.entity].set_global_transform(args.transform)
 
-func monster_move(args):
-	if args.monster in monsters.keys():
-		monsters[args.monster].set_global_transform(args.transform)
+func entity_damage(args):
+	if args.entity in entities.keys():
+		entities[args.entity].hp = args.hp
+		entities[args.entity].regenerable_hp = args.regenerable
 
-func monster_attack(args):
-	if args.monster in monsters.keys():
-		monsters[args.monster].animation.play("attack")
+func entity_attack(args):
+	if args.entity in entities.keys():
+		entities[args.entity].attack(args.attack)
 
-func player_damage(args):
-	if args.player in players.keys():
-		players[args.player].damage(args.damage, args.regenerable, false)
-
-func player_left_attack(args):
-	if args.player in players.keys():
-		players[args.player].weapon_animation.play("left_attack_0")
-
-func player_right_attack(args):
-	if args.player in players.keys():
-		players[args.player].weapon_animation.play("right_attack_0")
-
-func player_die(args):
-	if args in players.keys():
-		if players[args].hp > 0:
-			players[args].die(false)
+func entity_die(args):
+	if args in entities.keys():
+		if entities[args].hp > 0:
+			entities[args].die()
 
 func player_use_item(args):
 	if args.player in players.keys():
@@ -87,34 +76,33 @@ func player_got_item(args):
 func player_connected(args):
 	players[args.player] = global.add_player(game_node, args.player, false)
 	players[args.player].set_global_transform(args.transform)
+	entities[args.player] = players[args.player]
 	emit_signal("player_connected", players[args.player])
 
 func player_disconnected(args):
 	emit_signal("player_disconnected", players[args])
 	players.erase(args)
+	entities.erase(args)
 
 func handle_packet(pckt, ip, port):
-	print("Received %s from %s:%s" % [pckt, ip, port])
+	#print("Received %s from %s:%s" % [pckt, ip, port])
 	if not connected:
 		if pckt.command == CMD_SC_CONNECT_ACCEPT:
 			connection_accepted(pckt.args)
 		elif pckt.command == CMD_SC_USERNAME_IN_USE:
-			stop()
 			global.stop_game()
 	elif pckt.command == CMD_SC_PING:
 		ping(pckt.args)
 	elif pckt.command == CMD_SC_PONG:
 		pong(pckt.args)
 	elif pckt.command == CMD_SC_MOVE:
-		player_move(pckt.args)
+		entity_move(pckt.args)
 	elif pckt.command == CMD_SC_DAMAGE:
-		player_damage(pckt.args)
-	elif pckt.command == CMD_SC_L_ATTACK:
-		player_left_attack(pckt.args)
-	elif pckt.command == CMD_SC_R_ATTACK:
-		player_right_attack(pckt.args)
+		entity_damage(pckt.args)
+	elif pckt.command == CMD_SC_ATTACK:
+		entity_attack(pckt.args)
 	elif pckt.command == CMD_SC_DIE:
-		player_die(pckt.args)
+		entity_die(pckt.args)
 	elif pckt.command == CMD_SC_USE:
 		player_use_item(pckt.args)
 	elif pckt.command == CMD_SC_GOT:
@@ -123,15 +111,11 @@ func handle_packet(pckt, ip, port):
 		player_connected(pckt.args)
 	elif pckt.command == CMD_SC_PLAYER_DISCONNECTED:
 		player_disconnected(pckt.args)
-	elif pckt.command == CMD_SC_M_MOVE:
-		monster_move(pckt.args)
-	elif pckt.command == CMD_SC_M_ATTACK:
-		monster_attack(pckt.args)
 	elif pckt.command == CMD_SC_DOWN:
 		global.stop_game()
 		print("Server shutdown!")
 	else:
-		print("Unknown command %s received" % pckt.command)
+		printerr("Unknown command %s received" % pckt.command)
 
 func process(delta):
 	.process(delta)
@@ -139,38 +123,30 @@ func process(delta):
 	if OS.get_unix_time() - ping > PING_TIMEOUT:
 		if retry > PING_RETRY:
 			global.stop_game()
-			print("Server didn't reply!")
+			printerr("Server didn't reply!")
 		else:
 			send(new_packet(CMD_CS_PING, global.local_player.get_name()))
 			ping = OS.get_unix_time()
 			retry += 1
 
 func stop():
-	.stop()
 	if connected:
 		print("Sending disconnect command to server")
 		send(new_packet(CMD_CS_DISCONNECT, global.local_player.get_name()))
 	connected = false
+	.stop()
 
-func local_player_move(transform):
-	var name = global.local_player.get_name()
-	send(new_packet(CMD_CS_MOVE, {'player': name, 'transform': transform}))
+func local_entity_move(entity, transform):
+	send(new_packet(CMD_CS_MOVE, {'player': entity, 'transform': transform}))
 
-func local_player_left_attack():
-	var name = global.local_player.get_name()
-	send(new_packet(CMD_SC_L_ATTACK, {'player': name}))
+func local_entity_attack(entity, attack):
+	send(new_packet(CMD_CS_ATTACK, {'entity': entity, 'attack': attack}))
 
-func local_player_right_attack():
-	var name = global.local_player.get_name()
-	send(new_packet(CMD_SC_R_ATTACK, {'player': name}))
+func local_entity_died(entity):
+	send(new_packet(CMD_CS_DIE, entity))
 
-func local_player_died():
-	var name = global.local_player.get_name()
-	send(new_packet(CMD_CS_DIE, name))
-
-func local_player_damage(dmg, reg):
-	var name = global.local_player.get_name()
-	send(new_packet(CMD_CS_DAMAGE, {'damage': dmg, 'regenerable': reg}))
+func local_entity_damage(entity, dmg, reg):
+	send(new_packet(CMD_CS_DAMAGE, {'entity': entity, 'damage': dmg, 'regenerable': reg}))
 
 func local_player_used_item(item):
 	var player = global.local_player

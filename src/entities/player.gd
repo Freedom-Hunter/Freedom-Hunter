@@ -166,12 +166,12 @@ func _fixed_process(delta):
 	if Input.is_action_pressed("player_attack_left"):
 		if not weapon_animation.is_playing():
 			if networking.multiplayer:
-				networking.peer.local_player_left_attack()
+				networking.peer.local_entity_attack(get_name(), "left_attack_0")
 			attack("left_attack_0")
 	if Input.is_action_pressed("player_attack_right"):
 		if not weapon_animation.is_playing():
 			if networking.multiplayer:
-				networking.peer.local_player_right_attack()
+				networking.peer.local_entity_attack(get_name(), "right_attack_0")
 			attack("right_attack_0")
 
 	# Camera follows the player
