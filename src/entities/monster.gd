@@ -35,12 +35,6 @@ func die():
 	interact_node.add_to_group("interact")
 	set_script(preload("res://src/interact/monster drop.gd"))
 
-func attack():
-	if not animation.is_playing():
-		animation.play("attack")
-		if networking.is_server():
-			networking.peer.local_monster_attack(get_name())
-
 func sort_by_distance(a, b):
 	var dist_a = (get_global_transform().origin - a.get_global_transform().origin).length()
 	var dist_b = (get_global_transform().origin - b.get_global_transform().origin).length()
@@ -68,5 +62,6 @@ func _fixed_process(delta):
 				direction = distance_from_player.normalized() * SPEED
 			else:
 				direction = distance_from_player.normalized() * 0.01
-				attack()
+				if not animation.is_playing():
+					attack("attack")
 	move_entity(delta)

@@ -25,8 +25,9 @@ signal got_item
 signal used_item
 
 func init(local, hp, stamina):
-	.init(hp, stamina)
+	.init(hp, stamina, weapon_animation)
 	self.local = local
+	resume_player()
 
 	# TEST CODE
 	var Item = preload("res://src/items/item.gd")
@@ -44,11 +45,6 @@ func init(local, hp, stamina):
 	inventory.init([null_item, potion, firework, barrel], 30)
 	inventory.set_pos(Vector2(1370, 200))
 	inventory.set_name("player_inventory")
-
-func _ready():
-	if local:
-		set_fixed_process(true)
-		set_process_input(true)
 
 func sort_by_distance(a, b):
 	var dist_a = (get_global_transform().origin - a.get_global_transform().origin).length()
@@ -169,14 +165,14 @@ func _fixed_process(delta):
 
 	if Input.is_action_pressed("player_attack_left"):
 		if not weapon_animation.is_playing():
-			weapon_animation.play("left_attack_0")
 			if networking.multiplayer:
 				networking.peer.local_player_left_attack()
+			attack("left_attack_0")
 	if Input.is_action_pressed("player_attack_right"):
 		if not weapon_animation.is_playing():
-			weapon_animation.play("right_attack_0")
 			if networking.multiplayer:
 				networking.peer.local_player_right_attack()
+			attack("right_attack_0")
 
 	# Camera follows the player
 	yaw_node.set_translation(get_translation() + Vector3(0, offset, 0))

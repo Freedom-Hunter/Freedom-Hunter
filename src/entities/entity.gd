@@ -25,6 +25,8 @@ var jumping = false
 
 var interpolation_factor = 15  # how fast we interpolate rotations
 
+var attack_animation_node
+
 # Multiplayer
 var ti
 var tf
@@ -37,6 +39,12 @@ func init(hp, stamina):
 	self.max_hp = hp
 	self.stamina = stamina
 	self.max_stamina = stamina
+func init(_hp, _stamina, attack):
+	hp = _hp
+	max_hp = _hp
+	stamina = _stamina
+	max_stamina = _stamina
+	attack_animation_node = attack
 
 func move_entity(delta, gravity=true):
 	if networking.multiplayer:
@@ -115,6 +123,10 @@ func damage(dmg, reg):
 			die()
 	else:
 		print(get_name(), " is already dead")
+
+func attack(attack_name):
+	attack_animation_node.play(attack_name)
+	attacked = true
 
 func _process(delta):
 	time_hit += delta
