@@ -444,8 +444,9 @@ range/exp_edit = false
 range/rounded = false
 percent/visible = false
 
-[node name="sharpening" type="Container" parent="."]
+[node name="sharpness" type="Container" parent="."]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -455,7 +456,7 @@ margin/top = 50.0
 margin/right = 150.0
 margin/bottom = 75.0
 
-[node name="sword" type="TextureFrame" parent="sharpening"]
+[node name="sword" type="TextureFrame" parent="sharpness"]
 
 anchor/right = 1
 anchor/bottom = 1
@@ -471,7 +472,7 @@ texture = ExtResource( 4 )
 expand = true
 stretch_mode = 0
 
-[node name="type" type="TextureFrame" parent="sharpening"]
+[node name="type" type="TextureFrame" parent="sharpness"]
 
 anchor/right = 1
 anchor/bottom = 1
@@ -488,7 +489,7 @@ modulate = Color( 1, 1, 1, 0 )
 expand = true
 stretch_mode = 0
 
-[node name="fading" type="AnimationPlayer" parent="sharpening"]
+[node name="fading" type="AnimationPlayer" parent="sharpness"]
 
 playback/process_mode = 1
 playback/default_blend_time = 0.0
@@ -507,6 +508,7 @@ autoplay = ""
 
 [node name="items_bar" type="Control" parent="."]
 
+editor/display_folded = true
 anchor/top = 1
 anchor/bottom = 1
 rect/min_size = Vector2( 380, 155 )
@@ -732,6 +734,7 @@ max_lines_visible = -1
 
 [node name="notification" type="Panel" parent="."]
 
+editor/display_folded = true
 visibility/opacity = 0.0
 anchor/right = 1
 focus/ignore_mouse = false
@@ -793,6 +796,7 @@ default/chorus_send = 0.0
 
 [node name="players_list" type="VBoxContainer" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = false
@@ -822,6 +826,7 @@ max_lines_visible = -1
 
 [node name="inventory" type="Popup" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true

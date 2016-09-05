@@ -30,6 +30,8 @@ func init(local, hp, stamina):
 	self.local = local
 	resume_player()
 
+	weapon_node.init(self)
+
 	# TEST CODE
 	var Item = preload("res://src/items/item.gd")
 	var null_item = Item.new()

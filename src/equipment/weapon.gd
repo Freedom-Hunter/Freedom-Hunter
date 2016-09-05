@@ -1,42 +1,47 @@
 extends "equipment.gd"
 
-onready var sharpening_node = get_node("/root/game/hud/sharpening/fading")
+onready var sharpness_node = get_node("/root/game/hud/sharpness/fading")
 
-export (int, 2000) var attack = 100
-# red sharpening is not in list because it is default value
-var sharpening_type = ["purple", "white", "blue", "green", "yellow", "orange"]
-var sharpening = [1, 1, 1, 1, 1, 1]
-
+export (int, 2000) var attack = 10
+# red sharpness is not in list because it is default value
+var sharpness_type = ["purple", "white", "blue", "green", "yellow", "orange"]
+var sharpness = [1, 1, 1, 1, 1, 1]
+var player
 
 func _ready():
-	for i in range(sharpening_type.size()):
-		if sharpening[i] > 0:
-			sharpening_node.play(sharpening_type[i])
+	for i in range(sharpness_type.size()):
+		if sharpness[i] > 0:
+			sharpness_node.play(sharpness_type[i])
 			return
-	sharpening_node.play("red")
+	sharpness_node.play("red")
 
-func fading():
-	var anim = sharpening_node.get_current_animation()
-	for i in range(sharpening_type.size()):
-		if sharpening[i] > 0:
-			sharpening[i] -= 1
-			if sharpening[i] == 0:
-				if i == sharpening.size()-1:
+func init(_player):
+	player = _player
+
+func update_sharpness():
+	var anim = sharpness_node.get_current_animation()
+	for i in range(sharpness_type.size()):
+		if sharpness[i] > 0:
+			sharpness[i] -= 1
+			if sharpness[i] == 0:
+				if i == sharpness.size()-1:
 					break
-				sharpening_node.play(sharpening_type[i+1])
+				sharpness_node.play(sharpness_type[i+1])
 			return
 	if anim != "red":
-		sharpening_node.play("red")
+		sharpness_node.play("red")
 
 func get_weapon_damage(monster):
 	var damage = attack
+	if not 'weakness' in monster:
+		return damage
 	for element in elements:
 		if element in monster.weakness:
 			damage += elements[element] * monster.weakness[element]
 	return damage
 
 func _on_sword_body_enter(body):
-	if global.local_player != null and body != global.local_player and body extends preload("res://src/entities/entity.gd"):
-		if global.local_player.weapon_animation.is_playing():
-			body.damage(get_weapon_damage(body), 0.0)
-			fading()
+	if body != player and player.attack_animation_node.is_playing() and body extends preload("res://src/entities/entity.gd"):
+		body.damage(get_weapon_damage(body), 0.0)
+		if player == global.local_player:
+			update_sharpness()
