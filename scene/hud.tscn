@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=1]
+[gd_scene load_steps=37 format=1]
 
 [ext_resource path="res://media/font/RobotoCondensed-Light.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/hud.gd" type="Script" id=2]
@@ -6,11 +6,12 @@
 [ext_resource path="res://media/hud/sharpening/sharpening.png" type="Texture" id=4]
 [ext_resource path="res://media/hud/sharpening/sharpening_type.tex" type="Texture" id=5]
 [ext_resource path="res://media/hud/item_bar/slot.png" type="Texture" id=6]
-[ext_resource path="res://media/hud/item_bar/quantity.png" type="Texture" id=7]
-[ext_resource path="res://media/hud/item_bar/name.png" type="Texture" id=8]
-[ext_resource path="res://media/font/MedievalSharp.ttf" type="DynamicFontData" id=9]
-[ext_resource path="res://sounds/beatbox.wav" type="Sample" id=10]
-[ext_resource path="res://scene/onscreen_controls.tscn" type="PackedScene" id=11]
+[ext_resource path="res://src/items_bar.gd" type="Script" id=7]
+[ext_resource path="res://media/hud/item_bar/quantity.png" type="Texture" id=8]
+[ext_resource path="res://media/hud/item_bar/name.png" type="Texture" id=9]
+[ext_resource path="res://media/font/MedievalSharp.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://sounds/beatbox.wav" type="Sample" id=11]
+[ext_resource path="res://scene/onscreen_controls.tscn" type="PackedScene" id=12]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -253,14 +254,14 @@ font/font = ExtResource( 1 )
 font/size = 24
 font/use_mipmaps = false
 font/use_filter = false
-font/font = ExtResource( 9 )
+font/font = ExtResource( 10 )
 
 [sub_resource type="DynamicFont" id=22]
 
 font/size = 32
 font/use_mipmaps = false
 font/use_filter = false
-font/font = ExtResource( 9 )
+font/font = ExtResource( 10 )
 
 [sub_resource type="Animation" id=23]
 
@@ -285,7 +286,7 @@ tracks/2/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "updat
 
 [sub_resource type="SampleLibrary" id=24]
 
-samples/beatbox = { "db":0.0, "pitch":1.0, "sample":ExtResource( 10 ) }
+samples/beatbox = { "db":0.0, "pitch":1.0, "sample":ExtResource( 11 ) }
 
 [node name="hud" type="Control"]
 
@@ -504,9 +505,8 @@ playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
 
-[node name="items_bar" type="Container" parent="."]
+[node name="items_bar" type="Control" parent="."]
 
-editor/display_folded = true
 anchor/top = 1
 anchor/bottom = 1
 rect/min_size = Vector2( 380, 155 )
@@ -519,13 +519,13 @@ margin/left = 10.0
 margin/top = 165.0
 margin/right = 390.0
 margin/bottom = 10.0
+script/script = ExtResource( 7 )
 
 [node name="left_2" type="Panel" parent="items_bar"]
 
-editor/display_folded = true
 visibility/opacity = 0.5
 focus/ignore_mouse = true
-focus/stop_mouse = true
+focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
@@ -538,7 +538,7 @@ margin/bottom = 75.0
 anchor/right = 1
 anchor/bottom = 1
 focus/ignore_mouse = true
-focus/stop_mouse = true
+focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
@@ -550,10 +550,9 @@ stretch_mode = 0
 
 [node name="left_1" type="Panel" parent="items_bar"]
 
-editor/display_folded = true
 visibility/opacity = 0.75
 focus/ignore_mouse = true
-focus/stop_mouse = true
+focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 65.0
@@ -566,7 +565,7 @@ margin/bottom = 82.0
 anchor/right = 1
 anchor/bottom = 1
 focus/ignore_mouse = true
-focus/stop_mouse = true
+focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
@@ -578,9 +577,8 @@ stretch_mode = 0
 
 [node name="use" type="Panel" parent="items_bar"]
 
-editor/display_folded = true
 focus/ignore_mouse = true
-focus/stop_mouse = true
+focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 145.0
@@ -593,7 +591,7 @@ margin/bottom = 90.0
 anchor/right = 1
 anchor/bottom = 1
 focus/ignore_mouse = true
-focus/stop_mouse = true
+focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
@@ -605,10 +603,9 @@ stretch_mode = 0
 
 [node name="right_1" type="Panel" parent="items_bar"]
 
-editor/display_folded = true
 visibility/opacity = 0.75
 focus/ignore_mouse = true
-focus/stop_mouse = true
+focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 240.0
@@ -621,7 +618,7 @@ margin/bottom = 82.0
 anchor/right = 1
 anchor/bottom = 1
 focus/ignore_mouse = true
-focus/stop_mouse = true
+focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
@@ -633,10 +630,9 @@ stretch_mode = 0
 
 [node name="right_2" type="Panel" parent="items_bar"]
 
-editor/display_folded = true
 visibility/opacity = 0.5
 focus/ignore_mouse = true
-focus/stop_mouse = true
+focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 320.0
@@ -649,7 +645,7 @@ margin/bottom = 75.0
 anchor/right = 1
 anchor/bottom = 1
 focus/ignore_mouse = true
-focus/stop_mouse = true
+focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
@@ -661,17 +657,16 @@ stretch_mode = 0
 
 [node name="quantity" type="TextureFrame" parent="items_bar"]
 
-editor/display_folded = true
 rect/min_size = Vector2( 30, 30 )
 focus/ignore_mouse = true
-focus/stop_mouse = true
+focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 220.0
 margin/top = 75.0
 margin/right = 250.0
 margin/bottom = 105.0
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 expand = true
 stretch_mode = 0
 
@@ -680,7 +675,7 @@ stretch_mode = 0
 anchor/right = 1
 anchor/bottom = 1
 focus/ignore_mouse = true
-focus/stop_mouse = true
+focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = 0.0
@@ -697,7 +692,6 @@ max_lines_visible = -1
 
 [node name="name" type="TextureFrame" parent="items_bar"]
 
-editor/display_folded = true
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -706,7 +700,7 @@ margin/left = 0.0
 margin/top = 110.0
 margin/right = 380.0
 margin/bottom = 155.0
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 expand = true
 stretch_mode = 0
 
@@ -857,7 +851,7 @@ shortcut = null
 text = "Quit"
 flat = false
 
-[node name="onscreen" parent="." instance=ExtResource( 11 )]
+[node name="onscreen" parent="." instance=ExtResource( 12 )]
 
 [connection signal="pressed" from="action" to="." method="_on_action_pressed"]
 

@@ -9,6 +9,7 @@ onready var audio_node = get_node("audio")
 onready var interact_node = get_node("interact")
 onready var offset = yaw_node.get_translation().y
 onready var hud = get_node("/root/game/hud")
+onready var onscreen = hud.get_node("onscreen")
 var inventory = preload("res://scene/inventory.tscn").instance()
 
 
@@ -69,10 +70,10 @@ func interact_with_nearest():
 	interact_with(get_nearest_interact())
 
 func _input(event):
-	if Input.is_action_pressed("player_scroll_next") and not Input.is_action_pressed("camera_rotation_lock"):
+	if event.is_action_pressed("player_scroll_next") and not Input.is_action_pressed("camera_rotation_lock"):
 		inventory.activate_next()
 		hud.update_items()
-	elif Input.is_action_pressed("player_scroll_back") and not Input.is_action_pressed("camera_rotation_lock"):
+	elif event.is_action_pressed("player_scroll_back") and not Input.is_action_pressed("camera_rotation_lock"):
 		inventory.activate_prev()
 		hud.update_items()
 	elif event.is_action_pressed("player_use"):
@@ -137,8 +138,13 @@ func _fixed_process(delta):
 		direction -= Vector3(camera.basis.x.x, 0, camera.basis.x.z)
 	if Input.is_action_pressed("player_right"):
 		direction += Vector3(camera.basis.x.x, 0, camera.basis.x.z)
-	if hud.get_node("onscreen").is_visible():
-		var d = hud.get_node("onscreen").direction
+	if onscreen.is_visible():
+		var d = onscreen.direction
+		if onscreen.intensity > 40:
+			speed = onscreen.intensity / 60 * SPRINT_SPEED
+			stamina -= SPRINT_USE * delta
+		else:
+			speed = onscreen.intensity / 60 * SPEED
 		direction = d.y * camera.basis.z + d.x * camera.basis.x
 	if run and stamina > 0 and direction != Vector3():
 			speed = SPRINT_SPEED

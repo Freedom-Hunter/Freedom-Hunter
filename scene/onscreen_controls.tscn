@@ -10,8 +10,8 @@
 
 [node name="onscreen" type="Control"]
 
-focus/ignore_mouse = false
-focus/stop_mouse = true
+focus/ignore_mouse = true
+focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
@@ -50,8 +50,8 @@ stretch_mode = 0
 
 [node name="buttons" type="Control" parent="."]
 
-focus/ignore_mouse = false
-focus/stop_mouse = true
+focus/ignore_mouse = true
+focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 100.0
@@ -59,81 +59,45 @@ margin/top = 600.0
 margin/right = 350.0
 margin/bottom = 850.0
 
-[node name="A" type="TextureButton" parent="buttons"]
+[node name="A" type="TouchScreenButton" parent="buttons"]
 
-anchor/left = 3
-anchor/top = 1
-anchor/right = 3
-anchor/bottom = 1
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 40.0
-margin/top = 80.0
-margin/right = -40.0
-margin/bottom = 0.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 2
-shortcut = null
-textures/normal = ExtResource( 4 )
+transform/pos = Vector2( 85, 170 )
+normal = ExtResource( 4 )
+pressed = null
+bitmask = null
+passby_press = false
+action = ""
+visibility_mode = 0
 
-[node name="B" type="TextureButton" parent="buttons"]
+[node name="B" type="TouchScreenButton" parent="buttons"]
 
-anchor/top = 3
-anchor/bottom = 3
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 40.0
-margin/right = 80.0
-margin/bottom = -40.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 2
-shortcut = null
-textures/normal = ExtResource( 5 )
+transform/pos = Vector2( 0, 85 )
+normal = ExtResource( 5 )
+pressed = null
+bitmask = null
+passby_press = false
+action = ""
+visibility_mode = 0
 
-[node name="X" type="TextureButton" parent="buttons"]
+[node name="X" type="TouchScreenButton" parent="buttons"]
 
-anchor/left = 3
-anchor/right = 3
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 40.0
-margin/top = 0.0
-margin/right = -40.0
-margin/bottom = 80.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 2
-shortcut = null
-textures/normal = ExtResource( 6 )
+transform/pos = Vector2( 85, 0 )
+normal = ExtResource( 6 )
+pressed = null
+bitmask = null
+passby_press = false
+action = ""
+visibility_mode = 0
 
-[node name="Y" type="TextureButton" parent="buttons"]
+[node name="Y" type="TouchScreenButton" parent="buttons"]
 
-anchor/left = 1
-anchor/top = 3
-anchor/right = 1
-anchor/bottom = 3
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 80.0
-margin/top = 40.0
-margin/right = 0.0
-margin/bottom = -40.0
-toggle_mode = false
-click_on_press = true
-enabled_focus_mode = 2
-shortcut = null
-textures/normal = ExtResource( 7 )
+transform/pos = Vector2( 170, 85 )
+normal = ExtResource( 7 )
+pressed = null
+bitmask = null
+passby_press = false
+action = ""
+visibility_mode = 0
 
 [connection signal="pressed" from="buttons/A" to="." method="_on_A_pressed"]
 

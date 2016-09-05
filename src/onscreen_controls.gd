@@ -8,6 +8,7 @@ onready var buttons = get_node("buttons")
 
 var touch_index = null
 var direction = Vector2()
+var intensity = Vector2()
 
 var a_action = "player_attack_left"
 var b_action = "player_attack_right"
@@ -38,12 +39,20 @@ func _input(event):
 			direction = Vector2()
 			accept_event()
 	elif event.type == InputEvent.SCREEN_DRAG and event.index == touch_index:
-		var pos = event.pos - analog.get_pos() - stick_rest_pos
+		var pos = event.pos - analog.get_pos() - stick_rest_pos - stick.get_size() / 2
 		direction = pos.normalized()
-		if pos.length() > 50:
-			pos = direction * 50
+		intensity = pos.length()
+		if intensity > 60:
+			pos = direction * 60
+			intensity = 60
 		stick.set_pos(pos + stick_rest_pos)
 		accept_event()
+
+func send_action(action):
+	var ev = InputEvent()
+	ev.type = InputEvent.ACTION
+	ev.set_as_action(action, true)
+	get_tree().input_event(ev)
 
 func _on_A_pressed():
 	Input.action_press(a_action)
@@ -65,6 +74,7 @@ func _on_X_released():
 
 func _on_Y_pressed():
 	Input.action_press(y_action)
+	send_action(y_action)
 
 func _on_Y_released():
 	Input.action_release(y_action)
