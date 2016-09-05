@@ -1,7 +1,6 @@
 extends "entity.gd"
 
 onready var view_node = get_node("view")
-onready var animation = get_node("animation")
 onready var interact_node = get_node("interact")
 
 export (int, FLAGS, "Fire", "Water", "Ice", "Thunder", "Dragon", \
@@ -14,7 +13,7 @@ const SPEED = 5
 var weakness = {}
 
 func init():
-	hp = 500
+	.init(500, 100, get_node("animation"))
 	interpolation_factor = 1
 	if networking.is_server() or not networking.multiplayer:
 		set_fixed_process(true)
@@ -62,6 +61,6 @@ func _fixed_process(delta):
 				direction = distance_from_player.normalized() * SPEED
 			else:
 				direction = distance_from_player.normalized() * 0.01
-				if not animation.is_playing():
+				if not attack_animation_node.is_playing():
 					attack("attack")
 	move_entity(delta)

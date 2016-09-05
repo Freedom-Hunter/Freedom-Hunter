@@ -27,10 +27,6 @@ var interpolation_factor = 15  # how fast we interpolate rotations
 
 var attack_animation_node
 
-# Multiplayer
-var ti
-var tf
-
 func _ready():
 	set_process(true)
 
@@ -42,8 +38,7 @@ func init(_hp, _stamina, attack):
 	attack_animation_node = attack
 
 func move_entity(delta, gravity=true):
-	if networking.multiplayer:
-		ti = get_global_transform()
+	var ti = get_global_transform()
 
 	velocity.x = direction.x
 	if gravity:
@@ -82,7 +77,7 @@ func move_entity(delta, gravity=true):
 		jumping = false
 
 	if networking.multiplayer:
-		tf = get_global_transform()
+		var tf = get_global_transform()
 		var dist = tf.origin - ti.origin
 		var yaw_diff = abs(atan2(dist.x, dist.z))
 
@@ -107,12 +102,13 @@ func die():
 
 func damage(dmg, reg):
 	if hp > 0:
-		print("%s: damage of %s" % [get_name(), dmg])
 		time_hit = 0
 		hp -= dmg
 		regenerable_hp = int(hp + dmg * reg)
 		if hp <= 0:
 			die()
+		else:
+			print("%s damaged by %s" % [get_name(), dmg])
 	else:
 		print(get_name(), " is already dead")
 
