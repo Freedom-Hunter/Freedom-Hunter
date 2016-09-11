@@ -5,6 +5,7 @@ onready var camera_node = get_node("../yaw/pitch/camera")
 onready var yaw_node = get_node("../yaw")
 onready var weapon_node = get_node("weapon/sword")
 onready var weapon_animation = get_node("weapon/animation")
+onready var player_animation = get_node("model/AnimationPlayer")
 onready var audio_node = get_node("audio")
 onready var interact_node = get_node("interact")
 onready var offset = yaw_node.get_translation().y
@@ -131,7 +132,6 @@ func _fixed_process(delta):
 	# Player movements
 	var run = Input.is_action_pressed("player_run")
 	var speed = SPEED
-
 	if Input.is_action_pressed("player_forward"):
 		direction -= Vector3(camera.basis.z.x, 0, camera.basis.z.z)
 	if Input.is_action_pressed("player_backward"):
@@ -156,14 +156,23 @@ func _fixed_process(delta):
 			if stamina > max_stamina:
 				stamina = max_stamina
 	if Input.is_action_pressed("player_jump") and on_floor:
-		jumping = true
 		if run:
+			jumping = true
 			jump = SPRINT_SPEED
 			stamina -= 3
 		else:
-			jump = JUMP
+			if direction.length() != 0:
+				player_animation.play("dodge")
+				speed = speed * 3
+				stamina -= 3
 	direction = direction.normalized()
 
+	if direction.length() != 0:
+		if not player_animation.is_playing():
+			player_animation.play("walk")
+	else:
+		if not player_animation.is_playing():
+			player_animation.play("idle")
 	direction.x = direction.x * speed
 	direction.y = jump
 	direction.z = direction.z * speed
