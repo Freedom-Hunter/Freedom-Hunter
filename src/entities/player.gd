@@ -100,15 +100,13 @@ func heal(amount):
 	if hp > max_hp:
 		hp = max_hp
 
-func die(net=true):
+sync func die():
 	.die()
 	get_node("audio").play("hit")
 	rotate_x(PI/2)
 	set_translation(get_translation() + Vector3(0, 0.5, 0))
 	set_fixed_process(false)
 	set_process_input(false)
-	if net and networking.multiplayer:
-		networking.peer.local_player_died()
 
 func get_name():  # this script is attached to a node always called body
 	return get_parent().get_name()  # parent's name is more meaningful
@@ -124,7 +122,20 @@ func resume_player():
 		set_fixed_process(true)
 		camera_node.set_process_input(true)
 
+func _process(delta):
+	if direction.length() != 0:
+		if not player_animation.is_playing():
+			player_animation.play("walk")
+	else:
+		if not player_animation.is_playing():
+			player_animation.play("idle")
+
 func _fixed_process(delta):
+	assert(local)
+	# This fails on the client! See https://github.com/godotengine/godot/issues/6475
+	get_parent().set_network_mode(NETWORK_MODE_MASTER)
+	assert(get_parent().is_network_master())
+	assert(get_network_mode() == NETWORK_MODE_INHERIT)
 	direction = Vector3(0, 0, 0)
 	var jump = 0
 	var camera = camera_node.get_global_transform()
@@ -169,12 +180,6 @@ func _fixed_process(delta):
 				stamina -= 3
 	direction = direction.normalized()
 
-	if direction.length() != 0:
-		if not player_animation.is_playing():
-			player_animation.play("walk")
-	else:
-		if not player_animation.is_playing():
-			player_animation.play("idle")
 	direction.x = direction.x * speed
 	direction.y = jump
 	direction.z = direction.z * speed
@@ -184,14 +189,10 @@ func _fixed_process(delta):
 
 	if Input.is_action_pressed("player_attack_left"):
 		if not weapon_animation.is_playing():
-			if networking.multiplayer:
-				networking.peer.local_entity_attack(get_name(), "left_attack_0")
-			attack("left_attack_0")
+			rpc("attack", "left_attack_0")
 	if Input.is_action_pressed("player_attack_right"):
 		if not weapon_animation.is_playing():
-			if networking.multiplayer:
-				networking.peer.local_entity_attack(get_name(), "right_attack_0")
-			attack("right_attack_0")
+			rpc("attack", "right_attack_0")
 
 	# Camera follows the player
 	yaw_node.set_translation(get_translation() + Vector3(0, offset, 0))

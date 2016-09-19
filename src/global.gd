@@ -5,39 +5,47 @@ var gravity = -10
 
 var player_scn = preload("res://scene/player.tscn")
 
+var game = null
 var local_player = null
 
-func add_monster(game, scene):
+func add_monster(scene):
+	assert(game != null)
 	var monster = scene.instance()
 	game.get_node("monster_spawn").add_child(monster)
 	monster.init()
 
-func add_player(game, name, local):
+func add_player(name, local=false):
+	assert(game != null)
 	var player = player_scn.instance()
 	player.set_name(name)
 	game.get_node("player_spawn").add_child(player)
 	player.get_node("body").init(local, 150, 100)
 	game.get_node("hud").player_connected(name)
-	if local_player != null:
-		local_player.camera_node.make_current()
+	if local:
+		player.set_network_mode(NETWORK_MODE_MASTER)
+		local_player = player.get_node("body")
+	else:
+		player.set_network_mode(NETWORK_MODE_SLAVE)
+	local_player.camera_node.make_current()
 	return player.get_node("body")
 
-func remove_player(game, name):
+func remove_player(name):
 	game.get_node("player_spawn").get_node(name).queue_free()
 	game.get_node("hud").player_disconnected(name)
 
 func start_game(local_player_name):
-	var game = preload("res://scene/game.tscn").instance()
+	print("Loading game...")
+	game = preload("res://scene/game.tscn").instance()
 	get_node("/root/").add_child(game)
-	add_monster(game, load("res://scene/monsters/dragon.tscn"))
+	add_monster(load("res://scene/monsters/dragon.tscn"))
 	if local_player_name != null:
-		local_player = add_player(game, local_player_name, true)
+		add_player(local_player_name, true)
 		game.get_node("hud").init()
 	get_tree().set_current_scene(game)
-	return game
 
 func stop_game():
-	get_node("/root/game").queue_free()
+	if game != null:
+		game.queue_free()
 	get_node("/root/networking").stop()
 	local_player = null
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -47,12 +55,13 @@ func stop_game():
 func exit_clean():
 	var networking = get_node("/root/networking")
 	networking.stop()
-	if networking.lobby.player_id != null:
-		networking.lobby.unregister_player()
-		yield(networking.lobby.http, "request_completed")
-	if networking.lobby.server_id != null:
-		networking.lobby.unregister_server()
-		yield(networking.lobby.http, "request_completed")
+	if networking.multiplayer:
+		if networking.lobby.player_id != null:
+			networking.lobby.unregister_player()
+			yield(networking.lobby.http, "request_completed")
+		if networking.lobby.server_id != null:
+			networking.lobby.unregister_server()
+			yield(networking.lobby.http, "request_completed")
 	get_tree().quit()
 
 func _notification(what):
