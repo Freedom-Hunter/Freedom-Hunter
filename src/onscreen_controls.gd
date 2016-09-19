@@ -8,7 +8,7 @@ onready var buttons = get_node("buttons")
 
 var touch_index = null
 var direction = Vector2()
-var intensity = Vector2()
+var intensity = 0
 
 var a_action = "player_attack_left"
 var b_action = "player_attack_right"
@@ -26,7 +26,6 @@ func _ready():
 		set_process_input(true)
 	else:
 		hide()
-		set_process_input(false)
 
 func _input(event):
 	if event.type == InputEvent.SCREEN_TOUCH:
@@ -41,10 +40,10 @@ func _input(event):
 	elif event.type == InputEvent.SCREEN_DRAG and event.index == touch_index:
 		var pos = event.pos - analog.get_pos() - stick_rest_pos - stick.get_size() / 2
 		direction = pos.normalized()
-		intensity = pos.length()
-		if intensity > 60:
-			pos = direction * 60
-			intensity = 60
+		intensity = pos.length() / 60
+		if intensity > 1:
+			pos = direction
+			intensity = 1
 		stick.set_pos(pos + stick_rest_pos)
 		accept_event()
 

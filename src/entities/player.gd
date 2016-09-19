@@ -142,19 +142,21 @@ func _fixed_process(delta):
 		direction += Vector3(camera.basis.x.x, 0, camera.basis.x.z)
 	if onscreen.is_visible():
 		var d = onscreen.direction
-		if onscreen.intensity > 40:
-			speed = onscreen.intensity / 60 * SPRINT_SPEED
+		if onscreen.intensity > 0.75:
+			speed = onscreen.intensity * SPRINT_SPEED
 			stamina -= SPRINT_USE * delta
+			run = true
 		else:
-			speed = onscreen.intensity / 60 * SPEED
+			speed = onscreen.intensity * SPEED
+			run = false
 		direction = d.y * camera.basis.z + d.x * camera.basis.x
 	if run and stamina > 0 and direction != Vector3():
-			speed = SPRINT_SPEED
-			stamina -= SPRINT_USE * delta
+		speed = SPRINT_SPEED
+		stamina -= SPRINT_USE * delta
 	elif stamina < max_stamina:
-			stamina += SPRINT_REGENERATION * delta
-			if stamina > max_stamina:
-				stamina = max_stamina
+		stamina += SPRINT_REGENERATION * delta
+		if stamina > max_stamina:
+			stamina = max_stamina
 	if Input.is_action_pressed("player_jump") and on_floor:
 		if run:
 			jumping = true
