@@ -11,12 +11,14 @@ var players = {}
 var peer
 var lobby
 
-func _init_multiplayer():
-	multiplayer = true
-	peer = NetworkedMultiplayerENet.new()
+func init_lobby():
 	lobby = Lobby.new()
 	lobby.set_name("lobby")
 	add_child(lobby)
+
+func _init_multiplayer():
+	multiplayer = true
+	peer = NetworkedMultiplayerENet.new()
 	set_pause_mode(PAUSE_MODE_PROCESS)
 
 func server_start(port, username=null, host=null):
