@@ -60,6 +60,6 @@ func _fixed_process(delta):
 				direction = distance_from_player.normalized() * SPEED
 			else:
 				direction = distance_from_player.normalized() * 0.01
-				if not attack_animation_node.is_playing():
+				if not animation_node.is_playing():
 					rpc("attack", "attack")
 	move_entity(delta)

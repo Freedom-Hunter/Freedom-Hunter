@@ -3,16 +3,12 @@ extends "entity.gd"
 
 onready var camera_node = get_node("../yaw/pitch/camera")
 onready var yaw_node = get_node("../yaw")
-onready var weapon_node = get_node("weapon/sword")
-onready var weapon_animation = get_node("weapon/animation")
-onready var player_animation = get_node("model/AnimationPlayer")
 onready var audio_node = get_node("audio")
 onready var interact_node = get_node("interact")
 onready var offset = yaw_node.get_translation().y
 onready var hud = get_node("/root/game/hud")
 onready var onscreen = hud.get_node("onscreen")
 var inventory = preload("res://scene/inventory.tscn").instance()
-
 
 const SPRINT_USE = 5
 const SPRINT_REGENERATION = 4
@@ -22,16 +18,18 @@ const SPRINT_SPEED = 7.5
 
 #multiplayer
 var local = true
+var start_walk = false
 
 signal got_item
 signal used_item
 
 func init(local, hp, stamina):
-	.init(hp, stamina, weapon_animation)
+	assert(get_node("model/AnimationPlayer") != null)
+	.init(hp, stamina, get_node("model/AnimationPlayer"))
 	self.local = local
 	resume_player()
 
-	weapon_node.init(self)
+	get_node("weapon/sword").init(self)
 
 	# TEST CODE
 	var Item = preload("res://src/items/item.gd")
@@ -123,12 +121,23 @@ func resume_player():
 		camera_node.set_process_input(true)
 
 func _process(delta):
+	var anim = animation_node.get_current_animation()
 	if direction.length() != 0:
-		if not player_animation.is_playing():
-			player_animation.play("walk")
+		if dodging:
+			if anim != "dodge":
+				animation_node.play("dodge")
+			return
+		if running:
+			if anim != "run":
+				animation_node.play("run")
+			return
+		else:
+			if anim != "walk":
+				animation_node.play("walk")
 	else:
-		if not player_animation.is_playing():
-			player_animation.play("idle")
+		if anim != "idle":
+			animation_node.play("idle")
+
 
 func _fixed_process(delta):
 	assert(local)
@@ -139,9 +148,8 @@ func _fixed_process(delta):
 	direction = Vector3(0, 0, 0)
 	var jump = 0
 	var camera = camera_node.get_global_transform()
-
 	# Player movements
-	var run = Input.is_action_pressed("player_run")
+	running = Input.is_action_pressed("player_run")
 	var speed = SPEED
 	if Input.is_action_pressed("player_forward"):
 		direction -= Vector3(camera.basis.z.x, 0, camera.basis.z.z)
@@ -156,30 +164,30 @@ func _fixed_process(delta):
 		if onscreen.intensity > 0.75:
 			speed = onscreen.intensity * SPRINT_SPEED
 			stamina -= SPRINT_USE * delta
-			run = true
+			running = true
 		else:
 			speed = onscreen.intensity * SPEED
-			run = false
+			running = false
 		direction = d.y * camera.basis.z + d.x * camera.basis.x
-	if run and stamina > 0 and direction != Vector3():
+	if running and stamina > 0 and direction != Vector3():
 		speed = SPRINT_SPEED
 		stamina -= SPRINT_USE * delta
 	elif stamina < max_stamina:
 		stamina += SPRINT_REGENERATION * delta
 		if stamina > max_stamina:
 			stamina = max_stamina
-	if Input.is_action_pressed("player_jump") and on_floor:
-		if run:
-			jumping = true
-			jump = SPRINT_SPEED
-			stamina -= 3
-		else:
-			if direction.length() != 0:
-				player_animation.play("dodge")
-				speed = speed * 3
+	if Input.is_action_pressed("player_dodge"):
+		if running:
+			if on_floor:
+				jumping = true
+				jump = SPRINT_SPEED
 				stamina -= 3
-	direction = direction.normalized()
+		elif not dodging:
+			dodging = true
+			speed *= 3
+			stamina -= 15
 
+	direction = direction.normalized()
 	direction.x = direction.x * speed
 	direction.y = jump
 	direction.z = direction.z * speed
@@ -188,10 +196,10 @@ func _fixed_process(delta):
 	move_entity(delta)
 
 	if Input.is_action_pressed("player_attack_left"):
-		if not weapon_animation.is_playing():
+		if not animation_node.is_playing():
 			rpc("attack", "left_attack_0")
 	if Input.is_action_pressed("player_attack_right"):
-		if not weapon_animation.is_playing():
+		if not animation_node.is_playing():
 			rpc("attack", "right_attack_0")
 
 	# Camera follows the player

@@ -9,12 +9,7 @@
 
 [sub_resource type="BoxShape" id=1]
 
-extents = Vector3( 0.6, 1, 0.2 )
-
-[sub_resource type="SampleLibrary" id=2]
-
-samples/hit = { "db":0.0, "pitch":1.0, "sample":ExtResource( 3 ) }
-samples/potion_drink = { "db":0.0, "pitch":1.0, "sample":ExtResource( 4 ) }
+extents = Vector3( 0.5, 1, 0.2 )
 
 [sub_resource type="Animation" id=3]
 
@@ -39,6 +34,11 @@ tracks/0/path = NodePath("sword:transform/rotation")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 0.5, 1, 1.5 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":0, "values":[ Vector3( 0, 0, 0 ), Vector3( 90, 0, 45 ), Vector3( 90, 0, -45 ), Vector3( 0, 0, 0 ) ] }
+
+[sub_resource type="SampleLibrary" id=2]
+
+samples/hit = { "db":0.0, "pitch":1.0, "sample":ExtResource( 3 ) }
+samples/potion_drink = { "db":0.0, "pitch":1.0, "sample":ExtResource( 4 ) }
 
 [sub_resource type="BoxShape" id=5]
 
@@ -68,7 +68,20 @@ script/script = ExtResource( 1 )
 
 [node name="model" parent="body" instance=ExtResource( 2 )]
 
-transform/local = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+transform/local = Transform( 0.09, 0, 0, 0, 0.09, 0, 0, 0, 0.09, 0, 0, 0 )
+
+[node name="Armature" parent="body/model"]
+
+editor/display_folded = true
+
+[node name="Skeleton" parent="body/model/Armature"]
+
+editor/display_folded = true
+
+[node name="AnimationPlayer" parent="body/model"]
+
+anims/left_attack_0 = SubResource( 3 )
+anims/right_attack_0 = SubResource( 4 )
 
 [node name="shape" type="CollisionShape" parent="body"]
 
@@ -99,6 +112,7 @@ transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2 )
 
 [node name="weapon" type="Spatial" parent="body"]
 
+editor/display_folded = true
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
 [node name="sword" parent="body/weapon" instance=ExtResource( 5 )]
@@ -107,20 +121,9 @@ transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.427374, 0.936077, 0.16
 elements_type = 2
 elements_effect = IntArray( 200 )
 
-[node name="animation" type="AnimationPlayer" parent="body/weapon"]
-
-playback/process_mode = 1
-playback/default_blend_time = 0.0
-root/root = NodePath("..")
-anims/left_attack_0 = SubResource( 3 )
-anims/right_attack_0 = SubResource( 4 )
-playback/active = true
-playback/speed = 1.0
-blend_times = [  ]
-autoplay = ""
-
 [node name="interact" type="Area" parent="body"]
 
+editor/display_folded = true
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = false
 input/capture_on_drag = false
@@ -152,7 +155,7 @@ _update_shape_index = 0
 [node name="name" type="Spatial" parent="body"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0 )
 
 [node name="yaw" type="Spatial" parent="."]
 

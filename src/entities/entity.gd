@@ -19,13 +19,15 @@ var time_hit = 0
 var direction = Vector3()
 var velocity = Vector3()
 var floor_vel = Vector3()
-var on_floor = false
 
+var on_floor = false
 var jumping = false
+var dodging = false
+var running = false
 
 var interpolation_factor = 15  # how fast we interpolate rotations
 
-var attack_animation_node
+var animation_node
 
 func _ready():
 	set_process(true)
@@ -35,7 +37,8 @@ func init(_hp, _stamina, attack):
 	max_hp = _hp
 	stamina = _stamina
 	max_stamina = _stamina
-	attack_animation_node = attack
+	animation_node = attack
+	animation_node.connect("finished", self, "_on_animation_finished")
 
 func move_entity(delta, gravity=true):
 	var ti = get_global_transform()
@@ -46,6 +49,10 @@ func move_entity(delta, gravity=true):
 	if jumping:
 		velocity.y += direction.y
 	velocity.z = direction.z
+
+	if dodging:
+		velocity.z *= 3
+		velocity.x *= 3
 
 	look_ahead(delta)
 	var motion = move(velocity * delta)
@@ -91,6 +98,10 @@ func look_ahead(delta):
 		target += get_global_transform().origin
 		look_at(target, Vector3(0, 1, 0))
 
+func _on_animation_finished():
+	dodging = false
+	running = false
+
 func get_pos():
 	return get_global_transform().origin
 
@@ -116,7 +127,7 @@ master func damage(dmg, reg):
 		print(get_name(), " is already dead")
 
 sync func attack(attack_name):
-	attack_animation_node.play(attack_name)
+	animation_node.play(attack_name)
 
 func _process(delta):
 	time_hit += delta
