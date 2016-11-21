@@ -23,7 +23,6 @@ func show():
 		load_config()
 	else:
 		print("Error %s occurred while loading config file." % err)
-	networking.init_lobby()
 	request_servers_list()
 	server_validate_input()
 	client_validate_input()

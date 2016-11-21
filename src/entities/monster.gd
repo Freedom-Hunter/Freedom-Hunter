@@ -15,7 +15,8 @@ var weakness = {}
 func init():
 	.init(500, 100, get_node("animation"))
 	interpolation_factor = 1
-	set_fixed_process(true)
+	if networking.is_server() or not networking.multiplayer:
+		set_fixed_process(true)
 
 	# It builds a dictionary with the name of the weapon's elements as key
 	# and as a value taken from the power of the element
@@ -61,5 +62,5 @@ func _fixed_process(delta):
 			else:
 				direction = distance_from_player.normalized() * 0.01
 				if not animation_node.is_playing():
-					rpc("attack", "attack")
+					attack("attack")
 	move_entity(delta)

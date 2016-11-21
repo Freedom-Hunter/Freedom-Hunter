@@ -11,9 +11,6 @@ onready var players_list_node = get_node("players_list")
 onready var action_node = get_node("action")
 onready var inventory = get_node("inventory")
 
-onready var game_node = get_parent()
-onready var player_spawn = game_node.get_node("player_spawn")
-
 var camera_node
 var notify_queue = []
 
@@ -102,54 +99,50 @@ func show_interact():
 func _on_action_pressed():
 	global.local_player.interact_with_nearest()
 
-func player_connected(player_name):
-	assert(not names_node.has_node(player_name))
-	names_node.add_child(new_label(player_name))
-	players_list_node.add_child(new_label(player_name))
-
-func player_disconnected(player_name):
-	assert(names_node.has_node(player_name))
-	names_node.get_node(player_name).queue_free()
-	players_list_node.get_node(player_name).queue_free()
-
-# Make a new label with the same text and name
 func new_label(text):
 	var label = Label.new()
 	label.set_name(text)
 	label.set_text(text)
 	return label
 
-# Move a label above player head
-func name_above_head(label, player_pos):
-	label.show()
-	var pos = camera_node.unproject_position(player_pos)
-	var size = label.get_size()
-	label.set_pos(pos - Vector2(size.x / 2, size.y / 2))
+func player_connected(player_name):
+	names_node.add_child(new_label(player_name))
+	players_list_node.add_child(new_label(player_name))
+
+func player_disconnected(player_name):
+	names_node.get_node(player_name).queue_free()
+	players_list_node.get_node(player_name).queue_free()
 
 func update_names():
 	var camera_pos = global.local_player.camera_node.get_global_transform().origin
-	var space_state = global.game.get_world().get_direct_space_state()
-	var players = player_spawn.get_children()
-	for player in players:
-		var name = player.get_name()
-		var player_pos = player.get_node("body/name").get_global_transform().origin
-		var label = names_node.get_node(name)
-		if camera_node.is_position_behind(player_pos):
-			label.hide()
-		elif players.size() == 1:
-			name_above_head(label, player_pos)
-		else:
-			# use global coordinates, not local to node
-			var result = space_state.intersect_ray(camera_pos, player_pos, players)
-			if result.empty():
-				name_above_head(label, player_pos)
-			else:
+	var space_state = get_node("/root/game").get_world().get_direct_space_state()
+	if networking.multiplayer:
+		for player in networking.get_players():
+			var name = player.get_name()
+			var player_pos = player.get_node("name").get_global_transform().origin
+			var label = names_node.get_node(name)
+			if camera_node.is_position_behind(player_pos):
 				label.hide()
+			else:
+				# use global coordinates, not local to node
+				var result = space_state.intersect_ray(camera_pos, player_pos, networking.get_players())
+				if not result.empty():
+					label.hide()
+				else:
+					label.show()
+					var pos = camera_node.unproject_position(player_pos)
+					var size = label.get_size()
+					label.set_pos(pos - Vector2(size.x/2, size.y/2))
+	else:
+		var label = names_node.get_node(global.local_player.get_name())
+		var pos = camera_node.unproject_position(global.local_player.get_node("name").get_global_transform().origin)
+		var size = label.get_size()
+		label.set_pos(pos - Vector2(size.x/2, size.y/2))
 
 func update_debug():
 	var pos = global.local_player.get_translation()
 	var out = "POS: %.2f %.2f %.2f" % [pos.x, pos.y, pos.z]
-	if networking.multiplayer and networking.is_client_connected():
+	if networking.multiplayer and not networking.is_connected():
 		out += "\nClient is not connected!"
 	get_node("debug").set_text(out)
 

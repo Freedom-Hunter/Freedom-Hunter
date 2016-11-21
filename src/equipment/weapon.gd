@@ -41,7 +41,7 @@ func get_weapon_damage(monster):
 	return damage
 
 func _on_sword_body_enter(body):
-	if body != player and player.attack_animation_node.is_playing() and body.has_method("damage"):
-		body.rpc("damage", get_weapon_damage(body), 0.0)
+	if body != player and player.attack_animation_node.is_playing() and body extends preload("res://src/entities/entity.gd"):
+		body.damage(get_weapon_damage(body), 0.0)
 		if player == global.local_player:
 			update_sharpness()

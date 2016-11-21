@@ -98,13 +98,15 @@ func heal(amount):
 	if hp > max_hp:
 		hp = max_hp
 
-sync func die():
+func die(net=true):
 	.die()
 	get_node("audio").play("hit")
 	rotate_x(PI/2)
 	set_translation(get_translation() + Vector3(0, 0.5, 0))
 	set_fixed_process(false)
 	set_process_input(false)
+	if net and networking.multiplayer:
+		networking.peer.local_player_died()
 
 func get_name():  # this script is attached to a node always called body
 	return get_parent().get_name()  # parent's name is more meaningful
@@ -138,13 +140,7 @@ func _process(delta):
 		if anim != "idle":
 			animation_node.play("idle")
 
-
 func _fixed_process(delta):
-	assert(local)
-	# This fails on the client! See https://github.com/godotengine/godot/issues/6475
-	get_parent().set_network_mode(NETWORK_MODE_MASTER)
-	assert(get_parent().is_network_master())
-	assert(get_network_mode() == NETWORK_MODE_INHERIT)
 	direction = Vector3(0, 0, 0)
 	var jump = 0
 	var camera = camera_node.get_global_transform()
@@ -197,10 +193,14 @@ func _fixed_process(delta):
 
 	if Input.is_action_pressed("player_attack_left"):
 		if not animation_node.is_playing():
-			rpc("attack", "left_attack_0")
+			if networking.multiplayer:
+				networking.peer.local_entity_attack(get_name(), "left_attack_0")
+			attack("left_attack_0")
 	if Input.is_action_pressed("player_attack_right"):
 		if not animation_node.is_playing():
-			rpc("attack", "right_attack_0")
+			if networking.multiplayer:
+				networking.peer.local_entity_attack(get_name(), "right_attack_0")
+			attack("right_attack_0")
 
 	# Camera follows the player
 	yaw_node.set_translation(get_translation() + Vector3(0, offset, 0))

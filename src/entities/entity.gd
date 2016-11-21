@@ -89,7 +89,7 @@ func move_entity(delta, gravity=true):
 		var yaw_diff = abs(atan2(dist.x, dist.z))
 
 		if dist.length() > 0.01 and yaw_diff > 0.01:
-			rpc_unreliable("set_pos", tf)
+			networking.peer.local_entity_move(get_name(), tf)
 
 func look_ahead(delta):
 	if direction.length() != 0:
@@ -105,28 +105,25 @@ func _on_animation_finished():
 func get_pos():
 	return get_global_transform().origin
 
-slave func set_pos(t):
-	set_transform(t)
-
-master func die():
+func die():
 	print("%s died" % get_name())
 	hp = 0
 	regenerable_hp = 0
 	set_process(false)
 
-master func damage(dmg, reg):
+func damage(dmg, reg):
 	if hp > 0:
 		time_hit = 0
 		hp -= dmg
 		regenerable_hp = int(hp + dmg * reg)
 		if hp <= 0:
-			rpc("die")
+			die()
 		else:
 			print("%s damaged by %s" % [get_name(), dmg])
 	else:
 		print(get_name(), " is already dead")
 
-sync func attack(attack_name):
+func attack(attack_name):
 	animation_node.play(attack_name)
 
 func _process(delta):
@@ -135,3 +132,4 @@ func _process(delta):
 		time_hit = 0
 		if regenerable_hp - hp > 0:
 			hp += hp_regeneration
+
