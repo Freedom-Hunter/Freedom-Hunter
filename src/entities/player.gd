@@ -1,20 +1,21 @@
 extends "entity.gd"
 
-
 onready var camera_node = get_node("../yaw/pitch/camera")
 onready var yaw_node = get_node("../yaw")
 onready var audio_node = get_node("audio")
 onready var interact_node = get_node("interact")
-onready var offset = yaw_node.get_translation().y
 onready var hud = get_node("/root/game/hud")
 onready var onscreen = hud.get_node("onscreen")
-var inventory = preload("res://scene/inventory.tscn").instance()
+onready var offset = yaw_node.get_translation().y
 
 const SPRINT_USE = 5
 const SPRINT_REGENERATION = 4
 const SPEED = 5
 const JUMP = 5
 const SPRINT_SPEED = 7.5
+
+var equipment = {"sword": null, "head": null, "torso": null, "rightarm": null, "leftarm": null, "leg": null}
+var inventory = preload("res://scene/inventory.tscn").instance()
 
 #multiplayer
 var local = true
@@ -24,14 +25,14 @@ signal got_item
 signal used_item
 
 func init(local, hp, stamina):
-	assert(get_node("model/AnimationPlayer") != null)
 	.init(hp, stamina, get_node("model/AnimationPlayer"))
 	self.local = local
 	resume_player()
 
-	get_node("weapon/sword").init(self)
-
+func _ready():
 	# TEST CODE
+	equipment.sword = load("res://scene/equipment/weapon/lasersword/laser_sword.tscn").instance()
+	get_node("weapon").add_child(equipment.sword)
 	var Item = preload("res://src/items/item.gd")
 	var null_item = Item.new()
 	null_item.init(self, preload("res://media/items/null.png"), "None", 0, 0, true, 0, true)

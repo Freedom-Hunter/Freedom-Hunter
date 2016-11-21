@@ -1,6 +1,5 @@
 extends Node
 
-const ELEMENTS = ["Fire", "Water", "Ice", "Thunder", "Dragon", "Poison", "Paralysis"]
 var gravity = -10
 
 var player_scn = preload("res://scene/player.tscn")

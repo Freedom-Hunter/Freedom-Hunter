@@ -103,9 +103,21 @@ monitorable = true
 collision/layers = 1
 collision/mask = 1
 script/script = ExtResource( 1 )
-elements_type = 17
-elements_effect = IntArray( 200, 400 )
-attack = 100
+fire = 0
+water = 0
+ice = 0
+thunder = 0
+dragon = 0
+poison = 0
+paralysis = 0
+damage = 0
+red_sharpness = 0
+orange_sharpness = 0
+yellow_sharpness = 1
+green_sharpness = 0
+blue_sharpness = 0
+white_sharpness = 1
+purple_sharpness = 0
 
 [node name="sword" type="MeshInstance" parent="."]
 

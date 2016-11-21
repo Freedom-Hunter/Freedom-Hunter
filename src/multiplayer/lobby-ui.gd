@@ -180,4 +180,3 @@ func _on_connect_pressed():
 	save_config()
 	networking.client_start(get_valid_client_host(), get_valid_client_port(), get_valid_username())
 	get_parent().queue_free()
-

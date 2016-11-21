@@ -18,14 +18,6 @@ func init():
 	if networking.is_server() or not networking.multiplayer:
 		set_fixed_process(true)
 
-	# It builds a dictionary with the name of the weapon's elements as key
-	# and as a value taken from the power of the element
-	var j = 0
-	for i in range(global.ELEMENTS.size()):
-		if int(pow(2, i)) & weakness_type:
-			weakness[global.ELEMENTS[i]] = weakness_effect[j]
-			j += 1
-
 # @override from entity.gd
 func die():
 	set_fixed_process(false)

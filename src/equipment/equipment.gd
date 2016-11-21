@@ -1,19 +1,18 @@
 extends Node
 
-export (int, FLAGS, "Fire", "Water", "Ice", "Thunder", "Dragon", \
-"Poison", "Paralysis") var elements_type = 0
-
-export var elements_effect = IntArray()
+export (int, -100, 100) var fire		= 0
+export (int, -100, 100) var water		= 0
+export (int, -100, 100) var ice			= 0
+export (int, -100, 100) var thunder 	= 0
+export (int, -100, 100) var dragon		= 0
+export (int, -100, 100) var poison		= 0
+export (int, -100, 100) var paralysis	= 0
+export (int, -100, 100) var damage	= 0
 
 var elements = {}
-onready var global = get_node("/root/global")
 
-func _ready():
-	# It builds a dictionary with the name of the weapon's elements as key
-	# and as a value taken from the power of the element
-	var j = 0
-	for i in range(global.ELEMENTS.size()):
-		if int(pow(2, i)) & elements_type:
-			elements[global.ELEMENTS[i]] = elements_effect[j]
-			j += 1
+func _init():
+	elements = {"fire": fire, "water": water, "ice": ice,
+		"thunder": thunder, "dragon": dragon, "poison": poison,
+		"paralysis": paralysis}
 

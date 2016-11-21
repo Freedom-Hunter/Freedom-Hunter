@@ -2,37 +2,63 @@ extends "equipment.gd"
 
 onready var sharpness_node = get_node("/root/game/hud/sharpness/fading")
 
-export (int, 2000) var attack = 10
 # red sharpness is not in list because it is default value
-var sharpness_type = ["purple", "white", "blue", "green", "yellow", "orange"]
-var sharpness = [1, 1, 1, 1, 1, 1]
+
+export(int, 0, 100) var red_sharpness    = 0
+export(int, 0, 100) var orange_sharpness = 0
+export(int, 0, 100) var yellow_sharpness = 0
+export(int, 0, 100) var green_sharpness  = 0
+export(int, 0, 100) var blue_sharpness   = 0
+export(int, 0, 100) var white_sharpness  = 0
+export(int, 0, 100) var purple_sharpness = 0
+
+class Sharp:
+	var type
+	var value
+	func _init(t, v):
+		type = t
+		value = v
+
+var sharpness
 var player
 
 func _ready():
-	for i in range(sharpness_type.size()):
-		if sharpness[i] > 0:
-			sharpness_node.play(sharpness_type[i])
+	sharpness = [
+		Sharp.new("purple",	purple_sharpness),
+		Sharp.new("white",	white_sharpness),
+		Sharp.new("blue",	blue_sharpness),
+		Sharp.new("green",	green_sharpness),
+		Sharp.new("yellow",	yellow_sharpness),
+		Sharp.new("orange",	orange_sharpness),
+		Sharp.new("red",	red_sharpness)
+	]
+	for s in sharpness:
+		if s.value == null: # export bug
+			s.value = 0
+		if s.value > 0:
+			sharpness_node.play(s.type)
 			return
 	sharpness_node.play("red")
-
-func init(_player):
-	player = _player
+	player = get_node("../../..")
 
 func update_sharpness():
 	var anim = sharpness_node.get_current_animation()
-	for i in range(sharpness_type.size()):
-		if sharpness[i] > 0:
-			sharpness[i] -= 1
-			if sharpness[i] == 0:
-				if i == sharpness.size()-1:
-					break
-				sharpness_node.play(sharpness_type[i+1])
-			return
-	if anim != "red":
-		sharpness_node.play("red")
+	for s in sharpness:
+		if s.value > 0:
+			s.value -= 1
+			if s.value <= 0:
+				s.value = 0
+				break
+			else:
+				return
+	for s in sharpness:
+		if s.value > 0:
+			if anim != s.type:
+				sharpness_node.play(s.type)
+				break
 
 func get_weapon_damage(monster):
-	var damage = attack
+	var damage = damage
 	if not 'weakness' in monster:
 		return damage
 	for element in elements:
