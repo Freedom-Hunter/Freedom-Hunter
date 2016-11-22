@@ -11,26 +11,28 @@ func _ready():
 	inventory.init([], 100)
 
 func interact(player):
-	if self.player != null:
-		return
-	self.player = player
-	open()
+	if self.player == null:
+		self.player = player
+		open()
 
 func open():
+	if animation.get_current_animation() == "open":
+		return
+	if animation.is_playing():
+		yield(animation, "finished")
 	animation.play("open")
-	set_process_input(true)
 	player.pause_player()
 	yield(animation, "finished")
-	if player != null:
-		hud.open_inventories([inventory, player.inventory])
-		hud.inventory.connect("popup_hide", self, "close")
+	hud.open_inventories([inventory, player.inventory])
+	hud.inventory.connect("popup_hide", self, "close")
+	set_process_input(true)
 
 func close():
-	if hud.inventory.is_connected("popup_hide", self, "close"):
-		hud.inventory.disconnect("popup_hide", self, "close")
+	set_process_input(false)
+	hud.inventory.disconnect("popup_hide", self, "close")
 	hud.close_inventories()
 	animation.play("close")
-	set_process_input(false)
+	yield(animation, "finished")
 	player.resume_player()
 	player = null
 
