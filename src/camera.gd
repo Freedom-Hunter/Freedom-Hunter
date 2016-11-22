@@ -2,7 +2,6 @@ extends Camera
 
 onready var yaw_node = get_node("../..")
 onready var pitch_node = get_node("..")
-onready var player_node = get_node("../../../body")
 onready var onscreen_node = get_node("/root/game/hud/onscreen")
 
 var target_yaw
@@ -62,7 +61,7 @@ func _input(event):
 	elif event.type == InputEvent.MOUSE_MOTION and not onscreen_node.is_visible():
 		rotate_view(event.relative_pos * mouse_sensitivity)
 	elif event.is_action_released("player_camera_reset"):
-		var basis = player_node.get_transform().basis
+		var basis = global.local_player.get_transform().basis
 		target_yaw = rad2deg(atan2(-basis.z.x, -basis.z.z))
 	elif Input.is_action_pressed("camera_rotation_up") and Input.is_action_pressed("camera_rotation_lock") and not move_pitch:
 		target_pitch = max(min(target_pitch - pitch_unit, max_pitch), min_pitch)

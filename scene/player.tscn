@@ -1,54 +1,17 @@
-[gd_scene load_steps=12 format=1]
+[gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://src/entities/player.gd" type="Script" id=1]
 [ext_resource path="res://scene/male.scn" type="PackedScene" id=2]
-[ext_resource path="res://sounds/hit.smp" type="Sample" id=3]
-[ext_resource path="res://sounds/potion_drink.smp" type="Sample" id=4]
-[ext_resource path="res://scene/equipment/weapon/lasersword/laser_sword.tscn" type="PackedScene" id=5]
-[ext_resource path="res://src/camera.gd" type="Script" id=6]
 
 [sub_resource type="BoxShape" id=1]
 
 extents = Vector3( 0.5, 1, 0.2 )
 
-[sub_resource type="Animation" id=2]
-
-resource/name = "left_attack_0"
-length = 1.2
-loop = false
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("sword:transform/rotation")
-tracks/0/interp = 1
-tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 0.5, 1 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ Vector3( 0, 0, 0 ), Vector3( 90, 0, 0 ), Vector3( 0, 0, 0 ) ] }
-
-[sub_resource type="Animation" id=3]
-
-resource/name = "right_attack_0"
-length = 1.7
-loop = false
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("sword:transform/rotation")
-tracks/0/interp = 1
-tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 0.5, 1, 1.5 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":0, "values":[ Vector3( 0, 0, 0 ), Vector3( 90, 0, 45 ), Vector3( 90, 0, -45 ), Vector3( 0, 0, 0 ) ] }
-
-[sub_resource type="SampleLibrary" id=4]
-
-samples/hit = { "db":0.0, "pitch":1.0, "sample":ExtResource( 3 ) }
-samples/potion_drink = { "db":0.0, "pitch":1.0, "sample":ExtResource( 4 ) }
-
-[sub_resource type="BoxShape" id=5]
+[sub_resource type="BoxShape" id=2]
 
 extents = Vector3( 0.672363, 1, 0.10089 )
 
-[node name="player" type="Spatial"]
-
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-
-[node name="body" type="KinematicBody" parent="." groups=[ "player" ]]
+[node name="player" type="KinematicBody" groups=[ "player" ]]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = true
@@ -66,25 +29,12 @@ collide_with/character = true
 collision/margin = 0.001
 script/script = ExtResource( 1 )
 
-[node name="model" parent="body" instance=ExtResource( 2 )]
+[node name="model" parent="." instance=ExtResource( 2 )]
 
 editor/display_folded = true
 transform/local = Transform( 0.09, 0, 0, 0, 0.09, 0, 0, 0, 0.09, 0, 0, 0 )
 
-[node name="Armature" parent="body/model"]
-
-editor/display_folded = true
-
-[node name="Skeleton" parent="body/model/Armature"]
-
-editor/display_folded = true
-
-[node name="AnimationPlayer" parent="body/model"]
-
-anims/left_attack_0 = SubResource( 2 )
-anims/right_attack_0 = SubResource( 3 )
-
-[node name="shape" type="CollisionShape" parent="body"]
+[node name="shape" type="CollisionShape" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
@@ -92,7 +42,7 @@ shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
-[node name="audio" type="SpatialSamplePlayer" parent="body"]
+[node name="audio" type="SpatialSamplePlayer" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 transform/local = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 1.5075, 0 )
@@ -104,34 +54,25 @@ params/attenuation/distance_exp = 1.0
 params/emission_cone/degrees = 180.0
 params/emission_cone/attenuation_db = -6.0
 config/polyphony = 1
-config/samples = SubResource( 4 )
+config/samples = null
 
-[node name="drop_item" type="Position3D" parent="body"]
+[node name="drop_item" type="Position3D" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2 )
 
-[node name="weapon" type="Spatial" parent="body"]
+[node name="weapon" type="Spatial" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
-[node name="light" parent="body/weapon" instance=ExtResource( 5 )]
-
-red_sharpness = 0
-orange_sharpness = 0
-yellow_sharpness = 0
-blue_sharpness = 0
-white_sharpness = 0
-purple_sharpness = 0
-
-[node name="interact" type="Area" parent="body"]
+[node name="interact" type="Area" parent="."]
 
 editor/display_folded = true
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 input/ray_pickable = false
 input/capture_on_drag = false
 shape_count = 1
-shapes/0/shape = SubResource( 5 )
+shapes/0/shape = SubResource( 2 )
 shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5 )
 shapes/0/trigger = false
 space_override = 0
@@ -147,44 +88,17 @@ monitorable = true
 collision/layers = 1
 collision/mask = 1
 
-[node name="shape" type="CollisionShape" parent="body/interact"]
+[node name="shape" type="CollisionShape" parent="interact"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5 )
-shape = SubResource( 5 )
+shape = SubResource( 2 )
 trigger = false
 _update_shape_index = 0
 
-[node name="name" type="Spatial" parent="body"]
+[node name="name" type="Spatial" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0 )
 
-[node name="yaw" type="Spatial" parent="."]
 
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5, 0 )
-
-[node name="pitch" type="Spatial" parent="yaw"]
-
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 0, 0 )
-
-[node name="camera" type="Camera" parent="yaw/pitch"]
-
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 8 )
-projection = 0
-fov = 60.0
-near = 0.1
-far = 500.0
-keep_aspect = 1
-current = true
-visible_layers = 1048575
-environment = null
-h_offset = 0.0
-v_offset = 0.0
-script/script = ExtResource( 6 )
-
-
-[editable path="body/model"]

@@ -14,11 +14,9 @@ func add_player(game, name, local):
 	var player = player_scn.instance()
 	player.set_name(name)
 	game.get_node("player_spawn").add_child(player)
-	player.get_node("body").local = local
+	player.local = local
 	game.get_node("hud").player_connected(name)
-	if local_player != null:
-		local_player.camera_node.make_current()
-	return player.get_node("body")
+	return player
 
 func remove_player(game, name):
 	game.get_node("player_spawn").get_node(name).queue_free()

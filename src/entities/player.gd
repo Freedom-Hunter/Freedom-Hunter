@@ -1,12 +1,13 @@
 extends "entity.gd"
 
-onready var camera_node = get_node("../yaw/pitch/camera")
-onready var yaw_node = get_node("../yaw")
+onready var yaw_node = get_node("/root/game/yaw")
+onready var camera_node = yaw_node.get_node("pitch/camera")
+onready var camera_offset = yaw_node.get_translation().y
 onready var audio_node = get_node("audio")
 onready var interact_node = get_node("interact")
+
 onready var hud = get_node("/root/game/hud")
 onready var onscreen = hud.get_node("onscreen")
-onready var offset = yaw_node.get_translation().y
 
 const SPRINT_USE = 5
 const SPRINT_REGENERATION = 4
@@ -107,13 +108,11 @@ func die(net=true):
 	if net and networking.multiplayer:
 		networking.peer.local_player_died()
 
-func get_name():  # this script is attached to a node always called body
-	return get_parent().get_name()  # parent's name is more meaningful
-
 func pause_player():
 	set_process_input(false)
 	set_fixed_process(false)
-	camera_node.set_process_input(false)
+	if local:
+		camera_node.set_process_input(false)
 
 func resume_player():
 	if local:
@@ -202,4 +201,4 @@ func _fixed_process(delta):
 			attack("right_attack_0")
 
 	# Camera follows the player
-	yaw_node.set_translation(get_translation() + Vector3(0, offset, 0))
+	yaw_node.set_translation(get_translation() + Vector3(0, camera_offset, 0))
