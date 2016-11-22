@@ -176,10 +176,12 @@ func _fixed_process(delta):
 				jumping = true
 				jump = SPRINT_SPEED
 				stamina -= 3
+				audio_node.play("jump")
 		elif not dodging:
 			dodging = true
 			speed *= 3
 			stamina -= 15
+			audio_node.play("dodge")
 
 	direction = direction.normalized()
 	direction.x = direction.x * speed
