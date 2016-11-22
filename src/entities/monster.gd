@@ -12,9 +12,10 @@ const SPEED = 5
 
 var weakness = {}
 
-func init():
-	.init(500, 100, get_node("animation"))
-	interpolation_factor = 1
+func _init().(500, 100, "animation", 1):
+	pass
+
+func _ready():
 	if networking.is_server() or not networking.multiplayer:
 		set_fixed_process(true)
 

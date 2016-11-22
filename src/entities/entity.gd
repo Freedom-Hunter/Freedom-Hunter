@@ -25,19 +25,21 @@ var jumping = false
 var dodging = false
 var running = false
 
-var interpolation_factor = 15  # how fast we interpolate rotations
-
+var interpolation_factor  # how fast we interpolate rotations
+var animation_path
 var animation_node
 
-func _ready():
-	set_process(true)
-
-func init(_hp, _stamina, attack):
+func _init(_hp, _stamina, anim_path, interp=15):
 	hp = _hp
 	max_hp = _hp
 	stamina = _stamina
 	max_stamina = _stamina
-	animation_node = attack
+	animation_path = anim_path
+	interpolation_factor = interp
+
+func _ready():
+	set_process(true)
+	animation_node = get_node(animation_path)
 	animation_node.connect("finished", self, "_on_animation_finished")
 
 func move_entity(delta, gravity=true):

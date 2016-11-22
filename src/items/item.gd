@@ -15,7 +15,7 @@ func use():
 		quantity -= 1
 		effect()
 
-func init(_player, _icon, _name, _quantity, _max_quantity, _usable, _rarity, _keep=false):
+func _init(_player, _icon, _name, _quantity, _max_quantity, _usable, _rarity, _keep=false):
 	player = _player
 	icon = _icon
 	name = _name

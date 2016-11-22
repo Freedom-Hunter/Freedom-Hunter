@@ -24,30 +24,28 @@ var start_walk = false
 signal got_item
 signal used_item
 
-func init(local, hp, stamina):
-	.init(hp, stamina, get_node("model/AnimationPlayer"))
-	self.local = local
-	resume_player()
+func _init().(150, 100, "model/AnimationPlayer"):
+	pass
 
 func _ready():
 	# TEST CODE
 	equipment.sword = load("res://scene/equipment/weapon/lasersword/laser_sword.tscn").instance()
 	get_node("weapon").add_child(equipment.sword)
+
 	var Item = preload("res://src/items/item.gd")
-	var null_item = Item.new()
-	null_item.init(self, preload("res://media/items/null.png"), "None", 0, 0, true, 0, true)
 	var Potion = preload("res://src/items/potion.gd")
-	var potion = Potion.new()
-	potion.init(self, preload("res://media/items/potion.png"), "Potion", 10, 25)
 	var Firework = preload("res://src/items/firework.gd")
-	var firework = Firework.new()
-	firework.init(self, preload("res://media/items/firework.png"), "Firework", 10)
 	var Barrel = preload("res://src/items/barrel.gd")
-	var barrel = Barrel.new()
-	barrel.init(self, preload("res://media/items/barrel.png"), "Barrel", 5)
+
+	var null_item = Item.new(self, preload("res://media/items/null.png"), "None", 0, 0, true, 0, true)
+	var potion = Potion.new(self, preload("res://media/items/potion.png"), "Potion", 10, 25)
+	var firework = Firework.new(self, preload("res://media/items/firework.png"), "Firework", 10)
+	var barrel = Barrel.new(self, preload("res://media/items/barrel.png"), "Barrel", 5)
+
 	inventory.init([null_item, potion, firework, barrel], 30)
 	inventory.set_pos(Vector2(1370, 200))
 	inventory.set_name("player_inventory")
+	resume_player()
 
 func sort_by_distance(a, b):
 	var dist_a = (get_global_transform().origin - a.get_global_transform().origin).length()

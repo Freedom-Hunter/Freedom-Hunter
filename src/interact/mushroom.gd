@@ -4,14 +4,9 @@ var Potion = preload("res://src/items/potion.gd")
 var Firework = preload("res://src/items/firework.gd")
 var Barrel = preload("res://src/items/barrel.gd")
 
-var potion = Potion.new()
-var firework = Firework.new()
-var barrel = Barrel.new()
+var potion = Potion.new(self, preload("res://media/items/potion.png"), "Potion", 1, 25)
+var firework = Firework.new(self, preload("res://media/items/firework.png"), "Firework", 1)
+var barrel = Barrel.new(self, preload("res://media/items/barrel.png"), "Barrel", 1)
 
-func _init():
-	potion.init(self, preload("res://media/items/potion.png"), "Potion", 1, 25)
-	firework.init(self, preload("res://media/items/firework.png"), "Firework", 1)
-	barrel.init(self, preload("res://media/items/barrel.png"), "Barrel", 1)
-	obtainable = [barrel, firework, potion]
-	quantity = rand_range(2, 10)
-	.init()
+func _init().([barrel, firework, potion], rand_range(2, 10)):
+	pass

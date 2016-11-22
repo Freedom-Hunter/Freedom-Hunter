@@ -7,9 +7,6 @@ onready var animation = get_node("animation")
 
 var player = null
 
-func _ready():
-	inventory.init([], 100)
-
 func interact(player):
 	if self.player == null:
 		self.player = player

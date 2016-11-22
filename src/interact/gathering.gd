@@ -1,10 +1,12 @@
 extends Node
 
-var obtainable = []
-var quantity = 0
+var obtainable
+var quantity
 var rarity = 0
 
-func init():
+func _init(items, quant):
+	obtainable = items
+	quantity = quant
 	for item in obtainable:
 		rarity += item.rarity
 
