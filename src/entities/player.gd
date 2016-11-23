@@ -9,10 +9,10 @@ onready var interact_node = get_node("interact")
 onready var hud = get_node("/root/game/hud")
 onready var onscreen = hud.get_node("onscreen")
 
-const SPRINT_USE = 5
-const SPRINT_REGENERATION = 4
-const SPEED = 5
-const JUMP = 5
+const STAMINA_REGENERATION = 4
+const SPRINT_STAMINA = 5
+const DODGE_STAMINA = 10
+const WALK_SPEED = 5
 const SPRINT_SPEED = 7.5
 
 var equipment = {"sword": null, "head": null, "torso": null, "rightarm": null, "leftarm": null, "leg": null}
@@ -124,18 +124,15 @@ func _process(delta):
 	var anim = animation_node.get_current_animation()
 	if direction.length() != 0:
 		if dodging:
-			if anim != "dodge":
+			if anim != "dodge" or not animation_node.is_playing():
 				animation_node.play("dodge")
-			return
-		if running:
-			if anim != "run":
+		elif running:
+			if anim != "run" or not animation_node.is_playing():
 				animation_node.play("run")
-			return
-		else:
-			if anim != "walk":
-				animation_node.play("walk")
-	else:
-		if anim != "idle":
+		elif anim != "walk":
+			animation_node.play("walk")
+	elif anim != "idle":
+		if anim in ["walk", "run"] or not animation_node.is_playing():
 			animation_node.play("idle")
 
 func _fixed_process(delta):
@@ -143,8 +140,7 @@ func _fixed_process(delta):
 	var jump = 0
 	var camera = camera_node.get_global_transform()
 	# Player movements
-	running = Input.is_action_pressed("player_run")
-	var speed = SPEED
+	var speed = WALK_SPEED
 	if Input.is_action_pressed("player_forward"):
 		direction -= Vector3(camera.basis.z.x, 0, camera.basis.z.z)
 	if Input.is_action_pressed("player_backward"):
@@ -157,30 +153,34 @@ func _fixed_process(delta):
 		var d = onscreen.direction
 		if onscreen.intensity > 0.75:
 			speed = onscreen.intensity * SPRINT_SPEED
-			stamina -= SPRINT_USE * delta
+			stamina -= SPRINT_STAMINA * delta
 			running = true
 		else:
-			speed = onscreen.intensity * SPEED
+			speed = onscreen.intensity * WALK_SPEED
 			running = false
 		direction = d.y * camera.basis.z + d.x * camera.basis.x
-	if running and stamina > 0 and direction != Vector3():
-		speed = SPRINT_SPEED
-		stamina -= SPRINT_USE * delta
+	running = Input.is_action_pressed("player_run") and direction != Vector3() and stamina > SPRINT_STAMINA * delta
+	if Input.is_action_pressed("player_run") and direction != Vector3():
+		stamina -= SPRINT_STAMINA * delta
+		if stamina < 0:
+			stamina = 0
+		else:
+			speed = SPRINT_SPEED
 	elif stamina < max_stamina:
-		stamina += SPRINT_REGENERATION * delta
+		stamina += STAMINA_REGENERATION * delta
 		if stamina > max_stamina:
 			stamina = max_stamina
-	if Input.is_action_pressed("player_dodge"):
+	if Input.is_action_pressed("player_dodge") and direction != Vector3() and stamina >= 10:
 		if running:
-			if on_floor:
+			if not jumping:
 				jumping = true
 				jump = SPRINT_SPEED
-				stamina -= 3
+				stamina -= DODGE_STAMINA
 				audio_node.play("jump")
 		elif not dodging:
 			dodging = true
 			speed *= 3
-			stamina -= 15
+			stamina -= DODGE_STAMINA
 			audio_node.play("dodge")
 
 	direction = direction.normalized()
