@@ -109,6 +109,7 @@ func die(net=true):
 		networking.peer.local_player_died()
 
 func pause_player():
+	direction = Vector3()
 	set_process_input(false)
 	set_fixed_process(false)
 	if local:
