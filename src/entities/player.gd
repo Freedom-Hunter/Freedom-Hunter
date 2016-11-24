@@ -110,6 +110,11 @@ func die(net=true):
 	if net and networking.multiplayer:
 		networking.peer.local_player_died()
 
+func increase_max_stamina(amount):
+	.increase_max_stamina(amount)
+	hud.stamina_node.set_max(max_stamina)
+	hud.stamina_node.set_size(Vector2(800 * max_stamina / 100, hud.stamina_node.get_size()[1]))
+
 func pause_player():
 	direction = Vector3()
 	set_process_input(false)

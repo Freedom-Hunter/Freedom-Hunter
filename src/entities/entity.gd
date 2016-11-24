@@ -4,6 +4,7 @@ onready var global = get_node("/root/global")
 onready var networking = get_node("/root/networking")
 
 const MAX_SLOPE_ANGLE = deg2rad(40)
+const MAX_STAMINA = 200
 
 var hp = 0
 var max_hp = 0
@@ -127,6 +128,10 @@ func damage(dmg, reg):
 
 func attack(attack_name):
 	animation_node.play(attack_name)
+
+func increase_max_stamina(amount):
+	if max_stamina + amount <= MAX_STAMINA:
+		max_stamina += amount
 
 func _process(delta):
 	time_hit += delta
