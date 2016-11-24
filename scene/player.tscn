@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=1]
+[gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://src/entities/player.gd" type="Script" id=1]
 [ext_resource path="res://scene/male.scn" type="PackedScene" id=2]
 [ext_resource path="res://sounds/dodge.smp" type="Sample" id=3]
 [ext_resource path="res://sounds/jump.smp" type="Sample" id=4]
+[ext_resource path="res://sounds/potion_drink.smp" type="Sample" id=5]
 
 [sub_resource type="BoxShape" id=1]
 
@@ -13,6 +14,7 @@ extents = Vector3( 0.5, 1, 0.2 )
 
 samples/dodge = { "db":0.0, "pitch":1.0, "sample":ExtResource( 3 ) }
 samples/jump = { "db":0.0, "pitch":1.0, "sample":ExtResource( 4 ) }
+samples/potion_drink = { "db":0.0, "pitch":1.0, "sample":ExtResource( 5 ) }
 
 [sub_resource type="BoxShape" id=3]
 
