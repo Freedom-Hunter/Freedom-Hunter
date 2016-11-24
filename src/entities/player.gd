@@ -84,6 +84,8 @@ func _input(event):
 		interact_with_nearest()
 
 func add_item(item):
+	item = item.clone()
+	item.player = self
 	var remainder = inventory.add_item(item)
 	if local:
 		hud.update_items()

@@ -25,15 +25,8 @@ func _init(_player, _icon, _name, _quantity, _max_quantity, _usable, _rarity, _k
 	rarity = _rarity
 	keep = _keep
 
-func clone(item):
-	player = item.player
-	icon = item.icon
-	name = item.name
-	quantity = item.quantity
-	max_quantity = item.max_quantity
-	usable = item.usable
-	rarity = item.rarity
-	return self
+func clone():
+	return get_script().new(player, icon, name, quantity, max_quantity, usable, rarity, keep)
 
 func add(n):
 	# returns how many items can't be added due to max_quantity limit

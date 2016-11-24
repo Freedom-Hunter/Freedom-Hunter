@@ -10,3 +10,6 @@ func effect():
 	var firework = scene.instance()
 	firework.set_global_transform(player_t)
 	player.get_parent().add_child(firework)
+
+func clone():
+	return get_script().new(player, icon, name, quantity)

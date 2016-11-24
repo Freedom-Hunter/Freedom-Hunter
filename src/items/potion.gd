@@ -9,3 +9,6 @@ func _init(p, i, n, q, h).(p, i, n, q, 10, true, 50):
 func effect():
 	player.heal(heal)
 	player.audio_node.play("potion_drink")
+
+func clone():
+	return get_script().new(player, icon, name, quantity, heal)
