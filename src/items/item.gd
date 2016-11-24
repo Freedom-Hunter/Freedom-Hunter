@@ -8,12 +8,12 @@ var rarity
 var keep
 
 func effect():
-	pass
+	return true
 
 func use():
 	if usable and quantity > 0:
-		quantity -= 1
-		effect()
+		if effect():
+			quantity -= 1
 
 func _init(_player, _icon, _name, _quantity, _max_quantity, _usable, _rarity, _keep=false):
 	player = _player

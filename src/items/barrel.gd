@@ -10,6 +10,7 @@ func effect():
 	var barrel = scene.instance()
 	barrel.set_global_transform(drop)
 	player.get_parent().add_child(barrel)
+	return true
 
 func clone():
 	return get_script().new(player, icon, name, quantity)
