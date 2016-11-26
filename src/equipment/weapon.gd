@@ -2,8 +2,6 @@ extends "equipment.gd"
 
 onready var sharpness_node = get_node("/root/game/hud/sharpness/fading")
 
-# red sharpness is not in list because it is default value
-
 export(int, 0, 100) var red_sharpness    = 0
 export(int, 0, 100) var orange_sharpness = 0
 export(int, 0, 100) var yellow_sharpness = 0
@@ -23,6 +21,8 @@ var sharpness
 var player
 
 func _ready():
+	player = get_node("../..")
+	assert(player extends preload("res://src/entities/player.gd"))
 	sharpness = [
 		Sharp.new("purple",	purple_sharpness),
 		Sharp.new("white",	white_sharpness),
@@ -39,7 +39,6 @@ func _ready():
 			sharpness_node.play(s.type)
 			return
 	sharpness_node.play("red")
-	player = get_node("../../..")
 
 func update_sharpness():
 	var anim = sharpness_node.get_current_animation()
