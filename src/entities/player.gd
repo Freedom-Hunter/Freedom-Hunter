@@ -22,8 +22,6 @@ var inventory = preload("res://scene/inventory.tscn").instance()
 var local = true
 var start_walk = false
 
-signal got_item
-signal used_item
 
 func _init().(150, 100, "model/AnimationPlayer"):
 	pass
@@ -73,13 +71,10 @@ func interact_with_nearest():
 func _input(event):
 	if event.is_action_pressed("player_scroll_next") and not Input.is_action_pressed("camera_rotation_lock"):
 		inventory.activate_next()
-		hud.update_items()
 	elif event.is_action_pressed("player_scroll_back") and not Input.is_action_pressed("camera_rotation_lock"):
 		inventory.activate_prev()
-		hud.update_items()
 	elif event.is_action_pressed("player_use"):
 		inventory.use_active_item()
-		hud.update_items()
 	elif event.is_action_pressed("player_interact"):
 		interact_with_nearest()
 
@@ -88,9 +83,8 @@ func add_item(item):
 	item.player = self
 	var remainder = inventory.add_item(item)
 	if local:
-		hud.update_items()
 		if remainder > 0:
-			hud.notify("You got %d out of %d %s" % [remainder - item.quantity, item.quantity, item.name])
+			hud.notify("You can't carry more than %d %s" % [item.max_quantity, item.name])
 		else:
 			hud.notify("You got %d %s" % [item.quantity, item.name])
 	return remainder

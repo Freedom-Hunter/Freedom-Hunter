@@ -10,6 +10,9 @@ var hud
 var columns
 var dragging
 
+# emitted when an item is added, removed or modified
+signal modified
+
 # Init function to be called after instance() and add_child()
 func init(items_array, max_items_int, hud_node=null):
 	items = items_array
@@ -73,6 +76,7 @@ func add_item(item, slot=null):
 		items.append(clone)
 		slot.set_item(clone)
 		overflow = 0
+	emit_signal("modified")
 	return overflow
 
 func use_item(i):
@@ -80,6 +84,7 @@ func use_item(i):
 	item.use()
 	if item.quantity <= 0 and not item.keep:
 		remove_item(i)
+	emit_signal("modified")
 	return item
 
 func remove_item(i, slot=null):
@@ -89,6 +94,7 @@ func remove_item(i, slot=null):
 	items.remove(i)
 	if items.size() > 0 and i == active_item:
 		active_item = (active_item + 1) % items.size()
+	emit_signal("modified")
 
 func erase_item(item, slot=null):
 	var i = items.find(item)
@@ -100,11 +106,13 @@ func use_active_item():
 
 func activate_next():
 	active_item = (active_item + 1) % items.size()
+	emit_signal("modified")
 
 func activate_prev():
 	active_item = (active_item - 1) % items.size()
 	if active_item < 0:
 		active_item = items.size() - 1
+	emit_signal("modified")
 
 
 # Visualize item's image and quantity

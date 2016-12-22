@@ -24,7 +24,9 @@ func init():
 		string += OS.get_scancode_string(key.scancode) + ","
 	string[-1] = ""
 	get_node("action").set_text(string)
+
 	update_items()
+	global.local_player.inventory.connect("modified", self, "update_items")
 
 	set_fixed_process(true)
 	set_process_input(true)
