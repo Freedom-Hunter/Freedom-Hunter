@@ -130,17 +130,20 @@ func resume_player():
 
 func _process(delta):
 	var anim = animation_node.get_current_animation()
+	var playing = animation_node.is_playing()
+	if anim.find("attack") != -1 and playing:
+		return
 	if direction.length() != 0:
 		if dodging:
-			if anim != "dodge" or not animation_node.is_playing():
+			if anim != "dodge" or not playing:
 				animation_node.play("dodge")
 		elif running:
-			if anim != "run" or not animation_node.is_playing():
+			if anim != "run" or not playing:
 				animation_node.play("run")
 		elif anim != "walk":
 			animation_node.play("walk")
 	elif anim != "idle":
-		if anim in ["walk", "run"] or not animation_node.is_playing():
+		if anim in ["walk", "run"] or not playing:
 			animation_node.play("idle")
 
 func _fixed_process(delta):
@@ -200,12 +203,12 @@ func _fixed_process(delta):
 	move_entity(delta)
 
 	if Input.is_action_pressed("player_attack_left"):
-		if not animation_node.is_playing():
+		if not animation_node.get_current_animation() != "left_attack_0":
 			if networking.multiplayer:
 				networking.peer.local_entity_attack(get_name(), "left_attack_0")
 			attack("left_attack_0")
 	if Input.is_action_pressed("player_attack_right"):
-		if not animation_node.is_playing():
+		if animation_node.get_current_animation() != "right_attack_0":
 			if networking.multiplayer:
 				networking.peer.local_entity_attack(get_name(), "right_attack_0")
 			attack("right_attack_0")
