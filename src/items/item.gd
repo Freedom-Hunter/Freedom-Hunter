@@ -6,6 +6,7 @@ var max_quantity
 var usable
 var rarity
 var keep
+var in_flight = false # helper variable for inventory
 
 func effect():
 	return true
