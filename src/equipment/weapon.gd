@@ -21,7 +21,7 @@ var sharpness
 var player
 
 func _ready():
-	player = get_node("../..")
+	player = get_node("../../../../..")
 	assert(player extends preload("res://src/entities/player.gd"))
 	sharpness = [
 		Sharp.new("purple",	purple_sharpness),

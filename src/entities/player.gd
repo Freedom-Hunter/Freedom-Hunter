@@ -28,8 +28,13 @@ func _init().(150, 100, "model/AnimationPlayer"):
 
 func _ready():
 	# TEST CODE
+	var skel = get_node("model/Armature/Skeleton")
+	var ba = BoneAttachment.new()
+	ba.set_name("weapon")
+	skel.add_child(ba)
+	ba.set_bone_name("sword_L")
 	equipment.sword = load("res://scene/equipment/weapon/lasersword/laser_sword.tscn").instance()
-	get_node("weapon").add_child(equipment.sword)
+	ba.add_child(equipment.sword)
 
 	var Item = preload("res://src/items/item.gd")
 	var Potion = preload("res://src/items/potion.gd")
@@ -197,7 +202,7 @@ func _fixed_process(delta):
 	move_entity(delta)
 
 	if Input.is_action_pressed("player_attack_left"):
-		if not animation_node.get_current_animation() != "left_attack_0":
+		if animation_node.get_current_animation() != "left_attack_0":
 			if networking.multiplayer:
 				networking.peer.local_entity_attack(get_name(), "left_attack_0")
 			attack("left_attack_0")
