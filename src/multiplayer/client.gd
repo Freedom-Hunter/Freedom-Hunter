@@ -137,7 +137,7 @@ func stop():
 	.stop()
 
 func local_entity_move(entity, transform):
-	send(new_packet(CMD_CS_MOVE, {'player': entity, 'transform': transform}))
+	send(new_packet(CMD_CS_MOVE, {'entity': entity, 'transform': transform}))
 
 func local_entity_attack(entity, attack):
 	send(new_packet(CMD_CS_ATTACK, {'entity': entity, 'attack': attack}))

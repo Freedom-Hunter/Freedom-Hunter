@@ -154,10 +154,10 @@ class Slot extends Panel:
 	func set_item(i):
 		item = i
 		if item != null:
-			set_theme(preload("res://media/inventory/slot_full.tres"))
+			set_theme(preload("res://data/themes/inventory/slot_full.tres"))
 			set_name(item.name)
 		else:
-			set_theme(preload("res://media/inventory/slot_empty.tres"))
+			set_theme(preload("res://data/themes/inventory/slot_empty.tres"))
 			set_name(str(get_index() % inventory.columns, '|', int(get_index() / inventory.columns)))
 		stack.layout(item)
 

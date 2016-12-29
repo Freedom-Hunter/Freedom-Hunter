@@ -39,7 +39,7 @@ var players_spawn_node
 var monsters_spawn_node
 var global
 
-var player_scn = preload("res://scene/player.tscn")
+var player_scn = preload("res://data/scenes/player.tscn")
 
 signal player_connected
 signal player_disconnected
@@ -60,8 +60,8 @@ func start(game, port):
 		monsters = {}
 		entities = {}
 		for player in players_spawn_node.get_children():
-			players[player.get_name()] = player.get_node("body")
-			entities[player.get_name()] = player.get_node("body")
+			players[player.get_name()] = player
+			entities[player.get_name()] = player
 		for monster in monsters_spawn_node.get_children():
 			monsters[monster.get_name()] = monster
 			entities[monster.get_name()] = monster

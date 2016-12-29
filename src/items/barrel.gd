@@ -1,6 +1,6 @@
 extends "item.gd"
 
-var scene = preload("res://scene/items/barrel.tscn")
+var scene = preload("res://data/scenes/items/barrel.tscn")
 
 func _init(p, i, n, q).(p, i, n, q, 5, true, 5):
 	pass

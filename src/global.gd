@@ -2,7 +2,7 @@ extends Node
 
 var gravity = -10
 
-var player_scn = preload("res://scene/player.tscn")
+var player_scn = preload("res://data/scenes/player.tscn")
 
 var local_player = null
 
@@ -23,9 +23,9 @@ func remove_player(game, name):
 	game.get_node("hud").player_disconnected(name)
 
 func start_game(local_player_name):
-	var game = preload("res://scene/game.tscn").instance()
+	var game = preload("res://data/scenes/game.tscn").instance()
 	get_node("/root/").add_child(game)
-	add_monster(game, load("res://scene/monsters/dragon.tscn"))
+	add_monster(game, load("res://data/scenes/monsters/dragon.tscn"))
 	if local_player_name != null:
 		local_player = add_player(game, local_player_name, true)
 		game.get_node("hud").init()
@@ -38,7 +38,7 @@ func stop_game():
 	local_player = null
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_tree().set_pause(false)
-	get_tree().change_scene("res://scene/main_menu.tscn")
+	get_tree().change_scene("res://data/scenes/main_menu.tscn")
 
 func exit_clean():
 	var networking = get_node("/root/networking")

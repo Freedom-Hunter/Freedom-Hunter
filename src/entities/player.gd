@@ -16,7 +16,7 @@ const WALK_SPEED = 5
 const SPRINT_SPEED = 7.5
 
 var equipment = {"sword": null, "head": null, "torso": null, "rightarm": null, "leftarm": null, "leg": null}
-var inventory = preload("res://scene/inventory.tscn").instance()
+var inventory = preload("res://data/scenes/inventory.tscn").instance()
 
 #multiplayer
 var local = true
@@ -33,7 +33,7 @@ func _ready():
 	ba.set_name("weapon")
 	skel.add_child(ba)
 	ba.set_bone_name("sword_L")
-	equipment.sword = load("res://scene/equipment/weapon/lasersword/laser_sword.tscn").instance()
+	equipment.sword = load("res://data/scenes/equipment/weapon/lasersword/laser_sword.tscn").instance()
 	ba.add_child(equipment.sword)
 
 	var Item = preload("res://src/items/item.gd")
@@ -41,10 +41,10 @@ func _ready():
 	var Firework = preload("res://src/items/firework.gd")
 	var Barrel = preload("res://src/items/barrel.gd")
 
-	var null_item = Item.new(self, preload("res://media/items/null.png"), "None", 0, 0, true, 0, true)
-	var potion = Potion.new(self, preload("res://media/items/potion.png"), "Potion", 10, 25)
-	var firework = Firework.new(self, preload("res://media/items/firework.png"), "Firework", 10)
-	var barrel = Barrel.new(self, preload("res://media/items/barrel.png"), "Barrel", 5)
+	var null_item = Item.new(self, preload("res://data/images/items/null.png"), "None", 0, 0, true, 0, true)
+	var potion = Potion.new(self, preload("res://data/images/items/potion.png"), "Potion", 10, 25)
+	var firework = Firework.new(self, preload("res://data/images/items/firework.png"), "Firework", 10)
+	var barrel = Barrel.new(self, preload("res://data/images/items/barrel.png"), "Barrel", 5)
 
 	inventory.init([null_item, potion, firework, barrel], 30)
 	inventory.set_pos(Vector2(1370, 200))

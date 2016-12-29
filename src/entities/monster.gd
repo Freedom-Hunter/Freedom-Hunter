@@ -49,7 +49,7 @@ func _fixed_process(delta):
 
 	if player != null:
 		var distance_from_player = player.get_pos() - origin
-		if get_transform().basis.z.dot(distance_from_player.normalized()) > -0.5:
+		if get_transform().basis.z.dot(distance_from_player.normalized()) > -0.5 or distance_from_player.length() < 7.5:
 			if distance_from_player.length() > 7.5:
 				direction = distance_from_player.normalized() * SPEED
 			else:

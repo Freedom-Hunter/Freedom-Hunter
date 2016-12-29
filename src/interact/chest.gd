@@ -1,6 +1,6 @@
 extends StaticBody
 
-onready var inventory = preload("res://scene/inventory.tscn").instance()
+onready var inventory = preload("res://data/scenes/inventory.tscn").instance()
 onready var inventory_items = inventory.get_node("items")
 onready var hud = get_node("/root/game/hud")
 onready var animation = get_node("animation")
