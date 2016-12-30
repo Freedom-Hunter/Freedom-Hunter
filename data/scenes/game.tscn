@@ -7,11 +7,6 @@
 [ext_resource path="res://data/scenes/interact/mushrooms.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/camera.gd" type="Script" id=6]
 
-
-
-
-
-
 [node name="game" type="Area"]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -41,7 +36,7 @@ visibility/visible = false
 
 [node name="chest" parent="." instance=ExtResource( 4 )]
 
-transform/local = Transform( -3.27835e-08, 0, 0.75, 0, 0.75, 0, -0.75, 0, -3.27835e-08, 0, 0.75, 7 )
+transform/local = Transform( 0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 7 )
 
 [node name="mushroom" parent="." instance=ExtResource( 5 )]
 

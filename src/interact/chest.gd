@@ -3,7 +3,8 @@ extends StaticBody
 onready var inventory = preload("res://data/scenes/inventory.tscn").instance()
 onready var inventory_items = inventory.get_node("items")
 onready var hud = get_node("/root/game/hud")
-onready var animation = get_node("animation")
+onready var animation = get_node("model/AnimationPlayer")
+onready var sound_node = get_node("sound")
 
 var player = null
 
@@ -20,6 +21,7 @@ func open():
 		return
 	if animation.is_playing():
 		yield(animation, "finished")
+	sound_node.play("hinge")
 	animation.play("open")
 	player.pause_player()
 	yield(animation, "finished")
@@ -31,6 +33,7 @@ func close():
 	set_process_input(false)
 	hud.inventory.disconnect("popup_hide", self, "close")
 	hud.close_inventories()
+	sound_node.play("hinge")
 	animation.play("close")
 	yield(animation, "finished")
 	player.resume_player()
