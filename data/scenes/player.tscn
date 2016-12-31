@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=1]
+[gd_scene load_steps=11 format=1]
 
 [ext_resource path="res://src/entities/player.gd" type="Script" id=1]
 [ext_resource path="res://data/scenes/male.scn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://data/sounds/eat.wav" type="Sample" id=4]
 [ext_resource path="res://data/sounds/jump.smp" type="Sample" id=5]
 [ext_resource path="res://data/sounds/potion_drink.smp" type="Sample" id=6]
+[ext_resource path="res://data/sounds/whetstone.wav" type="Sample" id=7]
 
 [sub_resource type="BoxShape" id=1]
 
@@ -17,6 +18,7 @@ samples/dodge = { "db":0.0, "pitch":1.0, "sample":ExtResource( 3 ) }
 samples/eat = { "db":0.0, "pitch":1.0, "sample":ExtResource( 4 ) }
 samples/jump = { "db":0.0, "pitch":1.0, "sample":ExtResource( 5 ) }
 samples/potion_drink = { "db":0.0, "pitch":1.0, "sample":ExtResource( 6 ) }
+samples/whetstone = { "db":0.0, "pitch":1.0, "sample":ExtResource( 7 ) }
 
 [sub_resource type="BoxShape" id=3]
 

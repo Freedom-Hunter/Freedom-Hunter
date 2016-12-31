@@ -3,7 +3,6 @@
 [ext_resource path="res://src/equipment/weapon.gd" type="Script" id=1]
 [ext_resource path="res://data/models/weapons/lasersword.msh" type="Mesh" id=2]
 
-
 [sub_resource type="BoxShape" id=1]
 
 extents = Vector3( 0.0705158, 0.0697443, 1.13542 )
@@ -111,7 +110,7 @@ thunder = 0
 dragon = 0
 poison = 0
 paralysis = 0
-damage = 0
+damage = 20
 red_sharpness = 0
 orange_sharpness = 0
 yellow_sharpness = 1
@@ -149,5 +148,7 @@ transform/local = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
+
+[connection signal="body_enter" from="." to="." method="_on_sword_body_enter"]
 
 

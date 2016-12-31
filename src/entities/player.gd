@@ -40,13 +40,15 @@ func _ready():
 	var Potion = preload("res://src/items/potion.gd")
 	var Firework = preload("res://src/items/firework.gd")
 	var Barrel = preload("res://src/items/barrel.gd")
+	var Whetstone = preload("res://src/items/whetstone.gd")
 
 	var null_item = Item.new(self, preload("res://data/images/items/null.png"), "None", 0, 0, true, 0, true)
 	var potion = Potion.new(self, preload("res://data/images/items/potion.png"), "Potion", 10, 25)
 	var firework = Firework.new(self, preload("res://data/images/items/firework.png"), "Firework", 10)
 	var barrel = Barrel.new(self, preload("res://data/images/items/barrel.png"), "Barrel", 5)
+	var whetstone = Whetstone.new(self, preload("res://data/images/items/whetstone.png"), "Whetstone", 10, 20)
 
-	inventory.init([null_item, potion, firework, barrel], 30)
+	inventory.init([null_item, potion, firework, barrel, whetstone], 30)
 	inventory.set_pos(Vector2(1370, 200))
 	inventory.set_name("player_inventory")
 	resume_player()

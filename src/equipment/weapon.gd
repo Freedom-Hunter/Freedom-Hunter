@@ -13,9 +13,13 @@ export(int, 0, 100) var purple_sharpness = 0
 class Sharp:
 	var type
 	var value
+	var max_val
 	func _init(t, v):
+		if v == null: # export bug
+			v = 0
 		type = t
 		value = v
+		max_val = v
 
 var sharpness
 var player
@@ -33,40 +37,54 @@ func _ready():
 		Sharp.new("red",	red_sharpness)
 	]
 	for s in sharpness:
-		if s.value == null: # export bug
-			s.value = 0
 		if s.value > 0:
 			sharpness_node.play(s.type)
 			return
-	sharpness_node.play("red")
 
-func update_sharpness():
+func update_animation():
 	var anim = sharpness_node.get_current_animation()
-	for s in sharpness:
-		if s.value > 0:
-			s.value -= 1
-			if s.value <= 0:
-				s.value = 0
-				break
-			else:
-				return
 	for s in sharpness:
 		if s.value > 0:
 			if anim != s.type:
 				sharpness_node.play(s.type)
+			return
+	if anim != "red":
+		sharpness_node.play("red")
+
+func blunt(amount):
+	for s in sharpness:
+		if s.value > 0:
+			var diff = amount - s.value
+			s.value -= amount
+			amount = diff
+			if s.value < 0:
+				s.value = 0
+			if amount <= 0:
 				break
+	update_animation()
+
+func sharpen(amount):
+	for s in sharpness:
+		if s.value < s.max_val:
+			s.value = s.max_val
+			amount -= s.max_val
+			if amount <= 0:
+				s.value += amount
+				break
+	update_animation()
+	return amount
+
+func is_sharpened():
+	for s in sharpness:
+		if s.value < s.max_val:
+			return false
+	return true
 
 func get_weapon_damage(monster):
-	var damage = damage
-	if not 'weakness' in monster:
-		return damage
-	for element in elements:
-		if element in monster.weakness:
-			damage += elements[element] * monster.weakness[element]
+	# TODO: damage modifiers
 	return damage
 
 func _on_sword_body_enter(body):
-	if body != player and player.attack_animation_node.is_playing() and body extends preload("res://src/entities/entity.gd"):
+	if body != player and body extends preload("res://src/entities/entity.gd"):
 		body.damage(get_weapon_damage(body), 0.0)
-		if player == global.local_player:
-			update_sharpness()
+		blunt(1)
