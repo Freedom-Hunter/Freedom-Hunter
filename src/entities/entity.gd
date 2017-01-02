@@ -113,6 +113,7 @@ func die():
 	hp = 0
 	regenerable_hp = 0
 	set_process(false)
+	animation_node.disconnect("finished", self, "_on_animation_finished")
 
 func damage(dmg, reg):
 	if hp > 0:

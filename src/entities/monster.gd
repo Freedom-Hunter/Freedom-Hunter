@@ -21,11 +21,12 @@ func _ready():
 
 # @override from entity.gd
 func die():
+	.die()
 	set_fixed_process(false)
 	rotate_z(PI/2)
 	get_node("fire").hide()
 	interact_node.add_to_group("interact")
-	set_script(preload("res://src/interact/monster drop.gd"))
+	call_deferred("set_script", preload("res://src/interact/monster drop.gd"))
 
 func sort_by_distance(a, b):
 	var dist_a = (get_global_transform().origin - a.get_global_transform().origin).length()
