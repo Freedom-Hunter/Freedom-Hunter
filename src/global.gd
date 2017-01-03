@@ -14,7 +14,7 @@ func add_player(game, name, local):
 	var player = player_scn.instance()
 	player.set_name(name)
 	game.get_node("player_spawn").add_child(player)
-	player.local = local
+	player.setup(local)
 	game.get_node("hud").player_connected(name)
 	return player
 

@@ -26,7 +26,9 @@ var start_walk = false
 func _init().(150, 100, "model/AnimationPlayer"):
 	pass
 
-func _ready():
+func setup(local):
+	self.local = local
+
 	# TEST CODE
 	var ba = get_node("model/Armature/Skeleton/weapon")
 	equipment.sword = load("res://data/scenes/equipment/weapon/lasersword/laser_sword.tscn").instance()
@@ -105,7 +107,7 @@ func die(net=true):
 	set_fixed_process(false)
 	set_process_input(false)
 	if net and networking.multiplayer:
-		networking.peer.local_player_died()
+		networking.peer.local_entity_died(get_name())
 
 func increase_max_stamina(amount):
 	.increase_max_stamina(amount)

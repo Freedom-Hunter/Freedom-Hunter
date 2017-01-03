@@ -59,7 +59,7 @@ func entity_damage(args):
 func entity_attack(args):
 	if args.entity in entities.keys():
 		broadcast(new_packet(CMD_SC_ATTACK, args), args.entity)
-		entities[args.entity].weapon_animation.play(args.attack)
+		entities[args.entity].attack(args.attack)
 
 func entity_die(args):
 	if args in entities.keys():
@@ -134,7 +134,7 @@ func process(delta):
 				client.retry += 1
 
 func local_entity_move(entity, transform):
-	broadcast(new_packet(CMD_SC_MOVE, {'player': entity, 'transform': transform}))
+	broadcast(new_packet(CMD_SC_MOVE, {'entity': entity, 'transform': transform}))
 
 func local_entity_attack(entity, attack):
 	broadcast(new_packet(CMD_SC_ATTACK, {'entity': entity, 'attack': attack}))
