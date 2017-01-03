@@ -13,15 +13,6 @@
 [ext_resource path="res://data/sounds/beatbox.wav" type="Sample" id=11]
 [ext_resource path="res://data/scenes/onscreen_controls.tscn" type="PackedScene" id=12]
 
-
-
-
-
-
-
-
-
-
 [sub_resource type="DynamicFont" id=1]
 
 font/size = 16
@@ -867,10 +858,34 @@ flat = false
 
 [node name="onscreen" parent="." instance=ExtResource( 12 )]
 
+[node name="respawn" type="AcceptDialog" parent="."]
+
+visibility/visible = false
+anchor/left = 3
+anchor/top = 3
+anchor/right = 3
+anchor/bottom = 3
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+popup/exclusive = false
+window/title = "Respawn"
+dialog/text = "Respawn in 5 seconds"
+dialog/hide_on_ok = true
+
 [connection signal="pressed" from="action" to="." method="_on_action_pressed"]
 
 [connection signal="finished" from="notification/animation" to="." method="_on_animation_finished"]
 
 [connection signal="pressed" from="inventory/quit" to="." method="close_inventories"]
+
+[connection signal="confirmed" from="respawn" to="." method="_on_respawn_confirmed"]
+
+[connection signal="popup_hide" from="respawn" to="." method="_on_respawn_confirmed"]
 
 

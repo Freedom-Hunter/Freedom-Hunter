@@ -101,13 +101,21 @@ func heal(amount):
 
 func die(net=true):
 	.die()
-	get_node("audio").play("hit")
-	rotate_x(PI/2)
+	get_node("audio").play("death")
+	animation_node.play("death")
 	set_translation(get_translation() + Vector3(0, 0.5, 0))
 	set_fixed_process(false)
 	set_process_input(false)
 	if net and networking.multiplayer:
 		networking.peer.local_entity_died(get_name())
+	if local:
+		hud.respawn()
+
+func respawn():
+	set_transform(Matrix32())
+	hp = max_hp
+	resume_player()
+	set_process(true)
 
 func increase_max_stamina(amount):
 	.increase_max_stamina(amount)
@@ -142,7 +150,7 @@ func _process(delta):
 		elif anim != "walk":
 			animation_node.play("walk")
 	elif anim != "idle":
-		if anim in ["walk", "run"] or not playing:
+		if anim in ["walk", "run", "death"] or not playing:
 			animation_node.play("idle")
 
 func _fixed_process(delta):

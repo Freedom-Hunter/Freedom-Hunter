@@ -10,6 +10,7 @@ onready var names_node = get_node("names")
 onready var players_list_node = get_node("players_list")
 onready var action_node = get_node("action")
 onready var inventory = get_node("inventory")
+onready var respawn_node = get_node("respawn")
 
 var camera_node
 var notify_queue = []
@@ -162,3 +163,13 @@ func notify(text):
 	notify_queue.append(text)
 	if not get_node("notification/animation").is_playing():
 		play_notify(notify_queue[0])
+
+func respawn():
+	respawn_node.popup()
+	get_viewport().get_camera().set_process_input(false)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+func _on_respawn_confirmed():
+	global.local_player.respawn()
+	get_viewport().get_camera().set_process_input(true)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
