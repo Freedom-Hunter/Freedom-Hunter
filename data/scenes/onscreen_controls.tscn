@@ -8,12 +8,6 @@
 [ext_resource path="res://data/images/onscreen_controls/X.png" type="Texture" id=6]
 [ext_resource path="res://data/images/onscreen_controls/Y.png" type="Texture" id=7]
 
-
-
-
-
-
-
 [node name="onscreen" type="Control"]
 
 focus/ignore_mouse = true

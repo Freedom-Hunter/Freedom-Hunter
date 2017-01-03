@@ -12,7 +12,7 @@ var intensity = 0
 
 var a_action = "player_attack_left"
 var b_action = "player_attack_right"
-var x_action = "player_jump"
+var x_action = "player_dodge"
 var y_action = "player_use"
 
 func _ready():
@@ -32,7 +32,7 @@ func _input(event):
 		if event.is_pressed() and analog.get_rect().has_point(event.pos):
 			touch_index = event.index
 			accept_event()
-		elif event.index == touch_index:
+		elif not event.is_pressed() and event.index == touch_index:
 			touch_index = null
 			stick.set_pos(stick_rest_pos)
 			direction = Vector2()
@@ -42,8 +42,11 @@ func _input(event):
 		direction = pos.normalized()
 		intensity = pos.length() / 60
 		if intensity > 1:
-			pos = direction
+			pos = direction * 60 # 60 is the radius of the stick
 			intensity = 1
+			Input.action_press("player_run")
+		else:
+			Input.action_release("player_run")
 		stick.set_pos(pos + stick_rest_pos)
 		accept_event()
 

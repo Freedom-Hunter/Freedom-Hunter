@@ -167,16 +167,11 @@ func _fixed_process(delta):
 		direction -= Vector3(camera.basis.x.x, 0, camera.basis.x.z)
 	if Input.is_action_pressed("player_right"):
 		direction += Vector3(camera.basis.x.x, 0, camera.basis.x.z)
+
 	if onscreen.is_visible():
 		var d = onscreen.direction
-		if onscreen.intensity > 0.75:
-			speed = onscreen.intensity * SPRINT_SPEED
-			stamina -= SPRINT_STAMINA * delta
-			running = true
-		else:
-			speed = onscreen.intensity * WALK_SPEED
-			running = false
 		direction = d.y * camera.basis.z + d.x * camera.basis.x
+
 	running = Input.is_action_pressed("player_run") and direction != Vector3() and stamina > SPRINT_STAMINA * delta
 	if Input.is_action_pressed("player_run") and direction != Vector3():
 		stamina -= SPRINT_STAMINA * delta
@@ -188,6 +183,7 @@ func _fixed_process(delta):
 		stamina += STAMINA_REGENERATION * delta
 		if stamina > max_stamina:
 			stamina = max_stamina
+
 	if Input.is_action_pressed("player_dodge") and direction != Vector3() and stamina >= 10:
 		if running:
 			if not jumping:

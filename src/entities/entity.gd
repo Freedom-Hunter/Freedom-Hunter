@@ -73,7 +73,7 @@ func move_entity(delta, gravity=true):
 #			else:
 #				floor_vel = get_collider_velocity()
 #				move(floor_vel * delta)
-			var fall = int((-velocity.y) - 10)
+			var fall = (int((-velocity.y) - 10) ^ 2) * 5
 			if fall > 0:
 				damage(fall, 0.5)
 			motion = n.slide(motion)
