@@ -82,7 +82,7 @@ func is_sharpened():
 
 func get_weapon_damage(body, impact):
 	# TODO: damage modifiers
-	return damage
+	return strength
 
 func _on_sword_body_enter(body):
 	if body != player and body extends preload("res://src/entities/entity.gd"):

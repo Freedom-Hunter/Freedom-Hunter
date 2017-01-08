@@ -15,19 +15,36 @@ const DODGE_STAMINA = 10
 const WALK_SPEED = 5
 const SPRINT_SPEED = 7.5
 
-var equipment = {"sword": null, "head": null, "torso": null, "rightarm": null, "leftarm": null, "leg": null}
+var equipment = {"weapon": null, "armour": {"head": null, "torso": null, "rightarm": null, "leftarm": null, "leg": null}}
 var inventory = preload("res://data/scenes/inventory.tscn").instance()
 
 
 func _init().(150, 100, "model/AnimationPlayer"):
 	pass
 
+func set_equipment(model, bone, name=null):
+	var skel = get_node("model/Armature/Skeleton")
+	for node in skel.get_children():
+		if node extends BoneAttachment:
+			if node.get_bone_name() == bone:
+				node.add_child(model)
+				if name != null:
+					node.set_name(name)
+				print(node)
+				return
+	var ba = BoneAttachment.new()
+	if name != null:
+		ba.set_name(name)
+	ba.set_bone_name(bone)
+	ba.add_child(model)
+	skel.add_child(ba)
+
 func _ready():
 	# TEST CODE
-	var ba = get_node("model/Armature/Skeleton/weapon")
-	equipment.sword = load("res://data/scenes/equipment/weapon/lasersword/laser_sword.tscn").instance()
-	ba.add_child(equipment.sword)
+	equipment.weapon = load("res://data/scenes/equipment/weapon/lasersword/laser_sword.tscn").instance()
+	set_equipment(equipment.weapon, "weapon_L", "weapon")
 
+	# Item test
 	var Item = preload("res://src/items/item.gd")
 	var Potion = preload("res://src/items/potion.gd")
 	var Firework = preload("res://src/items/firework.gd")
@@ -92,6 +109,13 @@ func heal(amount):
 	hp += amount
 	if hp > max_hp:
 		hp = max_hp
+
+func get_defence():
+	var defence = 0
+	for piece in equipment.armour.values():
+		if piece != null:
+			defence += piece.strength
+	return defence
 
 func die():
 	.die()

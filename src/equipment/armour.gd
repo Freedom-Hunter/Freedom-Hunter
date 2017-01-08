@@ -1,8 +1,7 @@
 extends "equipment.gd"
 
-export (int, 200) var defence = 100
+var skills = []
+var gems = []
 
 func _ready():
 	pass
-
-

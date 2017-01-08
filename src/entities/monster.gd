@@ -1,19 +1,33 @@
 extends "entity.gd"
 
+export (int, -100, 100) var strength  = 0
+
+export (int, -100, 100) var fire      = 0
+export (int, -100, 100) var water     = 0
+export (int, -100, 100) var ice       = 0
+export (int, -100, 100) var thunder   = 0
+export (int, -100, 100) var dragon    = 0
+export (int, -100, 100) var poison    = 0
+export (int, -100, 100) var paralysis = 0
+
 onready var view_node = get_node("view")
 onready var interact_node = get_node("interact")
-
-export (int, FLAGS, "Fire", "Water", "Ice", "Thunder", "Dragon", \
-"Poison", "Paralysis") var weakness_type = 0
-export var weakness_effect = Array()  # Float value from 0 to 1
-export var hardness = IntArray()
 
 const SPEED = 5
 
 var weakness = {}
 
 func _init().(500, 100, "animation", 1):
-	pass
+	weakness = {
+		"fire":      fire,
+		"water":     water,
+		"ice":       ice,
+		"thunder":   thunder,
+		"dragon":    dragon,
+		"poison":    poison,
+		"paralysis": paralysis
+	}
+
 
 func _ready():
 	if networking.is_server() or not networking.multiplayer:

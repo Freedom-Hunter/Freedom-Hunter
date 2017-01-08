@@ -134,12 +134,16 @@ func respawn():
 		networking.peer.local_entity_respawn(get_name())
 	animation_node.connect("finished", self, "_on_animation_finished")
 
+func get_defence():
+	return 0
+
 func damage(dmg, reg):
 	if hp > 0:
 		time_hit = 0
-		hp -= dmg
+		var defence = get_defence()
+		hp -= (dmg - defence)
 		regenerable_hp = int(hp + dmg * reg)
-		print("%s damaged by %s" % [get_name(), dmg])
+		print("%s damaged by %s - %s = %s" % [get_name(), dmg, defence, dmg - defence])
 		if hp <= 0:
 			die()
 		elif networking.multiplayer and local:
