@@ -34,8 +34,8 @@ func server_start(port, username=null, host=null):
 			lobby.register_player(username)
 	peer = Server.new()
 	peer.global = global
-	var game = global.start_game(username)
-	peer.start(game, port)
+	global.start_game(username)
+	peer.start(port)
 	set_process(true)
 	return peer
 
@@ -46,8 +46,8 @@ func client_start(ip, port, username, server_id=null):
 		lobby.register_player(username, server_id)
 	peer = Client.new()
 	peer.global = global
-	var game = global.start_game(username)
-	peer.start(game, ip, port)
+	global.start_game(username)
+	peer.start(ip, port)
 	set_process(true)
 	return peer
 

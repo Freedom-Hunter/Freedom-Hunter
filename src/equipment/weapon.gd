@@ -80,11 +80,11 @@ func is_sharpened():
 			return false
 	return true
 
-func get_weapon_damage(monster):
+func get_weapon_damage(body, impact):
 	# TODO: damage modifiers
 	return damage
 
 func _on_sword_body_enter(body):
 	if body != player and body extends preload("res://src/entities/entity.gd"):
-		body.damage(get_weapon_damage(body), 0.0)
+		body.damage(get_weapon_damage(body, body.get_collider_velocity()), 0.0)
 		blunt(1)

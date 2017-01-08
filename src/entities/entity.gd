@@ -25,6 +25,8 @@ var on_floor = false
 var jumping = false
 var dodging = false
 var running = false
+var dead = false
+var local = true  # for multiplayer
 
 var interpolation_factor  # how fast we interpolate rotations
 var animation_path
@@ -109,26 +111,45 @@ func get_pos():
 	return get_global_transform().origin
 
 func die():
-	print("%s died" % get_name())
-	hp = 0
+	if not dead:
+		print("%s died" % get_name())
+		dead = true
+		hp = 0
+		regenerable_hp = 0
+		set_process(false)
+		animation_node.disconnect("finished", self, "_on_animation_finished")
+		if networking.multiplayer and local:
+			networking.peer.local_entity_died(get_name())
+	else:
+		print(get_name(), " is already dead")
+
+func respawn():
+	set_transform(Matrix32())
+	hp = max_hp
 	regenerable_hp = 0
-	set_process(false)
-	animation_node.disconnect("finished", self, "_on_animation_finished")
+	stamina = max_stamina
+	dead = false
+	set_process(true)
+	if networking.multiplayer and local:
+		networking.peer.local_entity_respawn(get_name())
+	animation_node.connect("finished", self, "_on_animation_finished")
 
 func damage(dmg, reg):
 	if hp > 0:
 		time_hit = 0
 		hp -= dmg
 		regenerable_hp = int(hp + dmg * reg)
+		print("%s damaged by %s" % [get_name(), dmg])
 		if hp <= 0:
 			die()
-		else:
-			print("%s damaged by %s" % [get_name(), dmg])
-	else:
-		print(get_name(), " is already dead")
+		elif networking.multiplayer and local:
+			networking.peer.local_entity_damage(get_name(), hp, regenerable_hp)
 
 func attack(attack_name):
-	animation_node.play(attack_name)
+	if animation_node.get_current_animation() != attack_name:
+		if networking.multiplayer and local:
+			networking.peer.local_entity_attack(get_name(), attack_name)
+		animation_node.play(attack_name)
 
 func increase_max_stamina(amount):
 	if max_stamina + amount <= MAX_STAMINA:

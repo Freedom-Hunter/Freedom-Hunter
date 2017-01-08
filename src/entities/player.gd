@@ -18,17 +18,11 @@ const SPRINT_SPEED = 7.5
 var equipment = {"sword": null, "head": null, "torso": null, "rightarm": null, "leftarm": null, "leg": null}
 var inventory = preload("res://data/scenes/inventory.tscn").instance()
 
-#multiplayer
-var local = true
-var start_walk = false
-
 
 func _init().(150, 100, "model/AnimationPlayer"):
 	pass
 
-func setup(local):
-	self.local = local
-
+func _ready():
 	# TEST CODE
 	var ba = get_node("model/Armature/Skeleton/weapon")
 	equipment.sword = load("res://data/scenes/equipment/weapon/lasersword/laser_sword.tscn").instance()
@@ -99,23 +93,19 @@ func heal(amount):
 	if hp > max_hp:
 		hp = max_hp
 
-func die(net=true):
+func die():
 	.die()
-	get_node("audio").play("death")
 	animation_node.play("death")
-	set_translation(get_translation() + Vector3(0, 0.5, 0))
+	get_node("audio").play("death")
+	set_process(false)
 	set_fixed_process(false)
 	set_process_input(false)
-	if net and networking.multiplayer:
-		networking.peer.local_entity_died(get_name())
 	if local:
 		hud.respawn()
 
 func respawn():
-	set_transform(Matrix32())
-	hp = max_hp
+	.respawn()
 	resume_player()
-	set_process(true)
 
 func increase_max_stamina(amount):
 	.increase_max_stamina(amount)
@@ -136,6 +126,8 @@ func resume_player():
 		camera_node.set_process_input(true)
 
 func _process(delta):
+	if dead:
+		return
 	var anim = animation_node.get_current_animation()
 	var playing = animation_node.is_playing()
 	if anim.find("attack") != -1 and playing:
@@ -206,15 +198,9 @@ func _fixed_process(delta):
 	move_entity(delta)
 
 	if Input.is_action_pressed("player_attack_left"):
-		if animation_node.get_current_animation() != "left_attack_0":
-			if networking.multiplayer:
-				networking.peer.local_entity_attack(get_name(), "left_attack_0")
-			attack("left_attack_0")
+		attack("left_attack_0")
 	if Input.is_action_pressed("player_attack_right"):
-		if animation_node.get_current_animation() != "right_attack_0":
-			if networking.multiplayer:
-				networking.peer.local_entity_attack(get_name(), "right_attack_0")
-			attack("right_attack_0")
+		attack("right_attack_0")
 
 	# Camera follows the player
 	yaw_node.set_translation(get_translation() + Vector3(0, camera_offset, 0))

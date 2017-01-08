@@ -10,3 +10,6 @@ var barrel = Barrel.new(null, preload("res://data/images/items/barrel.png"), "Ba
 
 func _init().([barrel, firework, potion], rand_range(2,5)):
 	pass
+
+func die():  # prevent errors in multiplayer
+	pass

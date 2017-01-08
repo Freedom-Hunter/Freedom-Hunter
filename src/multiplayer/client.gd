@@ -9,8 +9,8 @@ var connected = false
 var ping
 var retry = 0
 
-func start(game, ip, port):
-	if .start(game, 0):
+func start(ip, port):
+	if .start(0):
 		server_ip = ip
 		server_port = port
 		udp.set_send_address(ip, port)
@@ -27,7 +27,7 @@ func connection_accepted(args):
 	print("Server accepted connection")
 	for player_name in args:
 		if not player_name in players.keys():
-			var player = global.add_player(game_node, player_name, false)
+			var player = global.add_player(player_name, false)
 			emit_signal("player_connected", player)
 			players[player_name] = player
 			entities[player_name] = player
@@ -46,6 +46,13 @@ func pong(args):
 	ping = OS.get_unix_time()
 	retry = 0
 
+func entity_spawn(args):
+	entities[args.entity] = global.add_monster(args.name, load(args.scene))
+
+func entity_respawn(args):
+	if args.entity in entities.keys():
+		entities[args].respawn()
+
 func entity_move(args):
 	if args.entity in entities.keys():
 		entities[args.entity].set_global_transform(args.transform)
@@ -53,7 +60,7 @@ func entity_move(args):
 func entity_damage(args):
 	if args.entity in entities.keys():
 		entities[args.entity].hp = args.hp
-		entities[args.entity].regenerable_hp = args.regenerable
+		entities[args.entity].regenerable_hp = args.reg
 
 func entity_attack(args):
 	if args.entity in entities.keys():
@@ -61,8 +68,7 @@ func entity_attack(args):
 
 func entity_die(args):
 	if args in entities.keys():
-		if entities[args].hp > 0:
-			entities[args].die()
+		entities[args].die()
 
 func player_use_item(args):
 	if args.player in players.keys():
@@ -74,7 +80,7 @@ func player_got_item(args):
 		players[args.player].add_item(item)
 
 func player_connected(args):
-	players[args.player] = global.add_player(game_node, args.player, false)
+	players[args.player] = global.add_player(args.player, false)
 	players[args.player].set_global_transform(args.transform)
 	entities[args.player] = players[args.player]
 	emit_signal("player_connected", players[args.player])
@@ -136,6 +142,12 @@ func stop():
 	connected = false
 	.stop()
 
+func local_entity_spawn(entity, scene):
+	send(new_packet(CMD_CS_SPAWN, {'entity': entity, 'scene': scene}))
+
+func local_entity_respawn(entity):
+	send(new_packet(CMD_CS_RESPAWN, entity))
+
 func local_entity_move(entity, transform):
 	send(new_packet(CMD_CS_MOVE, {'entity': entity, 'transform': transform}))
 
@@ -145,8 +157,8 @@ func local_entity_attack(entity, attack):
 func local_entity_died(entity):
 	send(new_packet(CMD_CS_DIE, entity))
 
-func local_entity_damage(entity, dmg, reg):
-	send(new_packet(CMD_CS_DAMAGE, {'entity': entity, 'damage': dmg, 'regenerable': reg}))
+func local_entity_damage(entity, hp, reg):
+	send(new_packet(CMD_CS_DAMAGE, {'entity': entity, 'hp': hp, 'reg': reg}))
 
 func local_player_used_item(item):
 	var player = global.local_player

@@ -6,6 +6,8 @@ const CMD_CS_PING = 98
 const CMD_CS_PONG = 99
 	# Game comands
 const CMD_CS_MOVE = 100
+const CMD_CS_SPAWN = 101
+const CMD_CS_RESPAWN = 102
 const CMD_CS_DAMAGE = 120
 const CMD_CS_ATTACK = 130
 const CMD_CS_DIE = 150
@@ -24,6 +26,8 @@ const CMD_SC_PING = 98
 const CMD_SC_PONG = 99
 	# Game comands
 const CMD_SC_MOVE = 100
+const CMD_SC_SPAWN = 101
+const CMD_SC_RESPAWN = 102
 const CMD_SC_DAMAGE = 120
 const CMD_SC_ATTACK = 130
 const CMD_SC_DIE = 150
@@ -34,9 +38,7 @@ var udp
 var players
 var monsters
 var entities  # players + monsters
-var game_node
-var players_spawn_node
-var monsters_spawn_node
+
 var global
 
 var player_scn = preload("res://data/scenes/player.tscn")
@@ -50,19 +52,16 @@ func new_packet(command, args=null):
 		pckt['args'] = args
 	return pckt
 
-func start(game, port):
+func start(port):
 	udp = PacketPeerUDP.new()
 	if udp.listen(port) == OK:
-		game_node = game
-		players_spawn_node = game.get_node("player_spawn")
-		monsters_spawn_node = game.get_node("monster_spawn")
 		players = {}
 		monsters = {}
 		entities = {}
-		for player in players_spawn_node.get_children():
+		for player in global.players_spawn.get_children():
 			players[player.get_name()] = player
 			entities[player.get_name()] = player
-		for monster in monsters_spawn_node.get_children():
+		for monster in global.monsters_spawn.get_children():
 			monsters[monster.get_name()] = monster
 			entities[monster.get_name()] = monster
 		return true
