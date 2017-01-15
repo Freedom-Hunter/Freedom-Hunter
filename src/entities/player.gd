@@ -12,6 +12,7 @@ onready var onscreen = hud.get_node("onscreen")
 const STAMINA_REGENERATION = 4
 const SPRINT_STAMINA = 5
 const DODGE_STAMINA = 10
+const DODGE_SPEED = 6
 const WALK_SPEED = 5
 const SPRINT_SPEED = 7.5
 
@@ -156,6 +157,10 @@ func _process(delta):
 	var playing = animation_node.is_playing()
 	if anim.find("attack") != -1 and playing:
 		return
+	if Input.is_action_pressed("player_attack_left"):
+		attack("left_attack_0")
+	if Input.is_action_pressed("player_attack_right"):
+		attack("right_attack_0")
 	if direction.length() != 0:
 		if dodging:
 			if anim != "dodge" or not playing:
@@ -170,61 +175,57 @@ func _process(delta):
 			animation_node.play("idle")
 
 func _fixed_process(delta):
-	direction = Vector3(0, 0, 0)
-	var jump = 0
-	var camera = camera_node.get_global_transform()
-	# Player movements
-	var speed = WALK_SPEED
-	if Input.is_action_pressed("player_forward"):
-		direction -= Vector3(camera.basis.z.x, 0, camera.basis.z.z)
-	if Input.is_action_pressed("player_backward"):
-		direction += Vector3(camera.basis.z.x, 0, camera.basis.z.z)
-	if Input.is_action_pressed("player_left"):
-		direction -= Vector3(camera.basis.x.x, 0, camera.basis.x.z)
-	if Input.is_action_pressed("player_right"):
-		direction += Vector3(camera.basis.x.x, 0, camera.basis.x.z)
+	if not dodging:
+		direction = Vector3(0, 0, 0)
+		var jump = 0
+		var camera = camera_node.get_global_transform()
+		# Player movements
+		var speed = WALK_SPEED
+		if Input.is_action_pressed("player_forward"):
+			direction -= Vector3(camera.basis.z.x, 0, camera.basis.z.z)
+		if Input.is_action_pressed("player_backward"):
+			direction += Vector3(camera.basis.z.x, 0, camera.basis.z.z)
+		if Input.is_action_pressed("player_left"):
+			direction -= Vector3(camera.basis.x.x, 0, camera.basis.x.z)
+		if Input.is_action_pressed("player_right"):
+			direction += Vector3(camera.basis.x.x, 0, camera.basis.x.z)
 
-	if onscreen.is_visible():
-		var d = onscreen.direction
-		direction = d.y * camera.basis.z + d.x * camera.basis.x
+		if onscreen.is_visible():
+			var d = onscreen.direction
+			direction = d.y * camera.basis.z + d.x * camera.basis.x
 
-	running = Input.is_action_pressed("player_run") and direction != Vector3() and stamina > SPRINT_STAMINA * delta
-	if Input.is_action_pressed("player_run") and direction != Vector3():
-		stamina -= SPRINT_STAMINA * delta
-		if stamina < 0:
-			stamina = 0
-		else:
-			speed = SPRINT_SPEED
-	elif stamina < max_stamina:
-		stamina += STAMINA_REGENERATION * delta
-		if stamina > max_stamina:
-			stamina = max_stamina
+		running = Input.is_action_pressed("player_run") and direction != Vector3() and stamina > SPRINT_STAMINA * delta
+		if Input.is_action_pressed("player_run") and direction != Vector3():
+			stamina -= SPRINT_STAMINA * delta
+			if stamina < 0:
+				stamina = 0
+			else:
+				speed = SPRINT_SPEED
+		elif stamina < max_stamina:
+			stamina += STAMINA_REGENERATION * delta
+			if stamina > max_stamina:
+				stamina = max_stamina
 
-	if Input.is_action_pressed("player_dodge") and direction != Vector3() and stamina >= 10:
-		if running:
-			if not jumping:
-				jumping = true
-				jump = SPRINT_SPEED
+		if Input.is_action_pressed("player_dodge") and direction != Vector3() and stamina >= 10:
+			if running:
+				if not jumping:
+					jumping = true
+					jump = SPRINT_SPEED
+					stamina -= DODGE_STAMINA
+					audio_node.play("jump")
+			elif not dodging:
+				dodging = true
+				speed = DODGE_SPEED
 				stamina -= DODGE_STAMINA
-				audio_node.play("jump")
-		elif not dodging:
-			dodging = true
-			speed *= 3
-			stamina -= DODGE_STAMINA
-			audio_node.play("dodge")
+				audio_node.play("dodge")
 
-	direction = direction.normalized()
-	direction.x = direction.x * speed
-	direction.y = jump
-	direction.z = direction.z * speed
+		direction = direction.normalized()
+		direction.x = direction.x * speed
+		direction.y = jump
+		direction.z = direction.z * speed
 
 	# Player collision and physics
 	move_entity(delta)
-
-	if Input.is_action_pressed("player_attack_left"):
-		attack("left_attack_0")
-	if Input.is_action_pressed("player_attack_right"):
-		attack("right_attack_0")
 
 	# Camera follows the player
 	yaw_node.set_translation(get_translation() + Vector3(0, camera_offset, 0))

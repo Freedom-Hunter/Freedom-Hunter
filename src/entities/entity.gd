@@ -150,7 +150,7 @@ func damage(dmg, reg):
 			networking.peer.local_entity_damage(get_name(), hp, regenerable_hp)
 
 func attack(attack_name):
-	if animation_node.get_current_animation() != attack_name:
+	if animation_node.get_current_animation() != attack_name and animation_node.has_animation(attack_name):
 		if networking.multiplayer and local:
 			networking.peer.local_entity_attack(get_name(), attack_name)
 		animation_node.play(attack_name)
