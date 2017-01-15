@@ -168,11 +168,10 @@ func _process(delta):
 		elif running:
 			if anim != "run" or not playing:
 				animation_node.play("run")
-		elif anim != "walk":
+		elif anim != "walk" or not playing:
 			animation_node.play("walk")
-	elif anim != "idle":
-		if anim in ["walk", "run", "death"] or not playing:
-			animation_node.play("idle")
+	elif anim in ["walk", "run", "death"] or not playing:
+		animation_node.play("idle")
 
 func _fixed_process(delta):
 	if not dodging:
@@ -206,7 +205,7 @@ func _fixed_process(delta):
 			if stamina > max_stamina:
 				stamina = max_stamina
 
-		if Input.is_action_pressed("player_dodge") and direction != Vector3() and stamina >= 10:
+		if Input.is_action_pressed("player_dodge") and on_floor and direction != Vector3() and stamina >= DODGE_STAMINA:
 			if running:
 				if not jumping:
 					jumping = true
