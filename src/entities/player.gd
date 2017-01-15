@@ -31,7 +31,6 @@ func set_equipment(model, bone, name=null):
 				node.add_child(model)
 				if name != null:
 					node.set_name(name)
-				print(node)
 				return
 	var ba = BoneAttachment.new()
 	if name != null:

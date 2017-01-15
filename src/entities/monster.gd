@@ -16,6 +16,9 @@ onready var interact_node = get_node("interact")
 const SPEED = 5
 
 var weakness = {}
+var players = []
+var target = null
+var combat = false
 
 func _init().(500, 100, "animation", 1):
 	weakness = {
@@ -47,28 +50,52 @@ func sort_by_distance(a, b):
 	var dist_b = (get_global_transform().origin - b.get_global_transform().origin).length()
 	return dist_a < dist_b
 
-func get_player():
-	var players = view_node.get_overlapping_bodies()
-	for i in players:
-		if not i.is_in_group("player"):
-			players.erase(i)
-	if players.size() > 0:
-		players.sort_custom(self, "sort_by_distance")
-		return players[0]
-	return null
+#func get_player():
+#	var players = view_node.get_overlapping_bodies()
+#	for i in players:
+#		if not i.is_in_group("player"):
+#			players.erase(i)
+#	if players.size() > 0:
+#		players.sort_custom(self, "sort_by_distance")
+#		return players[0]
+#	return null
+
+func _body_enter( body ):
+	if body.is_in_group("player"):
+		players.push_front(body)
+
+func _body_exit( body ):
+	if body.is_in_group("player"):
+		players.erase(body)
 
 func _fixed_process(delta):
 	direction = Vector3()
 	var origin = get_pos()
-	var player = get_player()
+	var player = null
+	var distance_from_player
+
+	if players.size() != 0:
+		players.sort_custom(self, "sort_by_distance")
+		player = players[0]
+		distance_from_player = player.get_pos() - origin
+		if get_transform().basis.z.dot(distance_from_player.normalized()) > -0.5:
+			if combat == false:
+				combat = true
+				get_node("animation").play("exclamation")
+		else:
+			player = null
 
 	if player != null:
-		var distance_from_player = player.get_pos() - origin
-		if get_transform().basis.z.dot(distance_from_player.normalized()) > -0.5 or distance_from_player.length() < 7.5:
-			if distance_from_player.length() > 7.5:
-				direction = distance_from_player.normalized() * SPEED
-			else:
-				direction = distance_from_player.normalized() * 0.01
-				if not animation_node.is_playing():
-					attack("attack")
+		distance_from_player = player.get_pos() - origin
+		if distance_from_player.length() > 7.5:
+			direction = distance_from_player.normalized() * SPEED
+		else:
+			direction = distance_from_player.normalized() * 0.01
+			if not animation_node.is_playing():
+				attack("attack")
+	else:
+		if target == null or (target - origin).length() < 2:
+			target = Vector3(rand_range(-100, 100), 0, rand_range(-100, 100))
+		direction = (target - origin).normalized() * (SPEED/2)
+
 	move_entity(delta)
