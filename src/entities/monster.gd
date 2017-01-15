@@ -43,22 +43,14 @@ func die():
 	rotate_z(PI/2)
 	get_node("fire").hide()
 	interact_node.add_to_group("interact")
+	view_node.disconnect("body_enter", self, "_body_enter")
+	view_node.disconnect("body_exit", self, "_body_exit")
 	call_deferred("set_script", preload("res://src/interact/monster drop.gd"))
 
 func sort_by_distance(a, b):
 	var dist_a = (get_global_transform().origin - a.get_global_transform().origin).length()
 	var dist_b = (get_global_transform().origin - b.get_global_transform().origin).length()
 	return dist_a < dist_b
-
-#func get_player():
-#	var players = view_node.get_overlapping_bodies()
-#	for i in players:
-#		if not i.is_in_group("player"):
-#			players.erase(i)
-#	if players.size() > 0:
-#		players.sort_custom(self, "sort_by_distance")
-#		return players[0]
-#	return null
 
 func _body_enter( body ):
 	if body.is_in_group("player"):
