@@ -1,8 +1,8 @@
-extends "item.gd"
+extends "usable_item.gd"
 
 var scene = preload("res://data/scenes/items/barrel.tscn")
 
-func _init(p, i, n, q).(p, i, n, q, 5, true, 5):
+func _init(p, i, n, q).(p, i, n, q, 5, 5):
 	pass
 
 func effect():

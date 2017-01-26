@@ -45,13 +45,13 @@ func _ready():
 	set_equipment(equipment.weapon, "weapon_L", "weapon")
 
 	# Item test
-	var Item = preload("res://src/items/item.gd")
+	var Item = preload("res://src/items/usable_item.gd")
 	var Potion = preload("res://src/items/potion.gd")
 	var Firework = preload("res://src/items/firework.gd")
 	var Barrel = preload("res://src/items/barrel.gd")
 	var Whetstone = preload("res://src/items/whetstone.gd")
 
-	var null_item = Item.new(self, preload("res://data/images/items/null.png"), "None", 0, 0, true, 0, true)
+	var null_item = Item.new(self, preload("res://data/images/items/null.png"), "None", 0, 0, 0, true)
 	var potion = Potion.new(self, preload("res://data/images/items/potion.png"), "Potion", 10, 25)
 	var firework = Firework.new(self, preload("res://data/images/items/firework.png"), "Firework", 10)
 	var barrel = Barrel.new(self, preload("res://data/images/items/barrel.png"), "Barrel", 5)

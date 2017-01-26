@@ -1,8 +1,8 @@
-extends "item.gd"
+extends "usable_item.gd"
 
 var scene = preload("res://data/scenes/items/firework.tscn")
 
-func _init(p, i, n, q).(p, i, n, q, 20, true, 10):
+func _init(p, i, n, q).(p, i, n, q, 20, 10):
 	pass
 
 func effect():

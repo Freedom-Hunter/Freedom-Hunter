@@ -1,4 +1,4 @@
-extends Node
+extends "../items/item.gd"
 
 export (int, -100, 100) var strength  = 0
 export (int, -100, 100) var fire      = 0
@@ -11,7 +11,7 @@ export (int, -100, 100) var paralysis = 0
 
 var elements = {}
 
-func _init():
+func _init().(preload("res://data/images/items/null.png"), get_name(), 10, 1):
 	elements = {
 		"fire":      fire,
 		"water":     water,

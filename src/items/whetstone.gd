@@ -1,8 +1,8 @@
-extends "item.gd"
+extends "usable_item.gd"
 
 var sharp
 
-func _init(pla, ico, nam, qua, sha).(pla, ico, nam, qua, 10, true, 50):
+func _init(pla, ico, nam, qua, sha).(pla, ico, nam, qua, 10, 50):
 	sharp = sha
 
 func effect():

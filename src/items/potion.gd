@@ -1,9 +1,8 @@
-
-extends "item.gd"
+extends "usable_item.gd"
 
 var heal
 
-func _init(p, i, n, q, h).(p, i, n, q, 10, true, 50):
+func _init(p, i, n, q, h).(p, i, n, q, 10, 50):
 	heal = h
 
 func effect():

@@ -1,8 +1,8 @@
-extends "item.gd"
+extends "usable_item.gd"
 
 var stamina
 
-func _init(pla, ico, nam, qua, sta).(pla, ico, nam, qua, 10, true, 50):
+func _init(pla, ico, nam, qua, sta).(pla, ico, nam, qua, 10, 50):
 	stamina = sta
 
 func effect():
