@@ -2,13 +2,13 @@
 
 Monster Hunter like action RPG game, made with [Godot Engine][godot].
 
-Freedom Hunter features basic Monster Hunter gameplay, cooperative and PvP online multiplayer game, thanks to (currently buggy LOL!) Godot's high level multiplayer capabilities.
+Freedom Hunter features basic Monster Hunter gameplay, cooperative and PvP online multiplayer game.
 
 At the moment the game is quite limited. We need your help with 3D models, animations, art, music, sound effects, shaders, translations, new gameplay ideas and, of course, code! Any contribution is welcome and gladly accepted.
 
 ## Installation
 
-**To run this game you need Godot Engine 2.2, that hasn't been released yet**.
+**To run this game you need the latest stable Godot Engine version 2.1.2**.
 
 Clone this repository or download and unzip the latest code in a folder, then import the folder using Godot's projects manager.
 
