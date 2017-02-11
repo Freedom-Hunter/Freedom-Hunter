@@ -54,6 +54,8 @@ func update_values():
 	life_node.set_value(global.local_player.hp)
 	damage_node.set_value(global.local_player.regenerable_hp)
 	stamina_node.set_value(global.local_player.stamina)
+	stamina_node.set_max(global.local_player.max_stamina)
+	stamina_node.set_size(Vector2(10 * global.local_player.max_stamina, stamina_node.get_size()[1]))
 
 func open_inventories(inventories):
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

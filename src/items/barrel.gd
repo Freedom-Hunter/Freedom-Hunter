@@ -2,7 +2,8 @@ extends "usable_item.gd"
 
 var scene = preload("res://data/scenes/items/barrel.tscn")
 
-func _init(p, i, n, q).(p, i, n, q, 5, 5):
+
+func _init(_name, _icon, _quantity, _player).(_name, _icon, _quantity, 5, 10, _player):
 	pass
 
 func effect():
@@ -13,4 +14,4 @@ func effect():
 	return true
 
 func clone():
-	return get_script().new(player, icon, name, quantity)
+	return get_script().new(name, icon, quantity, player)

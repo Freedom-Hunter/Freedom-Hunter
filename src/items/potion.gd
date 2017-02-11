@@ -2,8 +2,9 @@ extends "usable_item.gd"
 
 var heal
 
-func _init(p, i, n, q, h).(p, i, n, q, 10, 50):
-	heal = h
+
+func _init(_name, _icon, _quantity, _player, _heal).(_name, _icon, _quantity, 10, 50, _player):
+	heal = _heal
 
 func effect():
 	if player.hp < player.max_hp:
@@ -13,4 +14,4 @@ func effect():
 	return false
 
 func clone():
-	return get_script().new(player, icon, name, quantity, heal)
+	return get_script().new(name, icon, quantity, player, heal)

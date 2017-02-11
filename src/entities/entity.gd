@@ -158,6 +158,7 @@ func attack(attack_name):
 func increase_max_stamina(amount):
 	if max_stamina + amount <= MAX_STAMINA:
 		max_stamina += amount
+		stamina = max_stamina
 
 func _process(delta):
 	time_hit += delta

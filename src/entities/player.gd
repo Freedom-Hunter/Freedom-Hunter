@@ -51,11 +51,11 @@ func _ready():
 	var Barrel = preload("res://src/items/barrel.gd")
 	var Whetstone = preload("res://src/items/whetstone.gd")
 
-	var null_item = Item.new(self, preload("res://data/images/items/null.png"), "None", 0, 0, 0, true)
-	var potion = Potion.new(self, preload("res://data/images/items/potion.png"), "Potion", 10, 25)
-	var firework = Firework.new(self, preload("res://data/images/items/firework.png"), "Firework", 10)
-	var barrel = Barrel.new(self, preload("res://data/images/items/barrel.png"), "Barrel", 5)
-	var whetstone = Whetstone.new(self, preload("res://data/images/items/whetstone.png"), "Whetstone", 10, 20)
+	var null_item = Item.new("None",           preload("res://data/images/items/null.png"),      0,  0, 0, self, true)
+	var potion    = Potion.new("Potion",       preload("res://data/images/items/potion.png"),    10, self, 20)
+	var firework  = Firework.new("Firework",   preload("res://data/images/items/firework.png"),  10, self)
+	var barrel    = Barrel.new("Barrel",       preload("res://data/images/items/barrel.png"),    5,  self)
+	var whetstone = Whetstone.new("Whetstone", preload("res://data/images/items/whetstone.png"), 10, self, 20)
 
 	inventory.init([null_item, potion, firework, barrel, whetstone], 30)
 	inventory.set_pos(Vector2(1370, 200))
@@ -91,7 +91,7 @@ func _input(event):
 		inventory.activate_prev()
 	elif event.is_action_pressed("player_use"):
 		inventory.use_active_item()
-	elif event.is_action_pressed("player_interact"):
+	elif Input.is_action_pressed("player_interact"):
 		interact_with_nearest()
 
 func add_item(item):
@@ -130,11 +130,6 @@ func die():
 func respawn():
 	.respawn()
 	resume_player()
-
-func increase_max_stamina(amount):
-	.increase_max_stamina(amount)
-	hud.stamina_node.set_max(max_stamina)
-	hud.stamina_node.set_size(Vector2(800 * max_stamina / 100, hud.stamina_node.get_size()[1]))
 
 func pause_player():
 	direction = Vector3()

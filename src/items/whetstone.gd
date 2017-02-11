@@ -2,8 +2,9 @@ extends "usable_item.gd"
 
 var sharp
 
-func _init(pla, ico, nam, qua, sha).(pla, ico, nam, qua, 10, 50):
-	sharp = sha
+
+func _init(_name, _icon, _quantity, _player, _sharpening).(_name, _icon, _quantity, 20, 10, _player):
+	sharp = _sharpening
 
 func effect():
 	if player.equipment.weapon != null and not player.equipment.weapon.is_sharpened():
@@ -14,4 +15,4 @@ func effect():
 	return false
 
 func clone():
-	return get_script().new(player, icon, name, quantity, sharp)
+	return get_script().new(icon, name, quantity, player, sharp)

@@ -1,26 +1,25 @@
 extends "item.gd"
 
-var player
+var player  # Owner of the item
 var max_quantity
-var keep
+var keep  #
 var in_flight = false # helper variable for inventory
+
+
+func _init(_name, _icon, _quantity, _max_quantity, _rarity, _player, _keep=false).(_name, _icon, _quantity, _rarity):
+	player = _player
+	max_quantity = _max_quantity
+	keep = _keep
+
+func clone():
+	return get_script().new(name, icon, quantity, max_quantity, rarity, player, keep)
 
 func effect():
 	return true
 
 func use():
-	if quantity > 0:
-		if effect():
-			quantity -= 1
-
-func _init(_player, _icon, _name, _quantity, _max_quantity, _rarity, _keep=false).(_icon, _name, _rarity, _quantity):
-	player = _player
-	max_quantity = _max_quantity
-	rarity = _rarity
-	keep = _keep
-
-func clone():
-	return get_script().new(player, icon, name, quantity, max_quantity, rarity, keep)
+	if quantity > 0 and effect():
+		quantity -= 1
 
 func add(n):
 	# returns how many items can't be added due to max_quantity limit
