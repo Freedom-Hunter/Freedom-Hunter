@@ -6,7 +6,7 @@ onready var interact_node = get_node("interact")
 export (int, FLAGS, "Fire", "Water", "Ice", "Thunder", "Dragon", \
 "Poison", "Paralysis") var weakness_type = 0
 export var weakness_effect = Array()  # Float value from 0 to 1
-export var hardness = IntArray()
+export var hardness = PoolIntArray()
 
 const SPEED = 5
 

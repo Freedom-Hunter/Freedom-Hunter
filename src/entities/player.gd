@@ -44,7 +44,7 @@ func _ready():
 	var barrel = Barrel.new(self, preload("res://media/items/barrel.png"), "Barrel", 5)
 
 	inventory.init([null_item, potion, firework, barrel], 30)
-	inventory.set_pos(Vector2(1370, 200))
+	inventory.set_position(Vector2(1370, 200))
 	inventory.set_name("player_inventory")
 	resume_player()
 

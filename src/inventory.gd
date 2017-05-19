@@ -3,7 +3,6 @@ extends Panel
 const ITEM_SIZE = Vector2(50, 50)
 
 var items = []
-var items_node
 var max_items
 var active_item = 0
 var hud
@@ -12,31 +11,30 @@ var columns
 
 func init(items_array, max_items_int, hud_node=null):
 	items = items_array
-	items_node = get_node("items")
 	max_items = max_items_int
 	hud = hud_node
-	columns = items_node.get_columns()
+	columns = $"items".get_columns()
 	var added = 0
 	for item in items:
 		if item.quantity > 0:
 			var slot = Slot.new(self, item)
 			slot.set_name(item.name)
-			items_node.add_child(slot)
+			$"items".add_child(slot)
 			added += 1
 	for i in range(added, max_items):
 		var slot = Slot.new(self)
-		slot.set_name(str(i % columns, '|', int(i / columns)))
-		items_node.add_child(slot)
+		slot.set_name(str(int(i) % columns, '|', int(i / columns)))
+		$"items".add_child(slot)
 
 func add_item(item):
 	for e in items:
 		if e.name == item.name:
 			var r = e.add(item.quantity)
-			items_node.get_node(item.name).set_item(e)
+			$"items".get_node(item.name).set_item(e)
 			return r
 	if items.size() < max_items:
 		items.append(item)
-		for slot in items_node.get_children():
+		for slot in $"items".get_children():
 			if slot.get_name().find('|') != -1:
 				slot.set_item(item)
 				slot.set_name(item.name)
@@ -51,7 +49,7 @@ func use_item(i):
 	return item
 
 func remove_item(i):
-	var slot = items_node.get_node(items[i].name)
+	var slot = $"items".get_node(items[i].name)
 	slot.set_item(null)
 	slot.set_name(str(slot.get_index() % columns, '|', int(slot.get_index() / columns)))
 	items.remove(i)
@@ -75,7 +73,7 @@ func activate_prev():
 		active_item = items.size() - 1
 
 
-class ItemStack extends TextureFrame:
+class ItemStack extends TextureRect:
 	var label = Label.new()
 
 	func _init():

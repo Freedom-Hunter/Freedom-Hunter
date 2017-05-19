@@ -92,7 +92,7 @@ func show_interact():
 		else:
 			action_node.show()
 			var action_pos = camera_node.unproject_position(pos)
-			action_node.set_pos(action_pos - (action_node.get_size()/2))
+			action_node.set_position(action_pos - (action_node.get_size()/2))
 	else:
 		action_node.hide()
 
@@ -137,7 +137,7 @@ func update_names():
 		var label = names_node.get_node(global.local_player.get_name())
 		var pos = camera_node.unproject_position(global.local_player.get_node("name").get_global_transform().origin)
 		var size = label.get_size()
-		label.set_pos(pos - Vector2(size.x/2, size.y/2))
+		label.set_position(pos - Vector2(size.x/2, size.y/2))
 
 func update_debug():
 	var pos = global.local_player.get_translation()

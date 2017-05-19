@@ -76,8 +76,8 @@ func move_entity(delta, gravity=true):
 			var fall = int((-velocity.y) - 10)
 			if fall > 0:
 				damage(fall, 0.5)
-			motion = n.slide(motion)
-			velocity = n.slide(velocity)
+			motion = n.slide(motion.normalized())
+			velocity = n.slide(velocity.normalized())
 			motion = move(motion)
 		else:
 			motion = n.slide(motion)
