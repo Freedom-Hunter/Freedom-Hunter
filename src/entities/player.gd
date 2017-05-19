@@ -58,7 +58,7 @@ func _ready():
 	var whetstone = Whetstone.new("Whetstone", preload("res://data/images/items/whetstone.png"), 10, self, 20)
 
 	inventory.init([null_item, potion, firework, barrel, whetstone], 30)
-	inventory.set_pos(Vector2(1370, 200))
+	inventory.set_position(Vector2(1370, 200))
 	inventory.set_name("player_inventory")
 	resume_player()
 

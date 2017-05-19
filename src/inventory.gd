@@ -116,7 +116,7 @@ func activate_prev():
 
 
 # Visualize item's image and quantity
-class ItemStack extends TextureFrame:
+class ItemStack extends TextureRect:
 	var label = Label.new()
 
 	func _init():

@@ -1,0 +1,54 @@
+[application]
+
+auto_accept_quit=false
+icon="res://icon.png"
+main_scene="res://data/scenes/main_menu.tscn"
+name="Freedom Hunter"
+target_fps=60
+
+[autoload]
+
+global="*res://src/global.gd"
+networking="*res://src/multiplayer/networking.gd"
+
+[display]
+
+stretch/aspect="keep"
+stretch/mode="2d"
+window/height=1080
+window/test_height=720
+window/test_width=1280
+window/use_vsync=true
+window/width=1920
+
+[input]
+
+camera_lock=[ InputEvent(KEY,16777253) ]
+camera_rotation_down=[ InputEvent(MBUTTON,5) ]
+camera_rotation_lock=[ InputEvent(KEY,16777238) ]
+camera_rotation_up=[ InputEvent(MBUTTON,4) ]
+camera_zoom_in=[ InputEvent(KEY,16777349,C) ]
+camera_zoom_out=[ InputEvent(KEY,16777347,C) ]
+debug_reset=[ InputEvent(KEY,82) ]
+player_attack_left=[ InputEvent(MBUTTON,1) ]
+player_attack_right=[ InputEvent(MBUTTON,2) ]
+player_backward=[ InputEvent(KEY,83), InputEvent(KEY,83,S) ]
+player_camera_reset=[ InputEvent(MBUTTON,3) ]
+player_dodge=[ InputEvent(KEY,32), InputEvent(KEY,32,S) ]
+player_forward=[ InputEvent(KEY,87), InputEvent(KEY,87,S) ]
+player_interact=[ InputEvent(KEY,69) ]
+player_inventory=[ InputEvent(KEY,73) ]
+player_left=[ InputEvent(KEY,65), InputEvent(KEY,65,S) ]
+player_right=[ InputEvent(KEY,68), InputEvent(KEY,68,S) ]
+player_run=[ InputEvent(KEY,16777237) ]
+player_scroll_back=[ InputEvent(MBUTTON,5) ]
+player_scroll_next=[ InputEvent(MBUTTON,4) ]
+player_use=[ InputEvent(KEY,81) ]
+players_list=[ InputEvent(KEY,16777218) ]
+ui_cancel=[ InputEvent(JBUTTON,1), InputEvent(KEY,16777217) ]
+ui_fullscreen=[ InputEvent(KEY,16777254) ]
+
+[network]
+
+ssl/certificates="res://ca-certificates.crt"
+

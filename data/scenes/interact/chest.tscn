@@ -1,90 +1,95 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/interact/chest.gd" type="Script" id=1]
-[ext_resource path="res://data/sounds/hinge_chest.smp" type="Sample" id=2]
+[ext_resource path="res://data/sounds/hinge_chest.wav" type="Sample" id=2]
 [ext_resource path="res://data/scenes/interact/chest.scn" type="PackedScene" id=3]
+
+
 
 [sub_resource type="BoxShape" id=1]
 
-extents = Vector3( 1, 0.5, 0.5 )
+extents=Vector3( 1, 0.5, 0.5 )
 
-[sub_resource type="SampleLibrary" id=2]
+[sub_resource type="Resource" id=2]
 
-samples/hinge = { "db":0.0, "pitch":1.0, "sample":ExtResource( 2 ) }
+samples/hinge={
+"db": 0.0,
+"pitch": 1.0,
+"sample": ExtResource(2)
+}
 
 [sub_resource type="BoxShape" id=3]
 
-extents = Vector3( 1.2, 0.7, 1 )
+extents=Vector3( 1.2, 0.7, 1 )
 
-[node name="chest" type="StaticBody"]
+[node  name="chest" type="StaticBody"]
 
-_import_path = NodePath(".")
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-input/ray_pickable = true
-input/capture_on_drag = false
-shape_count = 1
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
-shapes/0/trigger = false
-collision/layers = 1
-collision/mask = 1
-friction = 1.0
-bounce = 0.0
-constant_linear_velocity = Vector3( 0, 0, 0 )
-constant_angular_velocity = Vector3( 0, 0, 0 )
-script/script = ExtResource( 1 )
+_import_path=NodePath(".")
+_import_transform=Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+input_ray_pickable=true
+input_capture_on_drag=false
+shape_count=1
+shapes/0/shape=SubResource(1)
+shapes/0/transform=Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+shapes/0/trigger=false
+collision_layer=1
+collision_mask=1
+friction=1.0
+bounce=0.0
+constant_linear_velocity=Vector3( 0, 0, 0 )
+constant_angular_velocity=Vector3( 0, 0, 0 )
+script=ExtResource(1)
 
-[node name="collision" type="CollisionShape" parent="."]
+[node  name="collision" parent="." type="CollisionShape"]
 
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
-shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 0
+_import_transform=Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform=Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+shape=SubResource(1)
+trigger=false
+_update_shape_index=0
 
-[node name="sound" type="SpatialSamplePlayer" parent="."]
+[node  name="sound" parent="." type="Spatial"]
 
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-params/volume_db = 0.0
-params/pitch_scale = 1.0
-params/attenuation/min_distance = 1.0
-params/attenuation/max_distance = 100.0
-params/attenuation/distance_exp = 1.0
-params/emission_cone/degrees = 180.0
-params/emission_cone/attenuation_db = -6.0
-config/polyphony = 1
-config/samples = SubResource( 2 )
+_import_transform=Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+volume_db=0.0
+pitch_scale=1.0
+attenuation_min_distance=1.0
+attenuation_max_distance=100.0
+attenuation_distance_exp=1.0
+emission_cone_degrees=180.0
+emission_cone_attenuation_db=-6.0
+polyphony=1
+samples=SubResource(2)
 
-[node name="interact" type="Area" parent="." groups=[ "interact" ]]
+[node  name="interact" parent="." type="Area"]
 
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-input/ray_pickable = false
-input/capture_on_drag = false
-shape_count = 1
-shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, -0.5 )
-shapes/0/trigger = false
-space_override = 0
-gravity_point = false
-gravity_distance_scale = 0.0
-gravity_vec = Vector3( 0, -1, 0 )
-gravity = 9.8
-linear_damp = 0.1
-angular_damp = 1.0
-priority = 0.0
-monitoring = true
-monitorable = true
-collision/layers = 1
-collision/mask = 1
+_import_transform=Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+input_ray_pickable=false
+input_capture_on_drag=false
+shape_count=1
+shapes/0/shape=SubResource(3)
+shapes/0/transform=Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, -0.5 )
+shapes/0/trigger=false
+space_override=0
+gravity_point=false
+gravity_distance_scale=0.0
+gravity_vec=Vector3( 0, -1, 0 )
+gravity=9.8
+linear_damp=0.1
+angular_damp=1.0
+priority=0.0
+monitoring=true
+monitorable=true
+collision_layer=1
+collision_mask=1
 
-[node name="shape" type="CollisionShape" parent="interact"]
+[node  name="shape" parent="interact" type="CollisionShape"]
 
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, -0.5 )
-shape = SubResource( 3 )
-trigger = false
-_update_shape_index = 0
+_import_transform=Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform=Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, -0.5 )
+shape=SubResource(3)
+trigger=false
+_update_shape_index=0
 
-[node name="model" parent="." instance=ExtResource( 3 )]
-
+[node  name="model" parent="." instance=ExtResource(3)]
 
