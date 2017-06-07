@@ -11,7 +11,7 @@ func _on_timer_timeout():
 	for body in get_node("explosion").get_overlapping_bodies():
 		if body == self:
 			continue
-		if body extends Entity:
+		if body is Entity:
 			var d = body.get_translation() - get_translation()
 			var dmg = int((r - d.length()) * 5 + 1)
 			body.damage(dmg, 0.1)

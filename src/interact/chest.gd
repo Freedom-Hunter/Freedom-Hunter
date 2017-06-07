@@ -33,7 +33,7 @@ func close():
 	set_process_input(false)
 	hud.inventory.disconnect("popup_hide", self, "close")
 	hud.close_inventories()
-	sound_node.play("hinge")
+	#sound_node.play("hinge")
 	animation.play("close")
 	yield(animation, "finished")
 	player.resume_player()

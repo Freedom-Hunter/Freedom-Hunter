@@ -129,7 +129,7 @@ func _on_username_text_changed(text):
 	if text.length() < 2:
 		var disable = get_valid_username() == null
 		for child in lobby_grid.get_children():
-			if child extends Button and child.get_name().split('|').size() > 1:
+			if child is Button and child.get_name().split('|').size() > 1:
 				child.set_disabled(disable)
 		server_validate_input()
 		client_validate_input()

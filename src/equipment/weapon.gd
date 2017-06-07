@@ -26,7 +26,7 @@ var player
 
 func _ready():
 	player = get_node("../../../../..")
-	assert(player extends preload("res://src/entities/player.gd"))
+	assert(player is preload("res://src/entities/player.gd"))
 	sharpness = [
 		Sharp.new("purple",	purple_sharpness),
 		Sharp.new("white",	white_sharpness),
@@ -85,6 +85,6 @@ func get_weapon_damage(body, impact):
 	return strength
 
 func _on_sword_body_enter(body):
-	if body != player and body extends preload("res://src/entities/entity.gd"):
+	if body != player and body is preload("res://src/entities/entity.gd"):
 		body.damage(get_weapon_damage(body, body.get_collider_velocity()), 0.0)
 		blunt(1)

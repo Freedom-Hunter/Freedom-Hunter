@@ -20,7 +20,7 @@ func _ready():
 
 func is_server():
 	if multiplayer:
-		return (peer extends Server)
+		return (peer is Server)
 	return false
 
 func server_start(port, username=null, host=null):
@@ -70,7 +70,7 @@ func get_players():
 
 func is_connected():
 	if multiplayer:
-		if peer extends Server:
+		if peer is Server:
 			return true
 		return peer.connected
 	return false

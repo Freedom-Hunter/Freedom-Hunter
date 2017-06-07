@@ -3,7 +3,6 @@ extends "entity.gd"
 onready var yaw_node = get_node("/root/game/yaw")
 onready var camera_node = yaw_node.get_node("pitch/camera")
 onready var camera_offset = yaw_node.get_translation().y
-onready var audio_node = get_node("audio")
 onready var interact_node = get_node("interact")
 
 onready var hud = get_node("/root/game/hud")
@@ -26,7 +25,7 @@ func _init().(150, 100, "model/AnimationPlayer"):
 func set_equipment(model, bone, name=null):
 	var skel = get_node("model/Armature/Skeleton")
 	for node in skel.get_children():
-		if node extends BoneAttachment:
+		if node is BoneAttachment:
 			if node.get_bone_name() == bone:
 				node.add_child(model)
 				if name != null:
@@ -120,7 +119,7 @@ func get_defence():
 func die():
 	.die()
 	animation_node.play("death")
-	get_node("audio").play("death")
+	#$"audio".play("death")
 	set_process(false)
 	set_fixed_process(false)
 	set_process_input(false)
@@ -205,12 +204,12 @@ func _fixed_process(delta):
 					jumping = true
 					jump = SPRINT_SPEED
 					stamina -= DODGE_STAMINA
-					audio_node.play("jump")
+					#$"audio".play("jump")
 			elif not dodging:
 				dodging = true
 				speed = DODGE_SPEED
 				stamina -= DODGE_STAMINA
-				audio_node.play("dodge")
+				#$"audio".play("dodge")
 
 		direction = direction.normalized()
 		direction.x = direction.x * speed

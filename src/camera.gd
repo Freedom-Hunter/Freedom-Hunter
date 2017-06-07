@@ -51,15 +51,15 @@ func rotate_view(relative):
 		target_pitch = max(min(target_pitch - relative.y, max_pitch), min_pitch)
 
 func _input(event):
-	if event.type == InputEvent.SCREEN_TOUCH:
+	if event is InputEventScreenTouch:
 		if event.is_pressed() and event.index != onscreen_node.touch_index:
 			touch_index = event.index
 		else:
 			touch_index = null
-	elif event.type == InputEvent.SCREEN_DRAG and event.index == touch_index and event.index != onscreen_node.touch_index:
-		rotate_view(event.relative_pos * touch_sensitivity)
-	elif event.type == InputEvent.MOUSE_MOTION and not onscreen_node.is_visible():
-		rotate_view(event.relative_pos * mouse_sensitivity)
+	elif event is InputEventScreenDrag and event.index == touch_index and event.index != onscreen_node.touch_index:
+		rotate_view(event.relative * touch_sensitivity)
+	elif event is InputEventMouseMotion and not onscreen_node.is_visible():
+		rotate_view(event.relative * mouse_sensitivity)
 	elif event.is_action_released("player_camera_reset"):
 		var basis = global.local_player.get_transform().basis
 		target_yaw = rad2deg(atan2(-basis.z.x, -basis.z.z))

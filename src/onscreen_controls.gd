@@ -25,7 +25,7 @@ func _ready():
 		hide()
 
 func _input(event):
-	if event.type == InputEvent.SCREEN_TOUCH:
+	if event is InputEventScreenTouch:
 		if event.is_pressed() and $"analog".get_rect().has_point(event.pos):
 			touch_index = event.index
 			accept_event()
@@ -34,7 +34,7 @@ func _input(event):
 			$"analog/stick".set_position(stick_rest_pos)
 			direction = Vector2()
 			accept_event()
-	elif event.type == InputEvent.SCREEN_DRAG and event.index == touch_index:
+	elif event is InputEventScreenDrag and event.index == touch_index:
 		var pos = event.pos - $"analog".get_position() - stick_rest_pos - $"analog/stick".get_size() / 2
 		direction = pos.normalized()
 		intensity = pos.length() / 60

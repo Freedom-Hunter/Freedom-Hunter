@@ -8,6 +8,7 @@ path="res://.import/whetstone.png-f222b8e410a762fc29f3429bea42eedf.stex"
 
 compress/mode=0
 compress/lossy_quality=0.7
+compress/hdr_mode=0
 flags/repeat=0
 flags/filter=true
 flags/mipmaps=false
@@ -15,6 +16,7 @@ flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=true
+process/HDR_as_SRGB=false
 stream=false
 size_limit=0
 detect_3d=true

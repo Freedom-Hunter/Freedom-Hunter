@@ -79,7 +79,7 @@ func update_items():
 	var inventory = global.local_player.inventory
 	var i = -2
 	for child in get_node("items_bar").get_children():
-		if child extends Panel:
+		if child is Panel:
 			var item = inventory.items[(inventory.active_item + i) % inventory.items.size()]
 			child.get_node("icon").set_texture(item.icon)
 			i += 1
