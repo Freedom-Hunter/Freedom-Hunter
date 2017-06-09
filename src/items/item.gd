@@ -11,4 +11,4 @@ func _init(_name, _icon, _quantity, _rarity):
 	rarity = _rarity
 
 func clone():
-	return get_script().new(icon, name, rarity, quantity)
+	return get_script().new(name, icon, quantity, rarity)

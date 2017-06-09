@@ -15,4 +15,4 @@ func effect():
 	return false
 
 func clone():
-	return get_script().new(icon, name, quantity, player, sharp)
+	return get_script().new(name, icon, quantity, player, sharp)
