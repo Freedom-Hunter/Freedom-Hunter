@@ -67,10 +67,11 @@ func sort_by_distance(a, b):
 	return dist_a < dist_b
 
 func get_nearest_interact():
-	var interacts = interact_node.get_overlapping_areas()
-	for i in interacts:
-		if not i.is_in_group("interact"):
-			interacts.erase(i)
+	var areas = interact_node.get_overlapping_areas()
+	var interacts = []
+	for area in areas:
+		if area.is_in_group("interact"):
+			interacts.append(area)
 	if interacts.size() > 0:
 		interacts.sort_custom(self, "sort_by_distance")
 		return interacts[0]

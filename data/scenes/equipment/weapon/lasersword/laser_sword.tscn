@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://data/models/weapons/lasersword.msh" type="Mesh" id=1]
+[ext_resource path="res://data/models/weapons/lasersword.msh" type="ArrayMesh" id=1]
 
 [sub_resource type="BoxShape" id=1]
 
@@ -23,17 +23,16 @@ params_line_width = 1.0
 params_point_size = 1.0
 params_billboard_mode = 0
 albedo_color = Color( 0.7, 0.7, 0.7, 1 )
-specular_mode = 0
-specular_color = Color( 0.1, 0.1, 0.1, 1 )
-specular_metalness = 0.1
-specular_roughness = 0.0
+metallic_amount = 0.1
+metallic_specular = 0.5
+roughness_amount = 0.0
 emission_enabled = false
 normal_enabled = false
 rim_enabled = false
 clearcoat_enabled = false
 anisotropy_enabled = false
 ao_enabled = false
-height_enabled = false
+depth_enabled = false
 subsurf_scatter_enabled = false
 refraction_enabled = false
 detail_enabled = false
@@ -59,17 +58,16 @@ params_line_width = 1.0
 params_point_size = 1.0
 params_billboard_mode = 0
 albedo_color = Color( 0.7, 0.7, 0.7, 1 )
-specular_mode = 0
-specular_color = Color( 0.1, 0.1, 0.1, 1 )
-specular_metalness = 0.1
-specular_roughness = 0.0
+metallic_amount = 0.1
+metallic_specular = 0.5
+roughness_amount = 0.0
 emission_enabled = false
 normal_enabled = false
 rim_enabled = false
 clearcoat_enabled = false
 anisotropy_enabled = false
 ao_enabled = false
-height_enabled = false
+depth_enabled = false
 subsurf_scatter_enabled = false
 refraction_enabled = false
 detail_enabled = false

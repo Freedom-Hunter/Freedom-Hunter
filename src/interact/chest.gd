@@ -10,6 +10,7 @@ var player = null
 
 func _ready():
 	inventory.init([], 100)
+	set_process_input(false)
 
 func interact(player):
 	if self.player == null:
@@ -20,11 +21,11 @@ func open():
 	if animation.get_current_animation() == "open":
 		return
 	if animation.is_playing():
-		yield(animation, "finished")
-	sound_node.play("hinge")
+		yield(animation, "animation_finished")
+	#sound_node.play("hinge")
 	animation.play("open")
 	player.pause_player()
-	yield(animation, "finished")
+	yield(animation, "animation_finished")
 	hud.open_inventories([inventory, player.inventory])
 	hud.inventory.connect("popup_hide", self, "close")
 	set_process_input(true)
@@ -35,7 +36,7 @@ func close():
 	hud.close_inventories()
 	#sound_node.play("hinge")
 	animation.play("close")
-	yield(animation, "finished")
+	yield(animation, "animation_finished")
 	player.resume_player()
 	player = null
 

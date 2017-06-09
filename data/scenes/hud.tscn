@@ -314,7 +314,7 @@ length = 2.0
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect/pos")
+tracks/0/path = NodePath(".:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -325,32 +325,21 @@ tracks/0/keys = {
 "values": [ Vector2( 660, -100 ), Vector2( 660, 500 ), Vector2( 660, 500 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath(".:visibility/opacity")
+tracks/1/path = NodePath(".:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/keys = {
-"times": PoolFloatArray( 1.5, 1.7 ),
-"transitions": PoolFloatArray( 1, 1 ),
+"times": PoolFloatArray( 0, 1.5, 2 ),
+"transitions": PoolFloatArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 1.0, 0.0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("sound:play/play")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/keys = {
-"times": PoolFloatArray( 0 ),
-"transitions": PoolFloatArray( 1 ),
-"update": 2,
-"values": [ "beatbox" ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
 [node name="hud" type="Control"]
 
-anchor_right = 1
-anchor_bottom = 1
+margin_right = 1920.0
+margin_bottom = 1080.0
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -406,14 +395,12 @@ size_flags_vertical = 2
 [node name="action" type="Button" parent="."]
 
 visible = false
-anchor_left = 3
-anchor_top = 3
-anchor_right = 3
-anchor_bottom = 3
-margin_left = 20.0
-margin_top = 20.0
-margin_right = -20.0
-margin_bottom = -20.0
+anchor_left = 2
+anchor_top = 2
+anchor_right = 2
+anchor_bottom = 2
+margin_right = 930.0
+margin_bottom = 510.0
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -733,11 +720,12 @@ max_lines_visible = -1
 
 [node name="notification" type="Panel" parent="."]
 
-editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1
 margin_left = 660.0
-margin_top = -80.0
+margin_top = 500.0
 margin_right = 660.0
+margin_bottom = 580.0
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -745,12 +733,12 @@ size_flags_vertical = 2
 
 [node name="text" type="Label" parent="notification"]
 
-anchor_right = 1
-anchor_bottom = 1
+margin_right = 600.0
+margin_bottom = 80.0
 rect_clip_content = false
 mouse_filter = 2
-size_flags_horizontal = 2
-size_flags_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_fonts/font = SubResource( 22 )
 text = "Hai ottenuto: %s"
 align = 1
@@ -770,8 +758,6 @@ playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
 
-[node name="sound" type="Node" parent="notification"]
-
 [node name="players_list" type="VBoxContainer" parent="."]
 
 editor/display_folded = true
@@ -788,7 +774,8 @@ alignment = 0
 
 [node name="list" type="Label" parent="players_list"]
 
-margin_right = 400.0
+margin_left = 118.0
+margin_right = 282.0
 margin_bottom = 21.0
 rect_clip_content = false
 mouse_filter = 2
@@ -833,16 +820,17 @@ flat = false
 
 [node name="onscreen" parent="." instance=ExtResource( 11 )]
 
-rect_clip_content = false
-mouse_filter = 0
-
 [node name="respawn" type="AcceptDialog" parent="."]
 
 visible = false
-anchor_left = 3
-anchor_top = 3
-anchor_right = 3
-anchor_bottom = 3
+anchor_left = 2
+anchor_top = 2
+anchor_right = 2
+anchor_bottom = 2
+margin_left = 100.0
+margin_top = 50.0
+margin_right = -100.0
+margin_bottom = -50.0
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2

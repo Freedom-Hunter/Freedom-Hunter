@@ -43,7 +43,7 @@ func _init(_hp, _stamina, anim_path, interp=15):
 func _ready():
 	set_process(true)
 	animation_node = get_node(animation_path)
-	animation_node.connect("finished", self, "_on_animation_finished")
+	animation_node.connect("animation_finished", self, "_on_animation_finished")
 
 func move_entity(delta, gravity=true):
 	var ti = get_global_transform()
@@ -103,7 +103,7 @@ func look_ahead(delta):
 		target += get_global_transform().origin
 		look_at(target, Vector3(0, 1, 0))
 
-func _on_animation_finished():
+func _on_animation_finished(anim):
 	dodging = false
 	running = false
 
@@ -117,7 +117,7 @@ func die():
 		hp = 0
 		regenerable_hp = 0
 		set_process(false)
-		animation_node.disconnect("finished", self, "_on_animation_finished")
+		animation_node.disconnect("animation_finished", self, "_on_animation_finished")
 		if networking.multiplayer and local:
 			networking.peer.local_entity_died(get_name())
 	else:
@@ -132,7 +132,7 @@ func respawn():
 	set_process(true)
 	if networking.multiplayer and local:
 		networking.peer.local_entity_respawn(get_name())
-	animation_node.connect("finished", self, "_on_animation_finished")
+	animation_node.connect("animation_finished", self, "_on_animation_finished")
 
 func get_defence():
 	return 0

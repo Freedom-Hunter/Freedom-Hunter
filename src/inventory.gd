@@ -31,11 +31,8 @@ func init(items_array, max_items_int, hud_node=null):
 		items_node.add_child(slot)
 
 # Input handling is needed to detect when the user drags and drops an item where he can't
-func _ready():
-	set_process_input(true)
-
 func _input(event):
-	if event.type == InputEvent.MOUSE_BUTTON and not event.is_pressed() and event.button_index == BUTTON_LEFT:
+	if event is InputEventMouseButton and not event.is_pressed() and event.button_index == BUTTON_LEFT:
 		call_deferred("give_back_dragged_item")
 
 func give_back_dragged_item():
