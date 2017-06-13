@@ -43,22 +43,14 @@ func die():
 	rotate_z(PI/2)
 	get_node("fire").hide()
 	interact_node.add_to_group("interact")
-	view_node.disconnect("body_enter", self, "_body_enter")
-	view_node.disconnect("body_exit", self, "_body_exit")
+	view_node.disconnect("body_entered", self, "_on_view_body_entered")
+	view_node.disconnect("body_exited", self, "_on_view_body_exited")
 	call_deferred("set_script", preload("res://src/interact/monster drop.gd"))
 
 func sort_by_distance(a, b):
 	var dist_a = (get_global_transform().origin - a.get_global_transform().origin).length()
 	var dist_b = (get_global_transform().origin - b.get_global_transform().origin).length()
 	return dist_a < dist_b
-
-func _body_enter( body ):
-	if body.is_in_group("player"):
-		players.push_front(body)
-
-func _body_exit( body ):
-	if body.is_in_group("player"):
-		players.erase(body)
 
 func _fixed_process(delta):
 	direction = Vector3()
@@ -91,3 +83,12 @@ func _fixed_process(delta):
 		direction = (target - origin).normalized() * (SPEED/2)
 
 	move_entity(delta)
+
+
+func _on_view_body_entered(body):
+	if body.is_in_group("player"):
+		players.push_front(body)
+
+func _on_view_body_exited( body ):
+	if body.is_in_group("player"):
+		players.erase(body)

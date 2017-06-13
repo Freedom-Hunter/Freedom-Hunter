@@ -477,7 +477,6 @@ percent_visible = false
 
 [node name="sharpness" type="Container" parent="."]
 
-editor/display_folded = true
 margin_left = 10.0
 margin_top = 50.0
 margin_right = 150.0
@@ -501,7 +500,7 @@ stretch_mode = 0
 
 [node name="type" type="TextureRect" parent="sharpness"]
 
-self_modulate = Color( 1, 1, 1, 0 )
+modulate = Color( 0.238322, 0.427831, 0.996359, 0.932146 )
 anchor_right = 1
 anchor_bottom = 1
 rect_clip_content = false
@@ -720,6 +719,7 @@ max_lines_visible = -1
 
 [node name="notification" type="Panel" parent="."]
 
+editor/display_folded = true
 modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1
 margin_left = 660.0

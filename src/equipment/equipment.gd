@@ -1,4 +1,4 @@
-extends "../items/item.gd"
+extends Area
 
 export (int, -100, 100) var strength  = 0
 export (int, -100, 100) var fire      = 0
