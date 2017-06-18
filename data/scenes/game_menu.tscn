@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://data/themes/main_menu/main.thm" type="Theme" id=1]
+[ext_resource path="res://data/themes/main_menu/main.theme" type="Theme" id=1]
 [ext_resource path="res://src/game_menu.gd" type="Script" id=2]
 [ext_resource path="res://data/images/pause_menu/background.png" type="Texture" id=3]
 

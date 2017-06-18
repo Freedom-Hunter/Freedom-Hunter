@@ -135,6 +135,8 @@ func pause_player():
 	direction = Vector3()
 	set_process_input(false)
 	set_fixed_process(false)
+	set_process(false)
+	animation_node.play("idle")
 	if local:
 		camera_node.set_process_input(false)
 
@@ -142,6 +144,7 @@ func resume_player():
 	if local:
 		set_process_input(true)
 		set_fixed_process(true)
+		set_process(true)
 		camera_node.set_process_input(true)
 
 func _process(delta):
