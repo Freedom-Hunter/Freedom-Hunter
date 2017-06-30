@@ -63,11 +63,11 @@ func open_inventories(inventories):
 	for inv in inventories:
 		inventory.add_child(inv)
 	inventory.popup()
-	inventory.connect("modal_close", self, "close_inventories")
+	inventory.connect("popup_hide", self, "close_inventories")
 
 func close_inventories():
-	if inventory.is_connected("modal_close", self, "close_inventories"):
-		inventory.disconnect("modal_close", self, "close_inventories")
+	if inventory.is_connected("popup_hide", self, "close_inventories"):
+		inventory.disconnect("popup_hide", self, "close_inventories")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	global.local_player.resume_player()
 	for child in inventory.get_children():
