@@ -9,6 +9,7 @@ path="res://.import/normal.png-245e9aacbe8bc0386d83a8b9c1b3a4c0.stex"
 compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
+compress/normal_map=0
 flags/repeat=0
 flags/filter=true
 flags/mipmaps=false

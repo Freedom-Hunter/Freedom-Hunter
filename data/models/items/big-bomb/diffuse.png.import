@@ -9,6 +9,7 @@ path="res://.import/diffuse.png-3d2ab5d56ce03bc7f129d4711569aae8.stex"
 compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
+compress/normal_map=0
 flags/repeat=0
 flags/filter=true
 flags/mipmaps=false

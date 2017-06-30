@@ -9,6 +9,7 @@ path="res://.import/background.png-d6de1bebb4c505fc5dfb0d84a8839e67.stex"
 compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
+compress/normal_map=0
 flags/repeat=0
 flags/filter=true
 flags/mipmaps=false
