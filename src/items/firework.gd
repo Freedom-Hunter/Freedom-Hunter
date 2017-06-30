@@ -7,7 +7,7 @@ func _init(_name, _icon, _quantity, _player).(_name, _icon, _quantity, 10, 50, _
 	pass
 
 func effect():
-	var player_t = player.get_global_transform()
+	var player_t = player.get_node("drop_item").get_global_transform()
 	var firework = scene.instance()
 	firework.set_global_transform(player_t)
 	player.get_parent().add_child(firework)
