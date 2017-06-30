@@ -124,7 +124,7 @@ func die():
 		print(get_name(), " is already dead")
 
 func respawn():
-	set_transform(Matrix32())
+	set_transform(Transform())
 	hp = max_hp
 	regenerable_hp = 0
 	stamina = max_stamina
