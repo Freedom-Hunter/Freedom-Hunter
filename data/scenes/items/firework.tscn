@@ -1,10 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=10 format=2]
 
 [sub_resource type="GDScript" id=1]
 
 script/source = "extends Spatial
 
-func _on_animation_finished():
+func _on_animation_finished(animation):
 	queue_free()
 "
 
@@ -14,59 +14,191 @@ length = 10.0
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("RigidBody/rocket:emitting")
+tracks/0/path = NodePath("rocket:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/keys = {
-"times": PoolFloatArray( 0, 3.3 ),
-"transitions": PoolFloatArray( 1, 1 ),
+"times": PoolRealArray( 0, 3.3 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("RigidBody/boom:emitting")
+tracks/1/path = NodePath("boom:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/keys = {
-"times": PoolFloatArray( 0, 4, 4.5 ),
-"transitions": PoolFloatArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 4, 4.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("RigidBody/light:params/energy")
+tracks/2/path = NodePath("light:light_energy")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/keys = {
-"times": PoolFloatArray( 0, 0.2, 0.5, 3.9, 4, 4.5 ),
-"transitions": PoolFloatArray( 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.5, 3.9, 4, 4.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 0.0, 0.5, -0.00716465, 0.0, 1.0, 0.0 ]
 }
-tracks/3/type = "value"
-tracks/3/path = NodePath("RigidBody/sound:play/play")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/keys = {
-"times": PoolFloatArray( 0.2, 4 ),
-"transitions": PoolFloatArray( 1, 1 ),
-"update": 2,
-"values": [ "firework_launch", "firework_boom" ]
-}
 
-[node name="firework" type="Spatial"]
+[sub_resource type="ParticlesMaterial" id=3]
 
-script = SubResource( 1 )
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = false
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, -9.8, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 1.68156e-44
+angular_velocity_random = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 1.0
+scale_random = 0.0
+color = Color( 1, 1, 1, 1 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
 
-[node name="RigidBody" type="RigidBody" parent="."]
+[sub_resource type="SphereMesh" id=4]
+
+radius = 1.0
+height = 2.0
+radial_segments = 64
+rings = 32
+is_hemisphere = false
+
+[sub_resource type="ParticlesMaterial" id=5]
+
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = false
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, -9.8, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 1.68156e-44
+angular_velocity_random = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 1.0
+scale_random = 0.0
+color = Color( 1, 1, 1, 1 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+
+[sub_resource type="SphereMesh" id=6]
+
+radius = 1.0
+height = 2.0
+radial_segments = 64
+rings = 32
+is_hemisphere = false
+
+[sub_resource type="CylinderMesh" id=7]
+
+top_radius = 0.1
+bottom_radius = 0.1
+height = 1.0
+radial_segments = 32
+rings = 4
+
+[sub_resource type="SpatialMaterial" id=8]
+
+flags_transparent = false
+flags_unshaded = true
+flags_vertex_lighting = false
+flags_on_top = false
+flags_use_point_size = false
+flags_fixed_size = false
+vertex_color_use_as_albedo = false
+vertex_color_is_srgb = false
+params_diffuse_mode = 0
+params_specular_mode = 0
+params_blend_mode = 0
+params_cull_mode = 0
+params_depth_draw_mode = 0
+params_line_width = 1.0
+params_point_size = 1.0
+params_billboard_mode = 0
+params_grow = false
+params_use_alpha_scissor = false
+albedo_color = Color( 1, 1, 1, 1 )
+metallic = 0.0
+metallic_specular = 0.5
+metallic_texture_channel = 0
+roughness = 0.0
+roughness_texture_channel = 0
+emission_enabled = false
+normal_enabled = false
+rim_enabled = false
+clearcoat_enabled = false
+anisotropy_enabled = false
+ao_enabled = false
+depth_enabled = false
+subsurf_scatter_enabled = false
+refraction_enabled = false
+detail_enabled = false
+uv1_scale = Vector3( 1, 1, 1 )
+uv1_offset = Vector3( 0, 0, 0 )
+uv1_triplanar = false
+uv1_triplanar_sharpness = 1.0
+uv2_scale = Vector3( 1, 1, 1 )
+uv2_offset = Vector3( 0, 0, 0 )
+uv2_triplanar = false
+uv2_triplanar_sharpness = 1.0
+
+[sub_resource type="CapsuleShape" id=9]
+
+radius = 0.1
+height = 1.0
+
+[node name="firework" type="RigidBody"]
 
 input_ray_pickable = true
 input_capture_on_drag = false
-shape_count = 0
 collision_layer = 1
 collision_mask = 1
 mode = 0
@@ -81,20 +213,89 @@ contact_monitor = false
 sleeping = false
 can_sleep = true
 axis_lock = 0
-linear_velocity = Vector3( 0, 75, 0 )
+linear_velocity = Vector3( 0, 100, 0 )
 linear_damp = -1.0
 angular_velocity = Vector3( 0, 0, 0 )
 angular_damp = -1.0
+script = SubResource( 1 )
+_sections_unfolded = [ "Collision", "Linear", "Transform", "Visibility" ]
 
-[node name="boom" type="Spatial" parent="RigidBody"]
+[node name="animation" type="AnimationPlayer" parent="."]
 
-[node name="rocket" type="Spatial" parent="RigidBody"]
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+root_node = NodePath("..")
+anims/firework = SubResource( 2 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = "firework"
 
-[node name="light" type="OmniLight" parent="RigidBody"]
+[node name="boom" type="Particles" parent="."]
+
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+visible_in_all_rooms = false
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+emitting = false
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_aabb = Rect3( -4, -4, -4, 8, 8, 8 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 3 )
+draw_passes = 1
+draw_pass_1 = SubResource( 4 )
+_sections_unfolded = [ "Draw Passes", "Process Material", "Time" ]
+
+[node name="rocket" type="Particles" parent="."]
+
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+visible_in_all_rooms = false
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+emitting = false
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_aabb = Rect3( -4, -4, -4, 8, 8, 8 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 5 )
+draw_passes = 1
+draw_pass_1 = SubResource( 6 )
+_sections_unfolded = [ "Draw Passes", "Process Material" ]
+
+[node name="light" type="OmniLight" parent="."]
 
 layers = 1
 light_color = Color( 1, 1, 1, 1 )
-light_energy = 1.0
+light_energy = 0.0
 light_negative = false
 light_specular = 0.5
 light_cull_mask = -1
@@ -108,18 +309,34 @@ omni_range = 5.0
 omni_attenuation = 1.0
 omni_shadow_mode = 0
 omni_shadow_detail = 1
+_sections_unfolded = [ "Light" ]
 
-[node name="sound" type="Spatial" parent="RigidBody"]
+[node name="sound" type="Spatial" parent="."]
 
-[node name="animation" type="AnimationPlayer" parent="."]
+[node name="MeshInstance" type="MeshInstance" parent="."]
 
-playback_process_mode = 1
-playback_default_blend_time = 0.0
-root_node = NodePath("..")
-anims/firework = SubResource( 2 )
-playback/active = true
-playback/speed = 1.0
-blend_times = [  ]
-autoplay = "firework"
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+visible_in_all_rooms = false
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+mesh = SubResource( 7 )
+skeleton = NodePath("..")
+material/0 = SubResource( 8 )
+_sections_unfolded = [ "Transform", "material" ]
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 9 )
+disabled = false
+_sections_unfolded = [ "Transform" ]
+
+[connection signal="animation_finished" from="animation" to="." method="_on_animation_finished"]
 
 

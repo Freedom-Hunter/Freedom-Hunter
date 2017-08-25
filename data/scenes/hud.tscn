@@ -37,11 +37,26 @@ content_margin_right = -1.0
 content_margin_top = -1.0
 content_margin_bottom = -1.0
 bg_color = Color( 0.0141144, 0.722656, 0.0417918, 1 )
-light_color = Color( 0.8, 0.8, 0.8, 1 )
-dark_color = Color( 0.8, 0.8, 0.8, 1 )
-border_size = 0
+filled = true
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color( 0.8, 0.8, 0.8, 1 )
 border_blend = false
-draw_bg = true
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_right = 0
+corner_radius_bottom_left = 0
+corner_detail = 8
+expand_margin_left = 0.0
+expand_margin_right = 0.0
+expand_margin_top = 0.0
+expand_margin_bottom = 0.0
+shadow_color = Color( 0, 0, 0, 0.6 )
+shadow_size = 0
+anti_aliasing = true
+anti_aliasing_size = 1
 
 [sub_resource type="StyleBoxEmpty" id=4]
 
@@ -57,11 +72,26 @@ content_margin_right = -1.0
 content_margin_top = -1.0
 content_margin_bottom = -1.0
 bg_color = Color( 0.84375, 0.0164795, 0.0164795, 1 )
-light_color = Color( 0.8, 0.8, 0.8, 1 )
-dark_color = Color( 0.8, 0.8, 0.8, 1 )
-border_size = 0
+filled = true
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color( 0.8, 0.8, 0.8, 1 )
 border_blend = false
-draw_bg = true
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_right = 0
+corner_radius_bottom_left = 0
+corner_detail = 8
+expand_margin_left = 0.0
+expand_margin_right = 0.0
+expand_margin_top = 0.0
+expand_margin_bottom = 0.0
+shadow_color = Color( 0, 0, 0, 0.6 )
+shadow_size = 0
+anti_aliasing = true
+anti_aliasing_size = 1
 
 [sub_resource type="StyleBoxFlat" id=6]
 
@@ -70,11 +100,26 @@ content_margin_right = -1.0
 content_margin_top = -1.0
 content_margin_bottom = -1.0
 bg_color = Color( 0, 0, 0, 1 )
-light_color = Color( 0.8, 0.8, 0.8, 1 )
-dark_color = Color( 0.8, 0.8, 0.8, 1 )
-border_size = 0
+filled = true
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color( 0.8, 0.8, 0.8, 1 )
 border_blend = false
-draw_bg = true
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_right = 0
+corner_radius_bottom_left = 0
+corner_detail = 8
+expand_margin_left = 0.0
+expand_margin_right = 0.0
+expand_margin_top = 0.0
+expand_margin_bottom = 0.0
+shadow_color = Color( 0, 0, 0, 0.6 )
+shadow_size = 0
+anti_aliasing = true
+anti_aliasing_size = 1
 
 [sub_resource type="StyleBoxFlat" id=7]
 
@@ -83,11 +128,26 @@ content_margin_right = -1.0
 content_margin_top = -1.0
 content_margin_bottom = -1.0
 bg_color = Color( 1, 0.867188, 0, 1 )
-light_color = Color( 0.8, 0.8, 0.8, 1 )
-dark_color = Color( 0.8, 0.8, 0.8, 1 )
-border_size = 0
+filled = true
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color( 0.8, 0.8, 0.8, 1 )
 border_blend = false
-draw_bg = true
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_right = 0
+corner_radius_bottom_left = 0
+corner_detail = 8
+expand_margin_left = 0.0
+expand_margin_right = 0.0
+expand_margin_top = 0.0
+expand_margin_bottom = 0.0
+shadow_color = Color( 0, 0, 0, 0.6 )
+shadow_size = 0
+anti_aliasing = true
+anti_aliasing_size = 1
 
 [sub_resource type="StyleBoxFlat" id=8]
 
@@ -96,11 +156,26 @@ content_margin_right = -1.0
 content_margin_top = -1.0
 content_margin_bottom = -1.0
 bg_color = Color( 0, 0, 0, 1 )
-light_color = Color( 0.8, 0.8, 0.8, 1 )
-dark_color = Color( 0.8, 0.8, 0.8, 1 )
-border_size = 0
+filled = true
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color( 0.8, 0.8, 0.8, 1 )
 border_blend = false
-draw_bg = true
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_right = 0
+corner_radius_bottom_left = 0
+corner_detail = 8
+expand_margin_left = 0.0
+expand_margin_right = 0.0
+expand_margin_top = 0.0
+expand_margin_bottom = 0.0
+shadow_color = Color( 0, 0, 0, 0.6 )
+shadow_size = 0
+anti_aliasing = true
+anti_aliasing_size = 1
 
 [sub_resource type="Animation" id=9]
 
@@ -114,8 +189,8 @@ tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/keys = {
-"times": PoolFloatArray( 0, 1, 2 ),
-"transitions": PoolFloatArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 0.182877, 0.386181, 0.996094, 1 ), Color( 1, 1, 1, 0 ) ]
 }
@@ -132,8 +207,8 @@ tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/keys = {
-"times": PoolFloatArray( 0, 1, 2 ),
-"transitions": PoolFloatArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 0.34375, 1, 0.343765, 1 ), Color( 1, 1, 1, 0 ) ]
 }
@@ -150,8 +225,8 @@ tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/keys = {
-"times": PoolFloatArray( 0, 0.8, 1.6 ),
-"transitions": PoolFloatArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.8, 1.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 0.534884, 0.242188, 1 ), Color( 1, 1, 1, 0 ) ]
 }
@@ -168,8 +243,8 @@ tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/keys = {
-"times": PoolFloatArray( 0, 1, 2 ),
-"transitions": PoolFloatArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 0.501961, 0.235294, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
@@ -186,8 +261,8 @@ tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/keys = {
-"times": PoolFloatArray( 0, 0.7, 1.4 ),
-"transitions": PoolFloatArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.7, 1.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 0.235294, 0.235294, 1 ), Color( 1, 1, 1, 0 ) ]
 }
@@ -204,8 +279,8 @@ tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/keys = {
-"times": PoolFloatArray( 0, 1, 2 ),
-"transitions": PoolFloatArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
@@ -222,8 +297,8 @@ tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/keys = {
-"times": PoolFloatArray( 0, 0.9, 0.9, 1.8, 1.8 ),
-"transitions": PoolFloatArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.9, 0.9, 1.8, 1.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 0, 1 ), Color( 1, 1, 6.62274e-08, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
 }
@@ -319,8 +394,8 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/keys = {
-"times": PoolFloatArray( 0, 0.3, 1.5 ),
-"transitions": PoolFloatArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.3, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 660, -100 ), Vector2( 660, 500 ), Vector2( 660, 500 ) ]
 }
@@ -330,16 +405,21 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/keys = {
-"times": PoolFloatArray( 0, 1.5, 2 ),
-"transitions": PoolFloatArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 1.5, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
 [node name="hud" type="Control"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_right = 1920.0
 margin_bottom = 1080.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -349,12 +429,13 @@ script = ExtResource( 2 )
 
 [node name="debug" type="Label" parent="."]
 
-anchor_left = 1
-anchor_top = 1
-anchor_right = 1
-anchor_bottom = 1
-margin_left = 300.0
-margin_top = 100.0
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -300.0
+margin_top = -100.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 size_flags_horizontal = 2
@@ -365,15 +446,19 @@ uppercase = true
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Margin" ]
 
 [node name="FPS" type="Label" parent="."]
 
-anchor_left = 1
-anchor_right = 1
-margin_left = 71.0
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -71.0
 margin_top = 10.0
-margin_right = 10.0
+margin_right = -10.0
 margin_bottom = 30.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 size_flags_horizontal = 2
@@ -384,23 +469,28 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 script = ExtResource( 3 )
+_sections_unfolded = [ "Margin" ]
 
 [node name="names" type="Control" parent="."]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
+_sections_unfolded = [ "Anchor", "Focus", "Hint", "Margin", "Mouse", "Rect" ]
 
 [node name="action" type="Button" parent="."]
 
-visible = false
-anchor_left = 2
-anchor_top = 2
-anchor_right = 2
-anchor_bottom = 2
-margin_right = 930.0
-margin_bottom = 510.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -411,16 +501,23 @@ shortcut = null
 group = null
 text = "E"
 flat = false
+_sections_unfolded = [ "Anchor", "Margin", "Rect" ]
 
 [node name="hp" type="ProgressBar" parent="."]
 
 editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 1010.0
-margin_bottom = 26.0
+margin_bottom = 25.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
+size_flags_horizontal = 1
 size_flags_vertical = 0
 custom_styles/fg = SubResource( 3 )
 custom_styles/bg = SubResource( 4 )
@@ -432,12 +529,16 @@ value = 150.0
 exp_edit = false
 rounded = true
 percent_visible = false
+_sections_unfolded = [ "Anchor", "Margin", "Rect" ]
 
 [node name="red_hp" type="ProgressBar" parent="hp"]
 
 show_behind_parent = true
-anchor_right = 1
-anchor_bottom = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -452,13 +553,19 @@ value = 0.0
 exp_edit = false
 rounded = false
 percent_visible = false
+_sections_unfolded = [ "Anchor", "Margin", "Rect" ]
 
 [node name="stamina" type="ProgressBar" parent="."]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 10.0
-margin_top = 31.0
+margin_top = 30.0
 margin_right = 1010.0
-margin_bottom = 43.0
+margin_bottom = 46.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -474,22 +581,33 @@ value = 100.0
 exp_edit = false
 rounded = false
 percent_visible = false
+_sections_unfolded = [ "Margin", "Rect" ]
 
 [node name="sharpness" type="Container" parent="."]
 
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 10.0
 margin_top = 50.0
 margin_right = 150.0
 margin_bottom = 75.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
+_sections_unfolded = [ "Margin", "Rect" ]
 
 [node name="sword" type="TextureRect" parent="sharpness"]
 
-anchor_right = 1
-anchor_bottom = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 2
@@ -500,9 +618,12 @@ stretch_mode = 0
 
 [node name="type" type="TextureRect" parent="sharpness"]
 
-modulate = Color( 0.238322, 0.427831, 0.996359, 0.932146 )
-anchor_right = 1
-anchor_bottom = 1
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 2
@@ -510,6 +631,7 @@ size_flags_vertical = 2
 texture = ExtResource( 5 )
 expand = true
 stretch_mode = 0
+_sections_unfolded = [ "Margin" ]
 
 [node name="fading" type="AnimationPlayer" parent="sharpness"]
 
@@ -531,24 +653,33 @@ autoplay = ""
 [node name="items_bar" type="Control" parent="."]
 
 editor/display_folded = true
-anchor_top = 1
-anchor_bottom = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
 margin_left = 10.0
-margin_top = 165.0
+margin_top = -165.0
 margin_right = 390.0
-margin_bottom = 10.0
+margin_bottom = -10.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 theme = SubResource( 19 )
 script = ExtResource( 7 )
+_sections_unfolded = [ "Anchor", "Margin" ]
 
 [node name="left_2" type="Panel" parent="items_bar"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 15.0
 margin_right = 60.0
 margin_bottom = 75.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -556,8 +687,11 @@ size_flags_vertical = 2
 
 [node name="icon" type="TextureRect" parent="items_bar/left_2"]
 
-anchor_right = 1
-anchor_bottom = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 2
@@ -567,10 +701,15 @@ stretch_mode = 0
 
 [node name="left_1" type="Panel" parent="items_bar"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 65.0
 margin_top = 7.0
 margin_right = 140.0
 margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -578,8 +717,11 @@ size_flags_vertical = 2
 
 [node name="icon" type="TextureRect" parent="items_bar/left_1"]
 
-anchor_right = 1
-anchor_bottom = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 2
@@ -589,9 +731,14 @@ stretch_mode = 0
 
 [node name="use" type="Panel" parent="items_bar"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 145.0
 margin_right = 235.0
 margin_bottom = 90.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -599,8 +746,11 @@ size_flags_vertical = 2
 
 [node name="icon" type="TextureRect" parent="items_bar/use"]
 
-anchor_right = 1
-anchor_bottom = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 2
@@ -610,10 +760,15 @@ stretch_mode = 0
 
 [node name="right_1" type="Panel" parent="items_bar"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 240.0
 margin_top = 7.0
 margin_right = 315.0
 margin_bottom = 82.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -621,8 +776,11 @@ size_flags_vertical = 2
 
 [node name="icon" type="TextureRect" parent="items_bar/right_1"]
 
-anchor_right = 1
-anchor_bottom = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 2
@@ -632,10 +790,15 @@ stretch_mode = 0
 
 [node name="right_2" type="Panel" parent="items_bar"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 320.0
 margin_top = 15.0
 margin_right = 380.0
 margin_bottom = 75.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -643,8 +806,11 @@ size_flags_vertical = 2
 
 [node name="icon" type="TextureRect" parent="items_bar/right_2"]
 
-anchor_right = 1
-anchor_bottom = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 2
@@ -654,10 +820,15 @@ stretch_mode = 0
 
 [node name="quantity" type="TextureRect" parent="items_bar"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 220.0
 margin_top = 75.0
 margin_right = 250.0
 margin_bottom = 105.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 2
@@ -668,8 +839,11 @@ stretch_mode = 0
 
 [node name="label" type="Label" parent="items_bar/quantity"]
 
-anchor_right = 1
-anchor_bottom = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 size_flags_horizontal = 2
@@ -684,9 +858,14 @@ max_lines_visible = -1
 
 [node name="name" type="TextureRect" parent="items_bar"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 110.0
 margin_right = 380.0
 margin_bottom = 155.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 2
@@ -697,8 +876,11 @@ stretch_mode = 0
 
 [node name="label" type="Label" parent="items_bar/name"]
 
-anchor_right = 1
-anchor_bottom = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 size_flags_horizontal = 2
@@ -721,20 +903,30 @@ max_lines_visible = -1
 
 editor/display_folded = true
 modulate = Color( 1, 1, 1, 0 )
-anchor_right = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
 margin_left = 660.0
 margin_top = 500.0
-margin_right = 660.0
+margin_right = -660.0
 margin_bottom = 580.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
+_sections_unfolded = [ "Anchor", "Margin" ]
 
 [node name="text" type="Label" parent="notification"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_right = 600.0
 margin_bottom = 80.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -746,6 +938,7 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Margin" ]
 
 [node name="animation" type="AnimationPlayer" parent="notification"]
 
@@ -757,15 +950,21 @@ playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
+_sections_unfolded = [ "Playback Options", "playback" ]
 
 [node name="players_list" type="VBoxContainer" parent="."]
 
 editor/display_folded = true
 visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 10.0
 margin_top = 200.0
 margin_right = 410.0
-margin_bottom = 800.0
+margin_bottom = 560.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 2
@@ -774,9 +973,13 @@ alignment = 0
 
 [node name="list" type="Label" parent="players_list"]
 
-margin_left = 118.0
-margin_right = 282.0
-margin_bottom = 21.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 164.0
+margin_bottom = 22.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 size_flags_horizontal = 2
@@ -791,8 +994,13 @@ max_lines_visible = -1
 
 editor/display_folded = true
 visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_right = 1920.0
 margin_bottom = 1080.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -801,12 +1009,15 @@ popup_exclusive = false
 
 [node name="quit" type="Button" parent="inventory"]
 
-anchor_left = 1
-anchor_right = 1
-margin_left = 200.0
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -200.0
 margin_top = 50.0
-margin_right = 25.0
+margin_right = -25.0
 margin_bottom = 100.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -817,20 +1028,24 @@ shortcut = null
 group = null
 text = "Quit"
 flat = false
+_sections_unfolded = [ "Anchor", "Margin" ]
 
 [node name="onscreen" parent="." instance=ExtResource( 11 )]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+rect_pivot_offset = Vector2( 0, 0 )
 
 [node name="respawn" type="AcceptDialog" parent="."]
 
 visible = false
-anchor_left = 2
-anchor_top = 2
-anchor_right = 2
-anchor_bottom = 2
-margin_left = 100.0
-margin_top = 50.0
-margin_right = -100.0
-margin_bottom = -50.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -840,6 +1055,7 @@ window_title = "Respawn"
 resizable = false
 dialog_text = "Respawn in 5 seconds"
 dialog_hide_on_ok = true
+_sections_unfolded = [ "Anchor", "Margin" ]
 
 [connection signal="pressed" from="action" to="." method="_on_action_pressed"]
 

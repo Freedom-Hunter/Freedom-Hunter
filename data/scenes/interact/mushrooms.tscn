@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://src/interact/mushroom.gd" type="Script" id=1]
-[ext_resource path="res://data/models/interact/mushroom/mushrooms.mesh" type="ArrayMesh" id=2]
+[ext_resource path="res://data/models/interact/mushroom/mushrooms.gltf" type="PackedScene" id=2]
 
 [sub_resource type="SphereShape" id=1]
 
@@ -12,10 +12,6 @@ radius = 1.0
 _import_path = NodePath(".")
 input_ray_pickable = false
 input_capture_on_drag = false
-shape_count = 1
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-shapes/0/trigger = false
 space_override = 0
 gravity_point = false
 gravity_distance_scale = 0.0
@@ -28,25 +24,17 @@ monitoring = true
 monitorable = true
 collision_layer = 1
 collision_mask = 1
+audio_bus_override = false
+audio_bus_name = "Master"
+reverb_bus_enable = false
+reverb_bus_name = "Master"
+reverb_bus_amount = 0.0
+reverb_bus_uniformity = 0.0
 script = ExtResource( 1 )
 
-[node name="mesh" type="MeshInstance" parent="."]
+[node name="model" parent="." instance=ExtResource( 2 )]
 
-_import_path = NodePath("average")
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.0108627, 0.199628, 0.128677 )
-layers = 1
-material_override = null
-cast_shadow = 1
-extra_cull_margin = 0.0
-visible_in_all_rooms = false
-use_in_baked_light = true
-lod_min_distance = 0.0
-lod_min_hysteresis = 0.0
-lod_max_distance = 0.0
-lod_max_hysteresis = 0.0
-mesh = ExtResource( 2 )
-skeleton = NodePath("..")
-material/0 = null
+_sections_unfolded = [ "Pause", "Transform", "Visibility" ]
 
 [node name="interact" type="Area" parent="." groups=[
 "interact",
@@ -54,10 +42,6 @@ material/0 = null
 
 input_ray_pickable = false
 input_capture_on_drag = false
-shape_count = 1
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-shapes/0/trigger = false
 space_override = 0
 gravity_point = false
 gravity_distance_scale = 0.0
@@ -70,11 +54,16 @@ monitoring = true
 monitorable = true
 collision_layer = 1
 collision_mask = 1
+audio_bus_override = false
+audio_bus_name = "Master"
+reverb_bus_enable = false
+reverb_bus_name = "Master"
+reverb_bus_amount = 0.0
+reverb_bus_uniformity = 0.0
 
 [node name="radius" type="CollisionShape" parent="interact"]
 
 shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 0
+disabled = false
 
 

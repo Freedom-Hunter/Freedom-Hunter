@@ -13,7 +13,7 @@ func start(ip, port):
 	if .start(0):
 		server_ip = ip
 		server_port = port
-		udp.set_send_address(ip, port)
+		udp.set_dest_address(ip, port)
 		udp.put_var(new_packet(CMD_CS_CONNECT, global.local_player.get_name()))
 		ping = OS.get_unix_time()
 		return true

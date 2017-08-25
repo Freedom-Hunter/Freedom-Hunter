@@ -19,16 +19,21 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/keys = {
-"times": PoolFloatArray( 0, 10 ),
-"transitions": PoolFloatArray( 1, 1 ),
+"times": PoolRealArray( 0, 10 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 100 ), Vector2( -960, 100 ) ]
 }
 
 [node name="main_menu" type="Control"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_right = 1920.0
 margin_bottom = 1080.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -38,11 +43,14 @@ script = ExtResource( 2 )
 
 [node name="background" type="TextureRect" parent="."]
 
-anchor_right = 1
-anchor_bottom = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 margin_top = 100.0
-margin_right = -960.0
-margin_bottom = 100.0
+margin_right = 961.0
+margin_bottom = -100.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 2
@@ -52,21 +60,28 @@ stretch_mode = 0
 
 [node name="bottom" type="TextureRect" parent="."]
 
-anchor_top = 1
-anchor_right = 1
-anchor_bottom = 1
-margin_top = 100.0
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -100.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 2
 size_flags_vertical = 2
 texture = ExtResource( 4 )
 stretch_mode = 0
+_sections_unfolded = [ "Anchor", "Margin" ]
 
 [node name="top" type="TextureRect" parent="."]
 
-anchor_right = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_bottom = 100.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 2
@@ -76,24 +91,31 @@ stretch_mode = 0
 
 [node name="mode" type="VBoxContainer" parent="."]
 
-anchor_left = 2
-anchor_top = 2
-anchor_right = 2
-anchor_bottom = 2
-margin_left = 600.0
-margin_top = 400.0
-margin_right = -600.0
-margin_bottom = -400.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 500.0
+margin_top = 200.0
+margin_right = -500.0
+margin_bottom = -200.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 2
 size_flags_vertical = 2
 alignment = 1
+_sections_unfolded = [ "Margin" ]
 
 [node name="singleplayer" type="Button" parent="mode"]
 
-margin_right = 1200.0
-margin_bottom = 264.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 920.0
+margin_bottom = 224.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 3
@@ -107,9 +129,14 @@ flat = false
 
 [node name="multiplayer" type="Button" parent="mode"]
 
-margin_top = 268.0
-margin_right = 1200.0
-margin_bottom = 532.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 228.0
+margin_right = 920.0
+margin_bottom = 452.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 3
@@ -123,9 +150,14 @@ flat = false
 
 [node name="options" type="Button" parent="mode"]
 
-margin_top = 536.0
-margin_right = 1200.0
-margin_bottom = 800.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 456.0
+margin_right = 920.0
+margin_bottom = 680.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 3
@@ -141,9 +173,14 @@ flat = false
 [node name="mods" type="Button" parent="mode"]
 
 visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 588.0
 margin_right = 1720.0
 margin_bottom = 780.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 3

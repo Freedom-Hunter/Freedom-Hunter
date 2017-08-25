@@ -3,37 +3,50 @@
 [ext_resource path="res://data/themes/main_menu/main.theme" type="Theme" id=1]
 [ext_resource path="res://src/multiplayer/lobby-ui.gd" type="Script" id=2]
 
-
 [node name="multiplayer" type="Control"]
 
-margin_right = 1920.0
-margin_bottom = 1080.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
+_sections_unfolded = [ "Anchor" ]
 
 [node name="header" type="PanelContainer" parent="."]
 
-anchor_left = 2
-anchor_right = 2
-margin_left = 400.0
+editor/display_folded = true
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+margin_left = -400.0
 margin_top = 100.0
-margin_right = -400.0
-margin_bottom = 99.0
+margin_right = 400.0
+margin_bottom = 219.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
+_sections_unfolded = [ "Margin" ]
 
 [node name="vbox" type="VBoxContainer" parent="header"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 793.0
-margin_bottom = 106.0
+margin_bottom = 112.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 3
@@ -43,37 +56,51 @@ alignment = 0
 
 [node name="title" type="Label" parent="header/vbox"]
 
-margin_left = 137.0
-margin_right = 648.0
-margin_bottom = 38.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 786.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
-size_flags_horizontal = 2
-size_flags_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 2
 text = "Freedom Hunter Multiplayer Lobby"
 align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Margin" ]
 
 [node name="input" type="HBoxContainer" parent="header/vbox"]
 
-margin_top = 53.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 55.0
 margin_right = 786.0
-margin_bottom = 99.0
+margin_bottom = 105.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 2
 custom_constants/separation = 15
 alignment = 0
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="username-label" type="Label" parent="header/vbox/input"]
 
-margin_left = 18.0
-margin_top = 4.0
-margin_right = 174.0
-margin_bottom = 42.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 156.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 size_flags_horizontal = 2
@@ -84,12 +111,18 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="username" type="LineEdit" parent="header/vbox/input"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 207.0
 margin_right = 786.0
-margin_bottom = 46.0
+margin_bottom = 50.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 3
@@ -101,115 +134,155 @@ placeholder_text = "Enter player's name"
 placeholder_alpha = 0.6
 caret_blink = false
 caret_blink_speed = 0.65
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="direct" type="PanelContainer" parent="."]
 
 editor/display_folded = true
-anchor_left = 1
-anchor_right = 1
-anchor_bottom = 1
-margin_left = 600.0
-margin_top = 300.0
-margin_right = 100.0
-margin_bottom = 100.0
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -600.0
+margin_top = -800.0
+margin_right = -50.0
+margin_bottom = -50.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
+_sections_unfolded = [ "Margin" ]
 
 [node name="vbox" type="VBoxContainer" parent="direct"]
 
-margin_left = 68.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 7.0
 margin_top = 7.0
-margin_right = 432.0
-margin_bottom = 679.0
+margin_right = 543.0
+margin_bottom = 743.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
-size_flags_horizontal = 2
-size_flags_vertical = 2
-custom_constants/separation = 10
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 0
 alignment = 0
+_sections_unfolded = [ "Margin", "custom_constants" ]
 
 [node name="title" type="Label" parent="direct/vbox"]
 
-margin_left = 51.0
-margin_right = 312.0
-margin_bottom = 38.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 536.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
-size_flags_horizontal = 2
-size_flags_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 2
 text = "Direct Connection"
 align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="client" type="VBoxContainer" parent="direct/vbox"]
 
-margin_left = 40.0
-margin_top = 48.0
-margin_right = 324.0
-margin_bottom = 306.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 102.0
+margin_right = 536.0
+margin_bottom = 370.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
-size_flags_horizontal = 2
+size_flags_horizontal = 3
 size_flags_vertical = 2
 custom_constants/separation = 20
 alignment = 0
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="Label" type="Label" parent="direct/vbox/client"]
 
-margin_left = 100.0
-margin_right = 184.0
-margin_bottom = 38.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 536.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
-size_flags_horizontal = 2
-size_flags_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 2
 text = "Client"
 align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="input" type="GridContainer" parent="direct/vbox/client"]
 
-margin_top = 58.0
-margin_right = 284.0
-margin_bottom = 160.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 60.0
+margin_right = 536.0
+margin_bottom = 170.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
-size_flags_horizontal = 2
+size_flags_horizontal = 3
 size_flags_vertical = 2
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
 columns = 2
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="host-label" type="Label" parent="direct/vbox/client/input"]
 
-margin_left = 36.0
-margin_top = 4.0
-margin_right = 118.0
-margin_bottom = 42.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 281.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
-size_flags_horizontal = 2
-size_flags_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 2
 text = "Host: "
 align = 2
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="host" type="LineEdit" parent="direct/vbox/client/input"]
 
-margin_left = 164.0
-margin_right = 284.0
-margin_bottom = 46.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 291.0
+margin_right = 536.0
+margin_bottom = 50.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
-size_flags_horizontal = 2
+size_flags_horizontal = 3
 size_flags_vertical = 2
 expand_to_len = false
 focus_mode = 2
@@ -217,32 +290,45 @@ placeholder_text = "IP address or hostname"
 placeholder_alpha = 0.6
 caret_blink = false
 caret_blink_speed = 0.65
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="port-label" type="Label" parent="direct/vbox/client/input"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 60.0
-margin_right = 154.0
-margin_bottom = 98.0
+margin_right = 281.0
+margin_bottom = 100.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
-size_flags_horizontal = 2
-size_flags_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 2
 text = "UDP port: "
 align = 2
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="port" type="LineEdit" parent="direct/vbox/client/input"]
 
-margin_left = 164.0
-margin_top = 56.0
-margin_right = 284.0
-margin_bottom = 102.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 291.0
+margin_top = 60.0
+margin_right = 536.0
+margin_bottom = 110.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
-size_flags_horizontal = 2
+size_flags_horizontal = 3
 size_flags_vertical = 2
+size_flags_stretch_ratio = 2.0
 text = "30500"
 max_length = 5
 expand_to_len = false
@@ -251,16 +337,21 @@ placeholder_text = "UDP port"
 placeholder_alpha = 0.6
 caret_blink = false
 caret_blink_speed = 0.65
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="connect" type="Button" parent="direct/vbox/client"]
 
-margin_left = 25.0
-margin_top = 180.0
-margin_right = 258.0
-margin_bottom = 258.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 190.0
+margin_right = 536.0
+margin_bottom = 268.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
-size_flags_horizontal = 2
+size_flags_horizontal = 3
 size_flags_vertical = 2
 toggle_mode = false
 enabled_focus_mode = 2
@@ -268,43 +359,59 @@ shortcut = null
 group = null
 text = "Connect"
 flat = false
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="server" type="VBoxContainer" parent="direct/vbox"]
 
-margin_top = 316.0
-margin_right = 364.0
-margin_bottom = 672.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 370.0
+margin_right = 536.0
+margin_bottom = 736.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
-size_flags_horizontal = 2
+size_flags_horizontal = 3
 size_flags_vertical = 2
 custom_constants/separation = 20
 alignment = 0
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="Label" type="Label" parent="direct/vbox/server"]
 
-margin_left = 133.0
-margin_right = 231.0
-margin_bottom = 38.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 536.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
-size_flags_horizontal = 2
-size_flags_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 2
 text = "Server"
 align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="input" type="GridContainer" parent="direct/vbox/server"]
 
-margin_left = 40.0
-margin_top = 58.0
-margin_right = 324.0
-margin_bottom = 160.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 60.0
+margin_right = 536.0
+margin_bottom = 170.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
-size_flags_horizontal = 2
+size_flags_horizontal = 3
 size_flags_vertical = 2
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
@@ -312,28 +419,37 @@ columns = 2
 
 [node name="host-label" type="Label" parent="direct/vbox/server/input"]
 
-margin_left = 40.0
-margin_top = 4.0
-margin_right = 113.0
-margin_bottom = 42.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 281.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
-size_flags_horizontal = 2
-size_flags_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 2
 text = "Host:"
 align = 2
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="host" type="LineEdit" parent="direct/vbox/server/input"]
 
-margin_left = 164.0
-margin_right = 284.0
-margin_bottom = 46.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 291.0
+margin_right = 536.0
+margin_bottom = 50.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
-size_flags_horizontal = 2
+size_flags_horizontal = 3
 size_flags_vertical = 2
 expand_to_len = false
 focus_mode = 2
@@ -341,16 +457,22 @@ placeholder_text = "External address"
 placeholder_alpha = 0.6
 caret_blink = false
 caret_blink_speed = 0.65
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="port-label" type="Label" parent="direct/vbox/server/input"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 60.0
-margin_right = 154.0
-margin_bottom = 98.0
+margin_right = 281.0
+margin_bottom = 100.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
-size_flags_horizontal = 2
-size_flags_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 2
 text = "UDP port: "
 align = 2
 percent_visible = 1.0
@@ -359,14 +481,20 @@ max_lines_visible = -1
 
 [node name="port" type="LineEdit" parent="direct/vbox/server/input"]
 
-margin_left = 164.0
-margin_top = 56.0
-margin_right = 284.0
-margin_bottom = 102.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 291.0
+margin_top = 60.0
+margin_right = 536.0
+margin_bottom = 110.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
-size_flags_horizontal = 2
+size_flags_horizontal = 3
 size_flags_vertical = 2
+size_flags_stretch_ratio = 2.0
 text = "30500"
 max_length = 5
 expand_to_len = false
@@ -375,34 +503,44 @@ placeholder_text = "UDP port"
 placeholder_alpha = 0.6
 caret_blink = false
 caret_blink_speed = 0.65
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="announce" type="CheckButton" parent="direct/vbox/server"]
 
-margin_left = 41.0
-margin_top = 180.0
-margin_right = 323.0
-margin_bottom = 258.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 190.0
+margin_right = 536.0
+margin_bottom = 268.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
-size_flags_horizontal = 0
+size_flags_horizontal = 3
 size_flags_vertical = 2
 toggle_mode = true
-is_pressed = true
 enabled_focus_mode = 2
 shortcut = null
 group = null
 text = "Announce"
 flat = false
 align = 0
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="start" type="Button" parent="direct/vbox/server"]
 
-margin_top = 278.0
-margin_right = 364.0
-margin_bottom = 356.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 288.0
+margin_right = 536.0
+margin_bottom = 366.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
-size_flags_horizontal = 2
+size_flags_horizontal = 3
 size_flags_vertical = 2
 toggle_mode = false
 enabled_focus_mode = 2
@@ -410,18 +548,24 @@ shortcut = null
 group = null
 text = "Start Server"
 flat = false
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="lobby" type="PanelContainer" parent="."]
 
-anchor_bottom = 1
-margin_left = 100.0
-margin_top = 300.0
-margin_right = 1216.0
-margin_bottom = 100.0
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+margin_left = 50.0
+margin_top = -800.0
+margin_right = 1300.0
+margin_bottom = -50.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
+_sections_unfolded = [ "Margin" ]
 
 [node name="refresh" type="Timer" parent="lobby"]
 
@@ -432,10 +576,16 @@ autostart = false
 
 [node name="scroll" type="ScrollContainer" parent="lobby"]
 
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 1109.0
-margin_bottom = 673.0
+margin_right = 1243.0
+margin_bottom = 743.0
+rect_pivot_offset = Vector2( 0, 0 )
 mouse_filter = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -444,9 +594,14 @@ scroll_vertical = true
 
 [node name="grid" type="GridContainer" parent="lobby/scroll"]
 
-margin_top = 294.0
-margin_right = 1102.0
-margin_bottom = 372.0
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1236.0
+margin_bottom = 78.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 3
@@ -454,13 +609,17 @@ size_flags_vertical = 2
 custom_constants/vseparation = 20
 custom_constants/hseparation = 50
 columns = 5
+_sections_unfolded = [ "Size Flags" ]
 
 [node name="hostname" type="Label" parent="lobby/scroll/grid"]
 
-margin_left = 16.0
-margin_top = 20.0
-margin_right = 160.0
-margin_bottom = 58.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 144.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 size_flags_horizontal = 2
@@ -472,10 +631,14 @@ max_lines_visible = -1
 
 [node name="port" type="Label" parent="lobby/scroll/grid"]
 
-margin_left = 243.0
-margin_top = 20.0
-margin_right = 309.0
-margin_bottom = 58.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 254.0
+margin_right = 320.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 size_flags_horizontal = 2
@@ -487,10 +650,14 @@ max_lines_visible = -1
 
 [node name="players" type="Label" parent="lobby/scroll/grid"]
 
-margin_left = 392.0
-margin_top = 20.0
-margin_right = 504.0
-margin_bottom = 58.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 430.0
+margin_right = 542.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 size_flags_horizontal = 2
@@ -502,10 +669,14 @@ max_lines_visible = -1
 
 [node name="max_players" type="Label" parent="lobby/scroll/grid"]
 
-margin_left = 587.0
-margin_top = 20.0
-margin_right = 764.0
-margin_bottom = 58.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 652.0
+margin_right = 829.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 size_flags_horizontal = 2
@@ -517,9 +688,14 @@ max_lines_visible = -1
 
 [node name="refresh" type="Button" parent="lobby/scroll/grid"]
 
-margin_left = 847.0
-margin_right = 1082.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 939.0
+margin_right = 1174.0
 margin_bottom = 78.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -533,10 +709,15 @@ flat = false
 
 [node name="back" type="Button" parent="."]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 100.0
 margin_top = 100.0
-margin_right = 141.0
-margin_bottom = 78.0
+margin_right = 300.0
+margin_bottom = 200.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -547,6 +728,7 @@ shortcut = null
 group = null
 text = "Back"
 flat = false
+_sections_unfolded = [ "Margin" ]
 
 [connection signal="text_changed" from="header/vbox/input/username" to="." method="_on_username_text_changed"]
 

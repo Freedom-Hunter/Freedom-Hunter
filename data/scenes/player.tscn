@@ -11,21 +11,15 @@ extents = Vector3( 0.4, 0.9, 0.2 )
 
 extents = Vector3( 0.672363, 1, 0.10089 )
 
-[node name="player" type="KinematicBody"]
+[node name="player" type="KinematicBody" groups=[
+"player",
+]]
 
 input_ray_pickable = true
 input_capture_on_drag = false
-shape_count = 1
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0 )
-shapes/0/trigger = false
 collision_layer = 1
 collision_mask = 1
-collide_with/static = true
-collide_with/kinematic = true
-collide_with/rigid = true
-collide_with/character = true
-collision/margin = 0.001
+collision/safe_margin = 0.001
 script = ExtResource( 1 )
 
 [node name="model" parent="." instance=ExtResource( 2 )]
@@ -36,8 +30,7 @@ editor/display_folded = true
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0 )
 shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 0
+disabled = false
 
 [node name="audio" type="Spatial" parent="."]
 
@@ -53,10 +46,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2 )
 
 input_ray_pickable = false
 input_capture_on_drag = false
-shape_count = 1
-shapes/0/shape = SubResource( 2 )
-shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5 )
-shapes/0/trigger = false
 space_override = 0
 gravity_point = false
 gravity_distance_scale = 0.0
@@ -67,15 +56,20 @@ angular_damp = 1.0
 priority = 0.0
 monitoring = true
 monitorable = true
-collision_layers = 1
+collision_layer = 1
 collision_mask = 1
+audio_bus_override = false
+audio_bus_name = "Master"
+reverb_bus_enable = false
+reverb_bus_name = "Master"
+reverb_bus_amount = 0.0
+reverb_bus_uniformity = 0.0
 
 [node name="shape" type="CollisionShape" parent="interact"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5 )
 shape = SubResource( 2 )
-trigger = false
-_update_shape_index = 0
+disabled = false
 
 [node name="name" type="Spatial" parent="."]
 

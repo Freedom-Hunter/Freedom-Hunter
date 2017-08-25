@@ -1,14 +1,11 @@
 extends RigidBody
 
-onready var light_node = get_node("explosion/light")
-onready var particle_node = get_node("explosion/particles")
-onready var animation_node = get_node("explosion/animation")
 onready var Entity = preload("res://src/entities/entity.gd")
 
 func _on_timer_timeout():
-	animation_node.play("explode")
-	var r = get_node("explosion/radius").get_shape().get_radius()
-	for body in get_node("explosion").get_overlapping_bodies():
+	$"explosion/animation".play("explode")
+	var r = $"explosion/radius".get_shape().get_radius()
+	for body in $"explosion".get_overlapping_bodies():
 		if body == self:
 			continue
 		if body is Entity:
@@ -20,11 +17,11 @@ func _on_timer_timeout():
 			var speed = (r - diff.length()) * 2
 			var direction = diff.normalized()
 			body.set_linear_velocity(direction * speed)
-			if not body.animation_node.is_playing():
+			if not body.get_node("explosion/animation").is_playing():
 				var body_timer = body.get_node("explosion/timer")
 				body_timer.stop()
 				body_timer.set_wait_time(0.5)
 				body_timer.start()
 
-func _on_animation_finished():
+func _on_animation_finished(animation):
 	queue_free()

@@ -78,8 +78,9 @@ func _fixed_process(delta):
 			if not animation_node.is_playing():
 				attack("attack")
 	else:
-		if target == null or (target - origin).length() < 2:
+		if target == null or (target - Vector3(origin.x, 0, origin.z)).length() < 2:
 			target = Vector3(rand_range(-100, 100), 0, rand_range(-100, 100))
+			print(target)
 		direction = (target - origin).normalized() * (SPEED/2)
 
 	move_entity(delta)

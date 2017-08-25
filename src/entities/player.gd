@@ -202,7 +202,7 @@ func _fixed_process(delta):
 			if stamina > max_stamina:
 				stamina = max_stamina
 
-		if Input.is_action_pressed("player_dodge") and on_floor and direction != Vector3() and stamina >= DODGE_STAMINA:
+		if Input.is_action_pressed("player_dodge") and is_on_floor() and direction != Vector3() and stamina >= DODGE_STAMINA:
 			if running:
 				if not jumping:
 					jumping = true

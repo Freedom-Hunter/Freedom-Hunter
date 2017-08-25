@@ -52,7 +52,7 @@ func client_start(ip, port, username, server_id=null):
 	return peer
 
 func _process(delta):
-	if multiplayer:
+	if peer != null:
 		peer.process(delta)
 
 func stop():

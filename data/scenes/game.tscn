@@ -11,7 +11,6 @@
 
 input_ray_pickable = false
 input_capture_on_drag = false
-shape_count = 0
 space_override = 0
 gravity_point = false
 gravity_distance_scale = 0.0
@@ -22,8 +21,14 @@ angular_damp = 1.0
 priority = 0.0
 monitoring = true
 monitorable = true
-collision_layers = 1
+collision_layer = 1
 collision_mask = 1
+audio_bus_override = false
+audio_bus_name = "Master"
+reverb_bus_enable = false
+reverb_bus_name = "Master"
+reverb_bus_amount = 0.0
+reverb_bus_uniformity = 0.0
 
 [node name="hud" parent="." instance=ExtResource( 1 )]
 
@@ -38,6 +43,13 @@ visible = false
 transform = Transform( 0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 7 )
 
 [node name="mushroom" parent="." instance=ExtResource( 5 )]
+
+audio_bus_override = false
+audio_bus_name = "Master"
+reverb_bus_enable = false
+reverb_bus_name = "Master"
+reverb_bus_amount = 0.0
+reverb_bus_uniformity = 0.0
 
 [node name="player_spawn" type="Position3D" parent="."]
 
@@ -67,6 +79,7 @@ cull_mask = 1048575
 environment = null
 h_offset = 0.0
 v_offset = 0.0
+doppler/tracking = 0
 script = ExtResource( 6 )
 
 

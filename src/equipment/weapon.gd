@@ -86,5 +86,5 @@ func get_weapon_damage(body, impact):
 
 func _on_sword_body_enter(body):
 	if body != player and body is preload("res://src/entities/entity.gd"):
-		body.damage(get_weapon_damage(body, body.get_collider_velocity()), 0.0)
+		body.damage(get_weapon_damage(body, null), 0.0)
 		blunt(1)

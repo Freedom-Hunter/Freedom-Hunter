@@ -11,17 +11,37 @@ content_margin_right = -1.0
 content_margin_top = -1.0
 content_margin_bottom = -1.0
 bg_color = Color( 0, 0, 0, 0.736002 )
-light_color = Color( 0, 0, 0, 0 )
-dark_color = Color( 0.8, 0.8, 0.8, 0 )
-border_size = 0
+filled = true
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color( 0.8, 0.8, 0.8, 1 )
 border_blend = true
-draw_bg = true
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_right = 0
+corner_radius_bottom_left = 0
+corner_detail = 8
+expand_margin_left = 0.0
+expand_margin_right = 0.0
+expand_margin_top = 0.0
+expand_margin_bottom = 0.0
+shadow_color = Color( 0, 0, 0, 0.6 )
+shadow_size = 0
+anti_aliasing = true
+anti_aliasing_size = 1
 
 [node name="game_menu" type="Popup"]
 
 pause_mode = 2
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 margin_right = 1920.0
 margin_bottom = 1080.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -32,8 +52,11 @@ script = ExtResource( 2 )
 
 [node name="Panel" type="Panel" parent="."]
 
-anchor_right = 1
-anchor_bottom = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
@@ -42,19 +65,30 @@ custom_styles/panel = SubResource( 1 )
 
 [node name="Container" type="Container" parent="."]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_left = 410.0
 margin_top = 240.0
 margin_right = 1510.0
 margin_bottom = 840.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
+_sections_unfolded = [ "Anchor", "Margin" ]
 
 [node name="TextureFrame" type="TextureRect" parent="Container"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_right = 1100.0
 margin_bottom = 600.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 2
@@ -64,25 +98,32 @@ stretch_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Container"]
 
-anchor_left = 2
-anchor_top = 2
-anchor_right = 2
-anchor_bottom = 2
-margin_left = 400.0
-margin_top = 180.0
-margin_right = -400.0
-margin_bottom = -180.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 180.0
+margin_top = 100.0
+margin_right = -180.0
+margin_bottom = -100.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
 size_flags_horizontal = 2
 size_flags_vertical = 2
 custom_constants/separation = 20
 alignment = 1
+_sections_unfolded = [ "Anchor", "Margin" ]
 
 [node name="fullscreen" type="Button" parent="Container/VBoxContainer"]
 
-margin_right = 800.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 740.0
 margin_bottom = 78.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 3
@@ -96,9 +137,14 @@ flat = false
 
 [node name="main_menu" type="Button" parent="Container/VBoxContainer"]
 
-margin_top = 98.0
-margin_right = 800.0
-margin_bottom = 176.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 105.0
+margin_right = 740.0
+margin_bottom = 183.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 3
@@ -112,9 +158,14 @@ flat = false
 
 [node name="quit" type="Button" parent="Container/VBoxContainer"]
 
-margin_top = 196.0
-margin_right = 800.0
-margin_bottom = 274.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 210.0
+margin_right = 740.0
+margin_bottom = 288.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 3
@@ -128,9 +179,14 @@ flat = false
 
 [node name="return" type="Button" parent="Container/VBoxContainer"]
 
-margin_top = 294.0
-margin_right = 800.0
-margin_bottom = 372.0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 315.0
+margin_right = 740.0
+margin_bottom = 393.0
+rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
 size_flags_horizontal = 3

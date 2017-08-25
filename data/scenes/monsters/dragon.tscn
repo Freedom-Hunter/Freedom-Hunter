@@ -1,8 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://src/entities/monster.gd" type="Script" id=1]
 [ext_resource path="res://data/models/monster/dragon.mesh" type="ArrayMesh" id=2]
 [ext_resource path="res://data/models/monster/dragon.material" type="Material" id=3]
+[ext_resource path="res://data/textures/flame.png" type="Texture" id=4]
+[ext_resource path="res://data/images/warning.png" type="Texture" id=5]
 
 [sub_resource type="BoxShape" id=1]
 
@@ -16,7 +18,177 @@ radius = 20.0
 
 extents = Vector3( 3.6, 1.7, 2.1 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Gradient" id=4]
+
+offsets = PoolRealArray( 0, 0.615385, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 0.979933, 0, 0, 1, 0.96875, 0.681152, 0, 1 )
+
+[sub_resource type="GradientTexture" id=5]
+
+gradient = SubResource( 4 )
+width = 2048
+
+[sub_resource type="Curve" id=6]
+
+min_value = 0.0
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0, 0.0973338 ), 0.0, 0.0, 0, 0, Vector2( 0.24312, 0.607378 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=7]
+
+width = 2048
+curve = SubResource( 6 )
+_sections_unfolded = [ "Resource" ]
+
+[sub_resource type="ParticlesMaterial" id=8]
+
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = false
+spread = 0.1
+flatness = 1.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 2.0
+initial_velocity_random = 0.2
+angular_velocity = 20.0
+angular_velocity_random = 0.6
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.5
+radial_accel_random = 0.59
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 1.0
+damping_random = 0.58
+angle = 360.0
+angle_random = 1.0
+scale = 1.0
+scale_random = 0.2
+scale_curve = SubResource( 7 )
+color_ramp = SubResource( 5 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Initial Velocity" ]
+
+[sub_resource type="SpatialMaterial" id=9]
+
+flags_transparent = true
+flags_unshaded = false
+flags_vertex_lighting = false
+flags_on_top = false
+flags_use_point_size = false
+flags_fixed_size = false
+vertex_color_use_as_albedo = false
+vertex_color_is_srgb = false
+params_diffuse_mode = 0
+params_specular_mode = 0
+params_blend_mode = 0
+params_cull_mode = 2
+params_depth_draw_mode = 0
+params_line_width = 1.0
+params_point_size = 1.0
+params_billboard_mode = 3
+params_grow = false
+params_use_alpha_scissor = false
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = 0
+albedo_color = Color( 1, 0, 0, 1 )
+albedo_texture = ExtResource( 4 )
+metallic = 0.0
+metallic_specular = 0.5
+metallic_texture_channel = 0
+roughness = 0.0
+roughness_texture_channel = 0
+emission_enabled = false
+normal_enabled = false
+rim_enabled = false
+clearcoat_enabled = false
+anisotropy_enabled = false
+ao_enabled = false
+depth_enabled = false
+subsurf_scatter_enabled = false
+refraction_enabled = false
+detail_enabled = false
+uv1_scale = Vector3( 1, 1, 1 )
+uv1_offset = Vector3( 0, 0, 0 )
+uv1_triplanar = false
+uv1_triplanar_sharpness = 1.0
+uv2_scale = Vector3( 1, 1, 1 )
+uv2_offset = Vector3( 0, 0, 0 )
+uv2_triplanar = false
+uv2_triplanar_sharpness = 1.0
+
+[sub_resource type="QuadMesh" id=10]
+
+material = SubResource( 9 )
+
+[sub_resource type="SpatialMaterial" id=11]
+
+flags_transparent = true
+flags_unshaded = true
+flags_vertex_lighting = false
+flags_on_top = true
+flags_use_point_size = false
+flags_fixed_size = false
+vertex_color_use_as_albedo = false
+vertex_color_is_srgb = false
+params_diffuse_mode = 0
+params_specular_mode = 0
+params_blend_mode = 0
+params_cull_mode = 2
+params_depth_draw_mode = 0
+params_line_width = 1.0
+params_point_size = 1.0
+params_billboard_mode = 3
+params_grow = false
+params_use_alpha_scissor = false
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = 0
+albedo_color = Color( 1, 1, 1, 1 )
+albedo_texture = ExtResource( 5 )
+metallic = 0.0
+metallic_specular = 0.5
+metallic_texture_channel = 0
+roughness = 0.0
+roughness_texture_channel = 0
+emission_enabled = false
+normal_enabled = false
+rim_enabled = false
+clearcoat_enabled = false
+anisotropy_enabled = false
+ao_enabled = false
+depth_enabled = false
+subsurf_scatter_enabled = false
+refraction_enabled = false
+detail_enabled = false
+uv1_scale = Vector3( 1, 1, 1 )
+uv1_offset = Vector3( 0, 0, 0 )
+uv1_triplanar = false
+uv1_triplanar_sharpness = 1.0
+uv2_scale = Vector3( 1, 1, 1 )
+uv2_offset = Vector3( 0, 0, 0 )
+uv2_triplanar = false
+uv2_triplanar_sharpness = 1.0
+_sections_unfolded = [ "Flags", "Parameters", "Vertex Color" ]
+
+[sub_resource type="QuadMesh" id=12]
+
+material = SubResource( 11 )
+_sections_unfolded = [ "Resource" ]
+
+[sub_resource type="Animation" id=13]
 
 length = 5.0
 loop = false
@@ -27,63 +199,47 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/keys = {
-"times": PoolFloatArray( 0, 3.5 ),
-"transitions": PoolFloatArray( 1, 1 ),
+"times": PoolRealArray( 0, 3.5 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=14]
 
-resource_name = "dissolve"
-length = 1.0
-loop = false
-step = 0.1
-
-[sub_resource type="Animation" id=6]
-
-resource_name = "exclamation"
 length = 5.0
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("warning/exclamation:geometry/visible")
+tracks/0/path = NodePath("exclamation:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/keys = {
-"times": PoolFloatArray( 0, 5 ),
-"transitions": PoolFloatArray( 1, 1 ),
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("warning/exclamation:quad/size")
+tracks/1/path = NodePath("exclamation:scale")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/keys = {
-"times": PoolFloatArray( 0, 0.5, 4.5, 5 ),
-"transitions": PoolFloatArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.5, 4.5, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.1, 0.1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0.1, 0.1 ) ]
+"values": [ Vector3( 0.1, 0.1, 0.1 ), Vector3( 1, 1, 1 ), Vector3( 1, 1, 1 ), Vector3( 0.1, 0.1, 0.1 ) ]
 }
 
 [node name="dragon" type="KinematicBody"]
 
 input_ray_pickable = true
 input_capture_on_drag = false
-shape_count = 1
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
-shapes/0/trigger = false
 collision_layer = 1
 collision_mask = 1
-collide_with/static = true
-collide_with/kinematic = true
-collide_with/rigid = true
-collide_with/character = true
-collision/margin = 0.001
+collision/safe_margin = 0.001
 script = ExtResource( 1 )
 strength = 0
 fire = 0
@@ -109,23 +265,19 @@ lod_max_hysteresis = 0.0
 mesh = ExtResource( 2 )
 skeleton = NodePath("..")
 material/0 = ExtResource( 3 )
+_sections_unfolded = [ "material" ]
 
 [node name="collision" type="CollisionShape" parent="."]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
 shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 0
+disabled = false
 
 [node name="view" type="Area" parent="."]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25136, 0 )
 input_ray_pickable = false
 input_capture_on_drag = false
-shape_count = 1
-shapes/0/shape = SubResource( 2 )
-shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-shapes/0/trigger = false
 space_override = 0
 gravity_point = false
 gravity_distance_scale = 0.0
@@ -138,21 +290,22 @@ monitoring = true
 monitorable = true
 collision_layer = 1
 collision_mask = 1
+audio_bus_override = false
+audio_bus_name = "Master"
+reverb_bus_enable = false
+reverb_bus_name = "Master"
+reverb_bus_amount = 0.0
+reverb_bus_uniformity = 0.0
 
 [node name="radius" type="CollisionShape" parent="view"]
 
 shape = SubResource( 2 )
-trigger = false
-_update_shape_index = 0
+disabled = false
 
 [node name="interact" type="Area" parent="."]
 
 input_ray_pickable = false
 input_capture_on_drag = false
-shape_count = 1
-shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
-shapes/0/trigger = false
 space_override = 0
 gravity_point = false
 gravity_distance_scale = 0.0
@@ -165,30 +318,76 @@ monitoring = true
 monitorable = true
 collision_layer = 1
 collision_mask = 1
+audio_bus_override = false
+audio_bus_name = "Master"
+reverb_bus_enable = false
+reverb_bus_name = "Master"
+reverb_bus_amount = 0.0
+reverb_bus_uniformity = 0.0
 
 [node name="radius" type="CollisionShape" parent="interact"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
 shape = SubResource( 3 )
-trigger = false
-_update_shape_index = 0
+disabled = false
 
-[node name="fire" type="Spatial" parent="."]
+[node name="fire" type="Particles" parent="."]
 
 transform = Transform( 1, 0, 0, 0, 0.939183, -0.343416, 0, 0.343416, 0.939183, 0, 2.0775, 1.63697 )
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+visible_in_all_rooms = false
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+emitting = false
+amount = 128
+lifetime = 5.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.0
+explosiveness = 0.25
+randomness = 0.5
+fixed_fps = 0
+fract_delta = true
+visibility_aabb = Rect3( -4, -4, -4, 8, 8, 8 )
+local_coords = false
+draw_order = 0
+process_material = SubResource( 8 )
+draw_passes = 1
+draw_pass_1 = SubResource( 10 )
+_sections_unfolded = [ "Draw Passes", "Drawing", "Process Material", "Time", "Transform" ]
 
-[node name="warning" type="Spatial" parent="."]
+[node name="exclamation" type="MeshInstance" parent="."]
 
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.07829, 1.44496 )
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 3.07829, 1.44496 )
+visible = false
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+visible_in_all_rooms = false
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+mesh = SubResource( 12 )
+skeleton = NodePath("..")
+material/0 = null
+_sections_unfolded = [ "Geometry", "LOD", "Transform", "Visibility", "material" ]
 
 [node name="animation" type="AnimationPlayer" parent="."]
 
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 root_node = NodePath("..")
-anims/attack = SubResource( 4 )
-anims/dissolve = SubResource( 5 )
-anims/exclamation = SubResource( 6 )
+anims/attack = SubResource( 13 )
+anims/exclamation = SubResource( 14 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]

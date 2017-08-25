@@ -31,7 +31,7 @@ func show():
 
 func hide():
 	.hide()
-	get_node("..").mode_node.show()
+	$"../mode".show()
 	OS.set_window_title("Freedom Hunter")
 	refresh_timer.stop()
 	set_process_input(false)

@@ -3,14 +3,7 @@ extends Control
 onready var global = get_node("/root/global")
 onready var networking = get_node("/root/networking")
 
-onready var life_node = get_node("hp")
-onready var damage_node = get_node("hp/red_hp")
-onready var stamina_node = get_node("stamina")
-onready var names_node = get_node("names")
-onready var players_list_node = get_node("players_list")
-onready var action_node = get_node("action")
 onready var inventory = get_node("inventory")
-onready var respawn_node = get_node("respawn")
 
 var camera_node
 var notify_queue = []
@@ -35,14 +28,14 @@ func init():
 func _input(event):
 	if networking.multiplayer:
 		if event.is_action_pressed("players_list"):
-			players_list_node.show()
+			$players_list.show()
 		elif event.is_action_released("players_list"):
-			players_list_node.hide()
+			$players_list.hide()
 	if event.is_action_released("player_inventory"):
-		if inventory.is_hidden():
-			open_inventories([global.local_player.inventory])
-		else:
+		if inventory.is_visible():
 			close_inventories()
+		else:
+			open_inventories([global.local_player.inventory])
 
 func _fixed_process(delta):
 	update_values()
@@ -51,11 +44,11 @@ func _fixed_process(delta):
 	update_debug()
 
 func update_values():
-	life_node.set_value(global.local_player.hp)
-	damage_node.set_value(global.local_player.regenerable_hp)
-	stamina_node.set_value(global.local_player.stamina)
-	stamina_node.set_max(global.local_player.max_stamina)
-	stamina_node.set_size(Vector2(10 * global.local_player.max_stamina, stamina_node.get_size()[1]))
+	$hp.set_value(global.local_player.hp)
+	$hp/red_hp.set_value(global.local_player.regenerable_hp)
+	$stamina.set_value(global.local_player.stamina)
+	$stamina.set_max(global.local_player.max_stamina)
+	$stamina.set_size(Vector2(10 * global.local_player.max_stamina, $stamina.get_size()[1]))
 
 func open_inventories(inventories):
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -93,13 +86,13 @@ func show_interact():
 	if interact != null:
 		var pos = interact.get_global_transform().origin + Vector3(0, 1, 0)
 		if camera_node.is_position_behind(pos):
-			action_node.hide()
+			$action.hide()
 		else:
-			action_node.show()
+			$action.show()
 			var action_pos = camera_node.unproject_position(pos)
-			action_node.set_position(action_pos - (action_node.get_size()/2))
+			$action.set_position(action_pos - ($action.get_size()/2))
 	else:
-		action_node.hide()
+		$action.hide()
 
 func _on_action_pressed():
 	global.local_player.interact_with_nearest()
@@ -111,12 +104,12 @@ func new_label(text):
 	return label
 
 func player_connected(player_name):
-	names_node.add_child(new_label(player_name))
-	players_list_node.add_child(new_label(player_name))
+	$names.add_child(new_label(player_name))
+	$players_list.add_child(new_label(player_name))
 
 func player_disconnected(player_name):
-	names_node.get_node(player_name).queue_free()
-	players_list_node.get_node(player_name).queue_free()
+	$names.get_node(player_name).queue_free()
+	$players_list.get_node(player_name).queue_free()
 
 func update_names():
 	var camera_pos = global.local_player.camera_node.get_global_transform().origin
@@ -125,7 +118,7 @@ func update_names():
 		for player in networking.get_players():
 			var name = player.get_name()
 			var player_pos = player.get_node("name").get_global_transform().origin
-			var label = names_node.get_node(name)
+			var label = $names.get_node(name)
 			if camera_node.is_position_behind(player_pos):
 				label.hide()
 			else:
@@ -139,7 +132,7 @@ func update_names():
 					var size = label.get_size()
 					label.set_position(pos - Vector2(size.x/2, size.y/2))
 	else:
-		var label = names_node.get_node(global.local_player.get_name())
+		var label = $names.get_node(global.local_player.get_name())
 		var pos = camera_node.unproject_position(global.local_player.get_node("name").get_global_transform().origin)
 		var size = label.get_size()
 		label.set_position(pos - Vector2(size.x/2, size.y/2))
@@ -149,11 +142,11 @@ func update_debug():
 	var out = "POS: %.2f %.2f %.2f" % [pos.x, pos.y, pos.z]
 	if networking.multiplayer and not networking.is_connected():
 		out += "\nClient is not connected!"
-	get_node("debug").set_text(out)
+	$debug.text = out
 
 func play_notify(text):
-	get_node("notification/text").set_text(text)
-	get_node("notification/animation").play("show")
+	$notification/text.text = text
+	$notification/animation.play("show")
 
 func _on_animation_finished():
 	if not notify_queue.empty():
@@ -163,11 +156,11 @@ func _on_animation_finished():
 
 func notify(text):
 	notify_queue.append(text)
-	if not get_node("notification/animation").is_playing():
+	if not $notification/animation.is_playing():
 		play_notify(notify_queue[0])
 
 func respawn():
-	respawn_node.popup()
+	$respawn.popup()
 	get_viewport().get_camera().set_process_input(false)
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 

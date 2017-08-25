@@ -19,9 +19,7 @@ var time_hit = 0
 
 var direction = Vector3()
 var velocity = Vector3()
-var floor_vel = Vector3()
 
-var on_floor = false
 var jumping = false
 var dodging = false
 var running = false
@@ -46,8 +44,6 @@ func _ready():
 	animation_node.connect("animation_finished", self, "_on_animation_finished")
 
 func move_entity(delta, gravity=true):
-	var ti = get_global_transform()
-
 	velocity.x = direction.x
 	if gravity:
 		velocity.y += global.gravity * delta
@@ -59,42 +55,12 @@ func move_entity(delta, gravity=true):
 		velocity.z *= 3
 		velocity.x *= 3
 
+	var n = Vector3(0, 1, 0)
 	look_ahead(delta)
-	var motion = move(velocity * delta)
-	on_floor = false
+	velocity = move_and_slide(velocity, n)
 
-	if is_colliding():
-		var n = get_collision_normal()
-		if acos(n.dot(Vector3(0, 1, 0))) < MAX_SLOPE_ANGLE:
-			on_floor = true
-			floor_vel = get_collider_velocity()
-			move(floor_vel * delta)
-#			if collider extends KinematicBody:
-#				floor_vel = collider.get_global_transform().origin
-#				move_to(floor_vel)
-#			else:
-#				floor_vel = get_collider_velocity()
-#				move(floor_vel * delta)
-			var fall = (int((-velocity.y) - 10) ^ 2) * 5
-			if fall > 0:
-				damage(fall, 0.5)
-			motion = motion.slide(n)
-			velocity = velocity.slide(n)
-			move(motion)
-		else:
-			motion = motion.slide(n)
-			move(motion)
-
-	if on_floor:
+	if is_on_floor():
 		jumping = false
-
-	if networking.multiplayer:
-		var tf = get_global_transform()
-		var dist = tf.origin - ti.origin
-		var yaw_diff = abs(atan2(dist.x, dist.z))
-
-		if dist.length() > 0.01 and yaw_diff > 0.01:
-			networking.peer.local_entity_move(get_name(), tf)
 
 func look_ahead(delta):
 	if direction.length() != 0:
