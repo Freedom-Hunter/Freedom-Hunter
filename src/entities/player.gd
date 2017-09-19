@@ -23,6 +23,10 @@ var inventory = preload("res://data/scenes/inventory.tscn").instance()
 func _init().(150, 100, "model/AnimationPlayer"):
 	pass
 
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		inventory.free()
+
 func set_equipment(model, bone, name=null):
 	var skel = get_node("model/Armature/Skeleton")
 	for node in skel.get_children():
