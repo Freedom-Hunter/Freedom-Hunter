@@ -11,6 +11,10 @@ var player = null
 func _ready():
 	inventory.init([], 100)
 
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		inventory.free()
+
 func interact(player):
 	if self.player == null:
 		self.player = player
