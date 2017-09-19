@@ -12,6 +12,10 @@ func _ready():
 	inventory.init([], 100)
 	set_process_input(false)
 
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		inventory.free()
+
 func interact(player):
 	if self.player == null:
 		self.player = player
