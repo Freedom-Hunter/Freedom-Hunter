@@ -9,7 +9,7 @@ func _init(_name, _icon, _quantity, _player, _heal).(_name, _icon, _quantity, 10
 func effect():
 	if player.hp < player.max_hp:
 		player.heal(heal)
-		player.audio_node.play("potion_drink")
+		player.audio(preload("res://data/sounds/potion_drink.wav"))
 		return true
 	return false
 

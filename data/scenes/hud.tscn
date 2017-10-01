@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://data/fonts/RobotoCondensed-Light.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://src/hud.gd" type="Script" id=2]
@@ -10,7 +10,8 @@
 [ext_resource path="res://data/images/hud/item_bar/quantity.png" type="Texture" id=8]
 [ext_resource path="res://data/images/hud/item_bar/name.png" type="Texture" id=9]
 [ext_resource path="res://data/fonts/MedievalSharp.ttf" type="DynamicFontData" id=10]
-[ext_resource path="res://data/scenes/onscreen_controls.tscn" type="PackedScene" id=11]
+[ext_resource path="res://data/sounds/beatbox.wav" type="AudioStream" id=11]
+[ext_resource path="res://data/scenes/onscreen_controls.tscn" type="PackedScene" id=12]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -37,7 +38,7 @@ content_margin_right = -1.0
 content_margin_top = -1.0
 content_margin_bottom = -1.0
 bg_color = Color( 0.0141144, 0.722656, 0.0417918, 1 )
-filled = true
+draw_center = true
 border_width_left = 0
 border_width_top = 0
 border_width_right = 0
@@ -72,7 +73,7 @@ content_margin_right = -1.0
 content_margin_top = -1.0
 content_margin_bottom = -1.0
 bg_color = Color( 0.84375, 0.0164795, 0.0164795, 1 )
-filled = true
+draw_center = true
 border_width_left = 0
 border_width_top = 0
 border_width_right = 0
@@ -100,7 +101,7 @@ content_margin_right = -1.0
 content_margin_top = -1.0
 content_margin_bottom = -1.0
 bg_color = Color( 0, 0, 0, 1 )
-filled = true
+draw_center = true
 border_width_left = 0
 border_width_top = 0
 border_width_right = 0
@@ -128,7 +129,7 @@ content_margin_right = -1.0
 content_margin_top = -1.0
 content_margin_bottom = -1.0
 bg_color = Color( 1, 0.867188, 0, 1 )
-filled = true
+draw_center = true
 border_width_left = 0
 border_width_top = 0
 border_width_right = 0
@@ -156,7 +157,7 @@ content_margin_right = -1.0
 content_margin_top = -1.0
 content_margin_bottom = -1.0
 bg_color = Color( 0, 0, 0, 1 )
-filled = true
+draw_center = true
 border_width_left = 0
 border_width_top = 0
 border_width_right = 0
@@ -409,6 +410,17 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ringtone:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 
 [node name="hud" type="Control"]
@@ -901,7 +913,6 @@ max_lines_visible = -1
 
 [node name="notification" type="Panel" parent="."]
 
-editor/display_folded = true
 modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.0
 anchor_top = 0.0
@@ -951,6 +962,15 @@ playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
 _sections_unfolded = [ "Playback Options", "playback" ]
+
+[node name="ringtone" type="AudioStreamPlayer" parent="notification"]
+
+stream = ExtResource( 11 )
+volume_db = -20.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+_sections_unfolded = [ "Pause" ]
 
 [node name="players_list" type="VBoxContainer" parent="."]
 
@@ -1030,7 +1050,7 @@ text = "Quit"
 flat = false
 _sections_unfolded = [ "Anchor", "Margin" ]
 
-[node name="onscreen" parent="." instance=ExtResource( 11 )]
+[node name="onscreen" parent="." instance=ExtResource( 12 )]
 
 anchor_left = 0.0
 anchor_top = 0.0

@@ -19,7 +19,7 @@ var equipment = {"weapon": null, "armour": {"head": null, "torso": null, "righta
 var inventory = preload("res://data/scenes/inventory.tscn").instance()
 
 
-func _init().(150, 100, "model/AnimationPlayer"):
+func _init().(150, 100):
 	pass
 
 func _notification(what):
@@ -108,6 +108,11 @@ func add_item(item):
 		else:
 			hud.notify("You got %d %s" % [item.quantity, item.name])
 	return remainder
+
+func drop_item(item):
+	var drop = $drop_item.get_global_transform()
+	item.set_global_transform(drop)
+	get_parent().add_child(item)
 
 func heal(amount):
 	hp += amount

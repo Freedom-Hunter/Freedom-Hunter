@@ -35,6 +35,10 @@ window/stretch/aspect="keep"
 stretch/aspect="keep"
 stretch/mode="2d"
 
+[gdnative]
+
+singletons=[  ]
+
 [input]
 
 ui_cancel=[ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":1,"pressure":0.0,"pressed":false,"script":null)

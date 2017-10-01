@@ -1,6 +1,6 @@
 extends RigidBody
 
-onready var Entity = preload("res://src/entities/entity.gd")
+const Entity = preload("res://src/entities/entity.gd")
 
 func _on_timer_timeout():
 	$"explosion/animation".play("explode")

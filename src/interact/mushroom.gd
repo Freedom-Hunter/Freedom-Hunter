@@ -1,12 +1,10 @@
 extends "gathering.gd"
 
-var Potion = preload("res://src/items/potion.gd")
-var Firework = preload("res://src/items/firework.gd")
-var Barrel = preload("res://src/items/barrel.gd")
-var Whetstone = preload("res://src/items/whetstone.gd")
-var Meat = preload("res://src/items/meat.gd")
-
-
+const Potion = preload("res://src/items/potion.gd")
+const Firework = preload("res://src/items/firework.gd")
+const Barrel = preload("res://src/items/barrel.gd")
+const Whetstone = preload("res://src/items/whetstone.gd")
+const Meat = preload("res://src/items/meat.gd")
 
 var potion    = Potion.new("Potion",       preload("res://data/images/items/potion.png"),    1, null, 20)
 var firework  = Firework.new("Firework",   preload("res://data/images/items/firework.png"),  1, null)

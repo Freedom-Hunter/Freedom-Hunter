@@ -4,7 +4,6 @@ onready var inventory = preload("res://data/scenes/inventory.tscn").instance()
 onready var inventory_items = inventory.get_node("items")
 onready var hud = get_node("/root/game/hud")
 onready var animation = get_node("model/AnimationPlayer")
-onready var sound_node = get_node("sound")
 
 var player = null
 
@@ -26,7 +25,7 @@ func open():
 		return
 	if animation.is_playing():
 		yield(animation, "animation_finished")
-	#sound_node.play("hinge")
+	$audio.play()
 	animation.play("open")
 	player.pause_player()
 	yield(animation, "animation_finished")
@@ -38,7 +37,7 @@ func close():
 	set_process_input(false)
 	hud.inventory.disconnect("popup_hide", self, "close")
 	hud.close_inventories()
-	#sound_node.play("hinge")
+	$audio.play()
 	animation.play("close")
 	yield(animation, "animation_finished")
 	player.resume_player()

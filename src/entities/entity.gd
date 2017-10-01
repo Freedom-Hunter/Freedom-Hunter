@@ -27,21 +27,21 @@ var dead = false
 var local = true  # for multiplayer
 
 var interpolation_factor  # how fast we interpolate rotations
-var animation_path
-var animation_node
 
-func _init(_hp, _stamina, anim_path, interp=15):
+var animation_node
+var audio_node
+
+func _init(_hp, _stamina, interp=15):
 	hp = _hp
 	max_hp = _hp
 	stamina = _stamina
 	max_stamina = _stamina
-	animation_path = anim_path
 	interpolation_factor = interp
 
 func _ready():
-	set_process(true)
-	animation_node = get_node(animation_path)
+	animation_node = find_node("entity_animation")
 	animation_node.connect("animation_finished", self, "_on_animation_finished")
+	audio_node = find_node("entity_audio")
 
 func move_entity(delta, gravity=true):
 	velocity.x = direction.x
@@ -116,7 +116,7 @@ func damage(dmg, reg):
 			networking.peer.local_entity_damage(get_name(), hp, regenerable_hp)
 
 func attack(attack_name):
-	if animation_node.get_current_animation() != attack_name and animation_node.has_animation(attack_name):
+	if animation_node.has_animation(attack_name) and (not animation_node.is_playing() or animation_node.get_current_animation() != attack_name):
 		if networking.multiplayer and local:
 			networking.peer.local_entity_attack(get_name(), attack_name)
 		animation_node.play(attack_name)
@@ -133,3 +133,6 @@ func _process(delta):
 		if regenerable_hp - hp > 0:
 			hp += hp_regeneration
 
+func audio(stream):
+	audio_node.stream = stream
+	audio_node.play()

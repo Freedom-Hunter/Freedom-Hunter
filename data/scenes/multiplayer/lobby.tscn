@@ -16,7 +16,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
-_sections_unfolded = [ "Anchor" ]
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Theme" ]
 
 [node name="header" type="PanelContainer" parent="."]
 
@@ -138,7 +138,6 @@ _sections_unfolded = [ "Size Flags" ]
 
 [node name="direct" type="PanelContainer" parent="."]
 
-editor/display_folded = true
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -199,9 +198,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 102.0
+margin_top = 135.0
 margin_right = 536.0
-margin_bottom = 370.0
+margin_bottom = 403.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -367,7 +366,7 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 370.0
+margin_top = 403.0
 margin_right = 536.0
 margin_bottom = 736.0
 rect_pivot_offset = Vector2( 0, 0 )
@@ -513,11 +512,11 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 190.0
 margin_right = 536.0
-margin_bottom = 268.0
+margin_bottom = 235.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
-size_flags_horizontal = 3
+size_flags_horizontal = 7
 size_flags_vertical = 2
 toggle_mode = true
 enabled_focus_mode = 2
@@ -525,8 +524,7 @@ shortcut = null
 group = null
 text = "Announce"
 flat = false
-align = 0
-_sections_unfolded = [ "Size Flags" ]
+_sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "Mouse", "Rect", "Size Flags", "Theme" ]
 
 [node name="start" type="Button" parent="direct/vbox/server"]
 
@@ -534,9 +532,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 288.0
+margin_top = 255.0
 margin_right = 536.0
-margin_bottom = 366.0
+margin_bottom = 333.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0

@@ -10,7 +10,7 @@ func effect():
 	if player.equipment.weapon != null and not player.equipment.weapon.is_sharpened():
 		player.equipment.weapon.sharpen(sharp)
 		player.animation_node.play("whetstone")
-		#player.audio_node.play("whetstone")
+		player.audio(preload("res://data/sounds/whetstone.wav"))
 		return true
 	return false
 
