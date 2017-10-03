@@ -9,7 +9,7 @@ func _on_timer_timeout():
 		if body == self:
 			continue
 		if body is Entity:
-			var d = body.get_translation() - get_translation()
+			var d = body.global_transform.origin - global_transform.origin
 			var dmg = int((r - d.length()) * 5 + 1)
 			body.damage(dmg, 0.1)
 		elif body.is_in_group("explosive"):
