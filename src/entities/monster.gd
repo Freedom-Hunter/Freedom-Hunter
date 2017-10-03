@@ -31,12 +31,12 @@ func _init().(500, 100, 1):
 
 func _ready():
 	if not networking.is_server() and networking.multiplayer:
-		set_fixed_process(false)
+		set_physics_process(false)
 
 # @override from entity.gd
 func die():
 	.die()
-	set_fixed_process(false)
+	set_physics_process(false)
 	animation_node.play("death")
 	$fire.hide()
 	$interact.add_to_group("interact")
@@ -49,7 +49,7 @@ func sort_by_distance(a, b):
 	var dist_b = (get_global_transform().origin - b.get_global_transform().origin).length()
 	return dist_a < dist_b
 
-func _fixed_process(delta):
+func _physics_process(delta):
 	direction = Vector3()
 	var origin = get_pos()
 	var player = null

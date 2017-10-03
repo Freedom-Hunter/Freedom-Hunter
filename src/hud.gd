@@ -22,7 +22,7 @@ func init():
 	update_items()
 	global.local_player.inventory.connect("modified", self, "update_items")
 
-	set_fixed_process(true)
+	set_physics_process(true)
 	set_process_input(true)
 
 func _input(event):
@@ -37,7 +37,7 @@ func _input(event):
 		else:
 			open_inventories([global.local_player.inventory])
 
-func _fixed_process(delta):
+func _physics_process(delta):
 	update_values()
 	show_interact()
 	update_names()

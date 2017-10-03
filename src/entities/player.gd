@@ -131,7 +131,7 @@ func die():
 	animation_node.play("death")
 	#$"audio".play("death")
 	set_process(false)
-	set_fixed_process(false)
+	set_physics_process(false)
 	set_process_input(false)
 	if local:
 		hud.respawn()
@@ -143,7 +143,7 @@ func respawn():
 func pause_player():
 	direction = Vector3()
 	set_process_input(false)
-	set_fixed_process(false)
+	set_physics_process(false)
 	set_process(false)
 	animation_node.play("idle")
 	if local:
@@ -152,7 +152,7 @@ func pause_player():
 func resume_player():
 	if local:
 		set_process_input(true)
-		set_fixed_process(true)
+		set_physics_process(true)
 		set_process(true)
 		camera_node.set_process_input(true)
 
@@ -179,7 +179,7 @@ func _process(delta):
 	elif anim in ["walk", "run", "death"] or not playing:
 		animation_node.play("idle")
 
-func _fixed_process(delta):
+func _physics_process(delta):
 	if not dodging:
 		direction = Vector3(0, 0, 0)
 		var jump = 0
