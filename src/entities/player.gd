@@ -129,7 +129,7 @@ func get_defence():
 func die():
 	.die()
 	animation_node.play("death")
-	#$"audio".play("death")
+	audio(preload("res://data/sounds/hit.wav"))
 	set_process(false)
 	set_physics_process(false)
 	set_process_input(false)
