@@ -81,10 +81,10 @@ func _physics_process(delta):
 
 	move_entity(delta)
 
-
 func _on_view_body_entered(body):
 	if body.is_in_group("player"):
-		players.push_front(body)
+		if not body.dead:
+			players.push_front(body)
 
 func _on_view_body_exited( body ):
 	if body.is_in_group("player"):
