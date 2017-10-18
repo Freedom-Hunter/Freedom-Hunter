@@ -55,12 +55,15 @@ func move_entity(delta, gravity=true):
 		velocity.z *= 3
 		velocity.x *= 3
 
-	var n = Vector3(0, 1, 0)
 	look_ahead(delta)
-	velocity = move_and_slide(velocity, n)
+	var remainder = move_and_slide(velocity, Vector3(0, 1, 0), 0.05, 4, MAX_SLOPE_ANGLE)
 
 	if is_on_floor():
 		jumping = false
+		var fall = (int((-velocity.y) + global.gravity) ^ 2) * 5
+		if fall > 0:
+			damage(fall, 0.5)
+		velocity.y = 0
 
 func look_ahead(delta):
 	if direction.length() != 0:
@@ -82,6 +85,8 @@ func die():
 		dead = true
 		hp = 0
 		regenerable_hp = 0
+		velocity = Vector3()
+		direction = Vector3()
 		set_process(false)
 		animation_node.disconnect("animation_finished", self, "_on_animation_finished")
 		if networking.multiplayer and local:
@@ -95,6 +100,8 @@ func respawn():
 	regenerable_hp = 0
 	stamina = max_stamina
 	dead = false
+	dodging = false
+	jumping = false
 	set_process(true)
 	if networking.multiplayer and local:
 		networking.peer.local_entity_respawn(get_name())
