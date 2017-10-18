@@ -71,9 +71,9 @@ func close_inventories():
 func update_items():
 	var inventory = global.local_player.inventory
 	var i = -2
-	for child in get_node("items_bar").get_children():
+	for child in $items_bar.get_children():
 		if child is Panel:
-			var item = inventory.items[(inventory.active_item + i) % inventory.items.size()]
+			var item = inventory.get_item(inventory.active_item + i)
 			child.get_node("icon").set_texture(item.icon)
 			i += 1
 	var item = inventory.items[inventory.active_item]

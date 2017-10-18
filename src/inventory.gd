@@ -70,8 +70,11 @@ func add_item(item, slot=null):
 	emit_signal("modified")
 	return overflow
 
+func get_item(i):
+	return items[wrapi(i, 0, items.size())]
+
 func use_item(i):
-	var item = items[i]
+	var item = get_item(i)
 	item.use()
 	if item.quantity <= 0 and not item.keep:
 		remove_item(i)
@@ -84,7 +87,7 @@ func remove_item(i, slot=null):
 	slot.set_item(null)
 	items.remove(i)
 	if items.size() > 0 and i == active_item:
-		active_item = (active_item + 1) % items.size()
+		active_item = wrapi(active_item + 1, 0, items.size())
 	emit_signal("modified")
 
 func erase_item(item, slot=null):
@@ -96,13 +99,11 @@ func use_active_item():
 	return use_item(active_item)
 
 func activate_next():
-	active_item = (active_item + 1) % items.size()
+	active_item = wrapi(active_item + 1, 0, items.size())
 	emit_signal("modified")
 
 func activate_prev():
-	active_item = (active_item - 1) % items.size()
-	if active_item < 0:
-		active_item = items.size() - 1
+	active_item = wrapi(active_item - 1, 0, items.size())
 	emit_signal("modified")
 
 
