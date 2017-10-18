@@ -147,8 +147,7 @@ func update_debug():
 func play_notify(text):
 	$notification/text.text = text
 	$notification/animation.play("show")
-
-func _on_animation_finished():
+	yield($notification/animation, "animation_finished")
 	if not notify_queue.empty():
 		notify_queue.pop_front()
 		if not notify_queue.empty():
