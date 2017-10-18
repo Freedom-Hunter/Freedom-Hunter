@@ -170,14 +170,14 @@ func _process(delta):
 	if direction.length() != 0:
 		if dodging:
 			if anim != "dodge" or not playing:
-				animation_node.play("dodge")
+				animation_node.play("dodge", 0.5)
 		elif running:
 			if anim != "run" or not playing:
-				animation_node.play("run")
+				animation_node.play("run", 0.5)
 		elif anim != "walk" or not playing:
-			animation_node.play("walk")
+			animation_node.play("walk", 0.5)
 	elif anim in ["walk", "run", "death"] or not playing:
-		animation_node.play("idle")
+		animation_node.play("idle", 0.5)
 
 func _physics_process(delta):
 	if not dodging:
