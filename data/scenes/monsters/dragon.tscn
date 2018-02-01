@@ -25,6 +25,7 @@ colors = PoolColorArray( 0, 0, 0, 1, 0.979933, 0, 0, 1, 0.96875, 0.681152, 0, 1 
 
 [sub_resource type="GradientTexture" id=5]
 
+flags = 4
 gradient = SubResource( 4 )
 width = 2048
 
@@ -37,6 +38,7 @@ _data = [ Vector2( 0, 0.0973338 ), 0.0, 0.0, 0, 0, Vector2( 0.24312, 0.607378 ),
 
 [sub_resource type="CurveTexture" id=7]
 
+flags = 4
 width = 2048
 curve = SubResource( 6 )
 _sections_unfolded = [ "Resource" ]
@@ -56,8 +58,6 @@ initial_velocity = 2.0
 initial_velocity_random = 0.2
 angular_velocity = 20.0
 angular_velocity_random = 0.6
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
 linear_accel = 0.0
 linear_accel_random = 0.0
 radial_accel = 0.5
@@ -91,6 +91,7 @@ flags_no_depth_test = false
 flags_use_point_size = false
 flags_world_triplanar = false
 flags_fixed_size = false
+flags_albedo_tex_force_srgb = false
 vertex_color_use_as_albedo = false
 vertex_color_is_srgb = false
 params_diffuse_mode = 0
@@ -133,12 +134,12 @@ uv2_offset = Vector3( 0, 0, 0 )
 uv2_triplanar = false
 uv2_triplanar_sharpness = 1.0
 proximity_fade_enable = false
-proximity_fade_distance = 1.0
 distance_fade_enable = false
 
 [sub_resource type="QuadMesh" id=10]
 
 material = SubResource( 9 )
+size = Vector2( 1, 1 )
 
 [sub_resource type="SpatialMaterial" id=11]
 
@@ -150,6 +151,7 @@ flags_no_depth_test = false
 flags_use_point_size = false
 flags_world_triplanar = false
 flags_fixed_size = false
+flags_albedo_tex_force_srgb = false
 vertex_color_use_as_albedo = false
 vertex_color_is_srgb = false
 params_diffuse_mode = 0
@@ -192,13 +194,13 @@ uv2_offset = Vector3( 0, 0, 0 )
 uv2_triplanar = false
 uv2_triplanar_sharpness = 1.0
 proximity_fade_enable = false
-proximity_fade_distance = 1.0
 distance_fade_enable = false
 _sections_unfolded = [ "Flags", "Parameters", "Vertex Color" ]
 
 [sub_resource type="QuadMesh" id=12]
 
 material = SubResource( 11 )
+size = Vector2( 1, 1 )
 _sections_unfolded = [ "Resource" ]
 
 [sub_resource type="Animation" id=13]
@@ -211,6 +213,7 @@ tracks/0/path = NodePath(".:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 5 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -222,6 +225,7 @@ tracks/1/path = NodePath(".:scale")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/imported = false
+tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5, 4.5, 5 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
@@ -239,6 +243,7 @@ tracks/0/path = NodePath("fire:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 3.5 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -250,6 +255,7 @@ tracks/1/path = NodePath("entity_audio:stream")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
+tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
@@ -261,6 +267,7 @@ tracks/2/path = NodePath("entity_audio:playing")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
+tracks/2/enabled = true
 tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
@@ -268,12 +275,18 @@ tracks/2/keys = {
 "values": [ true ]
 }
 
-[node name="dragon" type="KinematicBody"]
+[node name="dragon" type="KinematicBody" index="0"]
 
 input_ray_pickable = true
 input_capture_on_drag = false
 collision_layer = 1
 collision_mask = 1
+axis_lock_linear_x = false
+axis_lock_linear_y = false
+axis_lock_linear_z = false
+axis_lock_angular_x = false
+axis_lock_angular_y = false
+axis_lock_angular_z = false
 collision/safe_margin = 0.001
 script = ExtResource( 1 )
 strength = 0
@@ -285,13 +298,13 @@ dragon = 0
 poison = 0
 paralysis = 0
 
-[node name="collision" type="CollisionShape" parent="."]
+[node name="collision" type="CollisionShape" parent="." index="0"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
 shape = SubResource( 1 )
 disabled = false
 
-[node name="view" type="Area" parent="."]
+[node name="view" type="Area" parent="." index="1"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25136, 0 )
 input_ray_pickable = false
@@ -315,12 +328,12 @@ reverb_bus_name = "Master"
 reverb_bus_amount = 0.0
 reverb_bus_uniformity = 0.0
 
-[node name="radius" type="CollisionShape" parent="view"]
+[node name="radius" type="CollisionShape" parent="view" index="0"]
 
 shape = SubResource( 2 )
 disabled = false
 
-[node name="interact" type="Area" parent="."]
+[node name="interact" type="Area" parent="." index="2"]
 
 input_ray_pickable = false
 input_capture_on_drag = false
@@ -343,13 +356,13 @@ reverb_bus_name = "Master"
 reverb_bus_amount = 0.0
 reverb_bus_uniformity = 0.0
 
-[node name="radius" type="CollisionShape" parent="interact"]
+[node name="radius" type="CollisionShape" parent="interact" index="0"]
 
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
 shape = SubResource( 3 )
 disabled = false
 
-[node name="fire" type="Particles" parent="."]
+[node name="fire" type="Particles" parent="." index="3"]
 
 transform = Transform( 1, 0, 0, 0, 0.939183, -0.343416, 0, 0.343416, 0.939183, 0, 2.0775, 1.63697 )
 layers = 1
@@ -371,7 +384,7 @@ explosiveness = 0.25
 randomness = 0.5
 fixed_fps = 0
 fract_delta = true
-visibility_aabb = Rect3( -4, -4, -4, 8, 8, 8 )
+visibility_aabb = AABB( -4, -4, -4, 8, 8, 8 )
 local_coords = false
 draw_order = 0
 process_material = SubResource( 8 )
@@ -379,7 +392,7 @@ draw_passes = 1
 draw_pass_1 = SubResource( 10 )
 _sections_unfolded = [ "Draw Passes", "Drawing", "Process Material", "Time", "Transform" ]
 
-[node name="exclamation" type="MeshInstance" parent="."]
+[node name="exclamation" type="MeshInstance" parent="." index="4"]
 
 transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 3.07829, 1.44496 )
 visible = false
@@ -397,29 +410,27 @@ skeleton = NodePath("..")
 material/0 = null
 _sections_unfolded = [ "Geometry", "LOD", "Transform", "Visibility", "material" ]
 
-[node name="animation" type="AnimationPlayer" parent="exclamation"]
+[node name="animation" type="AnimationPlayer" parent="exclamation" index="0"]
 
+root_node = NodePath("..")
+autoplay = ""
 playback_process_mode = 1
 playback_default_blend_time = 0.0
-root_node = NodePath("..")
+playback_speed = 1.0
 anims/exclamation = SubResource( 13 )
-playback/active = true
-playback/speed = 1.0
 blend_times = [  ]
+
+[node name="entity_animation" type="AnimationPlayer" parent="." index="5"]
+
+root_node = NodePath("..")
 autoplay = ""
-
-[node name="entity_animation" type="AnimationPlayer" parent="."]
-
 playback_process_mode = 1
 playback_default_blend_time = 0.0
-root_node = NodePath("..")
+playback_speed = 1.0
 anims/attack = SubResource( 14 )
-playback/active = true
-playback/speed = 1.0
 blend_times = [  ]
-autoplay = ""
 
-[node name="entity_audio" type="AudioStreamPlayer3D" parent="."]
+[node name="entity_audio" type="AudioStreamPlayer3D" parent="." index="6"]
 
 stream = ExtResource( 4 )
 attenuation_model = 0
@@ -439,9 +450,9 @@ attenuation_filter_db = -24.0
 doppler_tracking = 0
 _sections_unfolded = [ "Attenuation Filter", "Doppler", "Emission Angle" ]
 
-[node name="mesh" parent="." instance=ExtResource( 5 )]
+[node name="mesh" parent="." index="7" instance=ExtResource( 5 )]
 
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.14511, 0 )
 _sections_unfolded = [ "Transform" ]
 
 [connection signal="body_entered" from="view" to="." method="_on_view_body_entered"]

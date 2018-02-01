@@ -18,6 +18,7 @@ tracks/0/path = NodePath("background:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 10 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -25,7 +26,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 100 ), Vector2( -960, 100 ) ]
 }
 
-[node name="main_menu" type="Control"]
+[node name="main_menu" type="Control" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -34,14 +35,14 @@ anchor_bottom = 0.0
 margin_right = 1920.0
 margin_bottom = 1080.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
 
-[node name="background" type="TextureRect" parent="."]
+[node name="background" type="TextureRect" parent="." index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -51,30 +52,32 @@ margin_top = 100.0
 margin_right = 961.0
 margin_bottom = -100.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 texture = ExtResource( 3 )
 stretch_mode = 0
 
-[node name="bottom" type="TextureRect" parent="."]
+[node name="bottom" type="TextureRect" parent="." index="1"]
 
 anchor_left = 0.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -100.0
+margin_right = -1.0
+margin_bottom = -1.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 texture = ExtResource( 4 )
 stretch_mode = 0
 _sections_unfolded = [ "Anchor", "Margin" ]
 
-[node name="top" type="TextureRect" parent="."]
+[node name="top" type="TextureRect" parent="." index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -82,14 +85,14 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_bottom = 100.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 texture = ExtResource( 5 )
 stretch_mode = 0
 
-[node name="mode" type="VBoxContainer" parent="."]
+[node name="mode" type="VBoxContainer" parent="." index="3"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -100,14 +103,14 @@ margin_top = 200.0
 margin_right = -500.0
 margin_bottom = -200.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 1
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 alignment = 1
 _sections_unfolded = [ "Margin" ]
 
-[node name="singleplayer" type="Button" parent="mode"]
+[node name="singleplayer" type="Button" parent="mode" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -116,8 +119,8 @@ anchor_bottom = 0.0
 margin_right = 920.0
 margin_bottom = 224.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 toggle_mode = false
@@ -126,8 +129,9 @@ shortcut = null
 group = null
 text = "Singleplayer"
 flat = false
+align = 1
 
-[node name="multiplayer" type="Button" parent="mode"]
+[node name="multiplayer" type="Button" parent="mode" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -137,8 +141,8 @@ margin_top = 228.0
 margin_right = 920.0
 margin_bottom = 452.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 toggle_mode = false
@@ -147,8 +151,9 @@ shortcut = null
 group = null
 text = "Multiplayer"
 flat = false
+align = 1
 
-[node name="options" type="Button" parent="mode"]
+[node name="options" type="Button" parent="mode" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -158,8 +163,8 @@ margin_top = 456.0
 margin_right = 920.0
 margin_bottom = 680.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
@@ -169,8 +174,9 @@ shortcut = null
 group = null
 text = "Options"
 flat = false
+align = 1
 
-[node name="mods" type="Button" parent="mode"]
+[node name="mods" type="Button" parent="mode" index="3"]
 
 visible = false
 anchor_left = 0.0
@@ -181,8 +187,8 @@ margin_top = 588.0
 margin_right = 1720.0
 margin_bottom = 780.0
 rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
 mouse_filter = 0
+mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
@@ -192,22 +198,25 @@ shortcut = null
 group = null
 text = "Mods"
 flat = false
+align = 1
 
-[node name="Animation" type="AnimationPlayer" parent="."]
+[node name="Animation" type="AnimationPlayer" parent="." index="4"]
 
+root_node = NodePath("..")
+autoplay = "background"
 playback_process_mode = 1
 playback_default_blend_time = 0.0
-root_node = NodePath("..")
+playback_speed = 1.0
 anims/background = SubResource( 1 )
-playback/active = true
-playback/speed = 1.0
 blend_times = [  ]
-autoplay = "background"
 
-[node name="multiplayer" parent="." instance=ExtResource( 6 )]
+[node name="multiplayer" parent="." index="5" instance=ExtResource( 6 )]
 
 editor/display_folded = true
 visible = false
+margin_right = -1.0
+margin_bottom = -1.0
+mouse_default_cursor_shape = 0
 
 [connection signal="pressed" from="mode/singleplayer" to="." method="_on_singleplayer_pressed"]
 

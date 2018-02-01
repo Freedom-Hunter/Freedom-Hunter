@@ -1,7 +1,20 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://data/themes/main_menu/main.theme" type="Theme" id=1]
 [ext_resource path="res://src/multiplayer/lobby-ui.gd" type="Script" id=2]
+[ext_resource path="res://data/fonts/MedievalSharp.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+
+size = 84
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 3 )
+_sections_unfolded = [ "Settings" ]
+
+[sub_resource type="Theme" id=2]
+
+default_font = SubResource( 1 )
 
 [node name="multiplayer" type="Control"]
 
@@ -138,6 +151,7 @@ _sections_unfolded = [ "Size Flags" ]
 
 [node name="direct" type="PanelContainer" parent="."]
 
+editor/display_folded = true
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -524,6 +538,7 @@ shortcut = null
 group = null
 text = "Announce"
 flat = false
+align = 0
 _sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "Mouse", "Rect", "Size Flags", "Theme" ]
 
 [node name="start" type="Button" parent="direct/vbox/server"]
@@ -550,6 +565,7 @@ _sections_unfolded = [ "Size Flags" ]
 
 [node name="lobby" type="PanelContainer" parent="."]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 1.0
 anchor_right = 0.0
@@ -727,6 +743,71 @@ group = null
 text = "Back"
 flat = false
 _sections_unfolded = [ "Margin" ]
+
+[node name="network_error" type="AcceptDialog" parent="."]
+
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -116.0
+margin_top = -71.0
+margin_right = 116.0
+margin_bottom = 71.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+popup_exclusive = false
+window_title = "Attenzione!"
+resizable = false
+dialog_text = "Network error"
+dialog_hide_on_ok = true
+_sections_unfolded = [ "Dialog" ]
+
+[node name="connecting" type="PopupPanel" parent="."]
+
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -500.0
+margin_top = -124.5
+margin_right = 500.0
+margin_bottom = 124.5
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+popup_exclusive = false
+
+[node name="Label" type="Label" parent="connecting"]
+
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -417.5
+margin_top = -153.5
+margin_right = 417.5
+margin_bottom = 153.5
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+size_flags_horizontal = 1
+size_flags_vertical = 4
+theme = SubResource( 2 )
+text = "Connecting"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Theme" ]
 
 [connection signal="text_changed" from="header/vbox/input/username" to="." method="_on_username_text_changed"]
 
