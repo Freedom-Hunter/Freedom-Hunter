@@ -26,18 +26,18 @@ func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		inventory.free()
 
-func set_equipment(model, bone, name=null):
+func set_equipment(model, bone, _name=null):
 	var skel = get_node("model/Armature/Skeleton")
 	for node in skel.get_children():
 		if node is BoneAttachment:
 			if node.get_bone_name() == bone:
 				node.add_child(model)
-				if name != null:
+				if _name != null:
 					node.set_name(name)
 				return
 	var ba = BoneAttachment.new()
-	if name != null:
-		ba.set_name(name)
+	if _name != null:
+		ba.set_name(_name)
 	ba.set_bone_name(bone)
 	ba.add_child(model)
 	skel.add_child(ba)

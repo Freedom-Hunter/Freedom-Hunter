@@ -10,25 +10,25 @@ var monsters_spawn
 
 var local_player = null
 
-static func add_entity(name, local, scene, spawn):
+static func add_entity(_name, local, scene, spawn):
 	var entity = scene.instance()
-	entity.set_name(name)
+	entity.set_name(_name)
 	if networking.multiplayer:
 		entity.local = local
 	spawn.add_child(entity)
 	return entity
 
-func add_monster(name, scene):
-	return add_entity(name, networking.is_server(), scene, monsters_spawn)
+func add_monster(_name, scene):
+	return add_entity(_name, scene, monsters_spawn)
 
-func add_player(name, local):
-	var player = add_entity(name, local, player_scn, players_spawn)
-	game.get_node("hud").player_connected(name)
+func add_player(_name, local):
+	var player = add_entity(_name, local, player_scn, players_spawn)
+	game.get_node("hud").player_connected(_name)
 	return player
 
-func remove_player(name):
-	players_spawn.get_node(name).queue_free()
-	game.get_node("hud").player_disconnected(name)
+func remove_player(_name):
+	players_spawn.get_node(_name).queue_free()
+	game.get_node("hud").player_disconnected(_name)
 
 func start_game(local_player_name):
 	game = preload("res://data/scenes/game.tscn").instance()

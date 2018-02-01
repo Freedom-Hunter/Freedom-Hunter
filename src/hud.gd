@@ -116,9 +116,9 @@ func update_names():
 	var space_state = get_node("/root/game").get_world().get_direct_space_state()
 	if networking.multiplayer:
 		for player in networking.get_players():
-			var name = player.get_name()
+			var _name = player.get_name()
 			var player_pos = player.get_node("name").get_global_transform().origin
-			var label = $names.get_node(name)
+			var label = $names.get_node(_name)
 			if camera_node.is_position_behind(player_pos):
 				label.hide()
 			else:

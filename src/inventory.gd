@@ -40,9 +40,9 @@ func find_free_slot():
 		if slot.item == null:
 			return slot
 
-func find_item_by_name(name):
+func find_item_by_name(_name):
 	for item in items:
-		if item.name == name:
+		if item.name == _name:
 			return item
 
 # If slot is null will look for the first free slot

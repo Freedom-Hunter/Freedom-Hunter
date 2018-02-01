@@ -20,9 +20,9 @@ var pitch_unit = 12.5
 var camera_distance = 8
 
 func _ready():
-	target_yaw = 180 # yaw_node.get_rotation_deg().y
+	target_yaw = yaw_node.get_rotation_degrees().y
 	yaw = target_yaw
-	target_pitch = pitch_node.get_rotation_deg().x
+	target_pitch = pitch_node.get_rotation_degrees().x
 	pitch = target_pitch
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	set_process_input(true)
@@ -31,8 +31,8 @@ func _ready():
 func _process(delta):
 	yaw = lerp(yaw, target_yaw, delta * 10)
 	pitch = lerp(pitch, target_pitch, delta * 5)
-	yaw_node.set_rotation_deg(Vector3(0, yaw, 0))
-	pitch_node.set_rotation_deg(Vector3(pitch, 0, 0))
+	yaw_node.set_rotation_degrees(Vector3(0, yaw, 0))
+	pitch_node.set_rotation_degrees(Vector3(pitch, 0, 0))
 	camera_zoom(delta * 10)
 	if gyro_enabled:
 		var gyro = Input.get_gyroscope()
