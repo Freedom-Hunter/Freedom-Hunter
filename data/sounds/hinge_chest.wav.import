@@ -4,6 +4,10 @@ importer="wav"
 type="AudioStreamSample"
 path="res://.import/hinge_chest.wav-d7bb1a1771a76cc586b2ab14f9702cca.sample"
 
+[deps]
+
+source_md5="e4be0bfae580575de9352afed2ce0029"
+
 [params]
 
 force/8_bit=false

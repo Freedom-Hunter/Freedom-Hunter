@@ -5,6 +5,10 @@ type="StreamTexture"
 path.s3tc="res://.import/smoke.png-3b6bc627f6fc9efa401c7eedef6bef68.s3tc.stex"
 path.etc2="res://.import/smoke.png-3b6bc627f6fc9efa401c7eedef6bef68.etc2.stex"
 
+[deps]
+
+source_md5="22140067052e7a7580c51376f9c22d0f"
+
 [params]
 
 compress/mode=2

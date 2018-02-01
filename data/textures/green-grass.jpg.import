@@ -5,6 +5,10 @@ type="StreamTexture"
 path.s3tc="res://.import/green-grass.jpg-4c7d5ceb26d72e01c85b579409d5f178.s3tc.stex"
 path.etc2="res://.import/green-grass.jpg-4c7d5ceb26d72e01c85b579409d5f178.etc2.stex"
 
+[deps]
+
+source_md5="914c4888bcae6b1b42a81500339f1dd2"
+
 [params]
 
 compress/mode=2

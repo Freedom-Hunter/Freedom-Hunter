@@ -4,6 +4,10 @@ importer="wav"
 type="AudioStreamSample"
 path="res://.import/hit.wav-f5aecc95c86663cb378c925884f06233.sample"
 
+[deps]
+
+source_md5="57916c7af092c50d39fb3eb6fb4002f2"
+
 [params]
 
 force/8_bit=false

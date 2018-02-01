@@ -4,6 +4,10 @@ importer="scene"
 type="PackedScene"
 path="res://.import/dragon.gltf-62212cd96880635f9c1909169cbb15b7.scn"
 
+[deps]
+
+source_md5="108d3c6414b309a2dd8d7b00690709fc"
+
 [params]
 
 nodes/root_type="Spatial"
@@ -16,6 +20,7 @@ materials/keep_on_reimport=true
 meshes/compress=true
 meshes/ensure_tangents=true
 meshes/storage=0
+meshes/light_baking=0
 external_files/store_in_subdir=false
 animation/import=true
 animation/fps=15

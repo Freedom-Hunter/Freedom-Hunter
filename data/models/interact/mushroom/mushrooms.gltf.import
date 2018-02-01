@@ -4,6 +4,10 @@ importer="scene"
 type="PackedScene"
 path="res://.import/mushrooms.gltf-08b95053dffde0223840e369f69c8082.scn"
 
+[deps]
+
+source_md5="59f50e50bdd07b794d1e54204dd3a066"
+
 [params]
 
 nodes/root_type="Spatial"
@@ -16,6 +20,7 @@ materials/keep_on_reimport=false
 meshes/compress=true
 meshes/ensure_tangents=true
 meshes/storage=false
+meshes/light_baking=0
 external_files/store_in_subdir=true
 animation/import=true
 animation/fps=15

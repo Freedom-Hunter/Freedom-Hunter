@@ -4,6 +4,10 @@ importer="texture"
 type="StreamTexture"
 path="res://.import/barrel.png-a7803bb3741fff704abdc89afda1e7cd.stex"
 
+[deps]
+
+source_md5="059a2f60569cf7f5c1933a4cfd4e6546"
+
 [params]
 
 compress/mode=0

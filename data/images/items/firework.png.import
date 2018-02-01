@@ -4,6 +4,10 @@ importer="texture"
 type="StreamTexture"
 path="res://.import/firework.png-b1e0ed9f09247b2b6e35b268d6a56ad0.stex"
 
+[deps]
+
+source_md5="f5e85a08abaaa798f01f30d69a5de6b2"
+
 [params]
 
 compress/mode=0

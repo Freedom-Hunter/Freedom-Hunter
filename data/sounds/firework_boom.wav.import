@@ -4,6 +4,10 @@ importer="wav"
 type="AudioStreamSample"
 path="res://.import/firework_boom.wav-53a130c7de3b639e165957b1f1a4c9cb.sample"
 
+[deps]
+
+source_md5="d3d5c598186588cd85dd0d551ead5b34"
+
 [params]
 
 force/8_bit=false

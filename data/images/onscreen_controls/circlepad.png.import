@@ -4,6 +4,10 @@ importer="texture"
 type="StreamTexture"
 path="res://.import/circlepad.png-7a53143ddcc73afbcc7bed2895b84617.stex"
 
+[deps]
+
+source_md5="e69254d484c7dbe7da9e1b0013a006c3"
+
 [params]
 
 compress/mode=0

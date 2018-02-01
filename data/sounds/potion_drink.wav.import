@@ -4,6 +4,10 @@ importer="wav"
 type="AudioStreamSample"
 path="res://.import/potion_drink.wav-6d032e452f30a71b3334752f0b5876bb.sample"
 
+[deps]
+
+source_md5="a4cf6b9c447796e83fa2bac457359113"
+
 [params]
 
 force/8_bit=false

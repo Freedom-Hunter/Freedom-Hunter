@@ -4,6 +4,10 @@ importer="wav"
 type="AudioStreamSample"
 path="res://.import/jump.wav-7e82ca53fefd72f678c57d79fcef89e8.sample"
 
+[deps]
+
+source_md5="fd02548ecb0b7bb9ec062fad407252e7"
+
 [params]
 
 force/8_bit=false

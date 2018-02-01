@@ -4,6 +4,10 @@ importer="texture"
 type="StreamTexture"
 path="res://.import/potion.png-a408336238719c72148023d240223695.stex"
 
+[deps]
+
+source_md5="454fae5caf386fb107765d9eab321768"
+
 [params]
 
 compress/mode=0

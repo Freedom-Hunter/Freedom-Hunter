@@ -4,6 +4,10 @@ importer="texture"
 type="StreamTexture"
 path="res://.import/sharpening_type.png-e6f95e1a5ac0f2092ac43177d0ad23d8.stex"
 
+[deps]
+
+source_md5="2c8b3c8eb2cac1ce5134077eda5be527"
+
 [params]
 
 compress/mode=0

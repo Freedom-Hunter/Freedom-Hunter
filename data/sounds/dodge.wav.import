@@ -4,6 +4,10 @@ importer="wav"
 type="AudioStreamSample"
 path="res://.import/dodge.wav-30af492232242d596f2dff13bc692ffe.sample"
 
+[deps]
+
+source_md5="65ea4e2d012d339a05e23c8cdaf85246"
+
 [params]
 
 force/8_bit=false
