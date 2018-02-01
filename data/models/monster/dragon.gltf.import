@@ -6,12 +6,17 @@ path="res://.import/dragon.gltf-62212cd96880635f9c1909169cbb15b7.scn"
 
 [deps]
 
-source_md5="108d3c6414b309a2dd8d7b00690709fc"
+source_file="res://data/models/monster/dragon.gltf"
+source_md5="1c86137be17c648e9f9344fe1da57a0e"
+
+dest_files=[ "res://.import/dragon.gltf-62212cd96880635f9c1909169cbb15b7.scn" ]
+dest_md5="6a80ba8fd3271c82d2157fb9564628b2"
 
 [params]
 
 nodes/root_type="Spatial"
 nodes/root_name="Scene Root"
+nodes/root_scale=1.0
 nodes/custom_script=""
 nodes/storage=0
 materials/location=1
@@ -21,11 +26,13 @@ meshes/compress=true
 meshes/ensure_tangents=true
 meshes/storage=0
 meshes/light_baking=0
+meshes/lightmap_texel_size=0.1
 external_files/store_in_subdir=false
 animation/import=true
 animation/fps=15
 animation/filter_script=""
 animation/storage=false
+animation/keep_custom_tracks=false
 animation/optimizer/enabled=true
 animation/optimizer/max_linear_error=0.05
 animation/optimizer/max_angular_error=0.01

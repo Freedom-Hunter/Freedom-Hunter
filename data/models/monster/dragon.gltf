@@ -139,7 +139,7 @@
     ], 
     "materials" : [
         {
-            "name" : "1 - Default", 
+            "name" : "light", 
             "pbrMetallicRoughness" : {
                 "baseColorFactor" : [
                     0.1913725523855172, 
@@ -151,7 +151,7 @@
             }
         }, 
         {
-            "name" : "2 - Default", 
+            "name" : "dark", 
             "pbrMetallicRoughness" : {
                 "baseColorFactor" : [
                     0.08156862976504309, 
