@@ -22,9 +22,6 @@ func init():
 	update_items()
 	global.local_player.inventory.connect("modified", self, "update_items")
 
-	set_physics_process(true)
-	set_process_input(true)
-
 func _input(event):
 	if networking.multiplayer:
 		if event.is_action_pressed("players_list"):
@@ -42,6 +39,8 @@ func _physics_process(delta):
 	show_interact()
 	update_names()
 	update_debug()
+	if notify_queue.size() > 0 and not $notification/animation.is_playing():
+		play_notify(notify_queue.pop_front())
 
 func update_values():
 	$hp.set_value(global.local_player.hp)
@@ -148,15 +147,9 @@ func play_notify(text):
 	$notification/text.text = text
 	$notification/animation.play("show")
 	yield($notification/animation, "animation_finished")
-	if not notify_queue.empty():
-		notify_queue.pop_front()
-		if not notify_queue.empty():
-			play_notify(notify_queue[0])
 
 func notify(text):
 	notify_queue.append(text)
-	if not $notification/animation.is_playing():
-		play_notify(notify_queue[0])
 
 func respawn():
 	$respawn.popup()
