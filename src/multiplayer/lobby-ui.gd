@@ -13,7 +13,6 @@ onready var username_node = get_node("header/vbox/input/username")
 onready var server_start = get_node("direct/vbox/server/start")
 onready var client_connect = get_node("direct/vbox/client/connect")
 onready var announce_node = get_node("direct/vbox/server/announce")
-onready var refresh_timer = get_node("lobby/refresh")
 
 func show():
 	.show()
@@ -26,14 +25,14 @@ func show():
 	request_servers_list()
 	server_validate_input()
 	client_validate_input()
-	refresh_timer.start()
+	$lobby/refresh.start()
 	set_process_input(true)
 
 func hide():
 	.hide()
 	$"../mode".show()
 	OS.set_window_title("Freedom Hunter")
-	refresh_timer.stop()
+	$lobby/refresh.stop()
 	set_process_input(false)
 
 func is_valid_port(port):
@@ -86,10 +85,14 @@ func client_validate_input(signal_args=null):
 
 func request_servers_list():  # called every 10 seconds by refresh timer
 	networking.lobby.servers_list(self, "_on_servers_list_received")
+	if $lobby/refresh.is_stopped():
+		$lobby/refresh.start()
 
 func _on_servers_list_received(result, response_code, headers, body):
 	networking.lobby.http.disconnect("request_completed", self, "_on_servers_list_received")
-	if result != HTTPRequest.RESULT_SUCCESS and response_code != 200:
+	if result != HTTPRequest.RESULT_SUCCESS or response_code != 200:
+		$servers_list_error_dialog.popup_centered()
+		$lobby/refresh.stop()
 		printerr("Can't retrieve servers list")
 		return
 	var servers = str2var(body.get_string_from_utf8())
