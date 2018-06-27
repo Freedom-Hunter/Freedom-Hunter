@@ -6,9 +6,9 @@ onready var networking = get_node("/root/networking")
 const MAX_SLOPE_ANGLE = deg2rad(40)
 const MAX_STAMINA = 200
 
-var hp = 0
+sync var hp = 0
 var max_hp = 0
-var regenerable_hp = 0
+sync var regenerable_hp = 0
 var stamina = 0
 var max_stamina = 0
 
@@ -24,7 +24,6 @@ var jumping = false
 var dodging = false
 var running = false
 var dead = false
-var local = true  # for multiplayer
 
 var interpolation_factor  # how fast we interpolate rotations
 
@@ -42,8 +41,11 @@ func _ready():
 	animation_node = find_node("entity_animation")
 	animation_node.connect("animation_finished", self, "_on_animation_finished")
 	audio_node = find_node("entity_audio")
+	rset_config("transform", MultiplayerAPI.RPC_MODE_REMOTE)
 
 func move_entity(delta, gravity=true):
+	var ti = get_global_transform()
+
 	velocity.x = direction.x
 	if gravity:
 		velocity.y += global.gravity * delta
@@ -56,7 +58,7 @@ func move_entity(delta, gravity=true):
 		velocity.x *= 3
 
 	look_ahead(delta)
-	var remainder = move_and_slide(velocity, Vector3(0, 1, 0), 0.05, 4, MAX_SLOPE_ANGLE)
+	var remainder = move_and_slide(velocity, Vector3(0, 1, 0), true, 0.05, 4, MAX_SLOPE_ANGLE)
 
 	if is_on_floor():
 		jumping = false
@@ -64,6 +66,14 @@ func move_entity(delta, gravity=true):
 		if fall > 0:
 			damage(fall, 0.5)
 		velocity.y = 0
+
+	if get_tree().has_network_peer() and is_network_master():
+		var tf = get_global_transform()
+		var dist = tf.origin - ti.origin
+		var yaw_diff = abs(atan2(dist.x, dist.z))
+
+		if dist.length() > 0.01 and yaw_diff > 0.01:
+			rset_unreliable("transform", tf)
 
 func look_ahead(delta):
 	if direction.length() != 0:
@@ -79,22 +89,25 @@ func _on_animation_finished(anim):
 func get_pos():
 	return get_global_transform().origin
 
-func die():
+master func die():
 	if not dead:
-		print("%s died" % get_name())
-		dead = true
-		hp = 0
-		regenerable_hp = 0
-		velocity = Vector3()
-		direction = Vector3()
-		set_process(false)
-		animation_node.disconnect("animation_finished", self, "_on_animation_finished")
-		if networking.multiplayer and local:
-			networking.peer.local_entity_died(get_name())
+		if get_tree().has_network_peer():
+			rpc("died")
+		else:
+			died()
 	else:
 		print(get_name(), " is already dead")
 
-func respawn():
+sync func died():
+	print("%s died" % get_name())
+	dead = true
+	hp = 0
+	regenerable_hp = 0
+	velocity = Vector3()
+	direction = Vector3()
+	set_process(false)
+
+slave func respawn():
 	set_transform(Transform())
 	hp = max_hp
 	regenerable_hp = 0
@@ -103,9 +116,8 @@ func respawn():
 	dodging = false
 	jumping = false
 	set_process(true)
-	if networking.multiplayer and local:
-		networking.peer.local_entity_respawn(get_name())
-	animation_node.connect("animation_finished", self, "_on_animation_finished")
+	if get_tree().has_network_peer() and is_network_master():
+		rpc("respawn")
 
 func get_defence():
 	return 0
@@ -114,22 +126,21 @@ func damage(dmg, reg, weapon=null, entity=null):
 	if hp > 0:
 		time_hit = 0
 		var defence = get_defence()
-		hp -= (dmg - defence)
-		regenerable_hp = int(hp + dmg * reg)
+		rset("hp", hp - dmg + defence)
+		rset("regenerable_hp", int(hp + dmg * reg))
 		if weapon != null and entity != null:
 			print("%s was hit by %s with %s and lost %s - %s = %s health points. HP: %s (+%s)" % [name, entity.name, weapon.name, dmg, defence, dmg - defence, hp, regenerable_hp])
 		else:
 			print("%s lost %s - %s = %s health points. HP: %s (+%s)" % [name, dmg, defence, dmg - defence, hp, regenerable_hp])
 		if hp <= 0:
 			die()
-		elif networking.multiplayer and local:
-			networking.peer.local_entity_damage(get_name(), hp, regenerable_hp)
+	else:
+		prints(get_name(), "is already dead")
 
-func attack(attack_name):
-	if animation_node.has_animation(attack_name) and (not animation_node.is_playing() or animation_node.get_current_animation() != attack_name):
-		if networking.multiplayer and local:
-			networking.peer.local_entity_attack(get_name(), attack_name)
-		animation_node.play(attack_name)
+sync func attack(attack_name):
+	if animation_node.has_animation(attack_name):
+		if not animation_node.is_playing() or animation_node.get_current_animation() != attack_name:
+			animation_node.play(attack_name)
 
 func increase_max_stamina(amount):
 	if max_stamina + amount <= MAX_STAMINA:

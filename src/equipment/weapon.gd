@@ -89,6 +89,6 @@ func get_weapon_damage(body, impact):
 
 func _on_sword_body_enter(body):
 	if body != player and body is Entity:
-		body.damage(get_weapon_damage(body, null), 0.0)
+		body.damage(get_weapon_damage(body, null), 0.0, self, player)
 		$audio.play()
 		blunt(1)

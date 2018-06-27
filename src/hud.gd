@@ -23,7 +23,7 @@ func init():
 	global.local_player.inventory.connect("modified", self, "update_items")
 
 func _input(event):
-	if networking.multiplayer:
+	if get_tree().has_network_peer():
 		if event.is_action_pressed("players_list"):
 			$players_list.show()
 		elif event.is_action_released("players_list"):
@@ -113,7 +113,7 @@ func player_disconnected(player_name):
 func update_names():
 	var camera_pos = global.local_player.camera_node.get_global_transform().origin
 	var space_state = get_node("/root/game").get_world().get_direct_space_state()
-	if networking.multiplayer:
+	if get_tree().has_network_peer():
 		for player in networking.get_players():
 			var _name = player.get_name()
 			var player_pos = player.get_node("name").get_global_transform().origin
@@ -139,7 +139,7 @@ func update_names():
 func update_debug():
 	var pos = global.local_player.get_translation()
 	var out = "POS: %.2f %.2f %.2f" % [pos.x, pos.y, pos.z]
-	if networking.multiplayer and not networking.is_connected():
+	if not networking.is_client_connected():
 		out += "\nClient is not connected!"
 	$debug.text = out
 
@@ -151,7 +151,7 @@ func play_notify(text):
 func notify(text):
 	notify_queue.append(text)
 
-func respawn():
+func prompt_respawn():
 	$respawn.popup()
 	get_viewport().get_camera().set_process_input(false)
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

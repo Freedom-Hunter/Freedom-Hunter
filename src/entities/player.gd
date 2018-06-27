@@ -102,7 +102,7 @@ func add_item(item):
 	item = item.clone()
 	item.player = self
 	var remainder = inventory.add_item(item)
-	if local:
+	if not get_tree().has_network_peer() or is_network_master():
 		if remainder > 0:
 			hud.notify("You can't carry more than %d %s" % [item.max_quantity, item.name])
 		else:
@@ -126,15 +126,15 @@ func get_defence():
 			defence += piece.strength
 	return defence
 
-func die():
-	.die()
+sync func died():
+	.died()
 	animation_node.play("death")
 	audio(preload("res://data/sounds/hit.wav"))
 	set_process(false)
 	set_physics_process(false)
 	set_process_input(false)
-	if local:
-		hud.respawn()
+	if not get_tree().has_network_peer() or is_network_master():
+		hud.prompt_respawn()
 
 func respawn():
 	.respawn()
@@ -146,27 +146,24 @@ func pause_player():
 	set_physics_process(false)
 	set_process(false)
 	animation_node.play("idle")
-	if local:
+	if not get_tree().has_network_peer() or is_network_master():
 		camera_node.set_process_input(false)
 
 func resume_player():
-	if local:
-		set_process_input(true)
-		set_physics_process(true)
-		set_process(true)
-		camera_node.set_process_input(true)
+	var enable = not get_tree().has_network_peer() or is_network_master()
+	prints(get_name(), enable)
+	set_process_input(enable)
+	set_physics_process(enable)
+	set_process(true)
+	camera_node.set_process_input(enable)
 
 func _process(delta):
 	if dead:
 		return
 	var anim = animation_node.get_current_animation()
 	var playing = animation_node.is_playing()
-	if anim.find("attack") != -1 and playing:
+	if playing and anim.find("attack") != -1:
 		return
-	if Input.is_action_pressed("player_attack_left"):
-		attack("left_attack_0")
-	if Input.is_action_pressed("player_attack_right"):
-		attack("right_attack_0")
 	if direction.length() != 0:
 		if dodging:
 			if anim != "dodge" or not playing:
@@ -231,6 +228,11 @@ func _physics_process(delta):
 
 	# Player collision and physics
 	move_entity(delta)
+
+	if Input.is_action_pressed("player_attack_left"):
+		attack("left_attack_0")
+	if Input.is_action_pressed("player_attack_right"):
+		attack("right_attack_0")
 
 	# Camera follows the player
 	yaw_node.set_translation(get_translation() + Vector3(0, camera_offset, 0))

@@ -22,6 +22,7 @@ func show():
 		load_config()
 	else:
 		print("Error %s occurred while loading config file." % err)
+	networking.init_lobby()
 	request_servers_list()
 	server_validate_input()
 	client_validate_input()
@@ -165,7 +166,7 @@ func save_config():
 		printerr("Error %s occurred while saving configuration file." % err)
 
 func _input(event):
-	if event.is_action_pressed("ui_cancel") and not get_node("..").mode_node.is_visible():
+	if event.is_action_pressed("ui_cancel") and not get_node("../mode").is_visible():
 		hide()
 		accept_event()
 
@@ -181,5 +182,24 @@ func _on_start_pressed():
 func _on_connect_pressed():
 	# Client
 	save_config()
-	networking.client_start(get_valid_client_host(), get_valid_client_port(), get_valid_username())
+	var ip = get_valid_client_host()
+	var port = get_valid_client_port()
+	networking.client_start(ip, port, get_valid_username())
+	for child in get_children():
+		child.hide()
+	$connecting.popup_centered()
+	$lobby/refresh.stop()
+	get_tree().connect("connection_failed", self, "_connection_failed", [ip, port])
+	get_tree().connect("connected_to_server", self, "_connected_to_server")
+
+func _connection_failed(ip, port):
+	for child in get_children():
+		child.show()
+	$connecting.hide()
+	$lobby/refresh.start()
+	$network_error.dialog_text = "Connection to %s:%s failed" % [ip, port]
+	$network_error.popup_centered()
+	get_tree().disconnect("connection_failed", self, "_connection_failed")
+
+func _connected_to_server():
 	get_parent().queue_free()

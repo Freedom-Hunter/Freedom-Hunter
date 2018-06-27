@@ -2,7 +2,7 @@ extends Node
 
 var gravity = -10
 
-var player_scn = preload("res://data/scenes/player.tscn")
+const PlayerScene = preload("res://data/scenes/player.tscn")
 
 var game
 var players_spawn
@@ -10,19 +10,23 @@ var monsters_spawn
 
 var local_player = null
 
-static func add_entity(_name, local, scene, spawn):
+static func add_entity(_name, scene, spawn, id=1):
 	var entity = scene.instance()
+	entity.set_network_master(id)
 	entity.set_name(_name)
-	if networking.multiplayer:
-		entity.local = local
 	spawn.add_child(entity)
 	return entity
 
 func add_monster(_name, scene):
 	return add_entity(_name, scene, monsters_spawn)
 
-func add_player(_name, local):
-	var player = add_entity(_name, local, player_scn, players_spawn)
+func add_player(_name, id=1):
+	var player = add_entity(_name, PlayerScene, players_spawn, id)
+	if id == networking.unique_id:
+		prints(_name, "is local player")
+		local_player = player
+	else:
+		prints(_name, "is remote player")
 	game.get_node("hud").player_connected(_name)
 	return player
 
@@ -37,13 +41,14 @@ func start_game(local_player_name):
 	monsters_spawn = game.get_node("monster_spawn")
 	add_monster("Dragon", preload("res://data/scenes/monsters/dragon.tscn"))
 	if local_player_name != null:
-		local_player = add_player(local_player_name, true)
+		local_player = add_player(local_player_name, networking.unique_id)
 		game.get_node("hud").init()
 	get_tree().set_current_scene(game)
 	return game
 
 func stop_game():
-	game.queue_free()
+	if game != null:
+		game.queue_free()
 	get_node("/root/networking").stop()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_tree().set_pause(false)
@@ -52,12 +57,6 @@ func stop_game():
 func exit_clean():
 	var networking = get_node("/root/networking")
 	networking.stop()
-	if networking.lobby.player_id != null:
-		networking.lobby.unregister_player()
-		yield(networking.lobby.http, "request_completed")
-	if networking.lobby.server_id != null:
-		networking.lobby.unregister_server()
-		yield(networking.lobby.http, "request_completed")
 	get_tree().quit()
 
 func _notification(what):
