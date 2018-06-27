@@ -80,7 +80,10 @@ func _physics_process(delta):
 			direction = vector_to_target.normalized() * SPEED
 		else:
 			direction = vector_to_target.normalized() * 0.01
-			rpc("attack", "attack")
+			if get_tree().has_network_peer():
+				rpc("attack", "attack")
+			else:
+				attack("attack")
 	else:
 		combat = false
 		if random_target == null or (random_target - Vector3(origin.x, 0, origin.z)).length() < 2:

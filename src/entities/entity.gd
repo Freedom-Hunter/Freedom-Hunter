@@ -6,9 +6,9 @@ onready var networking = get_node("/root/networking")
 const MAX_SLOPE_ANGLE = deg2rad(40)
 const MAX_STAMINA = 200
 
-sync var hp = 0
+slave var hp = 0
 var max_hp = 0
-sync var regenerable_hp = 0
+slave var regenerable_hp = 0
 var stamina = 0
 var max_stamina = 0
 
@@ -126,8 +126,11 @@ func damage(dmg, reg, weapon=null, entity=null):
 	if hp > 0:
 		time_hit = 0
 		var defence = get_defence()
-		rset("hp", hp - dmg + defence)
-		rset("regenerable_hp", int(hp + dmg * reg))
+		hp -= dmg - defence
+		regenerable_hp = int(hp + dmg * reg)
+		if get_tree().has_network_peer():
+			rset("hp", hp)
+			rset("regenerable_hp", regenerable_hp)
 		if weapon != null and entity != null:
 			print("%s was hit by %s with %s and lost %s - %s = %s health points. HP: %s (+%s)" % [name, entity.name, weapon.name, dmg, defence, dmg - defence, hp, regenerable_hp])
 		else:
