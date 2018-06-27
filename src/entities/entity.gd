@@ -110,13 +110,16 @@ func respawn():
 func get_defence():
 	return 0
 
-func damage(dmg, reg):
+func damage(dmg, reg, weapon=null, entity=null):
 	if hp > 0:
 		time_hit = 0
 		var defence = get_defence()
 		hp -= (dmg - defence)
 		regenerable_hp = int(hp + dmg * reg)
-		print("%s damaged by %s - %s = %s" % [get_name(), dmg, defence, dmg - defence])
+		if weapon != null and entity != null:
+			print("%s was hit by %s with %s and lost %s - %s = %s health points. HP: %s (+%s)" % [name, entity.name, weapon.name, dmg, defence, dmg - defence, hp, regenerable_hp])
+		else:
+			print("%s lost %s - %s = %s health points. HP: %s (+%s)" % [name, dmg, defence, dmg - defence, hp, regenerable_hp])
 		if hp <= 0:
 			die()
 		elif networking.multiplayer and local:
