@@ -7,10 +7,7 @@ path="res://.import/male.dae-f29f3466b2673a1bc5303043fbdb1d43.scn"
 [deps]
 
 source_file="res://data/models/player/male.dae"
-source_md5="34a1cc90d17ad7359dc910b876f09a99"
-
 dest_files=[ "res://.import/male.dae-f29f3466b2673a1bc5303043fbdb1d43.scn" ]
-dest_md5="89eb6efbd64d9c62429399d1a5536bd0"
 
 [params]
 

@@ -6,7 +6,8 @@ path="res://.import/background.png-fd4ddaf47a25dc56e666d6eff2abea75.stex"
 
 [deps]
 
-source_md5="b57bf0e86508178ad19b43ab4cd47652"
+source_file="res://data/images/main_menu/background/background.png"
+dest_files=[ "res://.import/background.png-fd4ddaf47a25dc56e666d6eff2abea75.stex" ]
 
 [params]
 

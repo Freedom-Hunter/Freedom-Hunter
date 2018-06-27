@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/hit.wav-f5aecc95c86663cb378c925884f06233.sample"
+path="res://.import/dragon-roar.wav-278f7e9d9dc6d47bd5d52d2926b4a48a.sample"
 
 [deps]
 
-source_file="res://data/sounds/hit.wav"
-dest_files=[ "res://.import/hit.wav-f5aecc95c86663cb378c925884f06233.sample" ]
+source_file="res://data/sounds/dragon-roar.wav"
+dest_files=[ "res://.import/dragon-roar.wav-278f7e9d9dc6d47bd5d52d2926b4a48a.sample" ]
 
 [params]
 

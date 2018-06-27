@@ -6,7 +6,8 @@ path="res://.import/top_bar.png-f5117f53c78f7d571c4869dfb827acde.stex"
 
 [deps]
 
-source_md5="0b87397379a04e74143546d34caf23b1"
+source_file="res://data/images/main_menu/background/top_bar.png"
+dest_files=[ "res://.import/top_bar.png-f5117f53c78f7d571c4869dfb827acde.stex" ]
 
 [params]
 

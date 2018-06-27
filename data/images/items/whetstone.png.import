@@ -6,7 +6,8 @@ path="res://.import/whetstone.png-f222b8e410a762fc29f3429bea42eedf.stex"
 
 [deps]
 
-source_md5="f0117df04e61ef4d4bb7f20b196dbec3"
+source_file="res://data/images/items/whetstone.png"
+dest_files=[ "res://.import/whetstone.png-f222b8e410a762fc29f3429bea42eedf.stex" ]
 
 [params]
 

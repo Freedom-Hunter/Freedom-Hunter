@@ -7,7 +7,8 @@ path.etc2="res://.import/barrel_wooden_new_1k_nor.png-1c7eed116ecb7cdb489cb784a1
 
 [deps]
 
-source_md5="1ab8705d1068830cb0eb889e75d79edc"
+source_file="res://data/models/items/barrel/barrel_wooden_new_1k_nor.png"
+dest_files=[ "res://.import/barrel_wooden_new_1k_nor.png-1c7eed116ecb7cdb489cb784a10e7009.s3tc.stex", "res://.import/barrel_wooden_new_1k_nor.png-1c7eed116ecb7cdb489cb784a10e7009.etc2.stex" ]
 
 [params]
 

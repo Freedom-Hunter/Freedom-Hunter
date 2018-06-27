@@ -6,7 +6,8 @@ path="res://.import/firework.png-11ba5b0b4ac239bec05a1c357519424c.stex"
 
 [deps]
 
-source_md5="1f6c9aa23273b46542e24a09148453d0"
+source_file="res://data/models/items/firework/firework.png"
+dest_files=[ "res://.import/firework.png-11ba5b0b4ac239bec05a1c357519424c.stex" ]
 
 [params]
 

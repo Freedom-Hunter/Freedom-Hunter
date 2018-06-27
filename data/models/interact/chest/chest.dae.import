@@ -7,10 +7,7 @@ path="res://.import/chest.dae-0cd8a68f7b9477077d81d5dbfa565295.scn"
 [deps]
 
 source_file="res://data/models/interact/chest/chest.dae"
-source_md5="caf79d0c4ee9f3b4719ff090d042f224"
-
 dest_files=[ "res://.import/chest.dae-0cd8a68f7b9477077d81d5dbfa565295.scn" ]
-dest_md5="5b3c1c7713c2d0885fb7174f787a8d4a"
 
 [params]
 

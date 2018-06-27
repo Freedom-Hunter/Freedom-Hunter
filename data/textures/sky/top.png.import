@@ -6,7 +6,8 @@ path="res://.import/top.png-6751f21bbbfdbf1bd299015f21f1b990.stex"
 
 [deps]
 
-source_md5="ea4790bbbedf2585c2bce16ca9019de2"
+source_file="res://data/textures/sky/top.png"
+dest_files=[ "res://.import/top.png-6751f21bbbfdbf1bd299015f21f1b990.stex" ]
 
 [params]
 

@@ -6,7 +6,8 @@ path="res://.import/specular.png-763e92cf000d8fa5bf079559ba1f5dd0.stex"
 
 [deps]
 
-source_md5="8680086ee66df1f2b9ab5550c8884b80"
+source_file="res://data/models/items/big-bomb/specular.png"
+dest_files=[ "res://.import/specular.png-763e92cf000d8fa5bf079559ba1f5dd0.stex" ]
 
 [params]
 

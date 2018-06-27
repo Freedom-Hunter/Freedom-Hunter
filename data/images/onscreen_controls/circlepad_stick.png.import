@@ -6,7 +6,8 @@ path="res://.import/circlepad_stick.png-951fbdd2c7cd95e7bc60ed978788214a.stex"
 
 [deps]
 
-source_md5="1a7e18ba0e5232612c5f463500a1b70a"
+source_file="res://data/images/onscreen_controls/circlepad_stick.png"
+dest_files=[ "res://.import/circlepad_stick.png-951fbdd2c7cd95e7bc60ed978788214a.stex" ]
 
 [params]
 

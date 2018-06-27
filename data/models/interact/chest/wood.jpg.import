@@ -8,10 +8,7 @@ path.etc2="res://.import/wood.jpg-d6d0b134a9ff9315d40b3d2470ec837b.etc2.stex"
 [deps]
 
 source_file="res://data/models/interact/chest/wood.jpg"
-source_md5="387c5167799f8ae1ea3cb3f6ba2112f1"
-
 dest_files=[ "res://.import/wood.jpg-d6d0b134a9ff9315d40b3d2470ec837b.s3tc.stex", "res://.import/wood.jpg-d6d0b134a9ff9315d40b3d2470ec837b.etc2.stex" ]
-dest_md5="81f1fb644c96ff6bdf1db7e5f5c63172"
 
 [params]
 

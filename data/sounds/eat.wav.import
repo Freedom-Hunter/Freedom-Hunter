@@ -6,7 +6,8 @@ path="res://.import/eat.wav-6f1a9cce29936e135b523401601fed18.sample"
 
 [deps]
 
-source_md5="6d50f98198d66fe35ca69f2309b6b840"
+source_file="res://data/sounds/eat.wav"
+dest_files=[ "res://.import/eat.wav-6f1a9cce29936e135b523401601fed18.sample" ]
 
 [params]
 

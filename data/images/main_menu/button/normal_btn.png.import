@@ -6,7 +6,8 @@ path="res://.import/normal_btn.png-c9cf18961795a2ee0e6ac4db392fdd2c.stex"
 
 [deps]
 
-source_md5="9e64eef4a90a477646e96f41f7367512"
+source_file="res://data/images/main_menu/button/normal_btn.png"
+dest_files=[ "res://.import/normal_btn.png-c9cf18961795a2ee0e6ac4db392fdd2c.stex" ]
 
 [params]
 

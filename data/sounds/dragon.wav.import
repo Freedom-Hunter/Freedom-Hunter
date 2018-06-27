@@ -6,7 +6,8 @@ path="res://.import/dragon.wav-f8f4b85597502249bb15a1c0c2f2d4e9.sample"
 
 [deps]
 
-source_md5="227d98f8286c6d5e8290e3e4a8e03818"
+source_file="res://data/sounds/dragon.wav"
+dest_files=[ "res://.import/dragon.wav-f8f4b85597502249bb15a1c0c2f2d4e9.sample" ]
 
 [params]
 

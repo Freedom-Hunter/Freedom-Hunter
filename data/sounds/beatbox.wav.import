@@ -6,7 +6,8 @@ path="res://.import/beatbox.wav-546ade6400fc10c8458a990adad21350.sample"
 
 [deps]
 
-source_md5="853a9267a7ac8f44b382f87faf7758b1"
+source_file="res://data/sounds/beatbox.wav"
+dest_files=[ "res://.import/beatbox.wav-546ade6400fc10c8458a990adad21350.sample" ]
 
 [params]
 

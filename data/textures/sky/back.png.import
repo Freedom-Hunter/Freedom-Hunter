@@ -6,7 +6,8 @@ path="res://.import/back.png-46dcaac3dbf5b1a05c6293be4ee56afa.stex"
 
 [deps]
 
-source_md5="c6e9d587b7a35fd3eb674ec3d5e1a224"
+source_file="res://data/textures/sky/back.png"
+dest_files=[ "res://.import/back.png-46dcaac3dbf5b1a05c6293be4ee56afa.stex" ]
 
 [params]
 

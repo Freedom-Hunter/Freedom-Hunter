@@ -6,7 +6,8 @@ path="res://.import/meat.png-21224799e2aabd6246d8bc6d8be9c02a.stex"
 
 [deps]
 
-source_md5="e27b2aa5b60b3ff009ba3ad445d7820d"
+source_file="res://data/images/items/meat.png"
+dest_files=[ "res://.import/meat.png-21224799e2aabd6246d8bc6d8be9c02a.stex" ]
 
 [params]
 

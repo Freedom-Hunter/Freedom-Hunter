@@ -6,7 +6,8 @@ path="res://.import/jump.wav-7e82ca53fefd72f678c57d79fcef89e8.sample"
 
 [deps]
 
-source_md5="fd02548ecb0b7bb9ec062fad407252e7"
+source_file="res://data/sounds/jump.wav"
+dest_files=[ "res://.import/jump.wav-7e82ca53fefd72f678c57d79fcef89e8.sample" ]
 
 [params]
 

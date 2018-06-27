@@ -6,7 +6,8 @@ path="res://.import/dodge.wav-30af492232242d596f2dff13bc692ffe.sample"
 
 [deps]
 
-source_md5="65ea4e2d012d339a05e23c8cdaf85246"
+source_file="res://data/sounds/dodge.wav"
+dest_files=[ "res://.import/dodge.wav-30af492232242d596f2dff13bc692ffe.sample" ]
 
 [params]
 

@@ -6,7 +6,8 @@ path="res://.import/null.png-d35c4d7c8d13263062f0ef922508d75f.stex"
 
 [deps]
 
-source_md5="aa8dab5c79317c7b6e2040eb321eb1fa"
+source_file="res://data/images/items/null.png"
+dest_files=[ "res://.import/null.png-d35c4d7c8d13263062f0ef922508d75f.stex" ]
 
 [params]
 

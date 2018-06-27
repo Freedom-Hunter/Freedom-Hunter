@@ -6,7 +6,8 @@ path="res://.import/normal.png-245e9aacbe8bc0386d83a8b9c1b3a4c0.stex"
 
 [deps]
 
-source_md5="14c31444fa98caa713cfad79954ad13a"
+source_file="res://data/models/items/big-bomb/normal.png"
+dest_files=[ "res://.import/normal.png-245e9aacbe8bc0386d83a8b9c1b3a4c0.stex" ]
 
 [params]
 

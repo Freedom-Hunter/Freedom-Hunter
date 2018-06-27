@@ -6,12 +6,14 @@ path="res://.import/mushrooms.gltf-08b95053dffde0223840e369f69c8082.scn"
 
 [deps]
 
-source_md5="59f50e50bdd07b794d1e54204dd3a066"
+source_file="res://data/models/interact/mushroom/mushrooms.gltf"
+dest_files=[ "res://.import/mushrooms.gltf-08b95053dffde0223840e369f69c8082.scn" ]
 
 [params]
 
 nodes/root_type="Spatial"
 nodes/root_name="Scene Root"
+nodes/root_scale=1.0
 nodes/custom_script=""
 nodes/storage=0
 materials/location=0
@@ -21,11 +23,13 @@ meshes/compress=true
 meshes/ensure_tangents=true
 meshes/storage=false
 meshes/light_baking=0
+meshes/lightmap_texel_size=0.1
 external_files/store_in_subdir=true
 animation/import=true
 animation/fps=15
 animation/filter_script=""
 animation/storage=true
+animation/keep_custom_tracks=false
 animation/optimizer/enabled=true
 animation/optimizer/max_linear_error=0.05
 animation/optimizer/max_angular_error=0.01

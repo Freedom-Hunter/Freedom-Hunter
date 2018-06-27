@@ -6,7 +6,8 @@ path="res://.import/slot_full.png-91c2903a67150a20b367e4c3101b488c.stex"
 
 [deps]
 
-source_md5="1a6adccd239522d01ee4e727fab6d147"
+source_file="res://data/images/inventory/slot_full.png"
+dest_files=[ "res://.import/slot_full.png-91c2903a67150a20b367e4c3101b488c.stex" ]
 
 [params]
 

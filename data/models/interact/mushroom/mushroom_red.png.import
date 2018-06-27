@@ -7,7 +7,8 @@ path.etc2="res://.import/mushroom_red.png-30ee100f92dc372896addb1bb7375249.etc2.
 
 [deps]
 
-source_md5="d6b9f1716c3d0874d427cb5607c5a2e0"
+source_file="res://data/models/interact/mushroom/mushroom_red.png"
+dest_files=[ "res://.import/mushroom_red.png-30ee100f92dc372896addb1bb7375249.s3tc.stex", "res://.import/mushroom_red.png-30ee100f92dc372896addb1bb7375249.etc2.stex" ]
 
 [params]
 

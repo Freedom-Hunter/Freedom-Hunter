@@ -6,7 +6,8 @@ path="res://.import/firework_launch.wav-258c08a71b2df87007c8069283fcd289.sample"
 
 [deps]
 
-source_md5="613a5cbae06c4d63bc9d4f5622682e25"
+source_file="res://data/sounds/firework_launch.wav"
+dest_files=[ "res://.import/firework_launch.wav-258c08a71b2df87007c8069283fcd289.sample" ]
 
 [params]
 
