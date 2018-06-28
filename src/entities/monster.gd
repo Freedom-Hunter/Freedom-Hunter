@@ -39,6 +39,7 @@ sync func died():
 	$view.disconnect("body_entered", self, "_on_view_body_entered")
 	$view.disconnect("body_exited", self, "_on_view_body_exited")
 	animation_node.disconnect("animation_finished", self, "_on_animation_finished")
+	$collision.disabled = true
 	call_deferred("set_script", preload("res://src/interact/monster drop.gd"))
 
 func sort_by_distance(a, b):

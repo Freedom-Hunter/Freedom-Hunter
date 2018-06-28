@@ -17,7 +17,6 @@ func init_lobby():
 	lobby = Lobby.new()
 	lobby.set_name("lobby")
 	add_child(lobby)
-	print_stack()
 
 func server_start(port, username=null, host=null):
 	peer = NetworkedMultiplayerENet.new()
@@ -42,6 +41,8 @@ func _player_disconnected(id):
 		print("Player %s (ID %d) disconnected" % [players[id].get_name(), id])
 		global.remove_player(players[id].get_name())
 		players.erase(id)
+	else:
+		print("Peer ID %d disconnected" % id)
 
 func _peer_connected(id):
 	print("Peer ID %d connected" % id)
@@ -56,50 +57,54 @@ func client_start(ip, port, username):
 	get_tree().connect("connection_failed", self, "_connection_failed", [ip, port])
 	get_tree().connect("server_disconnected", self, "_server_disconnected")
 
-func _disconnect_signals():
-	get_tree().disconnect("connected_to_server", self, "_connected_to_server")
-	get_tree().disconnect("connection_failed", self, "_connection_failed")
-
 func _connected_to_server(username): # client
-	_disconnect_signals()
 	global.start_game(username)
 	players[unique_id] = global.local_player
 	print("Client %d connected to server" % unique_id)
-	rpc("register_player", unique_id, username)
+	rpc("register_player", unique_id, username, null)
 
 func _connection_failed(ip, port):
-	_disconnect_signals()
 	stop()
 
 func _server_disconnected():
-	stop()
-	global.stop_game()
-	printerr("Server disconnected")
+	stop_and_report_error("Server disconnected.")
 
-remote func register_player(id, username):
+remote func register_player(id, username, transform):
 	# If I'm the server, let the new guy know about existing players
 	if get_tree().is_network_server():
 		if global.game.get_node("player_spawn").has_node(username):
 			rpc_id(id, "_register_error", "Username is in use")
+			peer.disconnect_peer(id)
+			print('Peer ID %d username "%s" already in use' % [id, username])
 			return
-		players[id] = global.add_player(username, id)
 		# Send the info of existing players
 		for peer_id in players:
-			if peer_id != id:
-				rpc_id(id, "register_player", peer_id, players[peer_id].get_name())
-				prints("send register_player", players[peer_id].get_name())
+			var player = players[peer_id]
+			rpc_id(id, "register_player", peer_id, player.name, player.transform)
+			print("Sending info about %s to client %d" % [player.name, peer_id])
+		players[id] = global.add_player(username, id, transform)
 	else:
-		players[id] = global.add_player(username, id)
+		players[id] = global.add_player(username, id, transform)
 
 remote func _register_error(reason):
-	print('Server refused connection: "%s"' % reason)
-	global.stop_game()
-	stop()
+	stop_and_report_error('Server refused connection: "%s"' % reason)
 
 func stop():
-	peer = null
+	if peer != null:
+		peer.close_connection()
+		peer = null
+	players = {}
 	get_tree().set_network_peer(null)
 	unique_id = 1
+
+func stop_and_report_error(message):
+	global.stop_game()
+	# Wait for change_scene(main_menu) to complete (called by global.stop_game)
+	yield(get_tree(), "tree_changed")
+	yield(get_tree(), "idle_frame")
+	# Now main_menu is really ready
+	$"/root/main_menu/multiplayer".show()
+	$"/root/main_menu/multiplayer".report_error(message)
 
 func is_server():
 	return get_tree().has_network_peer() and get_tree().is_network_server()

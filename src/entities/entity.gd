@@ -41,10 +41,10 @@ func _ready():
 	animation_node = find_node("entity_animation")
 	animation_node.connect("animation_finished", self, "_on_animation_finished")
 	audio_node = find_node("entity_audio")
-	rset_config("transform", MultiplayerAPI.RPC_MODE_REMOTE)
+	rset_config("transform", MultiplayerAPI.RPC_MODE_SLAVE)
 
 func move_entity(delta, gravity=true):
-	var ti = get_global_transform()
+	var ti = get_transform()
 
 	velocity.x = direction.x
 	if gravity:
@@ -68,11 +68,13 @@ func move_entity(delta, gravity=true):
 		velocity.y = 0
 
 	if get_tree().has_network_peer() and is_network_master():
-		var tf = get_global_transform()
-		var dist = tf.origin - ti.origin
-		var yaw_diff = abs(atan2(dist.x, dist.z))
+		var tf = get_transform()
+		var dist = (tf.origin - ti.origin).length()
+		var rotx = (tf.basis.x - ti.basis.x).length()
+		var roty = (tf.basis.y - ti.basis.y).length()
+		var rotz = (tf.basis.z - ti.basis.z).length()
 
-		if dist.length() > 0.01 and yaw_diff > 0.01:
+		if dist > 0.01 or rotx > 0.001 or roty > 0.001 or rotz > 0.001:
 			rset_unreliable("transform", tf)
 
 func look_ahead(delta):

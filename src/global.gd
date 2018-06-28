@@ -20,13 +20,15 @@ static func add_entity(_name, scene, spawn, id=1):
 func add_monster(_name, scene):
 	return add_entity(_name, scene, monsters_spawn)
 
-func add_player(_name, id=1):
+func add_player(_name, id=1, transform=null):
 	var player = add_entity(_name, PlayerScene, players_spawn, id)
 	if id == networking.unique_id:
 		prints(_name, "is local player")
 		local_player = player
 	else:
 		prints(_name, "is remote player")
+	if transform != null:
+		player.transform = transform
 	game.get_node("hud").player_connected(_name)
 	return player
 
@@ -49,6 +51,7 @@ func start_game(local_player_name):
 func stop_game():
 	if game != null:
 		game.queue_free()
+		game = null
 	get_node("/root/networking").stop()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_tree().set_pause(false)

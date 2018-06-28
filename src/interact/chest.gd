@@ -28,6 +28,7 @@ func open():
 	$audio.play()
 	animation.play("open")
 	player.pause_player()
+	get_viewport().get_camera().set_process_input(false)
 	yield(animation, "animation_finished")
 	hud.open_inventories([inventory, player.inventory])
 	hud.inventory.connect("popup_hide", self, "close")
@@ -41,6 +42,7 @@ func close():
 	animation.play("close")
 	yield(animation, "animation_finished")
 	player.resume_player()
+	get_viewport().get_camera().set_process_input(true)
 	player = null
 
 func _input(event):

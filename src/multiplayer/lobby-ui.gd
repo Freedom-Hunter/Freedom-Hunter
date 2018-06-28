@@ -36,6 +36,10 @@ func hide():
 	$lobby/refresh.stop()
 	set_process_input(false)
 
+func report_error(message):
+	$error_dialog.dialog_text = message
+	$error_dialog.popup_centered()
+
 func is_valid_port(port):
 	var port_int = int(port)
 	return port.is_valid_integer() and port_int > 0 and port_int < 65535
@@ -92,13 +96,15 @@ func request_servers_list():  # called every 10 seconds by refresh timer
 func _on_servers_list_received(result, response_code, headers, body):
 	networking.lobby.http.disconnect("request_completed", self, "_on_servers_list_received")
 	if result != HTTPRequest.RESULT_SUCCESS or response_code != 200:
-		$servers_list_error_dialog.popup_centered()
+		report_error("Can't retrieve servers list")
 		$lobby/refresh.stop()
-		printerr("Can't retrieve servers list")
-		return
-	var servers = str2var(body.get_string_from_utf8())
-	if typeof(servers) == TYPE_ARRAY:
-		update_servers_list(servers)
+	else:
+		var servers = str2var(body.get_string_from_utf8())
+		if typeof(servers) == TYPE_ARRAY:
+			update_servers_list(servers)
+		else:
+			report_error("Lobby server returned garbage.")
+			$lobby/refresh.stop()
 
 func update_servers_list(servers):
 	var fields = ['hostname', 'port', 'connected_players', 'max_players']
@@ -197,8 +203,7 @@ func _connection_failed(ip, port):
 		child.show()
 	$connecting.hide()
 	$lobby/refresh.start()
-	$network_error.dialog_text = "Connection to %s:%s failed" % [ip, port]
-	$network_error.popup_centered()
+	report_error("Connection to %s:%s failed" % [ip, port])
 	get_tree().disconnect("connection_failed", self, "_connection_failed")
 
 func _connected_to_server():

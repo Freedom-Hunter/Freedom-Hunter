@@ -7,6 +7,8 @@
 [sub_resource type="DynamicFont" id=1]
 
 size = 84
+outline_size = 0
+outline_color = Color( 1, 1, 1, 1 )
 use_mipmaps = false
 use_filter = false
 font_data = ExtResource( 3 )
@@ -17,7 +19,6 @@ _sections_unfolded = [ "Settings" ]
 default_font = SubResource( 1 )
 
 [node name="multiplayer" type="Control" index="0"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 1.0
@@ -33,7 +34,6 @@ script = ExtResource( 2 )
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Theme" ]
 
 [node name="header" type="PanelContainer" parent="." index="0"]
-
 editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.0
@@ -52,7 +52,6 @@ size_flags_vertical = 2
 _sections_unfolded = [ "Margin" ]
 
 [node name="vbox" type="VBoxContainer" parent="header" index="0"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -71,7 +70,6 @@ custom_constants/separation = 15
 alignment = 0
 
 [node name="title" type="Label" parent="header/vbox" index="0"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -92,7 +90,6 @@ max_lines_visible = -1
 _sections_unfolded = [ "Anchor", "Margin" ]
 
 [node name="input" type="HBoxContainer" parent="header/vbox" index="1"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -111,7 +108,6 @@ alignment = 0
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="username-label" type="Label" parent="header/vbox/input" index="0"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -133,7 +129,6 @@ max_lines_visible = -1
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="username" type="LineEdit" parent="header/vbox/input" index="1"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -149,6 +144,7 @@ mouse_default_cursor_shape = 1
 size_flags_horizontal = 3
 size_flags_vertical = 2
 size_flags_stretch_ratio = 3.0
+secret_character = "*"
 focus_mode = 2
 context_menu_enabled = true
 placeholder_text = "Enter player's name"
@@ -159,7 +155,6 @@ caret_position = 0
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="direct" type="PanelContainer" parent="." index="1"]
-
 editor/display_folded = true
 anchor_left = 1.0
 anchor_top = 1.0
@@ -178,7 +173,6 @@ size_flags_vertical = 2
 _sections_unfolded = [ "Margin" ]
 
 [node name="vbox" type="VBoxContainer" parent="direct" index="0"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -198,7 +192,6 @@ alignment = 0
 _sections_unfolded = [ "Margin", "custom_constants" ]
 
 [node name="title" type="Label" parent="direct/vbox" index="0"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -219,7 +212,6 @@ max_lines_visible = -1
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="client" type="VBoxContainer" parent="direct/vbox" index="1"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -238,7 +230,6 @@ alignment = 0
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="Label" type="Label" parent="direct/vbox/client" index="0"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -259,7 +250,6 @@ max_lines_visible = -1
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="input" type="GridContainer" parent="direct/vbox/client" index="1"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -279,7 +269,6 @@ columns = 2
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="host-label" type="Label" parent="direct/vbox/client/input" index="0"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -300,7 +289,6 @@ max_lines_visible = -1
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="host" type="LineEdit" parent="direct/vbox/client/input" index="1"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -315,6 +303,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 1
 size_flags_horizontal = 3
 size_flags_vertical = 2
+secret_character = "*"
 focus_mode = 2
 context_menu_enabled = true
 placeholder_text = "IP address or hostname"
@@ -325,7 +314,6 @@ caret_position = 0
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="port-label" type="Label" parent="direct/vbox/client/input" index="2"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -347,7 +335,6 @@ max_lines_visible = -1
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="port" type="LineEdit" parent="direct/vbox/client/input" index="3"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -366,6 +353,7 @@ size_flags_vertical = 2
 size_flags_stretch_ratio = 2.0
 text = "30500"
 max_length = 5
+secret_character = "*"
 focus_mode = 2
 context_menu_enabled = true
 placeholder_text = "UDP port"
@@ -376,7 +364,6 @@ caret_position = 0
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="connect" type="Button" parent="direct/vbox/client" index="2"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -401,7 +388,6 @@ align = 1
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="server" type="VBoxContainer" parent="direct/vbox" index="2"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -420,7 +406,6 @@ alignment = 0
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="Label" type="Label" parent="direct/vbox/server" index="0"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -441,7 +426,6 @@ max_lines_visible = -1
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="input" type="GridContainer" parent="direct/vbox/server" index="1"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -460,7 +444,6 @@ custom_constants/hseparation = 10
 columns = 2
 
 [node name="host-label" type="Label" parent="direct/vbox/server/input" index="0"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -481,7 +464,6 @@ max_lines_visible = -1
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="host" type="LineEdit" parent="direct/vbox/server/input" index="1"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -496,6 +478,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 1
 size_flags_horizontal = 3
 size_flags_vertical = 2
+secret_character = "*"
 focus_mode = 2
 context_menu_enabled = true
 placeholder_text = "External address"
@@ -506,7 +489,6 @@ caret_position = 0
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="port-label" type="Label" parent="direct/vbox/server/input" index="2"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -527,7 +509,6 @@ lines_skipped = 0
 max_lines_visible = -1
 
 [node name="port" type="LineEdit" parent="direct/vbox/server/input" index="3"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -546,6 +527,7 @@ size_flags_vertical = 2
 size_flags_stretch_ratio = 2.0
 text = "30500"
 max_length = 5
+secret_character = "*"
 focus_mode = 2
 context_menu_enabled = true
 placeholder_text = "UDP port"
@@ -556,7 +538,6 @@ caret_position = 0
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="announce" type="CheckButton" parent="direct/vbox/server" index="2"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -581,7 +562,6 @@ align = 0
 _sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "Mouse", "Rect", "Size Flags", "Theme" ]
 
 [node name="start" type="Button" parent="direct/vbox/server" index="3"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -606,7 +586,6 @@ align = 1
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="lobby" type="PanelContainer" parent="." index="2"]
-
 anchor_left = 0.0
 anchor_top = 1.0
 anchor_right = 0.0
@@ -624,14 +603,12 @@ size_flags_vertical = 2
 _sections_unfolded = [ "Margin" ]
 
 [node name="refresh" type="Timer" parent="lobby" index="0"]
-
 process_mode = 1
 wait_time = 10.0
 one_shot = false
 autostart = false
 
 [node name="scroll" type="ScrollContainer" parent="lobby" index="1"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -653,7 +630,6 @@ scroll_vertical = 0
 scroll_deadzone = 0
 
 [node name="grid" type="GridContainer" parent="lobby/scroll" index="0"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -672,7 +648,6 @@ columns = 5
 _sections_unfolded = [ "Size Flags" ]
 
 [node name="hostname" type="Label" parent="lobby/scroll/grid" index="0"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -691,7 +666,6 @@ lines_skipped = 0
 max_lines_visible = -1
 
 [node name="port" type="Label" parent="lobby/scroll/grid" index="1"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -711,7 +685,6 @@ lines_skipped = 0
 max_lines_visible = -1
 
 [node name="players" type="Label" parent="lobby/scroll/grid" index="2"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -731,7 +704,6 @@ lines_skipped = 0
 max_lines_visible = -1
 
 [node name="max_players" type="Label" parent="lobby/scroll/grid" index="3"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -751,7 +723,6 @@ lines_skipped = 0
 max_lines_visible = -1
 
 [node name="refresh" type="Button" parent="lobby/scroll/grid" index="4"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -775,7 +746,6 @@ flat = false
 align = 1
 
 [node name="back" type="Button" parent="." index="3"]
-
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -801,7 +771,6 @@ align = 1
 _sections_unfolded = [ "Margin" ]
 
 [node name="connecting" type="PopupPanel" parent="." index="4"]
-
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -820,7 +789,6 @@ size_flags_vertical = 1
 popup_exclusive = false
 
 [node name="Label" type="Label" parent="connecting" index="0"]
-
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -844,8 +812,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Theme" ]
 
-[node name="servers_list_error_dialog" type="AcceptDialog" parent="." index="5"]
-
+[node name="error_dialog" type="AcceptDialog" parent="." index="5"]
 visible = false
 anchor_left = 0.0
 anchor_top = 0.0
@@ -862,30 +829,18 @@ size_flags_vertical = 1
 popup_exclusive = false
 window_title = "Network error"
 resizable = false
-dialog_text = "Can't retrieve servers list"
+dialog_text = "Network Error"
 dialog_hide_on_ok = true
 _sections_unfolded = [ "Dialog", "Popup" ]
 
 [connection signal="text_changed" from="header/vbox/input/username" to="." method="_on_username_text_changed"]
-
 [connection signal="text_changed" from="direct/vbox/client/input/host" to="." method="client_validate_input"]
-
 [connection signal="text_changed" from="direct/vbox/client/input/port" to="." method="client_validate_input"]
-
 [connection signal="pressed" from="direct/vbox/client/connect" to="." method="_on_connect_pressed"]
-
 [connection signal="text_changed" from="direct/vbox/server/input/host" to="." method="server_validate_input"]
-
 [connection signal="text_changed" from="direct/vbox/server/input/port" to="." method="server_validate_input"]
-
 [connection signal="toggled" from="direct/vbox/server/announce" to="." method="server_validate_input"]
-
 [connection signal="pressed" from="direct/vbox/server/start" to="." method="_on_start_pressed"]
-
 [connection signal="timeout" from="lobby/refresh" to="." method="request_servers_list"]
-
 [connection signal="pressed" from="lobby/scroll/grid/refresh" to="." method="request_servers_list"]
-
 [connection signal="pressed" from="back" to="." method="hide"]
-
-

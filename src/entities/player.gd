@@ -135,10 +135,12 @@ sync func died():
 	set_process_input(false)
 	if not get_tree().has_network_peer() or is_network_master():
 		hud.prompt_respawn()
+	$shape.disabled = true
 
 func respawn():
 	.respawn()
 	resume_player()
+	$shape.disabled = false
 
 func pause_player():
 	direction = Vector3()
@@ -146,16 +148,12 @@ func pause_player():
 	set_physics_process(false)
 	set_process(false)
 	animation_node.play("idle")
-	if not get_tree().has_network_peer() or is_network_master():
-		camera_node.set_process_input(false)
 
 func resume_player():
 	var enable = not get_tree().has_network_peer() or is_network_master()
-	prints(get_name(), enable)
 	set_process_input(enable)
 	set_physics_process(enable)
 	set_process(true)
-	camera_node.set_process_input(enable)
 
 func _process(delta):
 	if dead:
@@ -230,9 +228,15 @@ func _physics_process(delta):
 	move_entity(delta)
 
 	if Input.is_action_pressed("player_attack_left"):
-		attack("left_attack_0")
+		if get_tree().has_network_peer():
+			rpc("attack", "left_attack_0")
+		else:
+			attack("left_attack_0")
 	if Input.is_action_pressed("player_attack_right"):
-		attack("right_attack_0")
+		if get_tree().has_network_peer():
+			rpc("attack", "right_attack_0")
+		else:
+			attack("right_attack_0")
 
 	# Camera follows the player
 	yaw_node.set_translation(get_translation() + Vector3(0, camera_offset, 0))

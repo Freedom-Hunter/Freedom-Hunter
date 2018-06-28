@@ -152,7 +152,7 @@ func notify(text):
 	notify_queue.append(text)
 
 func prompt_respawn():
-	$respawn.popup()
+	$respawn.popup_centered()
 	get_viewport().get_camera().set_process_input(false)
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
