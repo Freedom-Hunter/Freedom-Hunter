@@ -7,10 +7,8 @@ func _init(_name, _icon, _quantity, _player).(_name, _icon, _quantity, 5, 10, _p
 	pass
 
 func effect():
-	var drop = player.get_node("drop_item").get_global_transform()
 	var barrel = scene.instance()
-	barrel.set_global_transform(drop)
-	player.get_parent().add_child(barrel)
+	player.drop_item(barrel)
 	return true
 
 func clone():

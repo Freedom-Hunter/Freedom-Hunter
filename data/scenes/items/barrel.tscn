@@ -1,160 +1,115 @@
-[gd_scene load_steps=15 format=1]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/items/barrel-scene.gd" type="Script" id=1]
-[ext_resource path="res://data/models/items/big-bomb/barrel.msh" type="Mesh" id=2]
-[ext_resource path="res://data/models/items/big-bomb/diffuse.tex" type="Texture" id=3]
-[ext_resource path="res://data/models/items/big-bomb/normal.tex" type="Texture" id=4]
-[ext_resource path="res://data/models/items/big-bomb/specular.tex" type="Texture" id=5]
-[ext_resource path="res://data/sounds/explosion.smp" type="Sample" id=6]
-[ext_resource path="res://data/textures/explosion.png" type="Texture" id=7]
-
-
-
-
-
-
+[ext_resource path="res://data/sounds/explosion.wav" type="AudioStream" id=2]
+[ext_resource path="res://data/models/items/barrel/barrel_wooden.gltf" type="PackedScene" id=3]
 
 [sub_resource type="CapsuleShape" id=1]
 
 radius = 0.6
 height = 0.504477
 
-[sub_resource type="BoxShape" id=7]
+[sub_resource type="BoxShape" id=2]
 
 extents = Vector3( 0.42, 0.2, 0.42 )
-
-[sub_resource type="FixedMaterial" id=2]
-
-flags/visible = true
-flags/double_sided = false
-flags/invert_faces = false
-flags/unshaded = false
-flags/on_top = false
-flags/lightmap_on_uv2 = true
-flags/colarray_is_srgb = true
-params/blend_mode = 0
-params/depth_draw = 1
-params/line_width = 0.0
-fixed_flags/use_alpha = false
-fixed_flags/use_color_array = false
-fixed_flags/use_point_size = false
-fixed_flags/discard_alpha = false
-fixed_flags/use_xy_normalmap = false
-params/diffuse = Color( 1, 1, 1, 1 )
-params/specular = Color( 0, 0, 0, 1 )
-params/emission = Color( 0, 0, 0, 1 )
-params/specular_exp = 40
-params/detail_mix = 1.0
-params/normal_depth = 1
-params/shader = 0
-params/shader_param = 0.5
-params/glow = 0
-params/point_size = 1.0
-uv_xform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-textures/diffuse = ExtResource( 3 )
-textures/diffuse_tc = 0
-textures/detail_tc = 0
-textures/specular = ExtResource( 5 )
-textures/specular_tc = 0
-textures/emission_tc = 0
-textures/specular_exp_tc = 0
-textures/glow_tc = 0
-textures/normal = ExtResource( 4 )
-textures/normal_tc = 0
-textures/shade_param_tc = 0
 
 [sub_resource type="SphereShape" id=3]
 
 radius = 10.0
 
-[sub_resource type="SampleLibrary" id=4]
+[sub_resource type="ParticlesMaterial" id=4]
 
-samples/explosion = { "db":0.0, "pitch":1.0, "sample":ExtResource( 6 ) }
+render_priority = 0
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = false
+spread = 45.0
+flatness = 0.0
+gravity = Vector3( 0, -9.8, 0 )
+initial_velocity = 1.0
+initial_velocity_random = 0.0
+angular_velocity = 0.0
+angular_velocity_random = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 0.0
+damping_random = 0.0
+angle = 0.0
+angle_random = 0.0
+scale = 1.0
+scale_random = 0.0
+color = Color( 1, 1, 1, 1 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
 
-[sub_resource type="FixedMaterial" id=5]
+[sub_resource type="SphereMesh" id=5]
 
-flags/visible = true
-flags/double_sided = true
-flags/invert_faces = false
-flags/unshaded = true
-flags/on_top = false
-flags/lightmap_on_uv2 = true
-flags/colarray_is_srgb = true
-params/blend_mode = 0
-params/depth_draw = 1
-params/line_width = 0.0
-fixed_flags/use_alpha = true
-fixed_flags/use_color_array = true
-fixed_flags/use_point_size = false
-fixed_flags/discard_alpha = false
-fixed_flags/use_xy_normalmap = false
-params/diffuse = Color( 1, 1, 1, 1 )
-params/specular = Color( 0, 0, 0, 1 )
-params/emission = Color( 0, 0, 0, 1 )
-params/specular_exp = 40
-params/detail_mix = 1.0
-params/normal_depth = 1
-params/shader = 0
-params/shader_param = 0.5
-params/glow = 0
-params/point_size = 1.0
-uv_xform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-textures/diffuse = ExtResource( 7 )
-textures/diffuse_tc = 0
-textures/detail_tc = 0
-textures/specular_tc = 0
-textures/emission_tc = 0
-textures/specular_exp_tc = 0
-textures/glow_tc = 0
-textures/normal_tc = 0
-textures/shade_param_tc = 0
+radius = 1.0
+height = 2.0
+radial_segments = 64
+rings = 32
+is_hemisphere = false
 
 [sub_resource type="Animation" id=6]
 
-resource/name = "explode"
 length = 3.0
 loop = false
 step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("particles:emitting")
 tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 1.2 ), "transitions":FloatArray( 1, 1 ), "update":1, "values":[ true, false ] }
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 tracks/1/type = "value"
-tracks/1/path = NodePath("light:params/enabled")
-tracks/1/interp = 1
+tracks/1/path = NodePath("light:light_energy")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0, 1.5 ), "transitions":FloatArray( 1, 1 ), "update":1, "values":[ true, false ] }
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 5.0, 0.0 ]
+}
 tracks/2/type = "value"
-tracks/2/path = NodePath("light:params/energy")
-tracks/2/interp = 2
+tracks/2/path = NodePath("audio:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
 tracks/2/imported = false
-tracks/2/keys = { "times":FloatArray( 0, 0.2, 1.5 ), "transitions":FloatArray( 1, 1, 1 ), "update":0, "values":[ 0.0, 5.0, 0.0 ] }
-tracks/3/type = "value"
-tracks/3/path = NodePath("sound:play/play")
-tracks/3/interp = 1
-tracks/3/imported = false
-tracks/3/keys = { "times":FloatArray( 0.2 ), "transitions":FloatArray( 1 ), "update":2, "values":[ "explosion" ] }
-tracks/4/type = "value"
-tracks/4/path = NodePath("../mesh:geometry/visible")
-tracks/4/interp = 1
-tracks/4/imported = false
-tracks/4/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":1, "values":[ false ] }
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
-[node name="barrel" type="RigidBody" groups=[ "explosive" ]]
+[node name="barrel" type="RigidBody" groups=[
+"explosive",
+]]
 
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-input/ray_pickable = true
-input/capture_on_drag = false
-shape_count = 2
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.0767757, 0 )
-shapes/0/trigger = false
-shapes/1/shape = SubResource( 7 )
-shapes/1/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.58, 0 )
-shapes/1/trigger = false
-collision/layers = 1
-collision/mask = 1
+input_ray_pickable = true
+input_capture_on_drag = false
+collision_layer = 1
+collision_mask = 1
 mode = 0
 mass = 100.0
 friction = 0.80438
@@ -167,58 +122,28 @@ contact_monitor = false
 sleeping = false
 can_sleep = true
 axis_lock = 0
-velocity/linear = Vector3( 0, 0, 0 )
-velocity/angular = Vector3( 0, 0, 0 )
-damp_override/linear = -1.0
-damp_override/angular = -1.0
-script/script = ExtResource( 1 )
-
-[node name="mesh" type="MeshInstance" parent="."]
-
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-layers = 1
-geometry/visible = true
-geometry/material_override = null
-geometry/cast_shadow = 1
-geometry/receive_shadows = true
-geometry/range_begin = 0.0
-geometry/range_end = 0.0
-geometry/extra_cull_margin = 0.0
-geometry/billboard = false
-geometry/billboard_y = false
-geometry/depth_scale = false
-geometry/visible_in_all_rooms = false
-geometry/use_baked_light = false
-geometry/baked_light_tex_id = 0
-mesh/mesh = ExtResource( 2 )
-mesh/skeleton = NodePath("..")
-material/0 = SubResource( 2 )
+linear_velocity = Vector3( 0, 0, 0 )
+linear_damp = -1.0
+angular_velocity = Vector3( 0, 0, 0 )
+angular_damp = -1.0
+script = ExtResource( 1 )
 
 [node name="collision" type="CollisionShape" parent="."]
 
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.0767757, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.0767757, 0 )
 shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 0
+disabled = false
 
 [node name="base" type="CollisionShape" parent="."]
 
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.58, 0 )
-shape = SubResource( 7 )
-trigger = false
-_update_shape_index = 1
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.58, 0 )
+shape = SubResource( 2 )
+disabled = false
 
 [node name="explosion" type="Area" parent="."]
 
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-input/ray_pickable = false
-input/capture_on_drag = false
-shape_count = 1
-shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-shapes/0/trigger = false
+input_ray_pickable = false
+input_capture_on_drag = false
 space_override = 0
 gravity_point = false
 gravity_distance_scale = 0.0
@@ -229,126 +154,79 @@ angular_damp = 1.0
 priority = 0.0
 monitoring = true
 monitorable = true
-collision/layers = 1
-collision/mask = 1
+collision_layer = 1
+collision_mask = 1
+audio_bus_override = false
+audio_bus_name = "Master"
+reverb_bus_enable = false
+reverb_bus_name = "Master"
+reverb_bus_amount = 0.0
+reverb_bus_uniformity = 0.0
 
 [node name="radius" type="CollisionShape" parent="explosion"]
 
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 shape = SubResource( 3 )
-trigger = false
-_update_shape_index = 0
-
-[node name="sound" type="SpatialSamplePlayer" parent="explosion"]
-
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-params/volume_db = 0.0
-params/pitch_scale = 1.0
-params/attenuation/min_distance = 1.0
-params/attenuation/max_distance = 100.0
-params/attenuation/distance_exp = 1.0
-params/emission_cone/degrees = 180.0
-params/emission_cone/attenuation_db = -6.0
-config/polyphony = 1
-config/samples = SubResource( 4 )
+disabled = false
 
 [node name="particles" type="Particles" parent="explosion"]
 
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 layers = 1
-geometry/visible = true
-geometry/material_override = null
-geometry/cast_shadow = 1
-geometry/receive_shadows = true
-geometry/range_begin = 0.0
-geometry/range_end = 0.0
-geometry/extra_cull_margin = 0.0
-geometry/billboard = false
-geometry/billboard_y = false
-geometry/depth_scale = false
-geometry/visible_in_all_rooms = false
-geometry/use_baked_light = false
-geometry/baked_light_tex_id = 0
-material = SubResource( 5 )
-amount = 64
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
 emitting = false
-visibility = AABB( -4, -4, -4, 8, 8, 8 )
-emission_extents = Vector3( 0.1, 0.1, 0.1 )
-emission_base_velocity = Vector3( 0, 0, 0 )
-emission_points = Vector3Array( 0, 1, 0, 1, 0, 0, 0, 0, 1, -1, 0, 0, 0, -1, 0, 0, 0, -1 )
-gravity_normal = Vector3( 0, 0, 0 )
-local_coords = false
-emit_timeout = 0.0
-vars/lifetime = 0.5
-vars/spread = 1.0
-vars/gravity = 0.0
-vars/linear_vel = 10.0
-vars/angular_vel = 0.0
-vars/linear_accel = 0.0
-vars/radial_accel = 0.0
-vars/tan_accel = 0.0
-vars/damping = 0.0
-vars/initial_size = 1.0
-vars/final_size = 0.1
-vars/initial_angle = 0.0
-vars/height_from_velocity = false
-vars/height = 1.0
-vars/height_speed_scale = 0.0
-rand/lifetime = 0.0
-rand/spread = 0.0
-rand/gravity = 0.0
-rand/linear_vel = 1.0
-rand/angular_vel = 16.0
-rand/linear_accel = 0.0
-rand/radial_accel = 0.0
-rand/tan_accel = 0.0
-rand/damping = 0.0
-rand/initial_size = 2.5
-rand/final_size = 1.0
-rand/initial_angle = 16.0
-rand/height = 0.0
-rand/height_speed_scale = 0.0
-color_phases/count = 4
-phase_0/pos = 0.0
-phase_0/color = Color( 0.957031, 0.899436, 0.523376, 1 )
-phase_1/pos = 0.4
-phase_1/color = Color( 0.910156, 0.678784, 0.0639954, 1 )
-phase_2/pos = 0.9
-phase_2/color = Color( 0.352941, 0.313726, 0.235294, 0.784314 )
-phase_3/pos = 1.0
-phase_3/color = Color( 0, 0, 0, 0 )
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_aabb = Rect3( -4, -4, -4, 8, 8, 8 )
+local_coords = true
+draw_order = 0
+process_material = SubResource( 4 )
+draw_passes = 1
+draw_pass_1 = SubResource( 5 )
+_sections_unfolded = [ "Draw Passes", "Drawing", "Geometry", "LOD", "Process Material", "Time", "Transform", "Visibility" ]
 
 [node name="light" type="OmniLight" parent="explosion"]
 
-_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 layers = 1
-params/enabled = false
-params/editor_only = false
-params/bake_mode = 0
-params/energy = 0.0
-colors/diffuse = Color( 1, 1, 1, 1 )
-colors/specular = Color( 1, 1, 1, 1 )
-shadow/shadow = false
-shadow/darkening = 0.0
-shadow/z_offset = 0.001
-shadow/z_slope_scale = 0.0
-shadow/esm_multiplier = 60.0
-shadow/blur_passes = 1.0
-projector = null
-operator = 0
-params/radius = 20.0
-params/attenuation = 1.0
+light_color = Color( 1, 1, 1, 1 )
+light_energy = 0.0
+light_negative = false
+light_specular = 0.5
+light_cull_mask = -1
+shadow_enabled = false
+shadow_color = Color( 0, 0, 0, 1 )
+shadow_bias = 0.15
+shadow_contact = 0.0
+shadow_reverse_cull_face = false
+editor_only = false
+omni_range = 5.0
+omni_attenuation = 1.0
+omni_shadow_mode = 1
+omni_shadow_detail = 1
 
 [node name="animation" type="AnimationPlayer" parent="explosion"]
 
-playback/process_mode = 1
-playback/default_blend_time = 0.0
-root/root = NodePath("..")
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+root_node = NodePath("..")
 anims/explode = SubResource( 6 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
+_sections_unfolded = [ "Playback Options", "playback" ]
 
 [node name="timer" type="Timer" parent="explosion"]
 
@@ -357,7 +235,31 @@ wait_time = 10.0
 one_shot = true
 autostart = true
 
-[connection signal="finished" from="explosion/animation" to="." method="_on_animation_finished"]
+[node name="audio" type="AudioStreamPlayer3D" parent="explosion"]
+
+stream = ExtResource( 2 )
+attenuation_model = 0
+unit_db = 0.0
+unit_size = 1.0
+max_db = 3.0
+autoplay = false
+max_distance = 0.0
+out_of_range_mode = 0
+bus = "Master"
+area_mask = 1
+emission_angle_enabled = false
+emission_angle_degrees = 45.0
+emission_angle_filter_attenuation_db = -12.0
+attenuation_filter_cutoff_hz = 5000.0
+attenuation_filter_db = -24.0
+doppler_tracking = 0
+
+[node name="barrel" parent="." instance=ExtResource( 3 )]
+
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 1.5 )
+_sections_unfolded = [ "Transform" ]
+
+[connection signal="animation_finished" from="explosion/animation" to="." method="_on_animation_finished"]
 
 [connection signal="timeout" from="explosion/timer" to="." method="_on_timer_timeout"]
 

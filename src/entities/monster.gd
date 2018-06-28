@@ -10,17 +10,15 @@ export (int, -100, 100) var dragon    = 0
 export (int, -100, 100) var poison    = 0
 export (int, -100, 100) var paralysis = 0
 
-onready var view_node = get_node("view")
-onready var interact_node = get_node("interact")
-
 const SPEED = 5
 
 var weakness = {}
 var players = []
-var target = null
+var random_target
+var target_player
 var combat = false
 
-func _init().(500, 100, "animation", 1):
+func _init().(500, 100, 1):
 	weakness = {
 		"fire":      fire,
 		"water":     water,
@@ -31,20 +29,18 @@ func _init().(500, 100, "animation", 1):
 		"paralysis": paralysis
 	}
 
-
-func _ready():
-	if networking.is_server() or not networking.multiplayer:
-		set_fixed_process(true)
-
 # @override from entity.gd
-func die():
-	.die()
-	set_fixed_process(false)
-	rotate_z(PI/2)
-	get_node("fire").hide()
-	interact_node.add_to_group("interact")
-	view_node.disconnect("body_enter", self, "_body_enter")
-	view_node.disconnect("body_exit", self, "_body_exit")
+sync func died():
+	.died()
+	set_physics_process(false)
+	animation_node.play("death")
+	$fire.hide()
+	$interact.add_to_group("interact")
+	$view.disconnect("body_entered", self, "_on_view_body_entered")
+	$view.disconnect("body_exited", self, "_on_view_body_exited")
+	animation_node.disconnect("animation_finished", self, "_on_animation_finished")
+	$collision.disabled = true
+	audio(preload("res://data/sounds/dragon-roar.wav"))
 	call_deferred("set_script", preload("res://src/interact/monster drop.gd"))
 
 func sort_by_distance(a, b):
@@ -52,42 +48,67 @@ func sort_by_distance(a, b):
 	var dist_b = (get_global_transform().origin - b.get_global_transform().origin).length()
 	return dist_a < dist_b
 
-func _body_enter( body ):
-	if body.is_in_group("player"):
-		players.push_front(body)
+func _ready():
+	var server = not get_tree().has_network_peer() or is_network_master()
+	set_physics_process(server)
+	if server:
+		set_pause_mode(Node.PAUSE_MODE_PROCESS)
 
-func _body_exit( body ):
+func _physics_process(delta):
+	direction = Vector3()
+	var origin = get_pos()
+	var vector_to_target
+
+	# Check if target is still a possible target
+	if not target_player in players or target_player.dead:
+		target_player = null
+
+	# Find new target if there are candidates
+	if target_player == null and players.size() != 0:
+		players.sort_custom(self, "sort_by_distance")
+		for player in players:
+			if not player.dead:
+				vector_to_target = player.get_pos() - origin
+				if get_transform().basis.z.dot(vector_to_target.normalized()) > -0.5:
+					target_player = player
+					break
+
+	if target_player != null:
+		random_target = null
+		vector_to_target = target_player.get_pos() - origin
+		if not combat:
+			combat = true
+			$exclamation/animation.play("exclamation")
+		if vector_to_target.length() > 7.5:
+			direction = vector_to_target.normalized() * SPEED
+		else:
+			direction = vector_to_target.normalized() * 0.01
+			if get_tree().has_network_peer():
+				rpc("attack", "attack")
+			else:
+				attack("attack")
+	else:
+		combat = false
+		if random_target == null or (random_target - Vector3(origin.x, 0, origin.z)).length() < 2:
+			random_target = Vector3(rand_range(-100, 100), 0, rand_range(-100, 100))
+			prints(get_name(), "is going to", random_target)
+		direction = (random_target - origin).normalized() * (SPEED/2)
+
+	move_entity(delta)
+
+func damage(dmg, reg, weapon=null, entity=null):
+	.damage(dmg, reg, weapon, entity)
+	if entity != null:
+		if not entity in players:
+			players.push_front(entity)
+		target_player = entity
+
+func _on_view_body_entered(body):
+	if body.is_in_group("player"):
+		if not body.dead and not body in players:
+			players.push_front(body)
+
+func _on_view_body_exited( body ):
 	if body.is_in_group("player"):
 		players.erase(body)
 
-func _fixed_process(delta):
-	direction = Vector3()
-	var origin = get_pos()
-	var player = null
-	var distance_from_player
-
-	if players.size() != 0:
-		players.sort_custom(self, "sort_by_distance")
-		player = players[0]
-		distance_from_player = player.get_pos() - origin
-		if get_transform().basis.z.dot(distance_from_player.normalized()) > -0.5:
-			if combat == false:
-				combat = true
-				get_node("animation").play("exclamation")
-		else:
-			player = null
-
-	if player != null:
-		distance_from_player = player.get_pos() - origin
-		if distance_from_player.length() > 7.5:
-			direction = distance_from_player.normalized() * SPEED
-		else:
-			direction = distance_from_player.normalized() * 0.01
-			if not animation_node.is_playing():
-				attack("attack")
-	else:
-		if target == null or (target - origin).length() < 2:
-			target = Vector3(rand_range(-100, 100), 0, rand_range(-100, 100))
-		direction = (target - origin).normalized() * (SPEED/2)
-
-	move_entity(delta)

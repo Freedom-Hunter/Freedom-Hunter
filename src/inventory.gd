@@ -3,39 +3,30 @@ extends Panel
 const ITEM_SIZE = Vector2(50, 50)
 
 var items = []
-var items_node
-var max_items
+var max_slots
 var active_item = 0
-var hud
-var columns
 var dragging
 
 # emitted when an item is added, removed or modified
 signal modified
 
 # Init function to be called after instance() and add_child()
-func init(items_array, max_items_int, hud_node=null):
+func init(items_array, max_slots_int):
 	items = items_array
-	items_node = get_node("items")
-	max_items = max_items_int
-	hud = hud_node
-	columns = items_node.get_columns()
+	max_slots = max_slots_int
 	var added = 0
 	for item in items:
 		if item.quantity > 0:
 			var slot = Slot.new(self, item)
-			items_node.add_child(slot)
+			$items.add_child(slot)
 			added += 1
-	for i in range(added, max_items):
+	for i in range(added, max_slots):
 		var slot = Slot.new(self)
-		items_node.add_child(slot)
+		$items.add_child(slot)
 
 # Input handling is needed to detect when the user drags and drops an item where he can't
-func _ready():
-	set_process_input(true)
-
 func _input(event):
-	if event.type == InputEvent.MOUSE_BUTTON and not event.is_pressed() and event.button_index == BUTTON_LEFT:
+	if event is InputEventMouseButton and not event.is_pressed() and event.button_index == BUTTON_LEFT:
 		call_deferred("give_back_dragged_item")
 
 func give_back_dragged_item():
@@ -45,13 +36,13 @@ func give_back_dragged_item():
 		dragging = null
 
 func find_free_slot():
-	for slot in items_node.get_children():
+	for slot in $items.get_children():
 		if slot.item == null:
 			return slot
 
-func find_item_by_name(name):
+func find_item_by_name(_name):
 	for item in items:
-		if item.name == name:
+		if item.name == _name:
 			return item
 
 # If slot is null will look for the first free slot
@@ -61,7 +52,7 @@ func add_item(item, slot=null):
 		var found = find_item_by_name(item.name)
 		if found != null:
 			overflow = found.add(item.quantity)
-			items_node.get_node(item.name).stack.layout(found)
+			$items.get_node(item.name).stack.layout(found)
 		else:
 			var clone = item.clone()
 			items.append(clone)
@@ -79,8 +70,11 @@ func add_item(item, slot=null):
 	emit_signal("modified")
 	return overflow
 
+func get_item(i):
+	return items[wrapi(i, 0, items.size())]
+
 func use_item(i):
-	var item = items[i]
+	var item = get_item(i)
 	item.use()
 	if item.quantity <= 0 and not item.keep:
 		remove_item(i)
@@ -89,11 +83,11 @@ func use_item(i):
 
 func remove_item(i, slot=null):
 	if slot == null:
-		slot = items_node.get_node(items[i].name)
+		slot = $items.get_node(items[i].name)
 	slot.set_item(null)
 	items.remove(i)
 	if items.size() > 0 and i == active_item:
-		active_item = (active_item + 1) % items.size()
+		active_item = wrapi(active_item + 1, 0, items.size())
 	emit_signal("modified")
 
 func erase_item(item, slot=null):
@@ -105,18 +99,16 @@ func use_active_item():
 	return use_item(active_item)
 
 func activate_next():
-	active_item = (active_item + 1) % items.size()
+	active_item = wrapi(active_item + 1, 0, items.size())
 	emit_signal("modified")
 
 func activate_prev():
-	active_item = (active_item - 1) % items.size()
-	if active_item < 0:
-		active_item = items.size() - 1
+	active_item = wrapi(active_item - 1, 0, items.size())
 	emit_signal("modified")
 
 
 # Visualize item's image and quantity
-class ItemStack extends TextureFrame:
+class ItemStack extends TextureRect:
 	var label = Label.new()
 
 	func _init():
@@ -158,7 +150,8 @@ class Slot extends Panel:
 			set_name(item.name)
 		else:
 			set_theme(preload("res://data/themes/inventory/slot_empty.tres"))
-			set_name(str(get_index() % inventory.columns, '|', int(get_index() / inventory.columns)))
+			var columns = inventory.get_node("items").get_columns()
+			set_name(str(get_index() % columns, '|', int(get_index() / columns)))
 		stack.layout(item)
 
 	func get_drag_data(pos):

@@ -11,13 +11,13 @@ func _ready():
 		set_process_input(true)
 
 func _input(event):
-	if event.type == InputEvent.SCREEN_TOUCH:
+	if event is InputEventScreenTouch:
 		if event.is_pressed() and get_rect().has_point(event.pos):
 			touch_index = event.index
 			drag = 0
 		else:
 			touch_index = null
-	elif event.type == InputEvent.SCREEN_DRAG and event.index == touch_index:
+	elif event is InputEventScreenDrag and event.index == touch_index:
 		drag += event.relative_x
 		if drag > 50:
 			global.local_player.inventory.activate_prev()

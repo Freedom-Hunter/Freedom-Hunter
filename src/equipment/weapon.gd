@@ -1,5 +1,8 @@
 extends "equipment.gd"
 
+const Player = preload("res://src/entities/player.gd")
+const Entity = preload("res://src/entities/entity.gd")
+
 onready var sharpness_node = get_node("/root/game/hud/sharpness/fading")
 
 export(int, 0, 100) var red_sharpness    = 0
@@ -26,7 +29,7 @@ var player
 
 func _ready():
 	player = get_node("../../../../..")
-	assert(player extends preload("res://src/entities/player.gd"))
+	assert(player is Player)
 	sharpness = [
 		Sharp.new("purple",	purple_sharpness),
 		Sharp.new("white",	white_sharpness),
@@ -85,6 +88,7 @@ func get_weapon_damage(body, impact):
 	return strength
 
 func _on_sword_body_enter(body):
-	if body != player and body extends preload("res://src/entities/entity.gd"):
-		body.damage(get_weapon_damage(body, body.get_collider_velocity()), 0.0)
+	if body != player and body is Entity:
+		body.damage(get_weapon_damage(body, null), 0.0, self, player)
+		$audio.play()
 		blunt(1)

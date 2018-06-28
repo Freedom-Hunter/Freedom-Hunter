@@ -1,10 +1,7 @@
 
 extends Control
 
-onready var analog = get_node("analog")
-onready var stick = analog.get_node("stick")
-onready var stick_rest_pos = stick.get_pos()
-onready var buttons = get_node("buttons")
+onready var stick_rest_pos = $"analog/stick".get_position()
 
 var touch_index = null
 var direction = Vector2()
@@ -12,13 +9,13 @@ var intensity = 0
 
 var a_action = "player_attack_left"
 var b_action = "player_attack_right"
-var x_action = "player_dodge"
+var x_action = "player_jump"
 var y_action = "player_use"
 
 func _ready():
 	var scale = OS.get_window_size().y / get_viewport_rect().size.y
-	analog.set_scale(analog.get_scale() * scale)
-	buttons.set_scale(buttons.get_scale() * scale)
+	$"analog".rect_scale *= scale
+	$"buttons".rect_scale *= scale
 	if OS.has_virtual_keyboard():
 		show()
 		InputMap.erase_action("player_attack_left")
@@ -28,26 +25,23 @@ func _ready():
 		hide()
 
 func _input(event):
-	if event.type == InputEvent.SCREEN_TOUCH:
-		if event.is_pressed() and analog.get_rect().has_point(event.pos):
+	if event is InputEventScreenTouch:
+		if event.is_pressed() and $"analog".get_rect().has_point(event.pos):
 			touch_index = event.index
 			accept_event()
-		elif not event.is_pressed() and event.index == touch_index:
+		elif event.index == touch_index:
 			touch_index = null
-			stick.set_pos(stick_rest_pos)
+			$"analog/stick".set_position(stick_rest_pos)
 			direction = Vector2()
 			accept_event()
-	elif event.type == InputEvent.SCREEN_DRAG and event.index == touch_index:
-		var pos = event.pos - analog.get_pos() - stick_rest_pos - stick.get_size() / 2
+	elif event is InputEventScreenDrag and event.index == touch_index:
+		var pos = event.pos - $"analog".get_position() - stick_rest_pos - $"analog/stick".get_size() / 2
 		direction = pos.normalized()
 		intensity = pos.length() / 60
 		if intensity > 1:
-			pos = direction * 60 # 60 is the radius of the stick
+			pos = direction
 			intensity = 1
-			Input.action_press("player_run")
-		else:
-			Input.action_release("player_run")
-		stick.set_pos(pos + stick_rest_pos)
+		$"analog/stick".set_position(pos + stick_rest_pos)
 		accept_event()
 
 func send_action(action):

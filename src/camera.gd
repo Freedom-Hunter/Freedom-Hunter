@@ -20,9 +20,9 @@ var pitch_unit = 12.5
 var camera_distance = 8
 
 func _ready():
-	target_yaw = 180 # yaw_node.get_rotation_deg().y
+	target_yaw = yaw_node.get_rotation_degrees().y
 	yaw = target_yaw
-	target_pitch = pitch_node.get_rotation_deg().x
+	target_pitch = pitch_node.get_rotation_degrees().x
 	pitch = target_pitch
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	set_process_input(true)
@@ -31,8 +31,8 @@ func _ready():
 func _process(delta):
 	yaw = lerp(yaw, target_yaw, delta * 10)
 	pitch = lerp(pitch, target_pitch, delta * 5)
-	yaw_node.set_rotation_deg(Vector3(0, yaw, 0))
-	pitch_node.set_rotation_deg(Vector3(pitch, 0, 0))
+	yaw_node.set_rotation_degrees(Vector3(0, yaw, 0))
+	pitch_node.set_rotation_degrees(Vector3(pitch, 0, 0))
 	camera_zoom(delta * 10)
 	if gyro_enabled:
 		var gyro = Input.get_gyroscope()
@@ -51,15 +51,15 @@ func rotate_view(relative):
 		target_pitch = max(min(target_pitch - relative.y, max_pitch), min_pitch)
 
 func _input(event):
-	if event.type == InputEvent.SCREEN_TOUCH:
+	if event is InputEventScreenTouch:
 		if event.is_pressed() and event.index != onscreen_node.touch_index:
 			touch_index = event.index
 		else:
 			touch_index = null
-	elif event.type == InputEvent.SCREEN_DRAG and event.index == touch_index and event.index != onscreen_node.touch_index:
-		rotate_view(event.relative_pos * touch_sensitivity)
-	elif event.type == InputEvent.MOUSE_MOTION and not onscreen_node.is_visible():
-		rotate_view(event.relative_pos * mouse_sensitivity)
+	elif event is InputEventScreenDrag and event.index == touch_index and event.index != onscreen_node.touch_index:
+		rotate_view(event.relative * touch_sensitivity)
+	elif event is InputEventMouseMotion and not onscreen_node.is_visible():
+		rotate_view(event.relative * mouse_sensitivity)
 	elif event.is_action_released("player_camera_reset"):
 		var basis = global.local_player.get_transform().basis
 		target_yaw = rad2deg(atan2(-basis.z.x, -basis.z.z))

@@ -8,7 +8,7 @@ At the moment the game is quite limited. We need your help with 3D models, anima
 
 ## Installation
 
-**To run this game you need the latest stable Godot Engine version 2.1.2**.
+**To run this game you need the development version of Godot Engine 3.0**.
 
 Clone this repository or download and unzip the latest code in a folder, then import the folder using Godot's projects manager.
 

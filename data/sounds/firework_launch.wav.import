@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/firework_launch.wav-258c08a71b2df87007c8069283fcd289.sample"
+
+[deps]
+
+source_file="res://data/sounds/firework_launch.wav"
+dest_files=[ "res://.import/firework_launch.wav-258c08a71b2df87007c8069283fcd289.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

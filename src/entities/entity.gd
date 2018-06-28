@@ -6,9 +6,9 @@ onready var networking = get_node("/root/networking")
 const MAX_SLOPE_ANGLE = deg2rad(40)
 const MAX_STAMINA = 200
 
-var hp = 0
+slave var hp = 0
 var max_hp = 0
-var regenerable_hp = 0
+slave var regenerable_hp = 0
 var stamina = 0
 var max_stamina = 0
 
@@ -19,34 +19,32 @@ var time_hit = 0
 
 var direction = Vector3()
 var velocity = Vector3()
-var floor_vel = Vector3()
 
-var on_floor = false
 var jumping = false
 var dodging = false
 var running = false
 var dead = false
-var local = true  # for multiplayer
 
 var interpolation_factor  # how fast we interpolate rotations
-var animation_path
-var animation_node
 
-func _init(_hp, _stamina, anim_path, interp=15):
+var animation_node
+var audio_node
+
+func _init(_hp, _stamina, interp=15):
 	hp = _hp
 	max_hp = _hp
 	stamina = _stamina
 	max_stamina = _stamina
-	animation_path = anim_path
 	interpolation_factor = interp
 
 func _ready():
-	set_process(true)
-	animation_node = get_node(animation_path)
-	animation_node.connect("finished", self, "_on_animation_finished")
+	animation_node = find_node("entity_animation")
+	animation_node.connect("animation_finished", self, "_on_animation_finished")
+	audio_node = find_node("entity_audio")
+	rset_config("transform", MultiplayerAPI.RPC_MODE_SLAVE)
 
 func move_entity(delta, gravity=true):
-	var ti = get_global_transform()
+	var ti = get_transform()
 
 	velocity.x = direction.x
 	if gravity:
@@ -60,41 +58,24 @@ func move_entity(delta, gravity=true):
 		velocity.x *= 3
 
 	look_ahead(delta)
-	var motion = move(velocity * delta)
-	on_floor = false
+	var remainder = move_and_slide(velocity, Vector3(0, 1, 0), true, 0.05, 4, MAX_SLOPE_ANGLE)
 
-	if is_colliding():
-		var n = get_collision_normal()
-		if acos(n.dot(Vector3(0, 1, 0))) < MAX_SLOPE_ANGLE:
-			on_floor = true
-			floor_vel = get_collider_velocity()
-			move(floor_vel * delta)
-#			if collider extends KinematicBody:
-#				floor_vel = collider.get_global_transform().origin
-#				move_to(floor_vel)
-#			else:
-#				floor_vel = get_collider_velocity()
-#				move(floor_vel * delta)
-			var fall = (int((-velocity.y) - 10) ^ 2) * 5
-			if fall > 0:
-				damage(fall, 0.5)
-			motion = n.slide(motion)
-			velocity = n.slide(velocity)
-			motion = move(motion)
-		else:
-			motion = n.slide(motion)
-			move(motion)
-
-	if on_floor:
+	if is_on_floor():
 		jumping = false
+		var fall = (int((-velocity.y) + global.gravity) ^ 2) * 5
+		if fall > 0:
+			damage(fall, 0.5)
+		velocity.y = 0
 
-	if networking.multiplayer:
-		var tf = get_global_transform()
-		var dist = tf.origin - ti.origin
-		var yaw_diff = abs(atan2(dist.x, dist.z))
+	if get_tree().has_network_peer() and is_network_master():
+		var tf = get_transform()
+		var dist = (tf.origin - ti.origin).length()
+		var rotx = (tf.basis.x - ti.basis.x).length()
+		var roty = (tf.basis.y - ti.basis.y).length()
+		var rotz = (tf.basis.z - ti.basis.z).length()
 
-		if dist.length() > 0.01 and yaw_diff > 0.01:
-			networking.peer.local_entity_move(get_name(), tf)
+		if dist > 0.01 or rotx > 0.001 or roty > 0.001 or rotz > 0.001:
+			rset_unreliable("transform", tf)
 
 func look_ahead(delta):
 	if direction.length() != 0:
@@ -103,57 +84,68 @@ func look_ahead(delta):
 		target += get_global_transform().origin
 		look_at(target, Vector3(0, 1, 0))
 
-func _on_animation_finished():
+func _on_animation_finished(anim):
 	dodging = false
 	running = false
 
 func get_pos():
 	return get_global_transform().origin
 
-func die():
+master func die():
 	if not dead:
-		print("%s died" % get_name())
-		dead = true
-		hp = 0
-		regenerable_hp = 0
-		set_process(false)
-		animation_node.disconnect("finished", self, "_on_animation_finished")
-		if networking.multiplayer and local:
-			networking.peer.local_entity_died(get_name())
+		if get_tree().has_network_peer():
+			rpc("died")
+		else:
+			died()
 	else:
 		print(get_name(), " is already dead")
 
-func respawn():
-	set_transform(Matrix32())
+sync func died():
+	print("%s died" % get_name())
+	dead = true
+	hp = 0
+	regenerable_hp = 0
+	velocity = Vector3()
+	direction = Vector3()
+	set_process(false)
+
+slave func respawn():
+	set_transform(Transform())
 	hp = max_hp
 	regenerable_hp = 0
 	stamina = max_stamina
 	dead = false
+	dodging = false
+	jumping = false
 	set_process(true)
-	if networking.multiplayer and local:
-		networking.peer.local_entity_respawn(get_name())
-	animation_node.connect("finished", self, "_on_animation_finished")
+	if get_tree().has_network_peer() and is_network_master():
+		rpc("respawn")
 
 func get_defence():
 	return 0
 
-func damage(dmg, reg):
+func damage(dmg, reg, weapon=null, entity=null):
 	if hp > 0:
 		time_hit = 0
 		var defence = get_defence()
-		hp -= (dmg - defence)
+		hp -= dmg - defence
 		regenerable_hp = int(hp + dmg * reg)
-		print("%s damaged by %s - %s = %s" % [get_name(), dmg, defence, dmg - defence])
+		if get_tree().has_network_peer():
+			rset("hp", hp)
+			rset("regenerable_hp", regenerable_hp)
+		if weapon != null and entity != null:
+			print("%s was hit by %s with %s and lost %s - %s = %s health points. HP: %s (+%s)" % [name, entity.name, weapon.name, dmg, defence, dmg - defence, hp, regenerable_hp])
+		else:
+			print("%s lost %s - %s = %s health points. HP: %s (+%s)" % [name, dmg, defence, dmg - defence, hp, regenerable_hp])
 		if hp <= 0:
 			die()
-		elif networking.multiplayer and local:
-			networking.peer.local_entity_damage(get_name(), hp, regenerable_hp)
+	else:
+		prints(get_name(), "is already dead")
 
-func attack(attack_name):
-	if animation_node.get_current_animation() != attack_name and animation_node.has_animation(attack_name):
-		if networking.multiplayer and local:
-			networking.peer.local_entity_attack(get_name(), attack_name)
-		animation_node.play(attack_name)
+sync func attack(attack_name):
+	if animation_node.has_animation(attack_name):
+		if not animation_node.is_playing() or animation_node.get_current_animation() != attack_name:
+			animation_node.play(attack_name)
 
 func increase_max_stamina(amount):
 	if max_stamina + amount <= MAX_STAMINA:
@@ -167,3 +159,6 @@ func _process(delta):
 		if regenerable_hp - hp > 0:
 			hp += hp_regeneration
 
+func audio(stream):
+	audio_node.stream = stream
+	audio_node.play()

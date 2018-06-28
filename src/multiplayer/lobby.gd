@@ -18,9 +18,9 @@ func servers_list(object, method):
 	http.request(BASE_URL + "/fh/cmd.php?cmd=list_servers")
 	http.connect("request_completed", object, method)
 
-func register_player(name, id=server_id):
+func register_player(_name, id=server_id):
 	print("Register player")
-	http.request(BASE_URL + "/fh/cmd.php?cmd=register_player&name=%s&server=%s&status=connected" % [name, id])
+	http.request(BASE_URL + "/fh/cmd.php?cmd=register_player&name=%s&server=%s&status=connected" % [_name, id])
 	http.connect("request_completed", self, "_on_register_player_completed")
 
 func _on_register_player_completed(result, response_code, headers, body):

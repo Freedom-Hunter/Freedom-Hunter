@@ -13,7 +13,6 @@ onready var username_node = get_node("header/vbox/input/username")
 onready var server_start = get_node("direct/vbox/server/start")
 onready var client_connect = get_node("direct/vbox/client/connect")
 onready var announce_node = get_node("direct/vbox/server/announce")
-onready var refresh_timer = get_node("lobby/refresh")
 
 func show():
 	.show()
@@ -23,18 +22,23 @@ func show():
 		load_config()
 	else:
 		print("Error %s occurred while loading config file." % err)
+	networking.init_lobby()
 	request_servers_list()
 	server_validate_input()
 	client_validate_input()
-	refresh_timer.start()
+	$lobby/refresh.start()
 	set_process_input(true)
 
 func hide():
 	.hide()
-	get_node("..").mode_node.show()
+	$"../mode".show()
 	OS.set_window_title("Freedom Hunter")
-	refresh_timer.stop()
+	$lobby/refresh.stop()
 	set_process_input(false)
+
+func report_error(message):
+	$error_dialog.dialog_text = message
+	$error_dialog.popup_centered()
 
 func is_valid_port(port):
 	var port_int = int(port)
@@ -86,15 +90,21 @@ func client_validate_input(signal_args=null):
 
 func request_servers_list():  # called every 10 seconds by refresh timer
 	networking.lobby.servers_list(self, "_on_servers_list_received")
+	if $lobby/refresh.is_stopped():
+		$lobby/refresh.start()
 
 func _on_servers_list_received(result, response_code, headers, body):
 	networking.lobby.http.disconnect("request_completed", self, "_on_servers_list_received")
-	if result != HTTPRequest.RESULT_SUCCESS and response_code != 200:
-		printerr("Can't retrieve servers list")
-		return
-	var servers = str2var(body.get_string_from_utf8())
-	if typeof(servers) == TYPE_ARRAY:
-		update_servers_list(servers)
+	if result != HTTPRequest.RESULT_SUCCESS or response_code != 200:
+		report_error("Can't retrieve servers list")
+		$lobby/refresh.stop()
+	else:
+		var servers = str2var(body.get_string_from_utf8())
+		if typeof(servers) == TYPE_ARRAY:
+			update_servers_list(servers)
+		else:
+			report_error("Lobby server returned garbage.")
+			$lobby/refresh.stop()
 
 func update_servers_list(servers):
 	var fields = ['hostname', 'port', 'connected_players', 'max_players']
@@ -129,7 +139,7 @@ func _on_username_text_changed(text):
 	if text.length() < 2:
 		var disable = get_valid_username() == null
 		for child in lobby_grid.get_children():
-			if child extends Button and child.get_name().split('|').size() > 1:
+			if child is Button and child.get_name().split('|').size() > 1:
 				child.set_disabled(disable)
 		server_validate_input()
 		client_validate_input()
@@ -162,7 +172,7 @@ func save_config():
 		printerr("Error %s occurred while saving configuration file." % err)
 
 func _input(event):
-	if event.is_action_pressed("ui_cancel") and not get_node("..").mode_node.is_visible():
+	if event.is_action_pressed("ui_cancel") and not get_node("../mode").is_visible():
 		hide()
 		accept_event()
 
@@ -178,5 +188,23 @@ func _on_start_pressed():
 func _on_connect_pressed():
 	# Client
 	save_config()
-	networking.client_start(get_valid_client_host(), get_valid_client_port(), get_valid_username())
+	var ip = get_valid_client_host()
+	var port = get_valid_client_port()
+	networking.client_start(ip, port, get_valid_username())
+	for child in get_children():
+		child.hide()
+	$connecting.popup_centered()
+	$lobby/refresh.stop()
+	get_tree().connect("connection_failed", self, "_connection_failed", [ip, port])
+	get_tree().connect("connected_to_server", self, "_connected_to_server")
+
+func _connection_failed(ip, port):
+	for child in get_children():
+		child.show()
+	$connecting.hide()
+	$lobby/refresh.start()
+	report_error("Connection to %s:%s failed" % [ip, port])
+	get_tree().disconnect("connection_failed", self, "_connection_failed")
+
+func _connected_to_server():
 	get_parent().queue_free()

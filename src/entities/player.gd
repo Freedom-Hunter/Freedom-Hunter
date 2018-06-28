@@ -3,7 +3,6 @@ extends "entity.gd"
 onready var yaw_node = get_node("/root/game/yaw")
 onready var camera_node = yaw_node.get_node("pitch/camera")
 onready var camera_offset = yaw_node.get_translation().y
-onready var audio_node = get_node("audio")
 onready var interact_node = get_node("interact")
 
 onready var hud = get_node("/root/game/hud")
@@ -20,25 +19,25 @@ var equipment = {"weapon": null, "armour": {"head": null, "torso": null, "righta
 var inventory = preload("res://data/scenes/inventory.tscn").instance()
 
 
-func _init().(150, 100, "model/AnimationPlayer"):
+func _init().(150, 100):
 	pass
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		inventory.free()
 
-func set_equipment(model, bone, name=null):
+func set_equipment(model, bone, _name=null):
 	var skel = get_node("model/Armature/Skeleton")
 	for node in skel.get_children():
-		if node extends BoneAttachment:
+		if node is BoneAttachment:
 			if node.get_bone_name() == bone:
 				node.add_child(model)
-				if name != null:
+				if _name != null:
 					node.set_name(name)
 				return
 	var ba = BoneAttachment.new()
-	if name != null:
-		ba.set_name(name)
+	if _name != null:
+		ba.set_name(_name)
 	ba.set_bone_name(bone)
 	ba.add_child(model)
 	skel.add_child(ba)
@@ -62,7 +61,7 @@ func _ready():
 	var whetstone = Whetstone.new("Whetstone", preload("res://data/images/items/whetstone.png"), 10, self, 20)
 
 	inventory.init([null_item, potion, firework, barrel, whetstone], 30)
-	inventory.set_pos(Vector2(1370, 200))
+	inventory.set_position(Vector2(1370, 200))
 	inventory.set_name("player_inventory")
 	resume_player()
 
@@ -72,10 +71,11 @@ func sort_by_distance(a, b):
 	return dist_a < dist_b
 
 func get_nearest_interact():
-	var interacts = interact_node.get_overlapping_areas()
-	for i in interacts:
-		if not i.is_in_group("interact"):
-			interacts.erase(i)
+	var areas = interact_node.get_overlapping_areas()
+	var interacts = []
+	for area in areas:
+		if area.is_in_group("interact"):
+			interacts.append(area)
 	if interacts.size() > 0:
 		interacts.sort_custom(self, "sort_by_distance")
 		return interacts[0]
@@ -102,12 +102,17 @@ func add_item(item):
 	item = item.clone()
 	item.player = self
 	var remainder = inventory.add_item(item)
-	if local:
+	if not get_tree().has_network_peer() or is_network_master():
 		if remainder > 0:
 			hud.notify("You can't carry more than %d %s" % [item.max_quantity, item.name])
 		else:
 			hud.notify("You got %d %s" % [item.quantity, item.name])
 	return remainder
+
+func drop_item(item):
+	var drop = $drop_item.get_global_transform()
+	item.set_global_transform(drop)
+	get_parent().add_child(item)
 
 func heal(amount):
 	hp += amount
@@ -121,57 +126,55 @@ func get_defence():
 			defence += piece.strength
 	return defence
 
-func die():
-	.die()
+sync func died():
+	.died()
 	animation_node.play("death")
-	get_node("audio").play("death")
+	audio(preload("res://data/sounds/hit.wav"))
 	set_process(false)
-	set_fixed_process(false)
+	set_physics_process(false)
 	set_process_input(false)
-	if local:
-		hud.respawn()
+	if not get_tree().has_network_peer() or is_network_master():
+		hud.prompt_respawn()
+	$shape.disabled = true
 
 func respawn():
 	.respawn()
 	resume_player()
+	$shape.disabled = false
 
 func pause_player():
 	direction = Vector3()
 	set_process_input(false)
-	set_fixed_process(false)
-	if local:
-		camera_node.set_process_input(false)
+	set_physics_process(false)
+	set_process(false)
+	animation_node.play("idle")
 
 func resume_player():
-	if local:
-		set_process_input(true)
-		set_fixed_process(true)
-		camera_node.set_process_input(true)
+	var enable = not get_tree().has_network_peer() or is_network_master()
+	set_process_input(enable)
+	set_physics_process(enable)
+	set_process(true)
 
 func _process(delta):
 	if dead:
 		return
 	var anim = animation_node.get_current_animation()
 	var playing = animation_node.is_playing()
-	if anim.find("attack") != -1 and playing:
+	if playing and anim.find("attack") != -1:
 		return
-	if Input.is_action_pressed("player_attack_left"):
-		attack("left_attack_0")
-	if Input.is_action_pressed("player_attack_right"):
-		attack("right_attack_0")
 	if direction.length() != 0:
 		if dodging:
 			if anim != "dodge" or not playing:
-				animation_node.play("dodge")
+				animation_node.play("dodge", 0.5)
 		elif running:
 			if anim != "run" or not playing:
-				animation_node.play("run")
+				animation_node.play("run", 0.5)
 		elif anim != "walk" or not playing:
-			animation_node.play("walk")
+			animation_node.play("walk", 0.5)
 	elif anim in ["walk", "run", "death"] or not playing:
-		animation_node.play("idle")
+		animation_node.play("idle", 0.5)
 
-func _fixed_process(delta):
+func _physics_process(delta):
 	if not dodging:
 		direction = Vector3(0, 0, 0)
 		var jump = 0
@@ -203,18 +206,18 @@ func _fixed_process(delta):
 			if stamina > max_stamina:
 				stamina = max_stamina
 
-		if Input.is_action_pressed("player_dodge") and on_floor and direction != Vector3() and stamina >= DODGE_STAMINA:
+		if Input.is_action_pressed("player_dodge") and is_on_floor() and direction != Vector3() and stamina >= DODGE_STAMINA:
 			if running:
 				if not jumping:
 					jumping = true
 					jump = SPRINT_SPEED
 					stamina -= DODGE_STAMINA
-					audio_node.play("jump")
+					#$"audio".play("jump")
 			elif not dodging:
 				dodging = true
 				speed = DODGE_SPEED
 				stamina -= DODGE_STAMINA
-				audio_node.play("dodge")
+				#$"audio".play("dodge")
 
 		direction = direction.normalized()
 		direction.x = direction.x * speed
@@ -223,6 +226,17 @@ func _fixed_process(delta):
 
 	# Player collision and physics
 	move_entity(delta)
+
+	if Input.is_action_pressed("player_attack_left"):
+		if get_tree().has_network_peer():
+			rpc("attack", "left_attack_0")
+		else:
+			attack("left_attack_0")
+	if Input.is_action_pressed("player_attack_right"):
+		if get_tree().has_network_peer():
+			rpc("attack", "right_attack_0")
+		else:
+			attack("right_attack_0")
 
 	# Camera follows the player
 	yaw_node.set_translation(get_translation() + Vector3(0, camera_offset, 0))
