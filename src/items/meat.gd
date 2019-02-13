@@ -9,7 +9,7 @@ func _init(_name, _icon, _quantity, _player, _stamina).(_name, _icon, _quantity,
 func effect():
 	if player.max_stamina < player.MAX_STAMINA:
 		player.increase_max_stamina(stamina)
-		player.audio(preload("res://data/sounds/eat.wav"))
+		player.get_node("Armature/Skeleton/head/eat").play()
 		return true
 	return false
 

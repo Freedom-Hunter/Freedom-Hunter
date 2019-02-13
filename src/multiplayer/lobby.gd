@@ -3,7 +3,7 @@ extends Node
 const BASE_URL = "https://elinvention.ovh"
 
 var http
-var external
+#var external
 
 var player_id = null
 var server_id = null

@@ -132,7 +132,7 @@ func _on_lobby_connect_pressed(button):
 	var host = button.get_node("../hostname|" + server_id).get_text()
 	var port = button.get_node("../port|" + server_id).get_text()
 	var username = get_valid_username()
-	networking.client_start(host, int(port), username, server_id)
+	networking.client_start(host, int(port), username)
 	get_parent().queue_free()
 
 func _on_username_text_changed(text):

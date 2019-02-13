@@ -45,7 +45,7 @@ func _input(event):
 		accept_event()
 
 func send_action(action):
-	var ev = InputEvent()
+	var ev = InputEvent.new()
 	ev.type = InputEvent.ACTION
 	ev.set_as_action(action, true)
 	get_tree().input_event(ev)

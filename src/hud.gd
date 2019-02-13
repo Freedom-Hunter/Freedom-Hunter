@@ -3,8 +3,6 @@ extends Control
 onready var global = get_node("/root/global")
 onready var networking = get_node("/root/networking")
 
-onready var inventory = get_node("inventory")
-
 var camera_node
 var notify_queue = []
 
@@ -17,10 +15,10 @@ func init():
 	for key in keys:
 		string += OS.get_scancode_string(key.scancode) + ","
 	string[-1] = ""
-	get_node("action").set_text(string)
+	$action.set_text(string)
 
-	update_items()
-	global.local_player.inventory.connect("modified", self, "update_items")
+	$items.update_items()
+	global.local_player.inventory.connect("modified", $items, "update_items")
 
 func _input(event):
 	if get_tree().has_network_peer():
@@ -29,61 +27,40 @@ func _input(event):
 		elif event.is_action_released("players_list"):
 			$players_list.hide()
 	if event.is_action_released("player_inventory"):
-		if inventory.is_visible():
+		if $inventory.is_visible():
 			close_inventories()
 		else:
 			open_inventories([global.local_player.inventory])
 
 func _physics_process(delta):
-	update_values()
 	show_interact()
 	update_names()
 	update_debug()
 	if notify_queue.size() > 0 and not $notification/animation.is_playing():
 		play_notify(notify_queue.pop_front())
 
-func update_values():
-	$hp.set_value(global.local_player.hp)
-	$hp/red_hp.set_value(global.local_player.regenerable_hp)
-	$stamina.set_value(global.local_player.stamina)
-	$stamina.set_max(global.local_player.max_stamina)
-	$stamina.set_size(Vector2(10 * global.local_player.max_stamina, $stamina.get_size()[1]))
-
 func open_inventories(inventories):
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	global.local_player.pause_player()
 	for inv in inventories:
-		inventory.add_child(inv)
-	inventory.popup()
-	inventory.connect("popup_hide", self, "close_inventories")
+		$inventory.add_child(inv)
+	$inventory.popup()
+	$inventory.connect("popup_hide", self, "close_inventories")
 
 func close_inventories():
-	if inventory.is_connected("popup_hide", self, "close_inventories"):
-		inventory.disconnect("popup_hide", self, "close_inventories")
+	if $inventory.is_connected("popup_hide", self, "close_inventories"):
+		$inventory.disconnect("popup_hide", self, "close_inventories")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	global.local_player.resume_player()
-	for child in inventory.get_children():
+	for child in $inventory.get_children():
 		if child.get_name() != "quit":
-			inventory.remove_child(child)
-	inventory.hide()
-
-func update_items():
-	var inventory = global.local_player.inventory
-	var i = -2
-	for child in $items_bar.get_children():
-		if child is Panel:
-			var item = inventory.get_item(inventory.active_item + i)
-			child.get_node("icon").set_texture(item.icon)
-			i += 1
-	var item = inventory.items[inventory.active_item]
-	get_node("items_bar/quantity/label").set_text(str(item.quantity))
-	item.set_label_color(get_node("items_bar/quantity/label"))
-	get_node("items_bar/name/label").set_text(item.name)
+			$inventory.remove_child(child)
+	$inventory.hide()
 
 func show_interact():
 	var interact = global.local_player.get_nearest_interact()
 	if interact != null:
-		var pos = interact.get_global_transform().origin + Vector3(0, 1, 0)
+		var pos = interact.get_global_transform().origin + Vector3.UP
 		if camera_node.is_position_behind(pos):
 			$action.hide()
 		else:

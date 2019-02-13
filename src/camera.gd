@@ -2,7 +2,6 @@ extends Camera
 
 onready var yaw_node = get_node("../..")
 onready var pitch_node = get_node("..")
-onready var onscreen_node = get_node("/root/game/hud/onscreen")
 
 var target_yaw
 var target_pitch
@@ -52,13 +51,13 @@ func rotate_view(relative):
 
 func _input(event):
 	if event is InputEventScreenTouch:
-		if event.is_pressed() and event.index != onscreen_node.touch_index:
+		if event.is_pressed() and event.index != $"/root/hud/onscreen".touch_index:
 			touch_index = event.index
 		else:
 			touch_index = null
-	elif event is InputEventScreenDrag and event.index == touch_index and event.index != onscreen_node.touch_index:
+	elif event is InputEventScreenDrag and event.index == touch_index and event.index != $"/root/hud/oncreen".touch_index:
 		rotate_view(event.relative * touch_sensitivity)
-	elif event is InputEventMouseMotion and not onscreen_node.is_visible():
+	elif event is InputEventMouseMotion and not $"/root/hud/onscreen".is_visible():
 		rotate_view(event.relative * mouse_sensitivity)
 	elif event.is_action_released("player_camera_reset"):
 		var basis = global.local_player.get_transform().basis

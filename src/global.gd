@@ -29,22 +29,23 @@ func add_player(_name, id=1, transform=null):
 		prints(_name, "is remote player")
 	if transform != null:
 		player.transform = transform
-	game.get_node("hud").player_connected(_name)
+	$"/root/hud/margin/view".player_connected(_name)
 	return player
 
 func remove_player(_name):
 	players_spawn.get_node(_name).queue_free()
-	game.get_node("hud").player_disconnected(_name)
+	$"/root/hud/margin/view".player_disconnected(_name)
 
 func start_game(local_player_name):
 	game = preload("res://data/scenes/game.tscn").instance()
-	get_node("/root/").add_child(game)
+	$"/root".add_child(preload("res://data/scenes/hud.tscn").instance())
+	$"/root".add_child(game)
 	players_spawn = game.get_node("player_spawn")
 	monsters_spawn = game.get_node("monster_spawn")
 	add_monster("Dragon", preload("res://data/scenes/monsters/dragon.tscn"))
 	if local_player_name != null:
 		local_player = add_player(local_player_name, networking.unique_id)
-		game.get_node("hud").init()
+		$"/root/hud/margin/view".init()
 	get_tree().set_current_scene(game)
 	return game
 
@@ -52,6 +53,7 @@ func stop_game():
 	if game != null:
 		game.queue_free()
 		game = null
+		$"/root/hud".queue_free()
 	get_node("/root/networking").stop()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_tree().set_pause(false)

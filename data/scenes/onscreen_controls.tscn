@@ -9,120 +9,61 @@
 [ext_resource path="res://data/images/onscreen_controls/Y.png" type="Texture" id=7]
 
 [node name="onscreen" type="Control"]
-
-margin_right = 1920.0
-margin_bottom = 1080.0
-rect_clip_content = false
-mouse_filter = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 script = ExtResource( 1 )
 
 [node name="analog" type="TextureRect" parent="."]
-
 margin_left = 1620.0
 margin_top = 640.0
 margin_right = 1820.0
 margin_bottom = 840.0
-rect_clip_content = false
-mouse_filter = 1
 size_flags_horizontal = 2
 size_flags_vertical = 2
 texture = ExtResource( 2 )
 expand = true
-stretch_mode = 0
 
 [node name="stick" type="TextureRect" parent="analog"]
-
 margin_left = 50.0
 margin_top = 50.0
 margin_right = 150.0
 margin_bottom = 150.0
-rect_clip_content = false
-mouse_filter = 1
 size_flags_horizontal = 2
 size_flags_vertical = 2
 texture = ExtResource( 3 )
 expand = true
-stretch_mode = 0
 
 [node name="buttons" type="Control" parent="."]
-
 margin_left = 100.0
 margin_top = 600.0
 margin_right = 350.0
 margin_bottom = 850.0
-rect_clip_content = false
-mouse_filter = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 
 [node name="A" type="TouchScreenButton" parent="buttons"]
-
 position = Vector2( 85, 170 )
 normal = ExtResource( 4 )
-pressed = null
-bitmask = null
-shape = null
-shape_centered = true
-shape_visible = true
-passby_press = false
-action = ""
-visibility_mode = 0
 
 [node name="B" type="TouchScreenButton" parent="buttons"]
-
 position = Vector2( 0, 85 )
 normal = ExtResource( 5 )
-pressed = null
-bitmask = null
-shape = null
-shape_centered = true
-shape_visible = true
-passby_press = false
-action = ""
-visibility_mode = 0
 
 [node name="X" type="TouchScreenButton" parent="buttons"]
-
 position = Vector2( 85, 0 )
 normal = ExtResource( 6 )
-pressed = null
-bitmask = null
-shape = null
-shape_centered = true
-shape_visible = true
-passby_press = false
-action = ""
-visibility_mode = 0
 
 [node name="Y" type="TouchScreenButton" parent="buttons"]
-
 position = Vector2( 170, 85 )
 normal = ExtResource( 7 )
-pressed = null
-bitmask = null
-shape = null
-shape_centered = true
-shape_visible = true
-passby_press = false
-action = ""
-visibility_mode = 0
 
 [connection signal="pressed" from="buttons/A" to="." method="_on_A_pressed"]
-
 [connection signal="released" from="buttons/A" to="." method="_on_A_released"]
-
 [connection signal="pressed" from="buttons/B" to="." method="_on_B_pressed"]
-
 [connection signal="released" from="buttons/B" to="." method="_on_B_released"]
-
 [connection signal="pressed" from="buttons/X" to="." method="_on_X_pressed"]
-
 [connection signal="released" from="buttons/X" to="." method="_on_X_released"]
-
 [connection signal="pressed" from="buttons/Y" to="." method="_on_Y_pressed"]
-
 [connection signal="released" from="buttons/Y" to="." method="_on_Y_released"]
-
-

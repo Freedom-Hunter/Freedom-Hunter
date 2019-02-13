@@ -11,7 +11,7 @@ var lobby
 var players = {}
 var unique_id = 1
 
-signal start_game
+#signal start_game
 
 func init_lobby():
 	lobby = Lobby.new()

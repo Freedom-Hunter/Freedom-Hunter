@@ -6,44 +6,13 @@
 
 [sub_resource type="StyleBoxFlat" id=1]
 
-content_margin_left = -1.0
-content_margin_right = -1.0
-content_margin_top = -1.0
-content_margin_bottom = -1.0
 bg_color = Color( 0, 0, 0, 0.736002 )
-filled = true
-border_width_left = 0
-border_width_top = 0
-border_width_right = 0
-border_width_bottom = 0
-border_color = Color( 0.8, 0.8, 0.8, 1 )
 border_blend = true
-corner_radius_top_left = 0
-corner_radius_top_right = 0
-corner_radius_bottom_right = 0
-corner_radius_bottom_left = 0
-corner_detail = 8
-expand_margin_left = 0.0
-expand_margin_right = 0.0
-expand_margin_top = 0.0
-expand_margin_bottom = 0.0
-shadow_color = Color( 0, 0, 0, 0.6 )
-shadow_size = 0
-anti_aliasing = true
-anti_aliasing_size = 1
 
 [node name="game_menu" type="Popup"]
-
 pause_mode = 2
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 1920.0
-margin_bottom = 1080.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 theme = ExtResource( 1 )
@@ -51,159 +20,69 @@ popup_exclusive = true
 script = ExtResource( 2 )
 
 [node name="Panel" type="Panel" parent="."]
-
-anchor_left = 0.0
-anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 custom_styles/panel = SubResource( 1 )
 
-[node name="Container" type="Container" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
 
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="TextureFrame" type="TextureRect" parent="CenterContainer"]
 margin_left = 410.0
 margin_top = 240.0
 margin_right = 1510.0
 margin_bottom = 840.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-_sections_unfolded = [ "Anchor", "Margin" ]
-
-[node name="TextureFrame" type="TextureRect" parent="Container"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 1100.0
-margin_bottom = 600.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
 size_flags_horizontal = 2
 size_flags_vertical = 2
 texture = ExtResource( 3 )
-stretch_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Container"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 180.0
-margin_top = 100.0
-margin_right = -180.0
-margin_bottom = -100.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 653.0
+margin_top = 354.0
+margin_right = 1267.0
+margin_bottom = 726.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 custom_constants/separation = 20
 alignment = 1
-_sections_unfolded = [ "Anchor", "Margin" ]
 
-[node name="fullscreen" type="Button" parent="Container/VBoxContainer"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 740.0
+[node name="fullscreen" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_right = 614.0
 margin_bottom = 78.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
 size_flags_horizontal = 3
 size_flags_vertical = 2
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
 text = "Fullscreen (F11)"
-flat = false
 
-[node name="main_menu" type="Button" parent="Container/VBoxContainer"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 105.0
-margin_right = 740.0
-margin_bottom = 183.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
+[node name="main_menu" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 98.0
+margin_right = 614.0
+margin_bottom = 176.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
 text = "Return to Main Menu"
-flat = false
 
-[node name="quit" type="Button" parent="Container/VBoxContainer"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 210.0
-margin_right = 740.0
-margin_bottom = 288.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
+[node name="quit" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 196.0
+margin_right = 614.0
+margin_bottom = 274.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
 text = "Quit to Desktop"
-flat = false
 
-[node name="return" type="Button" parent="Container/VBoxContainer"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 315.0
-margin_right = 740.0
-margin_bottom = 393.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
+[node name="return" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 294.0
+margin_right = 614.0
+margin_bottom = 372.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
 text = "Return to Game"
-flat = false
 
-[connection signal="pressed" from="Container/VBoxContainer/fullscreen" to="." method="_on_fullscreen_pressed"]
-
-[connection signal="pressed" from="Container/VBoxContainer/main_menu" to="." method="_on_main_menu_pressed"]
-
-[connection signal="pressed" from="Container/VBoxContainer/quit" to="." method="_on_quit_pressed"]
-
-[connection signal="pressed" from="Container/VBoxContainer/return" to="." method="_on_return_pressed"]
-
-
+[connection signal="pressed" from="CenterContainer/VBoxContainer/fullscreen" to="." method="_on_fullscreen_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/main_menu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/return" to="." method="_on_return_pressed"]

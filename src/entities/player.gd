@@ -5,15 +5,8 @@ onready var camera_node = yaw_node.get_node("pitch/camera")
 onready var camera_offset = yaw_node.get_translation().y
 onready var interact_node = get_node("interact")
 
-onready var hud = get_node("/root/game/hud")
-onready var onscreen = hud.get_node("onscreen")
-
-const STAMINA_REGENERATION = 4
-const SPRINT_STAMINA = 5
-const DODGE_STAMINA = 10
-const DODGE_SPEED = 6
-const WALK_SPEED = 5
-const SPRINT_SPEED = 7.5
+onready var hud = get_node("/root/hud/margin/view")
+onready var onscreen = get_node("/root/hud/onscreen")
 
 var equipment = {"weapon": null, "armour": {"head": null, "torso": null, "rightarm": null, "leftarm": null, "leg": null}}
 var inventory = preload("res://data/scenes/inventory.tscn").instance()
@@ -27,7 +20,7 @@ func _notification(what):
 		inventory.free()
 
 func set_equipment(model, bone, _name=null):
-	var skel = get_node("model/Armature/Skeleton")
+	var skel = $Armature/Skeleton
 	for node in skel.get_children():
 		if node is BoneAttachment:
 			if node.get_bone_name() == bone:
@@ -89,13 +82,29 @@ func interact_with_nearest():
 	interact_with(get_nearest_interact())
 
 func _input(event):
-	if event.is_action_pressed("player_scroll_next") and not Input.is_action_pressed("camera_rotation_lock"):
+	if event.is_action_pressed("player_attack_left"):
+		if get_tree().has_network_peer():
+			rpc("attack", "left_attack_0")
+		else:
+			attack("left_attack_0")
+	elif event.is_action_pressed("player_attack_right"):
+		if get_tree().has_network_peer():
+			rpc("attack", "right_attack_0")
+		else:
+			attack("right_attack_0")
+	elif event.is_action_pressed("player_dodge"):
+		dodge()
+	elif event.is_action_pressed("player_run"):
+		run()
+	elif event.is_action_released("player_run"):
+		walk()
+	elif event.is_action_pressed("player_scroll_next") and not Input.is_action_pressed("camera_rotation_lock"):
 		inventory.activate_next()
 	elif event.is_action_pressed("player_scroll_back") and not Input.is_action_pressed("camera_rotation_lock"):
 		inventory.activate_prev()
 	elif event.is_action_pressed("player_use"):
 		inventory.use_active_item()
-	elif Input.is_action_pressed("player_interact"):
+	elif event.is_action_pressed("player_interact"):
 		interact_with_nearest()
 
 func add_item(item):
@@ -116,8 +125,8 @@ func drop_item(item):
 
 func heal(amount):
 	hp += amount
-	if hp > max_hp:
-		hp = max_hp
+	if hp > hp_max:
+		hp = hp_max
 
 func get_defence():
 	var defence = 0
@@ -129,7 +138,6 @@ func get_defence():
 sync func died():
 	.died()
 	animation_node.play("death")
-	audio(preload("res://data/sounds/hit.wav"))
 	set_process(false)
 	set_physics_process(false)
 	set_process_input(false)
@@ -158,9 +166,12 @@ func resume_player():
 func _process(delta):
 	if dead:
 		return
+	if get_tree().has_network_peer() and not is_network_master():
+		direction = (previous_origin - transform.origin).normalized()
+		previous_origin = transform.origin
 	var anim = animation_node.get_current_animation()
 	var playing = animation_node.is_playing()
-	if playing and anim.find("attack") != -1:
+	if playing and (anim.find("attack") != -1 or anim in ["drink", "whetstone"]):
 		return
 	if direction.length() != 0:
 		if dodging:
@@ -177,10 +188,8 @@ func _process(delta):
 func _physics_process(delta):
 	if not dodging:
 		direction = Vector3(0, 0, 0)
-		var jump = 0
 		var camera = camera_node.get_global_transform()
 		# Player movements
-		var speed = WALK_SPEED
 		if Input.is_action_pressed("player_forward"):
 			direction -= Vector3(camera.basis.z.x, 0, camera.basis.z.z)
 		if Input.is_action_pressed("player_backward"):
@@ -194,49 +203,10 @@ func _physics_process(delta):
 			var d = onscreen.direction
 			direction = d.y * camera.basis.z + d.x * camera.basis.x
 
-		running = Input.is_action_pressed("player_run") and direction != Vector3() and stamina > SPRINT_STAMINA * delta
-		if Input.is_action_pressed("player_run") and direction != Vector3():
-			stamina -= SPRINT_STAMINA * delta
-			if stamina < 0:
-				stamina = 0
-			else:
-				speed = SPRINT_SPEED
-		elif stamina < max_stamina:
-			stamina += STAMINA_REGENERATION * delta
-			if stamina > max_stamina:
-				stamina = max_stamina
-
-		if Input.is_action_pressed("player_dodge") and is_on_floor() and direction != Vector3() and stamina >= DODGE_STAMINA:
-			if running:
-				if not jumping:
-					jumping = true
-					jump = SPRINT_SPEED
-					stamina -= DODGE_STAMINA
-					#$"audio".play("jump")
-			elif not dodging:
-				dodging = true
-				speed = DODGE_SPEED
-				stamina -= DODGE_STAMINA
-				#$"audio".play("dodge")
-
 		direction = direction.normalized()
-		direction.x = direction.x * speed
-		direction.y = jump
-		direction.z = direction.z * speed
 
 	# Player collision and physics
 	move_entity(delta)
-
-	if Input.is_action_pressed("player_attack_left"):
-		if get_tree().has_network_peer():
-			rpc("attack", "left_attack_0")
-		else:
-			attack("left_attack_0")
-	if Input.is_action_pressed("player_attack_right"):
-		if get_tree().has_network_peer():
-			rpc("attack", "right_attack_0")
-		else:
-			attack("right_attack_0")
 
 	# Camera follows the player
 	yaw_node.set_translation(get_translation() + Vector3(0, camera_offset, 0))

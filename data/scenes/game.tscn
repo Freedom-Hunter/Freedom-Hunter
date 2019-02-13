@@ -1,80 +1,29 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://data/scenes/hud.tscn" type="PackedScene" id=1]
-[ext_resource path="res://data/scenes/game_menu.tscn" type="PackedScene" id=2]
-[ext_resource path="res://data/scenes/world.tscn" type="PackedScene" id=3]
-[ext_resource path="res://data/scenes/interact/chest.tscn" type="PackedScene" id=4]
-[ext_resource path="res://data/scenes/interact/mushrooms.tscn" type="PackedScene" id=5]
-[ext_resource path="res://src/camera.gd" type="Script" id=6]
+[ext_resource path="res://data/scenes/maps/Test Map.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/camera.gd" type="Script" id=2]
 
-[node name="game" type="Area"]
+[node name="game" type="Spatial"]
 
-input_ray_pickable = false
-input_capture_on_drag = false
-space_override = 0
-gravity_point = false
-gravity_distance_scale = 0.0
-gravity_vec = Vector3( 0, -1, 0 )
-gravity = 9.8
-linear_damp = 0.1
-angular_damp = 1.0
-priority = 0.0
-monitoring = true
-monitorable = true
-collision_layer = 1
-collision_mask = 1
-audio_bus_override = false
-audio_bus_name = "Master"
-reverb_bus_enable = false
-reverb_bus_name = "Master"
-reverb_bus_amount = 0.0
-reverb_bus_uniformity = 0.0
+[node name="Test Map" parent="." instance=ExtResource( 1 )]
 
-[node name="hud" parent="." index="0" instance=ExtResource( 1 )]
+[node name="player_spawn" type="Position3D" parent="."]
 
-[node name="game_menu" parent="." index="1" instance=ExtResource( 2 )]
-
-visible = false
-mouse_default_cursor_shape = 0
-
-[node name="world" parent="." index="2" instance=ExtResource( 3 )]
-
-[node name="chest" parent="." index="3" instance=ExtResource( 4 )]
-
-transform = Transform( 0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 7 )
-
-[node name="mushroom" parent="." index="4" instance=ExtResource( 5 )]
-
-[node name="player_spawn" type="Position3D" parent="." index="5"]
-
-[node name="monster_spawn" type="Position3D" parent="." index="6"]
-
+[node name="monster_spawn" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 63.7703, 8.22365, 38.8051 )
 
-[node name="yaw" type="Spatial" parent="." index="7"]
-
+[node name="yaw" type="Spatial" parent="."]
 editor/display_folded = true
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.5, 0 )
 
-[node name="pitch" type="Spatial" parent="yaw" index="0"]
-
+[node name="pitch" type="Spatial" parent="yaw"]
 transform = Transform( 1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 0, 0 )
 
-[node name="camera" type="Camera" parent="yaw/pitch" index="0"]
-
+[node name="camera" type="Camera" parent="yaw/pitch"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 8 )
-keep_aspect = 1
-cull_mask = 1048575
-environment = null
-h_offset = 0.0
-v_offset = 0.0
-doppler_tracking = 0
-projection = 0
 current = true
 fov = 60.0
-size = 1.0
 near = 0.1
 far = 500.0
-script = ExtResource( 6 )
-
+script = ExtResource( 2 )
 

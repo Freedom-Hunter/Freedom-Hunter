@@ -5,65 +5,28 @@
 
 [sub_resource type="SphereShape" id=1]
 
-radius = 1.0
 
-[node name="mushroom" type="Area"]
-
+[node name="mushroom" type="Spatial"]
 _import_path = NodePath(".")
-input_ray_pickable = false
-input_capture_on_drag = false
-space_override = 0
-gravity_point = false
-gravity_distance_scale = 0.0
-gravity_vec = Vector3( 0, -1, 0 )
-gravity = 9.8
-linear_damp = 0.1
-angular_damp = 1.0
-priority = 0.0
-monitoring = true
-monitorable = true
-collision_layer = 1
-collision_mask = 1
-audio_bus_override = false
-audio_bus_name = "Master"
-reverb_bus_enable = false
-reverb_bus_name = "Master"
-reverb_bus_amount = 0.0
-reverb_bus_uniformity = 0.0
 script = ExtResource( 1 )
 
 [node name="model" parent="." instance=ExtResource( 2 )]
 
-_sections_unfolded = [ "Pause", "Transform", "Visibility" ]
+[node name="Shroom3" parent="model" index="0"]
+use_in_baked_light = true
+
+[node name="Shroom2" parent="model" index="1"]
+use_in_baked_light = true
+
+[node name="Shroom1" parent="model" index="2"]
+use_in_baked_light = true
 
 [node name="interact" type="Area" parent="." groups=[
 "interact",
 ]]
 
-input_ray_pickable = false
-input_capture_on_drag = false
-space_override = 0
-gravity_point = false
-gravity_distance_scale = 0.0
-gravity_vec = Vector3( 0, -1, 0 )
-gravity = 9.8
-linear_damp = 0.1
-angular_damp = 1.0
-priority = 0.0
-monitoring = true
-monitorable = true
-collision_layer = 1
-collision_mask = 1
-audio_bus_override = false
-audio_bus_name = "Master"
-reverb_bus_enable = false
-reverb_bus_name = "Master"
-reverb_bus_amount = 0.0
-reverb_bus_uniformity = 0.0
-
 [node name="radius" type="CollisionShape" parent="interact"]
-
 shape = SubResource( 1 )
-disabled = false
 
 
+[editable path="model"]

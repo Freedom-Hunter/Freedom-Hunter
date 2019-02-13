@@ -20,7 +20,7 @@ func init(items_array, max_slots_int):
 			var slot = Slot.new(self, item)
 			$items.add_child(slot)
 			added += 1
-	for i in range(added, max_slots):
+	for _i in range(added, max_slots):
 		var slot = Slot.new(self)
 		$items.add_child(slot)
 
@@ -130,7 +130,7 @@ class ItemStack extends TextureRect:
 
 # Manage drag and drop
 class Slot extends Panel:
-	var Item = preload("res://src/items/item.gd")
+	#var Item = preload("res://src/items/item.gd")
 	var item
 	var stack
 	var inventory
