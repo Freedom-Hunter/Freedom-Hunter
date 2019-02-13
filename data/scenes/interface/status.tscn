@@ -154,14 +154,28 @@ tracks/0/keys = {
 }
 
 [node name="status" type="VBoxContainer"]
-margin_right = 300.0
-margin_bottom = 98.0
-custom_constants/separation = 10
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 391.0
+margin_bottom = 93.0
 script = ExtResource( 1 )
 
-[node name="hp" type="ProgressBar" parent="."]
+[node name="hp" type="HBoxContainer" parent="."]
 editor/display_folded = true
-margin_right = 300.0
+margin_right = 396.0
+margin_bottom = 14.0
+
+[node name="label" type="Label" parent="hp"]
+margin_right = 80.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 80, 0 )
+text = "100/100"
+align = 1
+
+[node name="bar" type="ProgressBar" parent="hp"]
+editor/display_folded = true
+margin_left = 84.0
+margin_right = 384.0
 margin_bottom = 14.0
 rect_min_size = Vector2( 300, 14 )
 size_flags_horizontal = 2
@@ -174,7 +188,7 @@ value = 50.0
 rounded = true
 percent_visible = false
 
-[node name="red_hp" type="ProgressBar" parent="hp"]
+[node name="red" type="ProgressBar" parent="hp/bar"]
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -185,16 +199,23 @@ max_value = 150.0
 step = 1.0
 percent_visible = false
 
-[node name="hp_label" type="Label" parent="."]
-margin_top = 24.0
-margin_right = 300.0
-margin_bottom = 38.0
+[node name="stamina" type="HBoxContainer" parent="."]
+editor/display_folded = true
+margin_top = 18.0
+margin_right = 396.0
+margin_bottom = 32.0
+
+[node name="label" type="Label" parent="stamina"]
+margin_right = 80.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 80, 0 )
+text = "100/100"
 align = 1
 
-[node name="stamina" type="ProgressBar" parent="."]
-margin_top = 48.0
-margin_right = 300.0
-margin_bottom = 62.0
+[node name="bar" type="ProgressBar" parent="stamina"]
+margin_left = 84.0
+margin_right = 384.0
+margin_bottom = 14.0
 rect_min_size = Vector2( 300, 14 )
 size_flags_horizontal = 2
 size_flags_vertical = 2
@@ -205,17 +226,11 @@ max_value = 50.0
 value = 50.0
 percent_visible = false
 
-[node name="stamina_label" type="Label" parent="."]
-margin_top = 72.0
-margin_right = 300.0
-margin_bottom = 86.0
-align = 1
-
 [node name="sharpness" type="Container" parent="."]
 editor/display_folded = true
-margin_top = 96.0
+margin_top = 36.0
 margin_right = 280.0
-margin_bottom = 146.0
+margin_bottom = 86.0
 rect_min_size = Vector2( 280, 50 )
 size_flags_horizontal = 2
 

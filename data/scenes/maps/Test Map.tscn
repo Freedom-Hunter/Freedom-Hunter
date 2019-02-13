@@ -30,7 +30,7 @@ bias = 1.5
 normal_bias = 0.0
 propagation = 0.7
 
-[node name="Test Map" instance=ExtResource( 1 )]
+[node name="Test Map" index="0" instance=ExtResource( 1 )]
 editor/display_folded = true
 
 [node name="Plane" parent="." index="0"]
