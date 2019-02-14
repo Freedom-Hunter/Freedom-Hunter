@@ -19,6 +19,8 @@ func init():
 
 	$items.update_items()
 	global.local_player.inventory.connect("modified", $items, "update_items")
+	global.local_player.connect("hp_changed", $status, "_on_hp_changed")
+	global.local_player.connect("stamina_changed", $status, "_on_stamina_changed")
 
 func _input(event):
 	if get_tree().has_network_peer():

@@ -125,11 +125,6 @@ func drop_item(item):
 	item.set_global_transform(drop)
 	get_parent().add_child(item)
 
-func heal(amount):
-	hp += amount
-	if hp > hp_max:
-		hp = hp_max
-
 func get_defence():
 	var defence = 0
 	for piece in equipment.armour.values():

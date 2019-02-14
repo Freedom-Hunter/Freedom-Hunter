@@ -12,11 +12,13 @@ var hp_max = 0
 puppet var hp_regenerable = 0
 var hp_regeneration = 1
 var hp_regeneration_interval = 5
+signal hp_changed(hp, hp_reg, hp_max)
 
 # Stamina
 var stamina = 0
 var stamina_max = 0
 var stamina_regeneration = 4
+signal stamina_changed(stamina, stamina_max)
 
 # Dodge
 puppet var dodging = false
@@ -55,11 +57,15 @@ func _init(_hp, _stamina, interp=15):
 	stamina = _stamina
 	stamina_max = _stamina
 	interpolation_factor = interp
+	emit_signal("hp_changed", hp, hp_regenerable, hp_max)
+	emit_signal("stamina_changed", stamina, stamina_max)
 
 func _ready():
 	animation_node = find_node("entity_animation")
 	animation_node.connect("animation_finished", self, "_on_animation_finished")
 	rset_config("transform", MultiplayerAPI.RPC_MODE_PUPPET)
+	emit_signal("hp_changed", hp, hp_regenerable, hp_max)
+	emit_signal("stamina_changed", stamina, stamina_max)
 
 func dodge():
 	if not dodging and is_on_floor() and direction != Vector3() and stamina >= dodge_stamina:
@@ -67,6 +73,7 @@ func dodge():
 			rset_unreliable("dodging", true)
 		dodging = true
 		stamina -= dodge_stamina
+		emit_signal("stamina_changed", stamina, stamina_max)
 
 func run():
 	if not running and direction != Vector3() and stamina > run_stamina:
@@ -94,6 +101,7 @@ func move_entity(delta: float, gravity:bool=true):
 	elif running:
 		velocity *= run_speed
 		stamina -= run_stamina * delta
+		emit_signal("stamina_changed", stamina, stamina_max)
 	elif jumping:
 		pass
 	else:
@@ -173,9 +181,17 @@ puppet func respawn():
 	set_process(true)
 	if get_tree().has_network_peer() and is_network_master():
 		rpc("respawn")
+	emit_signal("hp_changed", hp, hp_regenerable, hp_max)
+	emit_signal("stamina_changed", stamina, stamina_max)
 
 func get_defence():
 	return 0
+
+func heal(amount):
+	hp += amount
+	if hp > hp_max:
+		hp = hp_max
+	emit_signal("hp_changed", hp, hp_regenerable, hp_max)
 
 func damage(dmg, reg, weapon=null, entity=null):
 	if hp > 0:
@@ -192,6 +208,7 @@ func damage(dmg, reg, weapon=null, entity=null):
 			print("%s lost %s - %s = %s health points. HP: %s (+%s)" % [name, dmg, defence, dmg - defence, hp, hp_regenerable])
 		if hp <= 0:
 			die()
+		emit_signal("hp_changed", hp, hp_regenerable, hp_max)
 	else:
 		prints(get_name(), "is already dead")
 
@@ -204,25 +221,29 @@ func stamina_max_increase(amount):
 	if stamina_max + amount <= MAX_STAMINA:
 		stamina_max += amount
 		stamina = stamina_max
+		emit_signal("stamina_changed", stamina, stamina_max)
 
 func stamina_natural_regeneration(delta):
 	if not dodging and not running:
 		stamina += stamina_regeneration * delta
 		if stamina > stamina_max:
 			stamina = stamina_max
+		emit_signal("stamina_changed", stamina, stamina_max)
 
 func stamina_boost(amount):
 	stamina += amount
 	if stamina > stamina_max:
 		stamina = stamina_max
+	emit_signal("stamina_changed", stamina, stamina_max)
 
 func hp_natural_regeneration(delta):
 	if not dodging and not running:
 		time_hit += delta
 		if time_hit > hp_regeneration_interval:
 			time_hit = 0
-			if hp_regenerable - hp > 0:
+			if hp_regenerable > hp:
 				hp += hp_regeneration
+				emit_signal("hp_changed", hp, hp_regenerable, hp_max)
 
 func _process(delta):
 	hp_natural_regeneration(delta)
