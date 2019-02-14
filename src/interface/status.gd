@@ -8,7 +8,7 @@ func _process(delta):
 	$hp/bar.value = global.local_player.hp
 
 	$hp/bar/red.max_value = global.local_player.hp_max
-	$hp/bar/red.rect_size.x = $hp.rect_size.x
+	$hp/bar/red.rect_size.x = $hp/bar.rect_size.x
 	$hp/bar/red.value = global.local_player.hp_regenerable
 
 	$stamina/bar.max_value = global.local_player.stamina_max
