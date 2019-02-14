@@ -25,12 +25,12 @@ Label/constants/shadow_offset_x = 1
 Label/constants/shadow_offset_y = 1
 Label/fonts/font = null
 
-[sub_resource type="DynamicFont" id=22]
+[sub_resource type="DynamicFont" id=3]
 
 size = 32
 font_data = ExtResource( 7 )
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=4]
 
 length = 2.0
 tracks/0/type = "value"
@@ -145,13 +145,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 22 )
+custom_fonts/font = SubResource( 3 )
 text = "Hai ottenuto: %s"
 align = 1
 valign = 1
 
 [node name="animation" type="AnimationPlayer" parent="margin/view/notification"]
-anims/show = SubResource( 23 )
+anims/show = SubResource( 4 )
 
 [node name="ringtone" type="AudioStreamPlayer" parent="margin/view/notification"]
 stream = ExtResource( 8 )
@@ -229,5 +229,5 @@ clip_text = true
 
 [connection signal="pressed" from="margin/view/action" to="." method="_on_action_pressed"]
 [connection signal="pressed" from="margin/view/inventory/quit" to="margin/view" method="close_inventories"]
-[connection signal="confirmed" from="margin/view/respawn" to="." method="_on_respawn_confirmed"]
-[connection signal="popup_hide" from="margin/view/respawn" to="." method="_on_respawn_confirmed"]
+[connection signal="confirmed" from="margin/view/respawn" to="margin/view" method="_on_respawn_confirmed"]
+[connection signal="popup_hide" from="margin/view/respawn" to="margin/view" method="_on_respawn_confirmed"]
