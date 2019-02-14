@@ -7,9 +7,9 @@ func _init(_name, _icon, _quantity, _player, _stamina).(_name, _icon, _quantity,
 	stamina = _stamina
 
 func effect():
-	if player.max_stamina < player.MAX_STAMINA:
-		player.increase_max_stamina(stamina)
-		player.get_node("Armature/Skeleton/head/eat").play()
+	if player.stamina_max < player.MAX_STAMINA:
+		player.stamina_max_increase(stamina)
+		player.animation_node.play("eat")
 		return true
 	return false
 

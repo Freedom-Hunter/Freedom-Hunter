@@ -1,17 +1,14 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://data/models/player/male.dae" type="PackedScene" id=1]
 [ext_resource path="res://src/entities/player.gd" type="Script" id=2]
 [ext_resource path="res://data/sounds/whetstone.wav" type="AudioStream" id=3]
-[ext_resource path="res://data/sounds/dodge.wav" type="AudioStream" id=4]
+[ext_resource path="res://data/sounds/eat.wav" type="AudioStream" id=4]
 [ext_resource path="res://data/sounds/potion_drink.wav" type="AudioStream" id=5]
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=1]
 
 resource_name = "drink"
-length = 1.0
-loop = false
-step = 0.1
 tracks/0/type = "audio"
 tracks/0/path = NodePath("Armature/Skeleton/head/audio")
 tracks/0/interp = 1
@@ -27,18 +24,41 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 )
 }
 
-[sub_resource type="BoxShape" id=1]
+[sub_resource type="Animation" id=4]
 
-extents = Vector3( 0.4, 0.9, 0.2 )
+resource_name = "eat"
+tracks/0/type = "audio"
+tracks/0/path = NodePath("Armature/Skeleton/head/audio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 4 )
+} ],
+"times": PoolRealArray( 0 )
+}
 
 [sub_resource type="BoxShape" id=2]
 
+extents = Vector3( 0.4, 0.9, 0.2 )
+
+[sub_resource type="BoxShape" id=3]
+
 extents = Vector3( 0.672363, 1, 0.10089 )
 
-[node name="player" groups=[
+[node name="player" index="0" groups=[
 "player",
 ] instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+
+[node name="Skeleton" parent="Armature" index="0"]
+bones/19/bound_children = [ NodePath("head") ]
+bones/41/bound_children = [ NodePath("weapon_L") ]
+bones/61/bound_children = [ NodePath("weapon_R") ]
 
 [node name="weapon_L" type="BoneAttachment" parent="Armature/Skeleton" index="1"]
 transform = Transform( -0.999991, 0.00295575, 0.00295588, 0.00295557, -8.913e-06, 0.999996, 0.00295565, 0.999996, 2.36105e-09, 1.14322, 2.25633, -0.0384266 )
@@ -50,24 +70,7 @@ bone_name = "weapon_R"
 
 [node name="audio" type="AudioStreamPlayer3D" parent="Armature/Skeleton/weapon_R" index="0"]
 stream = ExtResource( 3 )
-attenuation_model = 0
 unit_db = 10.0
-unit_size = 1.0
-max_db = 3.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 0.0
-out_of_range_mode = 0
-bus = "Master"
-area_mask = 1
-emission_angle_enabled = false
-emission_angle_degrees = 45.0
-emission_angle_filter_attenuation_db = -12.0
-attenuation_filter_cutoff_hz = 5000.0
-attenuation_filter_db = -24.0
-doppler_tracking = 0
-_sections_unfolded = [ "Transform" ]
 
 [node name="head" type="BoneAttachment" parent="Armature/Skeleton" index="3"]
 transform = Transform( 1, 9.54355e-09, 8.74797e-09, 1.84389e-07, -0.0868271, -0.996223, -8.74804e-09, 0.996223, -0.0868269, -9.80478e-09, 2.50789, -0.0144236 )
@@ -76,62 +79,24 @@ bone_name = "head"
 [node name="audio" type="AudioStreamPlayer3D" parent="Armature/Skeleton/head" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.01918e-08, 0, 0 )
 stream = ExtResource( 4 )
-attenuation_model = 0
 unit_db = 10.0
-unit_size = 1.0
-max_db = 3.0
-pitch_scale = 1.0
-autoplay = false
-stream_paused = false
-max_distance = 0.0
-out_of_range_mode = 0
-bus = "Master"
-area_mask = 1
-emission_angle_enabled = false
-emission_angle_degrees = 45.0
-emission_angle_filter_attenuation_db = -12.0
-attenuation_filter_cutoff_hz = 5000.0
-attenuation_filter_db = -24.0
-doppler_tracking = 0
-_sections_unfolded = [ "Transform" ]
 
 [node name="entity_animation" parent="." index="1"]
-anims/drink = SubResource( 3 )
+anims/drink = SubResource( 1 )
+anims/eat = SubResource( 4 )
 
 [node name="shape" type="CollisionShape" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0 )
-shape = SubResource( 1 )
-disabled = false
+shape = SubResource( 2 )
 
 [node name="drop_item" type="Position3D" parent="." index="3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2 )
 
 [node name="interact" type="Area" parent="." index="4"]
-input_ray_pickable = false
-input_capture_on_drag = false
-space_override = 0
-gravity_point = false
-gravity_distance_scale = 0.0
-gravity_vec = Vector3( 0, -1, 0 )
-gravity = 9.8
-linear_damp = 0.1
-angular_damp = 1.0
-priority = 0.0
-monitoring = true
-monitorable = true
-collision_layer = 1
-collision_mask = 1
-audio_bus_override = false
-audio_bus_name = "Master"
-reverb_bus_enable = false
-reverb_bus_name = "Master"
-reverb_bus_amount = 0.0
-reverb_bus_uniformity = 0.0
 
 [node name="shape" type="CollisionShape" parent="interact" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5 )
-shape = SubResource( 2 )
-disabled = false
+shape = SubResource( 3 )
 
 [node name="name" type="Position3D" parent="." index="5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0 )
