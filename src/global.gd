@@ -39,6 +39,10 @@ func remove_player(_name):
 	$"/root/hud/margin/view".player_disconnected(_name)
 
 func start_game(local_player_name):
+	if local_player_name != null:
+		var hud = preload("res://data/scenes/hud.tscn").instance()
+		$"/root".add_child(hud)
+
 	game = preload("res://data/scenes/game.tscn").instance()
 	$"/root".add_child(game)
 	players_spawn = game.get_node("player_spawn")
@@ -47,8 +51,6 @@ func start_game(local_player_name):
 	add_monster("Dragon", preload("res://data/scenes/monsters/dragon.tscn"))
 
 	if local_player_name != null:
-		var hud = preload("res://data/scenes/hud.tscn").instance()
-		$"/root".add_child(hud)
 		# Add local player
 		local_player = PlayerScene.instance()
 		local_player.set_network_master(networking.unique_id)
