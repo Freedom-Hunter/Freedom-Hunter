@@ -75,7 +75,7 @@ func dodge():
 		emit_signal("stamina_changed", stamina, stamina_max)
 
 func run():
-	if not running and direction != Vector3() and stamina > run_stamina:
+	if not running and direction != Vector3() and stamina > 0:
 		if get_tree().has_network_peer():
 			rset_unreliable("running", true)
 		running = true
@@ -94,6 +94,9 @@ func move_entity(delta: float, gravity:bool=true):
 	if jumping:
 		velocity.y += direction.y
 	velocity.z = direction.z
+
+	if stamina <= 0:
+		running = false
 
 	if dodging:
 		velocity *= dodge_speed
