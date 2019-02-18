@@ -3,14 +3,15 @@ extends Control
 var touch_index = null
 var drag = 0
 
-onready var global = get_node("/root/global")
+signal activate_next
+signal activate_prev
+
 
 func _ready():
 	if OS.has_touchscreen_ui_hint():
 		set_process_input(true)
 
-func update_items():
-	var inventory = global.local_player.inventory
+func _on_inventory_modified(inventory):
 	var i = -2
 	for child in $bar.get_children():
 		if child is Panel:
@@ -33,11 +34,9 @@ func _input(event):
 	elif event is InputEventScreenDrag and event.index == touch_index:
 		drag += event.relative_x
 		if drag > 50:
-			global.local_player.inventory.activate_prev()
-			update_items()
+			emit_signal("activate_prev")
 			drag = 0
 		elif drag < -50:
-			global.local_player.inventory.activate_next()
-			update_items()
+			emit_signal("activate_next")
 			drag = 0
 		accept_event()

@@ -6,7 +6,8 @@ onready var networking = get_node("/root/networking")
 var camera_node
 var notify_queue = []
 
-func init():
+
+func _ready():
 	camera_node = get_viewport().get_camera()
 
 	# Get interact keys
@@ -16,11 +17,6 @@ func init():
 		string += OS.get_scancode_string(key.scancode) + ","
 	string[-1] = ""
 	$action.set_text(string)
-
-	$items.update_items()
-	global.local_player.inventory.connect("modified", $items, "update_items")
-	global.local_player.connect("hp_changed", $status, "_on_hp_changed")
-	global.local_player.connect("stamina_changed", $status, "_on_stamina_changed")
 
 func _input(event):
 	if get_tree().has_network_peer():

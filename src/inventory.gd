@@ -10,8 +10,8 @@ var dragging
 # emitted when an item is added, removed or modified
 signal modified
 
-# Init function to be called after instance() and add_child()
-func init(items_array, max_slots_int):
+
+func set_items(items_array, max_slots_int):
 	items = items_array
 	max_slots = max_slots_int
 	var added = 0
@@ -23,6 +23,7 @@ func init(items_array, max_slots_int):
 	for _i in range(added, max_slots):
 		var slot = Slot.new(self)
 		$items.add_child(slot)
+	emit_signal("modified", self)
 
 # Input handling is needed to detect when the user drags and drops an item where he can't
 func _input(event):
@@ -67,7 +68,7 @@ func add_item(item, slot=null):
 		items.append(clone)
 		slot.set_item(clone)
 		overflow = 0
-	emit_signal("modified")
+	emit_signal("modified", self)
 	return overflow
 
 func get_item(i):
@@ -78,7 +79,7 @@ func use_item(i):
 	item.use()
 	if item.quantity <= 0 and not item.keep:
 		remove_item(i)
-	emit_signal("modified")
+	emit_signal("modified", self)
 	return item
 
 func remove_item(i, slot=null):
@@ -88,7 +89,7 @@ func remove_item(i, slot=null):
 	items.remove(i)
 	if items.size() > 0 and i == active_item:
 		active_item = wrapi(active_item + 1, 0, items.size())
-	emit_signal("modified")
+	emit_signal("modified", self)
 
 func erase_item(item, slot=null):
 	var i = items.find(item)
@@ -100,11 +101,11 @@ func use_active_item():
 
 func activate_next():
 	active_item = wrapi(active_item + 1, 0, items.size())
-	emit_signal("modified")
+	emit_signal("modified", self)
 
 func activate_prev():
 	active_item = wrapi(active_item - 1, 0, items.size())
-	emit_signal("modified")
+	emit_signal("modified", self)
 
 
 # Visualize item's image and quantity

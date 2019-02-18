@@ -8,7 +8,7 @@ onready var animation = get_node("model/AnimationPlayer")
 var player = null
 
 func _ready():
-	inventory.init([], 100)
+	inventory.set_items([], 100)
 	set_process_input(false)
 
 func _notification(what):

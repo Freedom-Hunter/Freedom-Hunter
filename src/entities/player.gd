@@ -55,9 +55,10 @@ func _ready():
 	var whetstone = Whetstone.new("Whetstone", preload("res://data/images/items/whetstone.png"), 10, self, 20)
 	var meat      = Meat.new("Meat",           preload("res://data/images/items/meat.png"),      5,  self, 25)
 
-	inventory.init([null_item, potion, firework, barrel, whetstone, meat], 30)
+	inventory.set_items([null_item, potion, firework, barrel, whetstone, meat], 30)
 	inventory.set_position(Vector2(1370, 200))
 	inventory.set_name("player_inventory")
+
 	resume_player()
 
 func sort_by_distance(a, b):
