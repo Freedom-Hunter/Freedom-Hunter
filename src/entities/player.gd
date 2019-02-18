@@ -12,7 +12,7 @@ var equipment = {"weapon": null, "armour": {"head": null, "torso": null, "righta
 var inventory = preload("res://data/scenes/inventory.tscn").instance()
 
 
-func _init().(150, 100):
+func _init().(100, 150, 150):
 	pass
 
 func _notification(what):

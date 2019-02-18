@@ -51,14 +51,13 @@ var animation_node
 var previous_origin = Vector3()
 
 
-func _init(_hp, _stamina, interp=15):
+func _init(_hp=100, _hp_reg=null, _hp_max=null, _stamina=100, _stamina_max=null, interp=15):
 	hp = _hp
-	hp_max = _hp
+	hp_regenerable = _hp if _hp_reg == null else _hp_reg
+	hp_max = _hp if _hp_max == null else _hp_max
 	stamina = _stamina
-	stamina_max = _stamina
+	stamina_max = _stamina if _stamina_max == null else _stamina_max
 	interpolation_factor = interp
-	emit_signal("hp_changed", hp, hp_regenerable, hp_max)
-	emit_signal("stamina_changed", stamina, stamina_max)
 
 func _ready():
 	animation_node = find_node("entity_animation")
