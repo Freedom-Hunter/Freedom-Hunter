@@ -3,13 +3,10 @@ extends Control
 onready var global = get_node("/root/global")
 onready var networking = get_node("/root/networking")
 
-var camera_node
 var notify_queue = []
 
 
 func _ready():
-	camera_node = get_viewport().get_camera()
-
 	# Get interact keys
 	var keys = InputMap.get_action_list("player_interact")
 	var string = ""
@@ -56,6 +53,7 @@ func close_inventories():
 	$inventory.hide()
 
 func show_interact():
+	var camera_node = get_viewport().get_camera()
 	var interact = global.local_player.get_nearest_interact()
 	if interact != null:
 		var pos = interact.get_global_transform().origin + Vector3.UP
@@ -77,16 +75,19 @@ func new_label(text):
 	label.set_text(text)
 	return label
 
-func player_connected(player_name):
+func _on_player_connected(player_name):
+	prints("hud:", player_name, "connected")
 	$names.add_child(new_label(player_name))
 	$players_list.add_child(new_label(player_name))
 
-func player_disconnected(player_name):
+func _on_player_disconnected(player_name):
+	prints("hud:", player_name, "disconnected")
 	$names.get_node(player_name).queue_free()
 	$players_list.get_node(player_name).queue_free()
 
 func update_names():
-	var camera_pos = global.local_player.camera_node.get_global_transform().origin
+	var camera_node = get_viewport().get_camera()
+	var camera_pos = camera_node.get_global_transform().origin
 	var space_state = get_node("/root/game").get_world().get_direct_space_state()
 	if get_tree().has_network_peer():
 		for player in networking.get_players():
@@ -104,12 +105,12 @@ func update_names():
 					label.show()
 					var pos = camera_node.unproject_position(player_pos)
 					var size = label.get_size()
-					label.set_position(pos - Vector2(size.x/2, size.y/2))
+					label.rect_global_position = pos - Vector2(size.x/2, size.y/2)
 	else:
 		var label = $names.get_node(global.local_player.get_name())
 		var pos = camera_node.unproject_position(global.local_player.get_node("name").get_global_transform().origin)
 		var size = label.get_size()
-		label.set_position(pos - Vector2(size.x/2, size.y/2))
+		label.rect_global_position = pos - Vector2(size.x/2, size.y/2)
 
 func update_debug():
 	var pos = global.local_player.get_translation()

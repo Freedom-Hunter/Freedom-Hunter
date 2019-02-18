@@ -11,6 +11,9 @@ var monsters_spawn
 
 var local_player : Player = null
 
+signal player_connected(player_name)
+signal player_disconnected(player_name)
+
 
 static func add_entity(_name, scene, spawn, id=1):
 	var entity = scene.instance()
@@ -31,17 +34,19 @@ func add_player(_name, id=1, transform=null):
 		prints(_name, "is remote player")
 	if transform != null:
 		player.transform = transform
-	$"/root/hud/margin/view".player_connected(_name)
+	emit_signal("player_connected", _name)
 	return player
 
 func remove_player(_name):
 	players_spawn.get_node(_name).queue_free()
-	$"/root/hud/margin/view".player_disconnected(_name)
+	emit_signal("player_disconnected", _name)
 
 func start_game(local_player_name):
 	if local_player_name != null:
 		var hud = preload("res://data/scenes/hud.tscn").instance()
 		$"/root".add_child(hud)
+		connect("player_connected", hud.get_node("margin/view"), "_on_player_connected")
+		connect("player_disconnected", hud.get_node("margin/view"), "_on_player_disconnected")
 
 	game = preload("res://data/scenes/game.tscn").instance()
 	$"/root".add_child(game)
@@ -63,6 +68,7 @@ func start_game(local_player_name):
 			$"/root/hud/margin/view/items".connect("activate_prev", local_player.inventory, "activate_prev")
 		# Connect signals BEFORE player._ready
 		players_spawn.add_child(local_player)
+		emit_signal("player_connected", local_player_name)
 		prints(local_player_name, "is local player")
 
 	get_tree().set_current_scene(game)
