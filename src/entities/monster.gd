@@ -10,13 +10,12 @@ export (int, -100, 100) var dragon    = 0
 export (int, -100, 100) var poison    = 0
 export (int, -100, 100) var paralysis = 0
 
-const SPEED = 5
-
 var weakness = {}
 var players = []
 var random_target
 var target_player
 var combat = false
+
 
 func _init().(500, 100, 1):
 	weakness = {
@@ -79,9 +78,9 @@ func _physics_process(delta):
 			combat = true
 			$exclamation/animation.play("exclamation")
 		if vector_to_target.length() > 7.5:
-			direction = vector_to_target.normalized() * SPEED
+			direction = vector_to_target.normalized()
 		else:
-			direction = vector_to_target.normalized() * 0.01
+			direction = vector_to_target.normalized()
 			if get_tree().has_network_peer():
 				rpc("attack", "attack")
 			else:
@@ -91,7 +90,7 @@ func _physics_process(delta):
 		if random_target == null or (random_target - Vector3(origin.x, 0, origin.z)).length() < 2:
 			random_target = Vector3(rand_range(-100, 100), 0, rand_range(-100, 100))
 			prints(get_name(), "is going to", random_target)
-		direction = (random_target - origin).normalized() * (SPEED/2)
+		direction = (random_target - origin).normalized()
 
 	move_entity(delta)
 
