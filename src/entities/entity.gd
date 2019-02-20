@@ -130,13 +130,14 @@ func move_entity(delta: float, gravity:bool=true):
 	# int max_slides=4, float floor_max_angle=0.785398, bool infinite_inertia=true 
 	var remainder = move_and_slide(velocity, Vector3.UP, true, 4, MAX_SLOPE_ANGLE, true)
 
+	var acceleration = (velocity - remainder - old_velocity).length()
+	if acceleration > 20:
+		damage(acceleration / 100, 0.5)
+
 	if is_on_floor():
 		if jumping and get_tree().has_network_peer() and is_network_master():
 			rset_unreliable("jumping", false)
 		jumping = false
-		var fall = (int((-velocity.y) + global.gravity) ^ 2) * 5
-		if fall > 0:
-			damage(fall, 0.5)
 		velocity.y = 0
 
 	if get_tree().has_network_peer() and is_network_master():
