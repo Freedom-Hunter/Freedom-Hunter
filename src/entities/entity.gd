@@ -191,11 +191,12 @@ sync func died():
 puppet func respawn():
 	set_transform(Transform())
 	hp = hp_max
-	hp_regenerable = 0
+	hp_regenerable = hp_max
 	stamina = stamina_max
 	dead = false
 	dodging = false
 	jumping = false
+	running = false
 	set_process(true)
 	if get_tree().has_network_peer() and is_network_master():
 		rpc("respawn")
