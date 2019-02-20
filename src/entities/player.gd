@@ -96,7 +96,10 @@ func _input(event):
 		else:
 			attack("right_attack_0")
 	elif event.is_action_pressed("player_dodge"):
-		dodge()
+		if running:
+			jump()
+		else:
+			dodge()
 	elif event.is_action_pressed("player_run") and stamina > 0:
 		run()
 	elif event.is_action_released("player_run"):

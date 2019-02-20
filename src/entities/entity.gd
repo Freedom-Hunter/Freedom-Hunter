@@ -27,7 +27,8 @@ var dodge_speed = 6
 
 # Jump
 var jumping = false
-var jump_speed = 5
+var jump_stamina = 15
+var jump_speed = 10
 
 # Run
 puppet var running = false
@@ -74,6 +75,15 @@ func dodge():
 		stamina -= dodge_stamina
 		emit_signal("stamina_changed", stamina, stamina_max)
 
+func jump():
+	if not jumping and stamina >= jump_stamina:
+		if get_tree().has_network_peer():
+			rset_unreliable("jumping", true)
+		jumping = true
+		stamina -= jump_stamina
+		velocity.y += jump_speed
+		emit_signal("stamina_changed", stamina, stamina_max)
+
 func run():
 	if not running and direction != Vector3() and stamina > 0:
 		if get_tree().has_network_peer():
@@ -88,24 +98,29 @@ func walk():
 func move_entity(delta: float, gravity:bool=true):
 	var ti = get_transform()
 
+	var old_velocity = velocity
+
 	velocity.x = direction.x
 	if gravity:
 		velocity.y += global.gravity * delta
-	if jumping:
-		velocity.y += direction.y
 	velocity.z = direction.z
 
 	if stamina <= 0:
 		running = false
 
-	if dodging:
+	if jumping:
+		if running:
+			velocity.x *= run_speed
+			velocity.z *= run_speed
+		else:
+			velocity.x *= walk_speed
+			velocity.z *= walk_speed
+	elif dodging:
 		velocity *= dodge_speed
 	elif running:
 		velocity *= run_speed
 		stamina -= run_stamina * delta
 		emit_signal("stamina_changed", stamina, stamina_max)
-	elif jumping:
-		pass
 	else:
 		velocity *= walk_speed
 
