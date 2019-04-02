@@ -4,25 +4,21 @@
 [ext_resource path="res://src/items/barrel-scene.gd" type="Script" id=2]
 [ext_resource path="res://data/sounds/explosion.wav" type="AudioStream" id=3]
 
-[sub_resource type="CylinderShape" id=12]
-
+[sub_resource type="CylinderShape" id=1]
 radius = 0.425159
 height = 1.18327
 
-[sub_resource type="SphereShape" id=9]
-
+[sub_resource type="SphereShape" id=2]
 radius = 10.0
 
-[sub_resource type="ParticlesMaterial" id=10]
-
+[sub_resource type="ParticlesMaterial" id=3]
 initial_velocity = 1.0
+angular_velocity = 0.929479
 
-[sub_resource type="SphereMesh" id=11]
+[sub_resource type="SphereMesh" id=4]
 
-
-[sub_resource type="Animation" id=7]
-
-length = 3.0
+[sub_resource type="Animation" id=5]
+length = 2.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("particles:emitting")
 tracks/0/interp = 1
@@ -30,7 +26,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1.2 ),
+"times": PoolRealArray( 0, 1.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -59,6 +55,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("../barrel_wooden_new:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 2.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [node name="barrel" type="Spatial" groups=[
 "explosive",
@@ -67,34 +75,34 @@ tracks/2/keys = {
 [node name="barrel" parent="." groups=[
 "explosive",
 ] instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5 )
 mass = 100.0
 contacts_reported = 1
 contact_monitor = true
 script = ExtResource( 2 )
 
 [node name="barrel_wooden_new" parent="barrel" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, 0 )
 
-[node name="CollisionShape" type="CollisionShape" parent="barrel" index="1"]
-shape = SubResource( 12 )
+[node name="CollisionShape" type="CollisionShape" parent="barrel"]
+shape = SubResource( 1 )
 
 [node name="explosion" type="Area" parent="barrel"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -1.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
 
 [node name="radius" type="CollisionShape" parent="barrel/explosion"]
-shape = SubResource( 9 )
+shape = SubResource( 2 )
 
 [node name="particles" type="Particles" parent="barrel/explosion"]
-emitting = false
-process_material = SubResource( 10 )
-draw_pass_1 = SubResource( 11 )
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource( 3 )
+draw_pass_1 = SubResource( 4 )
 
 [node name="light" type="OmniLight" parent="barrel/explosion"]
 light_energy = 0.0
 
 [node name="animation" type="AnimationPlayer" parent="barrel/explosion"]
-anims/explode = SubResource( 7 )
+anims/explode = SubResource( 5 )
 
 [node name="timer" type="Timer" parent="barrel/explosion"]
 wait_time = 10.0
@@ -104,7 +112,7 @@ autostart = true
 [node name="audio" type="AudioStreamPlayer3D" parent="barrel/explosion"]
 stream = ExtResource( 3 )
 
-[connection signal="animation_finished" from="barrel/explosion/animation" to="." method="_on_animation_finished"]
-[connection signal="timeout" from="barrel/explosion/timer" to="." method="_on_timer_timeout"]
+[connection signal="animation_finished" from="barrel/explosion/animation" to="barrel" method="_on_animation_finished"]
+[connection signal="timeout" from="barrel/explosion/timer" to="barrel" method="_on_timer_timeout"]
 
 [editable path="barrel"]
