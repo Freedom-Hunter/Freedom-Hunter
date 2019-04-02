@@ -41,21 +41,19 @@ func _ready():
 	set_equipment(equipment.weapon, "weapon_L", "weapon")
 
 	# Item test
-	var Item = preload("res://src/items/usable_item.gd")
 	var Potion = preload("res://src/items/potion.gd")
 	var Firework = preload("res://src/items/firework.gd")
 	var Barrel = preload("res://src/items/barrel.gd")
 	var Whetstone = preload("res://src/items/whetstone.gd")
 	var Meat = preload("res://src/items/meat.gd")
 
-	var null_item = Item.new("None",           preload("res://data/images/items/null.png"),      0,  0, 0, self, true)
 	var potion    = Potion.new("Potion",       preload("res://data/images/items/potion.png"),    10, self, 20)
 	var firework  = Firework.new("Firework",   preload("res://data/images/items/firework.png"),  10, self)
 	var barrel    = Barrel.new("Barrel",       preload("res://data/images/items/barrel.png"),    5,  self)
 	var whetstone = Whetstone.new("Whetstone", preload("res://data/images/items/whetstone.png"), 10, self, 20)
 	var meat      = Meat.new("Meat",           preload("res://data/images/items/meat.png"),      5,  self, 25)
 
-	inventory.set_items([null_item, potion, firework, barrel, whetstone, meat], 30)
+	inventory.set_items([potion, firework, barrel, whetstone, meat], 30)
 	inventory.set_position(Vector2(1370, 200))
 	inventory.set_name("player_inventory")
 
@@ -104,12 +102,6 @@ func _input(event):
 		run()
 	elif event.is_action_released("player_run"):
 		walk()
-	elif event.is_action_pressed("player_scroll_next") and not Input.is_action_pressed("camera_rotation_lock"):
-		inventory.activate_next()
-	elif event.is_action_pressed("player_scroll_back") and not Input.is_action_pressed("camera_rotation_lock"):
-		inventory.activate_prev()
-	elif event.is_action_pressed("player_use"):
-		inventory.use_active_item()
 	elif event.is_action_pressed("player_interact"):
 		interact_with_nearest()
 

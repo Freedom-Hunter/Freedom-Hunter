@@ -2,16 +2,14 @@ extends "item.gd"
 
 var player  # Owner of the item
 var max_quantity
-var keep  #
 
 
-func _init(_name, _icon, _quantity, _max_quantity, _rarity, _player, _keep=false).(_name, _icon, _quantity, _rarity):
+func _init(_name, _icon, _quantity, _max_quantity, _rarity, _player).(_name, _icon, _quantity, _rarity):
 	player = _player
 	max_quantity = _max_quantity
-	keep = _keep
 
 func clone():
-	return get_script().new(name, icon, quantity, max_quantity, rarity, player, keep)
+	return get_script().new(name, icon, quantity, max_quantity, rarity, player)
 
 func effect():
 	return true

@@ -63,9 +63,6 @@ func start_game(local_player_name):
 		local_player.inventory.connect("modified", $"/root/hud/margin/view/items", "_on_inventory_modified")
 		local_player.connect("hp_changed", $"/root/hud/margin/view/status", "_on_hp_changed")
 		local_player.connect("stamina_changed", $"/root/hud/margin/view/status", "_on_stamina_changed")
-		if OS.has_touchscreen_ui_hint():
-			$"/root/hud/margin/view/items".connect("activate_next", local_player.inventory, "activate_next")
-			$"/root/hud/margin/view/items".connect("activate_prev", local_player.inventory, "activate_prev")
 		# Connect signals BEFORE player._ready
 		players_spawn.add_child(local_player)
 		emit_signal("player_connected", local_player_name)

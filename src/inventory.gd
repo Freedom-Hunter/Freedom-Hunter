@@ -4,7 +4,6 @@ const ITEM_SIZE = Vector2(50, 50)
 
 var items = []
 var max_slots
-var active_item = 0
 var dragging
 
 # emitted when an item is added, removed or modified
@@ -78,7 +77,7 @@ func get_item(i):
 func use_item(i):
 	var item = get_item(i)
 	item.use()
-	if item.quantity <= 0 and not item.keep:
+	if item.quantity <= 0:
 		remove_item(i)
 	emit_signal("modified", self)
 	return item
@@ -88,25 +87,12 @@ func remove_item(i, slot=null):
 		slot = $items.get_node(items[i].name)
 	slot.set_item(null)
 	items.remove(i)
-	if items.size() > 0 and i == active_item:
-		active_item = wrapi(active_item + 1, 0, items.size())
 	emit_signal("modified", self)
 
 func erase_item(item, slot=null):
 	var i = items.find(item)
 	assert(i != -1)
 	remove_item(i, slot)
-
-func use_active_item():
-	return use_item(active_item)
-
-func activate_next():
-	active_item = wrapi(active_item + 1, 0, items.size())
-	emit_signal("modified", self)
-
-func activate_prev():
-	active_item = wrapi(active_item - 1, 0, items.size())
-	emit_signal("modified", self)
 
 
 # Visualize item's image and quantity
@@ -132,8 +118,8 @@ class ItemStack extends TextureRect:
 
 # Manage drag and drop
 class Slot extends Panel:
-	#var Item = preload("res://src/items/item.gd")
-	var item
+	const Item = preload("res://src/items/item.gd")
+	var item:Item
 	var stack
 	var inventory
 
