@@ -154,12 +154,12 @@ autoplay = "firework"
 anims/firework = SubResource( 2 )
 
 [node name="light" type="OmniLight" parent="."]
-light_energy = -0.0645617
+light_energy = 0.0
 shadow_bias = 0.1
 omni_shadow_mode = 0
 
 [node name="audio" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource( 1 )
+stream = ExtResource( 2 )
 unit_size = 100.0
 max_db = 4.0
 
@@ -171,12 +171,8 @@ material/0 = SubResource( 4 )
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
 shape = SubResource( 5 )
 
-[node name="OmniLight" type="OmniLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.40637, 1.29937, 0 )
-
 [node name="fire" type="Particles" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.151647, 0 )
-emitting = false
 amount = 64
 lifetime = 0.67
 local_coords = false
@@ -185,7 +181,6 @@ draw_pass_1 = SubResource( 8 )
 
 [node name="boom" type="Particles" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
-emitting = false
 amount = 64
 lifetime = 5.0
 explosiveness = 1.0

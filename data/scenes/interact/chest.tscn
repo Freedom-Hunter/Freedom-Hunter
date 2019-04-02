@@ -5,11 +5,9 @@
 [ext_resource path="res://data/models/interact/chest/chest.dae" type="PackedScene" id=3]
 
 [sub_resource type="BoxShape" id=1]
-
 extents = Vector3( 1, 0.5, 0.5 )
 
 [sub_resource type="BoxShape" id=2]
-
 extents = Vector3( 1.2, 0.7, 1 )
 
 [node name="chest" type="StaticBody"]
