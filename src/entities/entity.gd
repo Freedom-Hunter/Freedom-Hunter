@@ -60,6 +60,9 @@ func _init(_hp=100, _hp_reg=null, _hp_max=null, _stamina=100, _stamina_max=null,
 	stamina_max = _stamina if _stamina_max == null else _stamina_max
 	interpolation_factor = interp
 
+func _str():
+	return "HP: %d/%d/%d\nStamina: %d/%d" % [hp, hp_regenerable, hp_max, stamina, stamina_max]
+
 func _ready():
 	animation_node = find_node("entity_animation")
 	animation_node.connect("animation_finished", self, "_on_animation_finished")
