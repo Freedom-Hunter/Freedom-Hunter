@@ -34,6 +34,8 @@ func interact(new_player: Player):
 		shop_item.connect("buy", self, "_on_buy")
 	$ohayou.play()
 	yield(hud.get_node("inventory"), "popup_hide")
+	for shop_item in shop.shop_items:
+		shop_item.disconnect("buy", self, "_on_buy")
 	player.resume_player()
 	get_viewport().get_camera().set_process_input(true)
 	player = null
