@@ -3,7 +3,6 @@ extends "item.gd"
 var player  # Owner of the item
 var max_quantity
 var keep  #
-var in_flight = false # helper variable for inventory
 
 
 func _init(_name, _icon, _quantity, _max_quantity, _rarity, _player, _keep=false).(_name, _icon, _quantity, _rarity):

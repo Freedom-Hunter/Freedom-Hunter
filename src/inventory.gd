@@ -31,9 +31,10 @@ func _input(event):
 		call_deferred("give_back_dragged_item")
 
 func give_back_dragged_item():
-	if dragging != null and dragging.item.in_flight:
-		dragging.item.in_flight = false
-		add_item(dragging.item, dragging.slot)
+	if dragging != null:
+		if dragging.in_flight:
+			dragging.in_flight = false
+			add_item(dragging.item, dragging.slot)
 		dragging = null
 
 func find_free_slot():
@@ -160,16 +161,15 @@ class Slot extends Panel:
 			var preview = ItemStack.new()
 			preview.layout(item)
 			set_drag_preview(preview)
-			item.in_flight = true
 			var ret_item = item
 			inventory.erase_item(item, self)
-			inventory.dragging = {'item': ret_item, 'slot': self}
+			inventory.dragging = {'item': ret_item, 'slot': self, 'in_flight': true}
 			return inventory.dragging
 
 	func can_drop_data(pos, data):
 		return item == null or (data.item != item and data.item.name == item.name)
 
 	func drop_data(pos, data):
-		data.item.in_flight = false
+		data.in_flight = false
 		inventory.add_item(data.item, self) # take this item
 		inventory.dragging = null
