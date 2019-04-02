@@ -3,6 +3,9 @@
 importer="texture"
 type="StreamTexture"
 path="res://.import/firework.png-b1e0ed9f09247b2b6e35b268d6a56ad0.stex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 

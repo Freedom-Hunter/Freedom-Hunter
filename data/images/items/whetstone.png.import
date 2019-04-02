@@ -3,6 +3,9 @@
 importer="texture"
 type="StreamTexture"
 path="res://.import/whetstone.png-f222b8e410a762fc29f3429bea42eedf.stex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 

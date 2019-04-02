@@ -4,6 +4,10 @@ importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/barrel_wooden_new_1k_dif.png-6d098d27288c81f3c6c18d1aaaa2ad33.s3tc.stex"
 path.etc2="res://.import/barrel_wooden_new_1k_dif.png-6d098d27288c81f3c6c18d1aaaa2ad33.etc2.stex"
+metadata={
+"imported_formats": [ "s3tc", "etc2" ],
+"vram_texture": true
+}
 
 [deps]
 

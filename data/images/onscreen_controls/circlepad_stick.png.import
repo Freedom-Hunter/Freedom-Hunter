@@ -3,6 +3,9 @@
 importer="texture"
 type="StreamTexture"
 path="res://.import/circlepad_stick.png-951fbdd2c7cd95e7bc60ed978788214a.stex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 

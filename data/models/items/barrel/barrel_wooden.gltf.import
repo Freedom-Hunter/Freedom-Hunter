@@ -11,7 +11,7 @@ dest_files=[ "res://.import/barrel_wooden.gltf-a987fe6c7730fad7565011f110898d92.
 
 [params]
 
-nodes/root_type="Spatial"
+nodes/root_type="RigidBody"
 nodes/root_name="barrel"
 nodes/root_scale=1.0
 nodes/custom_script=""
@@ -21,7 +21,7 @@ materials/storage=0
 materials/keep_on_reimport=true
 meshes/compress=true
 meshes/ensure_tangents=true
-meshes/storage=0
+meshes/storage=1
 meshes/light_baking=0
 meshes/lightmap_texel_size=0.1
 external_files/store_in_subdir=true
