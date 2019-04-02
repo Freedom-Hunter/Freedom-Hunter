@@ -18,7 +18,12 @@ func interact(player):
 	for item in obtainable:
 		if last <= rand and rand < last + item.rarity:
 			print("Get item: ", item.name)
-			player.add_item(item)
+			var remainder = player.add_item(item)
+			if not get_tree().has_network_peer() or player.is_network_master():
+				if remainder > 0:
+					player.hud.notify("You can't carry more than %d %s" % [item.max_quantity, item.name])
+				else:
+					player.hud.notify("You got %d %s" % [item.quantity, item.name])
 			break
 		last += item.rarity
 	quantity -= 1;

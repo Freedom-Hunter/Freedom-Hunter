@@ -10,7 +10,7 @@ onready var onscreen = get_node("/root/hud/onscreen")
 
 var equipment = {"weapon": null, "armour": {"head": null, "torso": null, "rightarm": null, "leftarm": null, "leg": null}}
 var inventory = preload("res://data/scenes/inventory.tscn").instance()
-
+var money = 10000
 
 func _init().(100, 150, 150):
 	pass
@@ -42,18 +42,14 @@ func _ready():
 
 	# Item test
 	var Potion = preload("res://src/items/potion.gd")
-	var Firework = preload("res://src/items/firework.gd")
-	var Barrel = preload("res://src/items/barrel.gd")
 	var Whetstone = preload("res://src/items/whetstone.gd")
 	var Meat = preload("res://src/items/meat.gd")
 
 	var potion    = Potion.new("Potion",       preload("res://data/images/items/potion.png"),    10, self, 20)
-	var firework  = Firework.new("Firework",   preload("res://data/images/items/firework.png"),  10, self)
-	var barrel    = Barrel.new("Barrel",       preload("res://data/images/items/barrel.png"),    5,  self)
 	var whetstone = Whetstone.new("Whetstone", preload("res://data/images/items/whetstone.png"), 10, self, 20)
 	var meat      = Meat.new("Meat",           preload("res://data/images/items/meat.png"),      5,  self, 25)
 
-	inventory.set_items([potion, firework, barrel, whetstone, meat], 30)
+	inventory.set_items([potion, whetstone, meat], 30)
 	inventory.set_position(Vector2(1370, 200))
 	inventory.set_name("player_inventory")
 
@@ -109,12 +105,14 @@ func add_item(item):
 	item = item.clone()
 	item.player = self
 	var remainder = inventory.add_item(item)
-	if not get_tree().has_network_peer() or is_network_master():
-		if remainder > 0:
-			hud.notify("You can't carry more than %d %s" % [item.max_quantity, item.name])
-		else:
-			hud.notify("You got %d %s" % [item.quantity, item.name])
 	return remainder
+
+func buy_item(item, cost):
+	if money >= cost:
+		money -= cost
+		add_item(item)
+		return true
+	return false
 
 func drop_item(item):
 	var drop = $drop_item.get_global_transform()

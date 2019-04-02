@@ -153,7 +153,7 @@ class Slot extends Panel:
 			return inventory.dragging
 
 	func can_drop_data(pos, data):
-		return item == null or (data.item != item and data.item.name == item.name)
+		return item == null or (data.item != item and data.item.name == item.name and data.item.quantity + item.quantity <= data.item.max_quantity)
 
 	func drop_data(pos, data):
 		data.in_flight = false
