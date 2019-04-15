@@ -108,7 +108,7 @@ func add_item(item):
 	return remainder
 
 func buy_item(item, cost):
-	if money >= cost:
+	if item.quantity > 0 and money >= cost:
 		money -= cost
 		add_item(item)
 		return true

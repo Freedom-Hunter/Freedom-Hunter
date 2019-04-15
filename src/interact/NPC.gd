@@ -31,18 +31,14 @@ func interact(new_player: Player):
 	get_viewport().get_camera().set_process_input(false)
 	hud.open_inventories([shop, player.inventory])
 	for shop_item in shop.shop_items:
-		shop_item.connect("buy", self, "_on_buy")
+		shop_item.connect("buy", player, "buy_item")
 	$ohayou.play()
 	yield(hud.get_node("inventory"), "popup_hide")
 	for shop_item in shop.shop_items:
-		shop_item.disconnect("buy", self, "_on_buy")
+		shop_item.disconnect("buy", player, "buy_item")
 	player.resume_player()
 	get_viewport().get_camera().set_process_input(true)
 	player = null
-
-func _on_buy(item, cost):
-	assert(player != null)
-	player.buy_item(item, cost)
 
 func _process(delta):
 	for body in $interact.get_overlapping_bodies():
