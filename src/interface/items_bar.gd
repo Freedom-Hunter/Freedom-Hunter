@@ -25,9 +25,10 @@ func get_active_item():
 	return get_item(active_item)
 
 func use_active_item():
-	print("Use %s" % get_active_item().name)
-	if active_item > 0:
-		inventory.use_item(active_item - 1)
+	var item = get_active_item()
+	print("Use %s" % item.name)
+	if item != null_item:
+		inventory.use_item(item)
 		update()
 
 func activate_next():
