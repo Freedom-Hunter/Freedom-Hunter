@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://data/models/items/barrel/barrel_wooden.gltf" type="PackedScene" id=1]
 [ext_resource path="res://src/items/barrel-scene.gd" type="Script" id=2]
-[ext_resource path="res://data/sounds/explosion.wav" type="AudioStream" id=3]
+[ext_resource path="res://data/textures/kenney_particlePack/scorch_03.png" type="Texture" id=3]
+[ext_resource path="res://data/sounds/explosion.wav" type="AudioStream" id=4]
 
 [sub_resource type="CylinderShape" id=1]
 radius = 0.425159
@@ -11,14 +12,55 @@ height = 1.18327
 [sub_resource type="SphereShape" id=2]
 radius = 10.0
 
-[sub_resource type="ParticlesMaterial" id=3]
-initial_velocity = 1.0
-angular_velocity = 0.929479
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.713004, 1 )
+colors = PoolColorArray( 0.957031, 0.846047, 0.672913, 1, 0.945312, 0.387091, 0.114471, 1, 1, 1, 1, 0 )
 
-[sub_resource type="SphereMesh" id=4]
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
 
-[sub_resource type="Animation" id=5]
-length = 2.2
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 0 ), 0.0, -0.00556208, 0, 0, Vector2( 0.21825, 1 ), 0.00783687, 0.00783687, 0, 0, Vector2( 1, 0.478 ), -0.81945, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+emission_shape = 1
+emission_sphere_radius = 0.5
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 5.0
+initial_velocity_random = 0.3
+angular_velocity = 10.0
+angular_velocity_random = 1.0
+linear_accel = 5.0
+linear_accel_random = 0.5
+damping = 15.0
+damping_random = 0.6
+angle = 360.0
+angle_random = 1.0
+scale = 4.0
+scale_random = 0.3
+scale_curve = SubResource( 6 )
+color_ramp = SubResource( 4 )
+
+[sub_resource type="SpatialMaterial" id=8]
+flags_transparent = true
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_blend_mode = 1
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = ExtResource( 3 )
+
+[sub_resource type="QuadMesh" id=9]
+material = SubResource( 8 )
+
+[sub_resource type="Animation" id=10]
+length = 2.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("particles:emitting")
 tracks/0/interp = 1
@@ -62,10 +104,46 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 2.1 ),
+"times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("..:axis_lock_linear_x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("..:axis_lock_linear_y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("..:axis_lock_linear_z")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 
 [node name="barrel" type="Spatial" groups=[
@@ -87,22 +165,24 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, 0 )
 shape = SubResource( 1 )
 
 [node name="explosion" type="Area" parent="barrel"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
 
 [node name="radius" type="CollisionShape" parent="barrel/explosion"]
 shape = SubResource( 2 )
 
 [node name="particles" type="Particles" parent="barrel/explosion"]
+emitting = false
+amount = 64
+one_shot = true
 explosiveness = 1.0
-randomness = 1.0
-process_material = SubResource( 3 )
-draw_pass_1 = SubResource( 4 )
+local_coords = false
+process_material = SubResource( 7 )
+draw_pass_1 = SubResource( 9 )
 
 [node name="light" type="OmniLight" parent="barrel/explosion"]
 light_energy = 0.0
 
 [node name="animation" type="AnimationPlayer" parent="barrel/explosion"]
-anims/explode = SubResource( 5 )
+anims/explode = SubResource( 10 )
 
 [node name="timer" type="Timer" parent="barrel/explosion"]
 wait_time = 10.0
@@ -110,7 +190,7 @@ one_shot = true
 autostart = true
 
 [node name="audio" type="AudioStreamPlayer3D" parent="barrel/explosion"]
-stream = ExtResource( 3 )
+stream = ExtResource( 4 )
 
 [connection signal="animation_finished" from="barrel/explosion/animation" to="barrel" method="_on_animation_finished"]
 [connection signal="timeout" from="barrel/explosion/timer" to="barrel" method="_on_timer_timeout"]
