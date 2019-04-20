@@ -15,7 +15,7 @@ func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		inventory.free()
 
-func interact(player):
+func interact(player, node):
 	if self.player == null:
 		self.player = player
 		open()

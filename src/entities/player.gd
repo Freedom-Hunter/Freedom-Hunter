@@ -73,7 +73,7 @@ func get_nearest_interact():
 
 func interact_with(interact):
 	if interact != null and not hud.get_node("notification/animation").is_playing():
-		interact.get_parent().interact(self)
+		interact.get_parent().interact(self, interact)
 
 func interact_with_nearest():
 	interact_with(get_nearest_interact())

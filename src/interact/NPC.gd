@@ -24,7 +24,7 @@ func _ready():
 		Meat.new("Meat",           preload("res://data/images/items/meat.png"),      5,  self, 25)
 	], 10)
 
-func interact(new_player: Player):
+func interact(new_player: Player, node):
 	assert(player == null)
 	player = new_player
 	player.pause_player()

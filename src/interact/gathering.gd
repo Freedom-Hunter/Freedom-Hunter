@@ -10,7 +10,7 @@ func _init(items, quant):
 	for item in obtainable:
 		rarity += item.rarity
 
-func interact(player):
+func interact(player, node):
 	if player != global.local_player:
 		return
 	var rand = randi() % rarity
