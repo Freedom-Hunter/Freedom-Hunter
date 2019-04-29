@@ -8,7 +8,7 @@ func _init(_name, _icon, _quantity, _player).(_name, _icon, _quantity, 5, 10, _p
 
 func effect():
 	var barrel = scene.instance()
-	player.drop_item(barrel)
+	player.drop_item_on_floor(barrel)
 	return true
 
 func clone():

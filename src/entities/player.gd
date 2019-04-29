@@ -1,5 +1,7 @@
 extends "entity.gd"
 
+const Inventory = preload("res://src/inventory.gd")
+
 onready var yaw_node = get_node("/root/game/yaw")
 onready var camera_node = yaw_node.get_node("pitch/camera")
 onready var camera_offset = yaw_node.get_translation().y
@@ -9,7 +11,7 @@ onready var hud = get_node("/root/hud/margin/view")
 onready var onscreen = get_node("/root/hud/onscreen")
 
 var equipment = {"weapon": null, "armour": {"head": null, "torso": null, "rightarm": null, "leftarm": null, "leg": null}}
-var inventory = preload("res://data/scenes/inventory.tscn").instance()
+var inventory: Inventory = preload("res://data/scenes/inventory.tscn").instance()
 var money = 10000
 
 func _init().(100, 150, 150):
@@ -114,9 +116,9 @@ func buy_item(item, cost):
 		return true
 	return false
 
-func drop_item(item):
-	var drop = $drop_item.get_global_transform()
-	item.set_global_transform(drop)
+func drop_item_on_floor(item):
+	var drop_origin = $drop_item.global_transform.origin
+	item.global_transform.origin = drop_origin
 	get_parent().add_child(item)
 
 func get_defence():

@@ -8,7 +8,7 @@ func _init(_name, _icon, _quantity, _player).(_name, _icon, _quantity, 10, 50, _
 
 func effect():
 	var firework = scene.instance()
-	player.drop_item(firework)
+	player.drop_item_on_floor(firework)
 	return true
 
 func clone():
