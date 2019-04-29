@@ -1,5 +1,7 @@
 extends Panel
 
+const Item = preload("res://src/items/usable_item.gd")
+
 const ITEM_SIZE = Vector2(50, 50)
 
 var items = []
@@ -36,15 +38,17 @@ func give_back_dragged_item():
 			add_item(dragging.item, dragging.slot)
 		dragging = null
 
-func find_free_slot():
+func find_free_slot() -> Slot:
 	for slot in $items.get_children():
 		if slot.item == null:
 			return slot
+	return null
 
-func find_item_by_name(_name):
+func find_item_by_name(_name: String) -> Item:
 	for item in items:
 		if item.name == _name:
 			return item
+	return null
 
 # If slot is null will look for the first free slot
 func add_item(item, slot=null):
@@ -71,14 +75,13 @@ func add_item(item, slot=null):
 	emit_signal("modified", self)
 	return overflow
 
-func get_item(i):
+func get_item(i: int):
 	return items[wrapi(i, 0, items.size())]
 
-func use_item(i):
-	var item = get_item(i)
+func use_item(item: Item):
 	item.use()
 	if item.quantity <= 0:
-		remove_item(i)
+		erase_item(item)
 	emit_signal("modified", self)
 	return item
 
