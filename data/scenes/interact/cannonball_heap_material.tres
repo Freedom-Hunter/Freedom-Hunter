@@ -1,0 +1,16 @@
+[gd_resource type="SpatialMaterial" load_steps=5 format=2]
+
+[ext_resource path="res://data/textures/[2K]WoodSiding02/WoodSiding02_col.jpg" type="Texture" id=1]
+[ext_resource path="res://data/textures/[2K]WoodSiding02/WoodSiding02_met.jpg" type="Texture" id=2]
+[ext_resource path="res://data/textures/[2K]WoodSiding02/WoodSiding02_nrm.jpg" type="Texture" id=3]
+[ext_resource path="res://data/textures/[2K]WoodSiding02/WoodSiding02_rgh.jpg" type="Texture" id=4]
+
+[resource]
+albedo_texture = ExtResource( 1 )
+metallic_texture = ExtResource( 2 )
+roughness_texture = ExtResource( 4 )
+normal_enabled = true
+normal_scale = 1.0
+normal_texture = ExtResource( 3 )
+uv1_triplanar = true
+
