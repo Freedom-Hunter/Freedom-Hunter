@@ -37,16 +37,16 @@ func _physics_process(delta):
 func open_inventories(inventories):
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	global.local_player.pause_player()
+	get_viewport().get_camera().set_process_input(false)
 	for inv in inventories:
 		$inventory.add_child(inv)
 	$inventory.popup()
-	$inventory.connect("popup_hide", self, "close_inventories")
+	$inventory.connect("popup_hide", self, "close_inventories", [], CONNECT_ONESHOT)
 
 func close_inventories():
-	if $inventory.is_connected("popup_hide", self, "close_inventories"):
-		$inventory.disconnect("popup_hide", self, "close_inventories")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	global.local_player.resume_player()
+	get_viewport().get_camera().set_process_input(true)
 	for child in $inventory.get_children():
 		if child.get_name() != "quit":
 			$inventory.remove_child(child)
@@ -60,14 +60,11 @@ func show_interact():
 		if camera_node.is_position_behind(pos):
 			$action.hide()
 		else:
-			$action.show()
 			var action_pos = camera_node.unproject_position(pos)
 			$action.set_position(action_pos - ($action.get_size()/2))
+			$action.show()
 	else:
 		$action.hide()
-
-func _on_action_pressed():
-	global.local_player.interact_with_nearest()
 
 func new_label(text):
 	var label = Label.new()
