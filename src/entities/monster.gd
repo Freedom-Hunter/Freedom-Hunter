@@ -15,6 +15,10 @@ var players = []
 var random_target: Vector3
 var target_player
 var combat = false
+onready var nav: Navigation = get_node("../../..")
+var path: Array = []
+var path_index: int = 0
+var target_origin: Vector3
 
 
 func _init().(500, 100, 1):
@@ -28,6 +32,16 @@ func _init().(500, 100, 1):
 		"paralysis": paralysis
 	}
 
+
+func _ready():
+	var singleplayer_or_server = not get_tree().has_network_peer() or is_network_master()
+	set_physics_process(singleplayer_or_server)
+	if get_tree().has_network_peer() and is_network_master():
+		set_pause_mode(Node.PAUSE_MODE_PROCESS)
+	if singleplayer_or_server:
+		new_random_target()
+
+
 # @override from entity.gd
 sync func died():
 	.died()
@@ -40,30 +54,48 @@ sync func died():
 	animation_node.disconnect("animation_finished", self, "_on_animation_finished")
 	call_deferred("set_script", preload("res://src/interact/monster drop.gd"))
 
-func sort_by_distance(a, b):
-	var dist_a = global_transform.origin.distance_to(a.global_transform.origin)
-	var dist_b = global_transform.origin.distance_to(b.global_transform.origin)
-	return dist_a < dist_b
 
 func new_random_target():
 	random_target = Vector3(rand_range(-100, 100), 0, rand_range(-100, 100))
+	set_navigation_target(random_target)
 	prints(get_name(), "is going to", random_target)
 
-func _ready():
-	var singleplayer_or_server = not get_tree().has_network_peer() or is_network_master()
-	set_physics_process(singleplayer_or_server)
-	if get_tree().has_network_peer() and is_network_master():
-		set_pause_mode(Node.PAUSE_MODE_PROCESS)
-	if singleplayer_or_server:
-		new_random_target()
+
+func set_navigation_target(target: Vector3, debug=false):
+	path_index = 0
+	path = nav.get_simple_path(global_transform.origin, target)
+	target_origin = target
+
+	if debug:
+		var path_m = nav.get_node("path")
+		if path_m != null:
+			path_m.name = "path.old"
+			path_m.queue_free()
+		path_m = Spatial.new()
+		path_m.name = "path"
+		nav.add_child(path_m)
+		for i in range(0, path.size()):
+			var mesh = MeshInstance.new()
+			mesh.mesh = SphereMesh.new()
+			mesh.mesh.radius = i * 0.05
+			mesh.mesh.height = mesh.mesh.radius * 2
+			mesh.transform.origin = path[i]
+			path_m.add_child(mesh)
+
 
 func _physics_process(delta):
 	direction = Vector3()
 	var origin = global_transform.origin
 
-	# Check if target is still a possible target
-	if not target_player in players or target_player.dead:
-		target_player = null
+	if target_player != null:
+		# Check if target is still a possible target
+		if not target_player in players:
+			print("%s let %s escape. This time..." % [name, target_player.name])
+			target_player = null
+		elif target_player.dead:
+			print("%s didn't let %s escape. I told you!" % [name, target_player.name])
+			target_player = null
+			players.remove(target_player)
 
 	# Find new target if there are candidates
 	var min_distance: float = INF
@@ -76,42 +108,63 @@ func _physics_process(delta):
 					if target_distance < min_distance:
 						target_player = player
 						min_distance = target_distance
+		if target_player != null:
+			# Found a prey.
+			set_navigation_target(target_player.global_transform.origin)
 
 	if target_player != null:
-		var vector_to_target = target_player.global_transform.origin - origin
 		if not combat:
 			combat = true
 			$exclamation/animation.play("exclamation")
-		if vector_to_target.length() > 7.5:
-			direction = vector_to_target.normalized()
+
+		var vector_to_target = path[path_index] - origin
+		var distance_from_target = origin.distance_to(target_player.global_transform.origin)
+		if distance_from_target > 7.5:
 			run()
+		elif distance_from_target > 3:
+			walk()
 		else:
-			direction = vector_to_target.normalized()
 			attack("attack")
+		if vector_to_target.length() < 1:
+			path_index += 1
+			if path_index >= path.size():
+				if distance_from_target > 1:
+					set_navigation_target(target_player.global_transform.origin)
+				else:
+					path_index = path.size() - 1
+		if target_origin.distance_to(target_player.global_transform.origin) > 2:
+			# Prey is trying to escape. Need a new path
+			set_navigation_target(target_player.global_transform.origin)
+		direction = vector_to_target.normalized()
 	else:
+		# No prey found. Scout the area.
 		combat = false
-		var target_distance = random_target.distance_to(Vector3(origin.x, 0, origin.z))
-		if target_distance < 2:
-			new_random_target()
-		direction = (random_target - origin).normalized()
+		var vector_to_target = path[path_index] - origin
+		if vector_to_target.length() < 1:
+			path_index += 1
+			if path_index >= path.size():
+				new_random_target()
+		direction = vector_to_target.normalized()
 
 	move_entity(delta)
 
 	$fire.process_material.initial_velocity = velocity.length() + 5
 
+
 func damage(dmg, reg, weapon=null, entity=null):
 	.damage(dmg, reg, weapon, entity)
-	if entity != null:
+	if entity != null and entity.is_in_group("player"):
 		if not entity in players:
 			players.push_front(entity)
 		target_player = entity
+
 
 func _on_view_body_entered(body):
 	if body.is_in_group("player"):
 		if not body.dead and not body in players:
 			players.push_front(body)
 
+
 func _on_view_body_exited( body ):
 	if body.is_in_group("player"):
 		players.erase(body)
-
