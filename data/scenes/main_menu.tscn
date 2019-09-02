@@ -122,6 +122,5 @@ editor/display_folded = true
 visible = false
 margin_right = -1.0
 margin_bottom = -1.0
-
 [connection signal="pressed" from="mode/singleplayer" to="." method="_on_singleplayer_pressed"]
 [connection signal="pressed" from="mode/multiplayer" to="." method="_on_multiplayer_pressed"]

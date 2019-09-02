@@ -11,11 +11,9 @@
 [ext_resource path="res://data/scenes/game_menu.tscn" type="PackedScene" id=9]
 
 [sub_resource type="DynamicFont" id=1]
-
 font_data = ExtResource( 1 )
 
 [sub_resource type="Theme" id=2]
-
 default_font = SubResource( 1 )
 Label/colors/font_color = Color( 1, 1, 1, 1 )
 Label/colors/font_color_shadow = Color( 0.196078, 0.196078, 0.196078, 1 )
@@ -26,12 +24,10 @@ Label/constants/shadow_offset_y = 1
 Label/fonts/font = null
 
 [sub_resource type="DynamicFont" id=3]
-
 size = 32
 font_data = ExtResource( 7 )
 
 [sub_resource type="Animation" id=4]
-
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_position")

@@ -10,4 +10,3 @@ region_rect = Rect2( 0, 0, 100, 100 )
 Panel/styles/panel = SubResource( 1 )
 Panel/styles/panelf = null
 Panel/styles/panelnc = null
-

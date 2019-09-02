@@ -85,5 +85,4 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0 )
 
 [node name="rotate" type="Tween" parent="."]
 
-
 [editable path="static"]
