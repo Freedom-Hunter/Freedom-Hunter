@@ -57,9 +57,9 @@ func update():
 	$name/label.text = item.name
 
 func _input(event):
-	if event.is_action_pressed("player_scroll_next") and not Input.is_action_pressed("camera_rotation_lock"):
+	if event.is_action_pressed("player_inventory_next") and not Input.is_action_pressed("camera_rotation_lock"):
 		activate_next()
-	elif event.is_action_pressed("player_scroll_back") and not Input.is_action_pressed("camera_rotation_lock"):
+	elif event.is_action_pressed("player_inventory_previous") and not Input.is_action_pressed("camera_rotation_lock"):
 		activate_prev()
 	elif event.is_action_pressed("player_use"):
 		use_active_item()
