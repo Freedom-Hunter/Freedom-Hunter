@@ -12,7 +12,7 @@ export (int, -100, 100) var paralysis = 0
 
 var weakness = {}
 var players = []
-var random_target
+var random_target: Vector3
 var target_player
 var combat = false
 
@@ -38,61 +38,66 @@ sync func died():
 	$view.disconnect("body_entered", self, "_on_view_body_entered")
 	$view.disconnect("body_exited", self, "_on_view_body_exited")
 	animation_node.disconnect("animation_finished", self, "_on_animation_finished")
-	$collision.disabled = true
 	call_deferred("set_script", preload("res://src/interact/monster drop.gd"))
 
 func sort_by_distance(a, b):
-	var dist_a = (get_global_transform().origin - a.get_global_transform().origin).length()
-	var dist_b = (get_global_transform().origin - b.get_global_transform().origin).length()
+	var dist_a = global_transform.origin.distance_to(a.global_transform.origin)
+	var dist_b = global_transform.origin.distance_to(b.global_transform.origin)
 	return dist_a < dist_b
 
+func new_random_target():
+	random_target = Vector3(rand_range(-100, 100), 0, rand_range(-100, 100))
+	prints(get_name(), "is going to", random_target)
+
 func _ready():
-	var server = not get_tree().has_network_peer() or is_network_master()
-	set_physics_process(server)
-	if server:
+	var singleplayer_or_server = not get_tree().has_network_peer() or is_network_master()
+	set_physics_process(singleplayer_or_server)
+	if get_tree().has_network_peer() and is_network_master():
 		set_pause_mode(Node.PAUSE_MODE_PROCESS)
+	if singleplayer_or_server:
+		new_random_target()
 
 func _physics_process(delta):
 	direction = Vector3()
-	var origin = get_pos()
-	var vector_to_target
+	var origin = global_transform.origin
 
 	# Check if target is still a possible target
 	if not target_player in players or target_player.dead:
 		target_player = null
 
 	# Find new target if there are candidates
-	if target_player == null and players.size() != 0:
-		players.sort_custom(self, "sort_by_distance")
+	var min_distance: float = INF
+	if target_player == null:
 		for player in players:
 			if not player.dead:
-				vector_to_target = player.get_pos() - origin
-				if get_transform().basis.z.dot(vector_to_target.normalized()) > -0.5:
-					target_player = player
-					break
+				var target_direction = (player.global_transform.origin - origin).normalized()
+				if global_transform.basis.z.dot(target_direction) > cos(2*PI/3):
+					var target_distance = target_direction.length()
+					if target_distance < min_distance:
+						target_player = player
+						min_distance = target_distance
 
 	if target_player != null:
-		random_target = null
-		vector_to_target = target_player.get_pos() - origin
+		var vector_to_target = target_player.global_transform.origin - origin
 		if not combat:
 			combat = true
 			$exclamation/animation.play("exclamation")
 		if vector_to_target.length() > 7.5:
 			direction = vector_to_target.normalized()
+			run()
 		else:
 			direction = vector_to_target.normalized()
-			if get_tree().has_network_peer():
-				rpc("attack", "attack")
-			else:
-				attack("attack")
+			attack("attack")
 	else:
 		combat = false
-		if random_target == null or (random_target - Vector3(origin.x, 0, origin.z)).length() < 2:
-			random_target = Vector3(rand_range(-100, 100), 0, rand_range(-100, 100))
-			prints(get_name(), "is going to", random_target)
+		var target_distance = random_target.distance_to(Vector3(origin.x, 0, origin.z))
+		if target_distance < 2:
+			new_random_target()
 		direction = (random_target - origin).normalized()
 
 	move_entity(delta)
+
+	$fire.process_material.initial_velocity = velocity.length() + 5
 
 func damage(dmg, reg, weapon=null, entity=null):
 	.damage(dmg, reg, weapon, entity)

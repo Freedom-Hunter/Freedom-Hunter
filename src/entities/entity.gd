@@ -7,49 +7,53 @@ const MAX_SLOPE_ANGLE = deg2rad(40)
 const MAX_STAMINA = 200
 
 # HP Health Points
-puppet var hp = 0
-var hp_max = 0
-puppet var hp_regenerable = 0
-var hp_regeneration = 1
-var hp_regeneration_interval = 5
+puppet var hp: int = 0
+var hp_max: int = 0
+puppet var hp_regenerable: int = 0
+var hp_regeneration: int = 1
+var hp_regeneration_interval: int = 5
 signal hp_changed(hp, hp_reg, hp_max)
 
 # Stamina
-var stamina = 0
-var stamina_max = 0
-var stamina_regeneration = 4
+var stamina: float = 0
+var stamina_max: int = 0
+var stamina_regeneration: float = 4
 signal stamina_changed(stamina, stamina_max)
 
 # Dodge
-puppet var dodging = false
-var dodge_stamina = 10
-var dodge_speed = 6
+puppet var dodging: bool = false
+var dodge_stamina: float = 10
+var dodge_speed: float = 8
 
 # Jump
-var jumping = false
-var jump_stamina = 15
-var jump_speed = 10
+puppet var jumping: bool = false
+var jump_stamina: float = 15
+var jump_speed: float = 10
 
 # Run
-puppet var running = false
-var run_stamina = 5
-var run_speed = 7.5
+puppet var running: bool = false
+var run_stamina: float = 5
+var run_speed: float = 7.5
 
 # Walk
-var walk_speed = 5
+var walk_speed: float = 5
+
+# Attack
+puppet var attacking: bool = false
+var attack_speed: float = 1
 
 # Time since latest damage
-var time_hit = 0
+var time_hit: float = 0
 
 # State
-var dead = false
-var direction = Vector3()
-var velocity = Vector3()
+var dead: bool = false
+var direction: Vector3 = Vector3()
+var velocity: Vector3 = Vector3()
 
 # Other
-var interpolation_factor  # how fast we interpolate rotations
-var animation_node
-var previous_origin = Vector3()
+var interpolation_factor: float  # how fast we interpolate rotations
+var animation_node: AnimationPlayer
+var previous_origin: Vector3 = Vector3()
 
 
 func _init(_hp=100, _hp_reg=null, _hp_max=null, _stamina=100, _stamina_max=null, interp=15):
@@ -66,6 +70,7 @@ func _str():
 func _ready():
 	animation_node = find_node("entity_animation")
 	animation_node.connect("animation_finished", self, "_on_animation_finished")
+	animation_node.rpc_config("play", MultiplayerAPI.RPC_MODE_PUPPET)
 	rset_config("transform", MultiplayerAPI.RPC_MODE_PUPPET)
 	emit_signal("hp_changed", hp, hp_regenerable, hp_max)
 	emit_signal("stamina_changed", stamina, stamina_max)
@@ -88,15 +93,16 @@ func jump():
 		emit_signal("stamina_changed", stamina, stamina_max)
 
 func run():
-	if not running and direction != Vector3() and stamina > 0:
+	if not running and not attacking and stamina > 0:
 		if get_tree().has_network_peer():
 			rset_unreliable("running", true)
 		running = true
 
 func walk():
-	if get_tree().has_network_peer():
-		rset_unreliable("running", false)
-	running = false
+	if not attacking and not dodging and running:
+		if get_tree().has_network_peer():
+			rset_unreliable("running", false)
+		running = false
 
 func move_entity(delta: float, gravity:bool=true):
 	var ti = get_transform()
@@ -113,35 +119,38 @@ func move_entity(delta: float, gravity:bool=true):
 
 	if jumping:
 		if running:
-			velocity.x *= run_speed
-			velocity.z *= run_speed
+			velocity *= Vector3(run_speed, 1, run_speed)
 		else:
-			velocity.x *= walk_speed
-			velocity.z *= walk_speed
+			velocity *= Vector3(walk_speed, 1, walk_speed)
 	elif dodging:
-		velocity *= dodge_speed
-	elif running:
-		velocity *= run_speed
+		velocity *= Vector3(dodge_speed, 1, dodge_speed)
+	elif running and direction != Vector3():
+		velocity *= Vector3(run_speed, 1, run_speed)
 		stamina -= run_stamina * delta
 		emit_signal("stamina_changed", stamina, stamina_max)
+	elif attacking:
+		velocity *= Vector3(attack_speed, 1, attack_speed)
 	else:
-		velocity *= walk_speed
+		velocity *= Vector3(walk_speed, 1, walk_speed)
 
 	look_ahead(delta)
 
 	# Vector3 linear_velocity, Vector3 floor_normal=Vector3(), bool stop_on_slope=false,
 	# int max_slides=4, float floor_max_angle=0.785398, bool infinite_inertia=true 
-	var remainder = move_and_slide(velocity, Vector3.UP, true, 4, MAX_SLOPE_ANGLE, true)
+	velocity = move_and_slide(velocity, Vector3.UP, true, 4, MAX_SLOPE_ANGLE, true)
 
-	var acceleration = (velocity - remainder - old_velocity).length()
-	if acceleration > 20:
-		damage(acceleration / 100, 0.5)
+	if is_on_wall():
+		velocity.y = -1
 
 	if is_on_floor():
 		if jumping and get_tree().has_network_peer() and is_network_master():
 			rset_unreliable("jumping", false)
 		jumping = false
 		velocity.y = 0
+
+	var acceleration = (velocity - old_velocity).length()
+	if acceleration > 10:
+		damage(pow(acceleration / 10, 7), 0.5)
 
 	if get_tree().has_network_peer() and is_network_master():
 		var tf = get_transform()
@@ -169,6 +178,7 @@ func _on_animation_finished(anim):
 	else:
 		dodging = false
 		running = false
+		attacking = false
 
 func get_pos():
 	return get_global_transform().origin
@@ -234,10 +244,16 @@ func damage(dmg, reg, weapon=null, entity=null):
 	else:
 		prints(get_name(), "is already dead")
 
-sync func attack(attack_name):
-	if animation_node.has_animation(attack_name):
+func attack(attack_name):
+	if not dodging and animation_node.has_animation(attack_name):
 		if not animation_node.is_playing() or animation_node.get_current_animation() != attack_name:
 			animation_node.play(attack_name)
+			attacking = true
+			running = false
+			if get_tree().has_network_peer():
+				animation_node.rpc("play", attack_name)
+				rset("attacking", true)
+				rset("running", false)
 
 func stamina_max_increase(amount):
 	if stamina_max + amount <= MAX_STAMINA:
@@ -246,7 +262,7 @@ func stamina_max_increase(amount):
 		emit_signal("stamina_changed", stamina, stamina_max)
 
 func stamina_natural_regeneration(delta):
-	if not dodging and not running:
+	if not dodging and (not running or direction == Vector3()):
 		stamina += stamina_regeneration * delta
 		if stamina > stamina_max:
 			stamina = stamina_max
