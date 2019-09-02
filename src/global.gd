@@ -50,8 +50,8 @@ func start_game(local_player_name):
 
 	game = preload("res://data/scenes/game.tscn").instance()
 	$"/root".add_child(game)
-	players_spawn = game.get_node("player_spawn")
-	monsters_spawn = game.get_node("monster_spawn")
+	players_spawn = game.find_node("player_spawn")
+	monsters_spawn = game.find_node("monster_spawn")
 
 	add_monster("Dragon", preload("res://data/scenes/monsters/dragon.tscn"))
 

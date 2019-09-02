@@ -33,4 +33,3 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.71865, 0 )
 stream = ExtResource( 3 )
 unit_size = 25.0
 max_distance = 200.0
-

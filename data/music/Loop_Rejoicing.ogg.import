@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Loop_Rejoicing.ogg-45d777fc26d5fb51771fcebbd5b1dd55.oggstr"
+
+[deps]
+
+source_file="res://data/music/Loop_Rejoicing.ogg"
+dest_files=[ "res://.import/Loop_Rejoicing.ogg-45d777fc26d5fb51771fcebbd5b1dd55.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

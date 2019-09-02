@@ -1,0 +1,152 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://src/CampFire.gd" type="Script" id=1]
+[ext_resource path="res://data/textures/kenney_particlePack/fire_01.png" type="Texture" id=2]
+[ext_resource path="res://data/textures/kenney_particlePack/smoke_04.png" type="Texture" id=3]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_blend_mode = 1
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = ExtResource( 2 )
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0, 0.707724 )
+colors = PoolColorArray( 0.890625, 0.880922, 0.535767, 1, 0.947266, 0.291699, 0.0777054, 1 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.37347, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=5]
+curve = SubResource( 4 )
+
+[sub_resource type="ParticlesMaterial" id=6]
+emission_shape = 1
+emission_sphere_radius = 0.2
+spread = 0.0
+gravity = Vector3( 0, 0, 0 )
+angular_velocity = 30.0
+angular_velocity_random = 1.0
+linear_accel = 6.0
+angle = 360.0
+angle_random = 1.0
+scale = 3.0
+scale_curve = SubResource( 5 )
+color_ramp = SubResource( 3 )
+
+[sub_resource type="QuadMesh" id=7]
+
+[sub_resource type="SpatialMaterial" id=8]
+flags_transparent = true
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_blend_mode = 1
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = ExtResource( 3 )
+
+[sub_resource type="Gradient" id=9]
+offsets = PoolRealArray( 0, 0.542798, 1 )
+colors = PoolColorArray( 0, 0, 0, 0, 0.473904, 0.473904, 0.473904, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=10]
+gradient = SubResource( 9 )
+
+[sub_resource type="ParticlesMaterial" id=11]
+emission_shape = 1
+emission_sphere_radius = 0.2
+spread = 0.0
+gravity = Vector3( 0, 0, 0 )
+angular_velocity = 30.0
+angular_velocity_random = 1.0
+linear_accel = 4.0
+angle = 360.0
+angle_random = 1.0
+scale = 2.0
+scale_random = 0.5
+color_ramp = SubResource( 10 )
+
+[sub_resource type="SpatialMaterial" id=12]
+albedo_color = Color( 0.380392, 0.247059, 0.0431373, 1 )
+
+[sub_resource type="CylinderShape" id=13]
+radius = 0.8
+
+[node name="CampFire" type="Area"]
+script = ExtResource( 1 )
+
+[node name="Flames" type="Particles" parent="."]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0 )
+material_override = SubResource( 1 )
+amount = 16
+process_material = SubResource( 6 )
+draw_pass_1 = SubResource( 7 )
+
+[node name="Smoke" type="Particles" parent="."]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0 )
+material_override = SubResource( 8 )
+amount = 32
+lifetime = 3.0
+process_material = SubResource( 11 )
+draw_pass_1 = SubResource( 7 )
+
+[node name="Logs" type="CSGCombiner" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
+
+[node name="log0" type="CSGCylinder" parent="Logs"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+radius = 0.1
+height = 2.0
+sides = 16
+material = SubResource( 12 )
+
+[node name="log30" type="CSGCylinder" parent="Logs"]
+transform = Transform( 0.866025, 0.5, -2.18557e-08, 0, -4.37114e-08, -1, -0.5, 0.866025, -3.78552e-08, 0, 0, 0 )
+radius = 0.1
+height = 2.0
+sides = 16
+material = SubResource( 12 )
+
+[node name="log60" type="CSGCylinder" parent="Logs"]
+transform = Transform( 0.5, 0.866025, -3.78552e-08, 0, -4.37114e-08, -1, -0.866025, 0.5, -2.18557e-08, 0, 0, 0 )
+radius = 0.1
+height = 2.0
+sides = 16
+material = SubResource( 12 )
+
+[node name="log90" type="CSGCylinder" parent="Logs"]
+transform = Transform( -4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0, 0 )
+radius = 0.1
+height = 2.0
+sides = 16
+material = SubResource( 12 )
+
+[node name="log120" type="CSGCylinder" parent="Logs"]
+transform = Transform( -0.5, 0.866025, -3.78552e-08, 0, -4.37114e-08, -1, -0.866025, -0.5, 2.18557e-08, 0, 0, 0 )
+radius = 0.1
+height = 2.0
+sides = 16
+material = SubResource( 12 )
+
+[node name="log150" type="CSGCylinder" parent="Logs"]
+transform = Transform( -0.866026, 0.5, -2.18557e-08, 0, -4.37114e-08, -1, -0.5, -0.866026, 3.78552e-08, 0, 0, 0 )
+radius = 0.1
+height = 2.0
+sides = 16
+material = SubResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = SubResource( 13 )
+
+[connection signal="body_entered" from="." to="." method="_on_CampFire_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_CampFire_body_exited"]
