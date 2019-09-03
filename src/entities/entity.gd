@@ -7,16 +7,16 @@ const MAX_SLOPE_ANGLE = deg2rad(40)
 const MAX_STAMINA = 200
 
 # HP Health Points
-puppet var hp: int = 0
-var hp_max: int = 0
-puppet var hp_regenerable: int = 0
+puppet var hp: int = 100
+var hp_max: int = 100
+puppet var hp_regenerable: int = 100
 var hp_regeneration: int = 1
 var hp_regeneration_interval: int = 5
 signal hp_changed(hp, hp_reg, hp_max)
 
 # Stamina
-var stamina: float = 0
-var stamina_max: int = 0
+var stamina: float = 100
+var stamina_max: int = 100
 var stamina_regeneration: float = 4
 signal stamina_changed(stamina, stamina_max)
 
@@ -51,18 +51,10 @@ var direction: Vector3 = Vector3()
 var velocity: Vector3 = Vector3()
 
 # Other
-var interpolation_factor: float  # how fast we interpolate rotations
+var interpolation_factor: float = 10  # how fast we interpolate rotations
 var animation_node: AnimationPlayer
 var previous_origin: Vector3 = Vector3()
 
-
-func _init(_hp=100, _hp_reg=null, _hp_max=null, _stamina=100, _stamina_max=null, interp=15):
-	hp = _hp
-	hp_regenerable = _hp if _hp_reg == null else _hp_reg
-	hp_max = _hp if _hp_max == null else _hp_max
-	stamina = _stamina
-	stamina_max = _stamina if _stamina_max == null else _stamina_max
-	interpolation_factor = interp
 
 func _str():
 	return "HP: %d/%d/%d\nStamina: %d/%d" % [hp, hp_regenerable, hp_max, stamina, stamina_max]

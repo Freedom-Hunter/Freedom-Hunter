@@ -21,7 +21,13 @@ var path_index: int = 0
 var target_origin: Vector3
 
 
-func _init().(500, 100, 1):
+func _init():
+	hp = 500
+	hp_max = 500
+	hp_regenerable = 500
+	interpolation_factor = 10
+	attack_speed = 0
+
 	weakness = {
 		"fire":      fire,
 		"water":     water,

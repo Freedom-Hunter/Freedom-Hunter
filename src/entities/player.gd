@@ -14,8 +14,12 @@ var equipment = {"weapon": null, "armour": {"head": null, "torso": null, "righta
 var inventory: Inventory = preload("res://data/scenes/inventory.tscn").instance()
 var money = 10000
 
-func _init().(100, 150, 150):
-	pass
+
+func _init():
+	# Start with 50 HP to recover
+	hp_max = 150
+	hp_regenerable = 150
+
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
