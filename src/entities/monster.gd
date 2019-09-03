@@ -113,7 +113,7 @@ func _physics_process(delta):
 		elif target_player.dead:
 			print("%s didn't let %s escape. I told you!" % [name, target_player.name])
 			target_player = null
-			players.remove(target_player)
+			players.erase(target_player)
 
 	# Find new target if there are candidates
 	var min_distance: float = INF
