@@ -1,7 +1,9 @@
 extends RigidBody
 
+
 func _on_animation_finished(animation):
 	queue_free()
+
 
 func fire():
 	linear_velocity = Vector3(0, 60, 0)

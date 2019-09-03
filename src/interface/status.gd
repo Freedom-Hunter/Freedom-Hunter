@@ -16,6 +16,7 @@ func _on_hp_changed(hp, hp_reg, hp_max):
 
 	$hp/label.text = "%d/%d" % [hp, hp_max]
 
+
 func _on_stamina_changed(stamina, stamina_max):
 	var size = 300 * stamina_max / 50
 

@@ -7,18 +7,22 @@ onready var animation = get_node("model/AnimationPlayer")
 
 var player = null
 
+
 func _ready():
 	inventory.set_items([], 100)
 	set_process_input(false)
+
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		inventory.free()
 
+
 func interact(player, node):
 	if self.player == null:
 		self.player = player
 		open()
+
 
 func open():
 	if animation.get_current_animation() == "open":
@@ -34,6 +38,7 @@ func open():
 	hud.get_node("inventory").connect("popup_hide", self, "close")
 	set_process_input(true)
 
+
 func close():
 	set_process_input(false)
 	hud.get_node("inventory").disconnect("popup_hide", self, "close")
@@ -44,6 +49,7 @@ func close():
 	player.resume_player()
 	get_viewport().get_camera().set_process_input(true)
 	player = null
+
 
 func _input(event):
 	if event.is_action_pressed("player_interact"):

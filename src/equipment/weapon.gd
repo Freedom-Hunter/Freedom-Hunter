@@ -37,9 +37,11 @@ onready var sharpness = [
 
 onready var player = $"../../../.."
 
+
 func _ready():
 	assert(player is Player)
 	update_animation()
+
 
 func update_animation():
 	var anim = sharpness_node.get_current_animation()
@@ -50,6 +52,7 @@ func update_animation():
 			return
 	if anim != "red":
 		sharpness_node.play("red")
+
 
 func blunt(amount):
 	for s in sharpness:
@@ -63,6 +66,7 @@ func blunt(amount):
 				break
 	update_animation()
 
+
 func sharpen(amount):
 	for s in sharpness:
 		if s.value < s.max_val:
@@ -74,15 +78,18 @@ func sharpen(amount):
 	update_animation()
 	return amount
 
+
 func is_sharpened():
 	for s in sharpness:
 		if s.value < s.max_val:
 			return false
 	return true
 
+
 func get_weapon_damage(body, impact):
 	# TODO: damage modifiers
 	return strength
+
 
 func _on_sword_body_enter(body):
 	if body != player and body is Entity and not body.dead:

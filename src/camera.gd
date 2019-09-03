@@ -18,6 +18,7 @@ var move_pitch = true
 var pitch_unit = 12.5
 var camera_distance = 8
 
+
 func _ready():
 	target_yaw = yaw_node.get_rotation_degrees().y
 	yaw = target_yaw
@@ -26,6 +27,7 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	set_process_input(true)
 	set_process(true)
+
 
 func _process(delta):
 	yaw = lerp(yaw, target_yaw, delta * 10)
@@ -38,6 +40,7 @@ func _process(delta):
 		if gyro != Vector3():
 			rotate_view(Vector2(gyro.y, gyro.x) * gyro_sensitivity)
 
+
 func rotate_view(relative):
 	target_yaw -= relative.x
 	if target_yaw >= 360:
@@ -48,6 +51,7 @@ func rotate_view(relative):
 		yaw += 360
 	if move_pitch:
 		target_pitch = max(min(target_pitch - relative.y, max_pitch), min_pitch)
+
 
 func _input(event):
 	if event is InputEventScreenTouch:
@@ -74,6 +78,7 @@ func _input(event):
 	elif event.is_action_released("camera_zoom_out"):
 		if not camera_distance >= 10:
 			camera_distance += 0.5
+
 
 func camera_zoom(delta):
 	var camera_t = get_global_transform()

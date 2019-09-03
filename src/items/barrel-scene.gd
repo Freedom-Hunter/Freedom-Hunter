@@ -2,6 +2,7 @@ extends RigidBody
 
 const Entity = preload("res://src/entities/entity.gd")
 
+
 func _on_timer_timeout():
 	$"explosion/animation".play("explode")
 	var r = $"explosion/radius".shape.radius
@@ -21,6 +22,7 @@ func _on_timer_timeout():
 					body_timer.stop()
 					body_timer.set_wait_time(0.5 - rand_range(0, 0.4))
 					body_timer.start()
+
 
 func _on_animation_finished(animation):
 	queue_free()

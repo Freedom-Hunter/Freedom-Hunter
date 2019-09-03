@@ -28,6 +28,7 @@ func new_random_stare():
 	stare_wait = rand_range(1, 10)
 	stare_time = 0
 
+
 func _ready():
 	shop.set_items([
 		Potion.new("Potion",       preload("res://data/images/items/potion.png"),   10, self, 20),
@@ -37,6 +38,7 @@ func _ready():
 		Meat.new("Meat",           preload("res://data/images/items/meat.png"),      5,  self, 25)
 	], 10)
 	new_random_stare()
+
 
 func interact(new_player: Player, node):
 	assert(player == null)
@@ -54,11 +56,13 @@ func interact(new_player: Player, node):
 	get_viewport().get_camera().set_process_input(true)
 	player = null
 
+
 func slerp_look_at(target: Vector3, slerp_factor: float):
 	# rotate on Y axis towards target with linear interpolation
 	target.y = global_transform.origin.y  # prevent rotations on X axis
 	var rot_transform = global_transform.looking_at(target, Vector3.UP)
 	global_transform.basis = global_transform.basis.slerp(rot_transform.basis, slerp_factor).orthonormalized()
+
 
 func _process(delta):
 	var min_distance = INF

@@ -15,6 +15,7 @@ func _ready():
 	string[-1] = ""
 	$action.set_text(string)
 
+
 func _input(event):
 	if get_tree().has_network_peer():
 		if event.is_action_pressed("players_list"):
@@ -27,12 +28,14 @@ func _input(event):
 		else:
 			open_inventories([global.local_player.inventory])
 
+
 func _physics_process(delta):
 	show_interact()
 	update_names()
 	update_debug()
 	if notify_queue.size() > 0 and not $notification/animation.is_playing():
 		play_notify(notify_queue.pop_front())
+
 
 func open_inventories(inventories):
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -43,6 +46,7 @@ func open_inventories(inventories):
 	$inventory.popup()
 	$inventory.connect("popup_hide", self, "close_inventories", [], CONNECT_ONESHOT)
 
+
 func close_inventories():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	global.local_player.resume_player()
@@ -51,6 +55,7 @@ func close_inventories():
 		if child.get_name() != "quit":
 			$inventory.remove_child(child)
 	$inventory.hide()
+
 
 func show_interact():
 	var camera_node = get_viewport().get_camera()
@@ -66,21 +71,25 @@ func show_interact():
 	else:
 		$action.hide()
 
+
 func new_label(text):
 	var label = Label.new()
 	label.set_name(text)
 	label.set_text(text)
 	return label
 
+
 func _on_player_connected(player_name):
 	prints("hud:", player_name, "connected")
 	$names.add_child(new_label(player_name))
 	$players_list.add_child(new_label(player_name))
 
+
 func _on_player_disconnected(player_name):
 	prints("hud:", player_name, "disconnected")
 	$names.get_node(player_name).queue_free()
 	$players_list.get_node(player_name).queue_free()
+
 
 func update_names():
 	var camera_node = get_viewport().get_camera()
@@ -109,6 +118,7 @@ func update_names():
 		var size = label.get_size()
 		label.rect_global_position = pos - Vector2(size.x/2, size.y/2)
 
+
 func update_debug():
 	var pos = global.local_player.get_translation()
 	var out = "POS: %.2f %.2f %.2f" % [pos.x, pos.y, pos.z]
@@ -116,18 +126,22 @@ func update_debug():
 		out += "\nClient is not connected!"
 	$debug.text = out
 
+
 func play_notify(text):
 	$notification/text.text = text
 	$notification/animation.play("show")
 	yield($notification/animation, "animation_finished")
 
+
 func notify(text):
 	notify_queue.append(text)
+
 
 func prompt_respawn():
 	$respawn.popup_centered()
 	get_viewport().get_camera().set_process_input(false)
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
 
 func _on_respawn_confirmed():
 	global.local_player.respawn()

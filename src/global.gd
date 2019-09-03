@@ -22,8 +22,10 @@ static func add_entity(_name, scene, spawn, id=1):
 	spawn.add_child(entity)
 	return entity
 
+
 func add_monster(_name, scene):
 	return add_entity(_name, scene, monsters_spawn)
+
 
 func add_player(_name, id=1, transform=null):
 	var player = add_entity(_name, PlayerScene, players_spawn, id)
@@ -37,9 +39,11 @@ func add_player(_name, id=1, transform=null):
 	emit_signal("player_connected", _name)
 	return player
 
+
 func remove_player(_name):
 	players_spawn.get_node(_name).queue_free()
 	emit_signal("player_disconnected", _name)
+
 
 func start_game(local_player_name):
 	if local_player_name != null:
@@ -71,6 +75,7 @@ func start_game(local_player_name):
 	get_tree().set_current_scene(game)
 	return game
 
+
 func stop_game():
 	if game != null:
 		game.queue_free()
@@ -81,10 +86,12 @@ func stop_game():
 	get_tree().set_pause(false)
 	get_tree().change_scene("res://data/scenes/main_menu.tscn")
 
+
 func exit_clean():
 	var networking = get_node("/root/networking")
 	networking.stop()
 	get_tree().quit()
+
 
 func _notification(what):
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:

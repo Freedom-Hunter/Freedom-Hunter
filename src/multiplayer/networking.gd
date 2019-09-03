@@ -17,6 +17,7 @@ func init_lobby():
 	lobby.set_name("lobby")
 	add_child(lobby)
 
+
 func server_start(port, username=null, host=null):
 	peer = NetworkedMultiplayerENet.new()
 	peer.create_server(port)
@@ -35,6 +36,7 @@ func server_start(port, username=null, host=null):
 	get_tree().connect("network_peer_disconnected", self, "_on_network_peer_disconnected")
 	get_tree().connect("network_peer_connected", self, "_on_network_peer_connected")
 
+
 func client_start(ip, port, username):
 	peer = NetworkedMultiplayerENet.new()
 	peer.create_client(ip, port)
@@ -47,20 +49,25 @@ func client_start(ip, port, username):
 	get_tree().connect("network_peer_connected", self, "_on_network_peer_connected")
 	get_tree().connect("network_peer_disconnected", self, "_on_network_peer_disconnected")
 
+
 func _connected_to_server(username): # client
 	global.start_game(username)
 	players[unique_id] = global.local_player
 	print("Client %d connected to server" % unique_id)
 	rpc("register_player", unique_id, username, null)
 
+
 func _connection_failed(ip, port):
 	stop()
+
 
 func _server_disconnected():
 	stop_and_report_error("Server disconnected.")
 
+
 func _on_network_peer_connected(id):
 	print("Peer ID %d connected" % id)
+
 
 func _on_network_peer_disconnected(id):
 	if id in players:
@@ -69,6 +76,7 @@ func _on_network_peer_disconnected(id):
 		players.erase(id)
 	else:
 		print("Peer ID %d disconnected" % id)
+
 
 remote func register_player(id, username, transform):
 	# If I'm the server, let the new guy know about existing players
@@ -89,8 +97,10 @@ remote func register_player(id, username, transform):
 	else:
 		players[id] = global.add_player(username, id, transform)
 
+
 remote func _register_error(reason):
 	stop_and_report_error('Server refused connection: "%s"' % reason)
+
 
 func stop():
 	if peer != null:
@@ -99,6 +109,7 @@ func stop():
 	players = {}
 	get_tree().set_network_peer(null)
 	unique_id = 1
+
 
 func stop_and_report_error(message):
 	global.stop_game()
@@ -109,11 +120,14 @@ func stop_and_report_error(message):
 	$"/root/main_menu/multiplayer".show()
 	$"/root/main_menu/multiplayer".report_error(message)
 
+
 func is_server():
 	return get_tree().has_network_peer() and get_tree().is_network_server()
 
+
 func is_client_connected():
 	return peer == null or peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED
+
 
 func get_players():
 	return players.values()

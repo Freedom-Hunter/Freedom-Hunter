@@ -8,15 +8,19 @@ func _init(_name, _icon, _quantity, _max_quantity, _rarity, _player).(_name, _ic
 	player = _player
 	max_quantity = _max_quantity
 
+
 func clone():
 	return get_script().new(name, icon, quantity, max_quantity, rarity, player)
+
 
 func effect():
 	return true
 
+
 func use():
 	if quantity > 0 and effect():
 		quantity -= 1
+
 
 func add(n):
 	# returns how many items can't be added due to max_quantity limit
@@ -26,6 +30,7 @@ func add(n):
 		return 0
 	quantity += max_n
 	return n - max_n
+
 
 func set_label_color(label):
 	if quantity >= max_quantity:

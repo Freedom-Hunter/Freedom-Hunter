@@ -5,6 +5,7 @@ const ShopItemScene = preload("res://data/scenes/interface/items/shop-item.tscn"
 var items = []
 var shop_items = []
 
+
 func set_items(items, cost_factor):
 	self.items = items
 	shop_items = []

@@ -25,6 +25,7 @@ func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		inventory.free()
 
+
 func set_equipment(model, bone, _name=null):
 	var skel = $Armature/Skeleton
 	for node in skel.get_children():
@@ -40,6 +41,7 @@ func set_equipment(model, bone, _name=null):
 	ba.set_bone_name(bone)
 	ba.add_child(model)
 	skel.add_child(ba)
+
 
 func _ready():
 	# TEST CODE
@@ -61,10 +63,12 @@ func _ready():
 
 	resume_player()
 
+
 func sort_by_distance(a, b):
 	var dist_a = (get_global_transform().origin - a.get_global_transform().origin).length()
 	var dist_b = (get_global_transform().origin - b.get_global_transform().origin).length()
 	return dist_a < dist_b
+
 
 func get_nearest_interact():
 	var areas = interact_node.get_overlapping_areas()
@@ -77,12 +81,15 @@ func get_nearest_interact():
 		return interacts[0]
 	return null
 
+
 func interact_with(interact):
 	if interact != null and not hud.get_node("notification/animation").is_playing():
 		interact.get_parent().interact(self, interact)
 
+
 func interact_with_nearest():
 	interact_with(get_nearest_interact())
+
 
 func _input(event):
 	if event.is_action_pressed("player_attack_left"):
@@ -107,11 +114,13 @@ func _input(event):
 	elif event.is_action_pressed("player_interact"):
 		interact_with_nearest()
 
+
 func add_item(item):
 	item = item.clone()
 	item.player = self
 	var remainder = inventory.add_item(item)
 	return remainder
+
 
 func buy_item(item, cost):
 	if item.quantity > 0 and money >= cost:
@@ -120,10 +129,12 @@ func buy_item(item, cost):
 		return true
 	return false
 
+
 func drop_item_on_floor(item):
 	var drop_origin = $drop_item.global_transform.origin
 	item.global_transform.origin = drop_origin
 	get_parent().add_child(item)
+
 
 func get_defence():
 	var defence = 0
@@ -131,6 +142,7 @@ func get_defence():
 		if piece != null:
 			defence += piece.strength
 	return defence
+
 
 sync func died():
 	.died()
@@ -142,10 +154,12 @@ sync func died():
 		hud.prompt_respawn()
 	$shape.disabled = true
 
+
 func respawn():
 	.respawn()
 	resume_player()
 	$shape.disabled = false
+
 
 func pause_player():
 	direction = Vector3()
@@ -154,11 +168,13 @@ func pause_player():
 	set_process(false)
 	animation_node.play("idle")
 
+
 func resume_player():
 	var enable = not get_tree().has_network_peer() or is_network_master()
 	set_process_input(enable)
 	set_physics_process(enable)
 	set_process(true)
+
 
 func _process(delta):
 	if dead:
@@ -181,6 +197,7 @@ func _process(delta):
 			animation_node.play("walk", 0.5)
 	elif anim in ["walk", "run", "death"] or not playing:
 		animation_node.play("idle", 0.5)
+
 
 func _physics_process(delta):
 	if not dodging:

@@ -8,15 +8,19 @@ const fire_speed = 200
 
 var cannon
 
+
 func _init(_quantity, _player).("Cannonball", Icon, _quantity, 1, 10, _player):
 	pass
+
 
 func clone():
 	return get_script().new(quantity, player)
 
+
 func fire(cannon):
 	self.cannon = cannon
 	player.inventory.use_item(self)
+
 
 func effect():
 	var cannon_ball: RigidBody = CannonBallScene.instance()

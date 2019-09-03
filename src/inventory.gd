@@ -26,10 +26,12 @@ func set_items(items_array, max_slots_int):
 		$items.add_child(slot)
 	emit_signal("modified", self)
 
+
 # Input handling is needed to detect when the user drags and drops an item where he can't
 func _input(event):
 	if event is InputEventMouseButton and not event.is_pressed() and event.button_index == BUTTON_LEFT:
 		call_deferred("give_back_dragged_item")
+
 
 func give_back_dragged_item():
 	if dragging != null:
@@ -38,17 +40,20 @@ func give_back_dragged_item():
 			add_item(dragging.item, dragging.slot)
 		dragging = null
 
+
 func find_free_slot() -> Slot:
 	for slot in $items.get_children():
 		if slot.item == null:
 			return slot
 	return null
 
+
 func find_item_by_name(_name: String) -> Item:
 	for item in items:
 		if item.name == _name:
 			return item
 	return null
+
 
 # If slot is null will look for the first free slot
 func add_item(item, slot=null):
@@ -75,8 +80,10 @@ func add_item(item, slot=null):
 	emit_signal("modified", self)
 	return overflow
 
+
 func get_item(i: int):
 	return items[wrapi(i, 0, items.size())]
+
 
 func use_item(item: Item):
 	item.use()
@@ -85,12 +92,14 @@ func use_item(item: Item):
 	emit_signal("modified", self)
 	return item
 
+
 func remove_item(i, slot=null):
 	if slot == null:
 		slot = $items.get_node(items[i].name)
 	slot.set_item(null)
 	items.remove(i)
 	emit_signal("modified", self)
+
 
 func erase_item(item, slot=null):
 	var i = items.find(item)
@@ -118,6 +127,7 @@ class ItemStack extends TextureRect:
 		else:
 			set_texture(null)
 			label.set_text("")
+
 
 # Manage drag and drop
 class Slot extends Panel:

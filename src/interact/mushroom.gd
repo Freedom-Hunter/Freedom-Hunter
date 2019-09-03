@@ -12,5 +12,6 @@ var barrel    = Barrel.new("Barrel",       preload("res://data/images/items/barr
 var whetstone = Whetstone.new("Whetstone", preload("res://data/images/items/whetstone.png"), 1, null, 20)
 var meat      = Meat.new("Meat",           preload("res://data/images/items/meat.png"),      1, null, 50)
 
+
 func _init().([barrel, firework, potion, meat], rand_range(2, 10)):
 	pass

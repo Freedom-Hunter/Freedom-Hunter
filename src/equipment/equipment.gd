@@ -11,6 +11,7 @@ export (int, -100, 100) var paralysis = 0
 
 var elements = {}
 
+
 func _init():  #.(preload("res://data/images/items/null.png"), get_name(), 10, 1):
 	elements = {
 		"fire":      fire,

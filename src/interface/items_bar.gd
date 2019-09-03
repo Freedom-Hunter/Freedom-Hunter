@@ -14,6 +14,7 @@ func _on_inventory_modified(inventory):
 	self.inventory = inventory
 	update()
 
+
 func get_item(i):
 	if i % (inventory.items.size() + 1) == 0:
 		return null_item
@@ -21,8 +22,10 @@ func get_item(i):
 		return inventory.get_item(i - 1)
 	return inventory.get_item(i)
 
+
 func get_active_item():
 	return get_item(active_item)
+
 
 func use_active_item():
 	var item = get_active_item()
@@ -31,15 +34,18 @@ func use_active_item():
 		inventory.use_item(item)
 		update()
 
+
 func activate_next():
 	active_item = wrapi(active_item + 1, 0, inventory.items.size() + 1)
 	$sound.play()
 	update()
 
+
 func activate_prev():
 	active_item = wrapi(active_item - 1, 0, inventory.items.size() + 1)
 	$sound.play()
 	update()
+
 
 func update():
 	var i = -2
@@ -55,6 +61,7 @@ func update():
 		$bar/use/quantity/label.text = str(item.quantity)
 		item.set_label_color($bar/use/quantity/label)
 	$name/label.text = item.name
+
 
 func _input(event):
 	if event.is_action_pressed("player_inventory_next") and not Input.is_action_pressed("camera_rotation_lock"):

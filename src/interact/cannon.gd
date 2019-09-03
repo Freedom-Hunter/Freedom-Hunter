@@ -15,11 +15,13 @@ func interact(player:Player, node):
 		_:
 			print_debug("Not a known node")
 
+
 func fire(player:Player):
 	var cannon_ball: Item = player.inventory.find_item_by_name("Cannonball")
 	if cannon_ball != null and not $animation.is_playing() and not $rotate.is_active():
 		cannon_ball.fire(self)
 		$animation.play("fire")
+
 
 func tween_rotate(angle, duration=0.5):
 	if not $animation.is_playing() and not $rotate.is_active():

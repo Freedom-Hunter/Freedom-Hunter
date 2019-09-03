@@ -175,12 +175,14 @@ func move_entity(delta: float, gravity:bool=true):
 		if dist > 0.01 or rotx > 0.001 or roty > 0.001 or rotz > 0.001:
 			rset_unreliable("transform", tf)
 
+
 func look_ahead(delta):
 	if direction.length() != 0:
 		var target = Vector3(direction.x, 0, direction.z).normalized()
 		target = -(get_transform().basis.z).linear_interpolate(target, delta * interpolation_factor)
 		target += get_global_transform().origin
 		look_at(target, Vector3(0, 1, 0))
+
 
 func _on_animation_finished(anim):
 	if anim == "run" and direction != Vector3() and Input.is_action_pressed("player_run"):
@@ -193,8 +195,10 @@ func _on_animation_finished(anim):
 		running = false
 		attacking = false
 
+
 func get_pos():
 	return get_global_transform().origin
+
 
 master func die():
 	if not dead:
@@ -205,6 +209,7 @@ master func die():
 	else:
 		print(get_name(), " is already dead")
 
+
 sync func died():
 	print("%s died" % [get_name()])
 	dead = true
@@ -213,6 +218,7 @@ sync func died():
 	velocity = Vector3()
 	direction = Vector3()
 	set_process(false)
+
 
 puppet func respawn():
 	set_transform(Transform())
@@ -229,8 +235,10 @@ puppet func respawn():
 	emit_signal("hp_changed", hp, hp_regenerable, hp_max)
 	emit_signal("stamina_changed", stamina, stamina_max)
 
+
 func get_defence():
 	return 0
+
 
 func heal(amount):
 	hp += amount
@@ -257,6 +265,7 @@ func damage(dmg, reg, weapon=null, entity=null):
 	else:
 		prints(get_name(), "is already dead")
 
+
 func attack(attack_name):
 	if not dodging and animation_node.has_animation(attack_name):
 		if not animation_node.is_playing() or animation_node.get_current_animation() != attack_name:
@@ -268,11 +277,13 @@ func attack(attack_name):
 				rset("attacking", true)
 				rset("running", false)
 
+
 func stamina_max_increase(amount):
 	if stamina_max + amount <= MAX_STAMINA:
 		stamina_max += amount
 		stamina = stamina_max
 		emit_signal("stamina_changed", stamina, stamina_max)
+
 
 func stamina_natural_regeneration(delta):
 	if not dodging and (not running or direction == Vector3()):
@@ -281,11 +292,13 @@ func stamina_natural_regeneration(delta):
 			stamina = stamina_max
 		emit_signal("stamina_changed", stamina, stamina_max)
 
+
 func stamina_boost(amount):
 	stamina += amount
 	if stamina > stamina_max:
 		stamina = stamina_max
 	emit_signal("stamina_changed", stamina, stamina_max)
+
 
 func hp_natural_regeneration(delta):
 	if not dodging and not running:
@@ -295,6 +308,7 @@ func hp_natural_regeneration(delta):
 			if hp_regenerable > hp:
 				hp += hp_regeneration
 				emit_signal("hp_changed", hp, hp_regenerable, hp_max)
+
 
 func _process(delta):
 	hp_natural_regeneration(delta)

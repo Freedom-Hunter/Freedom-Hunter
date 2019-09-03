@@ -1,4 +1,5 @@
 # Headless server
+# FIXME: completely broken since we switched to Godot's high level multiplayer API
 
 extends SceneTree
 
