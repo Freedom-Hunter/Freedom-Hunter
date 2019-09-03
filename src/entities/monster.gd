@@ -18,7 +18,7 @@ var combat = false
 onready var nav: Navigation = get_node("../../..")
 var path: Array = []
 var path_index: int = 0
-var target_origin: Vector3
+var old_target_origin: Vector3
 
 
 func _init():
@@ -70,9 +70,10 @@ func new_random_target():
 func set_navigation_target(target: Vector3, debug=false):
 	path_index = 0
 	path = nav.get_simple_path(global_transform.origin, target)
-	target_origin = target
+	old_target_origin = target
 
 	if debug:
+		prints("New path", path)
 		var path_m = nav.get_node("path")
 		if path_m != null:
 			path_m.name = "path.old"
@@ -89,9 +90,20 @@ func set_navigation_target(target: Vector3, debug=false):
 			path_m.add_child(mesh)
 
 
+func follow_path():
+	var origin = global_transform.origin
+	var to_target = path[path_index] - origin
+	while to_target.length() < 1 and path_index < path.size():
+		path_index += 1
+		if path_index < path.size():
+			to_target = path[path_index] - origin
+
+	direction = to_target.normalized()
+
+
 func _physics_process(delta):
 	direction = Vector3()
-	var origin = global_transform.origin
+	var origin: Vector3 = global_transform.origin
 
 	if target_player != null:
 		# Check if target is still a possible target
@@ -123,38 +135,38 @@ func _physics_process(delta):
 			combat = true
 			$exclamation/animation.play("exclamation")
 
-		var vector_to_target = path[path_index] - origin
-		var distance_from_target = origin.distance_to(target_player.global_transform.origin)
-		if distance_from_target > 7.5:
+		var to_target: Vector3 = target_player.global_transform.origin - origin
+		var distance_from_target = to_target.length()
+		if attacking:
+			direction = to_target.normalized()
+		elif distance_from_target > 10:
 			run()
-		elif distance_from_target > 3:
+			follow_path()
+		elif distance_from_target > 5:
 			walk()
+			follow_path()
 		else:
 			attack("attack")
-		if vector_to_target.length() < 1:
-			path_index += 1
-			if path_index >= path.size():
-				if distance_from_target > 1:
-					set_navigation_target(target_player.global_transform.origin)
-				else:
-					path_index = path.size() - 1
-		if target_origin.distance_to(target_player.global_transform.origin) > 2:
+			direction = to_target.normalized()
+
+		if path_index >= path.size():
+			# Can't reach the prey?
+			path_index = path.size() - 1
+			direction = to_target.normalized()
+			stop()
+
+		if old_target_origin.distance_to(target_player.global_transform.origin) > 1:
 			# Prey is trying to escape. Need a new path
 			set_navigation_target(target_player.global_transform.origin)
-		direction = vector_to_target.normalized()
 	else:
 		# No prey found. Scout the area.
 		combat = false
-		var vector_to_target = path[path_index] - origin
-		if vector_to_target.length() < 1:
-			path_index += 1
-			if path_index >= path.size():
-				new_random_target()
-		direction = vector_to_target.normalized()
+		walk()
+		follow_path()
+		if path_index >= path.size():
+			new_random_target()
 
 	move_entity(delta)
-
-	$fire.process_material.initial_velocity = velocity.length() + 5
 
 
 func damage(dmg, reg, weapon=null, entity=null):

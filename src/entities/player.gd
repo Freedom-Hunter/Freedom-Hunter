@@ -201,6 +201,8 @@ func _physics_process(delta):
 			direction = d.y * camera.basis.z + d.x * camera.basis.x
 
 		direction = direction.normalized()
+		if direction != Vector3() and not running and not jumping:
+			walk()
 
 	# Player collision and physics
 	move_entity(delta)

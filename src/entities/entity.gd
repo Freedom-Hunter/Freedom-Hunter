@@ -36,6 +36,7 @@ var run_stamina: float = 5
 var run_speed: float = 7.5
 
 # Walk
+puppet var walking: bool = false
 var walk_speed: float = 5
 
 # Attack
@@ -67,6 +68,7 @@ func _ready():
 	emit_signal("hp_changed", hp, hp_regenerable, hp_max)
 	emit_signal("stamina_changed", stamina, stamina_max)
 
+
 func dodge():
 	if not dodging and is_on_floor() and direction != Vector3() and stamina >= dodge_stamina:
 		if get_tree().has_network_peer():
@@ -74,6 +76,7 @@ func dodge():
 		dodging = true
 		stamina -= dodge_stamina
 		emit_signal("stamina_changed", stamina, stamina_max)
+
 
 func jump():
 	if not jumping and stamina >= jump_stamina:
@@ -84,17 +87,33 @@ func jump():
 		velocity.y += jump_speed
 		emit_signal("stamina_changed", stamina, stamina_max)
 
+
 func run():
 	if not running and not attacking and stamina > 0:
 		if get_tree().has_network_peer():
 			rset_unreliable("running", true)
+			rset_unreliable("walking", false)
 		running = true
+		walking = false
+
 
 func walk():
-	if not attacking and not dodging and running:
-		if get_tree().has_network_peer():
+	if not attacking and not dodging:
+		if get_tree().has_network_peer() and (running or not walking):
 			rset_unreliable("running", false)
+			rset_unreliable("walking", true)
 		running = false
+		walking = true
+
+
+func stop():
+	if not attacking and not dodging:
+		if get_tree().has_network_peer() and (running or walking):
+			rset_unreliable("running", false)
+			rset_unreliable("walking", false)
+		running = false
+		walking = false
+
 
 func move_entity(delta: float, gravity:bool=true):
 	var ti = get_transform()
@@ -122,8 +141,10 @@ func move_entity(delta: float, gravity:bool=true):
 		emit_signal("stamina_changed", stamina, stamina_max)
 	elif attacking:
 		velocity *= Vector3(attack_speed, 1, attack_speed)
-	else:
+	elif walking:
 		velocity *= Vector3(walk_speed, 1, walk_speed)
+	else:
+		velocity *= Vector3(0, 1, 0)
 
 	look_ahead(delta)
 
