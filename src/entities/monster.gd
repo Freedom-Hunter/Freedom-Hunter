@@ -93,78 +93,101 @@ func set_navigation_target(target: Vector3, debug=false):
 func follow_path():
 	var origin = global_transform.origin
 	var to_target = path[path_index] - origin
+
+	# This while loop skips intermediate points that are too near (they would cause jerky movement)
 	while to_target.length() < 1 and path_index < path.size():
 		path_index += 1
 		if path_index < path.size():
 			to_target = path[path_index] - origin
+	# path_index could be = path.size() here, that is to signal outside this func that the path ended
 
 	direction = to_target.normalized()
 
 
-func _physics_process(delta):
-	direction = Vector3()
+func check_target():
+	# Check if target is still a possible target
+	if not target_player in players:
+		print("%s let %s escape. This time..." % [name, target_player.name])
+		target_player = null
+	elif target_player.dead:
+		print("%s didn't let %s escape. I told you!" % [name, target_player.name])
+		target_player = null
+		players.erase(target_player)
+
+
+func find_new_target():
+	# Find new target if there are candidates
+	var origin: Vector3 = global_transform.origin
+	var min_distance: float = INF
+
+	for player in players:
+		if not player.dead:
+			var target_direction = (player.global_transform.origin - origin).normalized()
+			if global_transform.basis.z.dot(target_direction) > cos(2*PI/3):
+				var target_distance = target_direction.length()
+				if target_distance < min_distance:
+					target_player = player
+					min_distance = target_distance
+	if target_player != null:
+		# Found a prey.
+		set_navigation_target(target_player.global_transform.origin)
+
+
+func hunt_target():
 	var origin: Vector3 = global_transform.origin
 
-	if target_player != null:
-		# Check if target is still a possible target
-		if not target_player in players:
-			print("%s let %s escape. This time..." % [name, target_player.name])
-			target_player = null
-		elif target_player.dead:
-			print("%s didn't let %s escape. I told you!" % [name, target_player.name])
-			target_player = null
-			players.erase(target_player)
+	if not combat:
+		combat = true
+		$exclamation/animation.play("exclamation")
 
-	# Find new target if there are candidates
-	var min_distance: float = INF
-	if target_player == null:
-		for player in players:
-			if not player.dead:
-				var target_direction = (player.global_transform.origin - origin).normalized()
-				if global_transform.basis.z.dot(target_direction) > cos(2*PI/3):
-					var target_distance = target_direction.length()
-					if target_distance < min_distance:
-						target_player = player
-						min_distance = target_distance
-		if target_player != null:
-			# Found a prey.
-			set_navigation_target(target_player.global_transform.origin)
-
-	if target_player != null:
-		if not combat:
-			combat = true
-			$exclamation/animation.play("exclamation")
-
-		var to_target: Vector3 = target_player.global_transform.origin - origin
-		var distance_from_target = to_target.length()
-		if attacking:
-			direction = to_target.normalized()
-		elif distance_from_target > 10:
-			run()
-			follow_path()
-		elif distance_from_target > 5:
-			walk()
-			follow_path()
-		else:
-			attack("attack")
-			direction = to_target.normalized()
-
-		if path_index >= path.size():
-			# Can't reach the prey?
-			path_index = path.size() - 1
-			direction = to_target.normalized()
-			stop()
-
-		if old_target_origin.distance_to(target_player.global_transform.origin) > 1:
-			# Prey is trying to escape. Need a new path
-			set_navigation_target(target_player.global_transform.origin)
-	else:
-		# No prey found. Scout the area.
-		combat = false
+	var to_target: Vector3 = target_player.global_transform.origin - origin
+	var distance_from_target = to_target.length()
+	if attacking:
+		direction = to_target.normalized()
+	elif distance_from_target > 10:
+		run()
+		follow_path()
+	elif distance_from_target > 5:
 		walk()
 		follow_path()
-		if path_index >= path.size():
-			new_random_target()
+	else:
+		attack("attack")
+		direction = to_target.normalized()
+
+	if path_index >= path.size():
+		# Can't reach the prey?
+		path_index = path.size() - 1
+		direction = to_target.normalized()
+		stop()
+
+	if old_target_origin.distance_to(target_player.global_transform.origin) > 1:
+		# Prey is trying to escape. Need a new path
+		# This avoids to recompute a new path on every frame. Do it only when needed.
+		set_navigation_target(target_player.global_transform.origin)
+
+
+func scout():
+	# Walk around randomly, scouting the area
+	combat = false
+	walk()
+	follow_path()
+	if path_index >= path.size():
+		new_random_target()
+
+
+func _physics_process(delta):
+	direction = Vector3()
+
+	if target_player != null:
+		check_target()
+
+	if target_player == null:
+		find_new_target()
+
+	if target_player != null:
+		hunt_target()
+	else:
+		scout()
 
 	move_entity(delta)
 
