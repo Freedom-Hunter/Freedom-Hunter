@@ -2,7 +2,7 @@
 
 [ext_resource path="res://data/themes/main_menu/main.theme" type="Theme" id=1]
 [ext_resource path="res://src/multiplayer/lobby-ui.gd" type="Script" id=2]
-[ext_resource path="res://data/fonts/MedievalSharp.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 84

@@ -6,7 +6,7 @@
 [ext_resource path="res://data/images/hud/item_bar/quantity.png" type="Texture" id=4]
 [ext_resource path="res://data/fonts/RobotoCondensed-Light.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://data/images/hud/item_bar/name.png" type="Texture" id=6]
-[ext_resource path="res://data/fonts/MedievalSharp.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp.ttf" type="DynamicFontData" id=7]
 [ext_resource path="res://data/sounds/switch.ogg" type="AudioStream" id=8]
 
 [sub_resource type="DynamicFont" id=1]
@@ -158,7 +158,6 @@ texture = ExtResource( 3 )
 expand = true
 
 [node name="name" type="TextureRect" parent="."]
-editor/display_folded = true
 margin_top = 84.0
 margin_right = 400.0
 margin_bottom = 144.0
@@ -185,4 +184,3 @@ valign = 1
 [node name="sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
 volume_db = -20.0
-

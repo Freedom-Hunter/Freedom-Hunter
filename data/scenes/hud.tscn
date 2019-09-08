@@ -6,7 +6,7 @@
 [ext_resource path="res://data/scenes/interface/items/bar.tscn" type="PackedScene" id=4]
 [ext_resource path="res://data/scenes/interface/status.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/FPS.gd" type="Script" id=6]
-[ext_resource path="res://data/fonts/MedievalSharp.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp.ttf" type="DynamicFontData" id=7]
 [ext_resource path="res://data/sounds/beatbox.wav" type="AudioStream" id=8]
 [ext_resource path="res://data/scenes/game_menu.tscn" type="PackedScene" id=9]
 
@@ -218,7 +218,6 @@ autowrap = true
 clip_text = true
 
 [node name="game_menu" parent="." instance=ExtResource( 9 )]
-
 [connection signal="pressed" from="margin/view/action" to="." method="_on_action_pressed"]
 [connection signal="pressed" from="margin/view/inventory/quit" to="margin/view" method="close_inventories"]
 [connection signal="confirmed" from="margin/view/respawn" to="margin/view" method="_on_respawn_confirmed"]
