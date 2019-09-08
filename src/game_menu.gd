@@ -5,6 +5,7 @@ onready var global = get_node("/root/global")
 
 func _ready():
 	set_process_input(true)
+	$CenterContainer/VBoxContainer/fullscreen.grab_focus()
 
 
 func _input(event):

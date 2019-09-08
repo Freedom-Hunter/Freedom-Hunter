@@ -104,9 +104,9 @@ text = "Direct Connection"
 align = 1
 
 [node name="client" type="VBoxContainer" parent="direct/vbox"]
-margin_top = 135.0
+margin_top = 148.0
 margin_right = 536.0
-margin_bottom = 403.0
+margin_bottom = 416.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 custom_constants/separation = 20
@@ -175,7 +175,7 @@ size_flags_vertical = 2
 text = "Connect"
 
 [node name="server" type="VBoxContainer" parent="direct/vbox"]
-margin_top = 403.0
+margin_top = 416.0
 margin_right = 536.0
 margin_bottom = 736.0
 size_flags_horizontal = 3
@@ -240,15 +240,15 @@ placeholder_text = "UDP port"
 [node name="announce" type="CheckButton" parent="direct/vbox/server"]
 margin_top = 190.0
 margin_right = 536.0
-margin_bottom = 235.0
+margin_bottom = 222.0
 size_flags_horizontal = 7
 size_flags_vertical = 2
 text = "Announce"
 
 [node name="start" type="Button" parent="direct/vbox/server"]
-margin_top = 255.0
+margin_top = 242.0
 margin_right = 536.0
-margin_bottom = 333.0
+margin_bottom = 320.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 text = "Start Server"
@@ -322,15 +322,6 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Refresh"
 
-[node name="back" type="Button" parent="."]
-margin_left = 100.0
-margin_top = 100.0
-margin_right = 300.0
-margin_bottom = 200.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-text = "Back"
-
 [node name="connecting" type="PopupPanel" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -370,4 +361,3 @@ dialog_text = "Network Error"
 [connection signal="pressed" from="direct/vbox/server/start" to="." method="_on_start_pressed"]
 [connection signal="timeout" from="lobby/refresh" to="." method="request_servers_list"]
 [connection signal="pressed" from="lobby/scroll/grid/refresh" to="." method="request_servers_list"]
-[connection signal="pressed" from="back" to="." method="hide"]

@@ -12,6 +12,7 @@ var gyro_sensitivity = Vector2(1, -1)
 var gyro_enabled = true
 var touch_sensitivity = Vector2(0.25, 0.25)
 var touch_index = null
+var joy_sensitivity = Vector2(2.5, 1.5)
 var max_pitch = 90
 var min_pitch = -90
 var move_pitch = true
@@ -39,6 +40,9 @@ func _process(delta):
 		var gyro = Input.get_gyroscope()
 		if gyro != Vector3():
 			rotate_view(Vector2(gyro.y, gyro.x) * gyro_sensitivity)
+	var joy_h = Input.get_action_strength("camera_right") - Input.get_action_strength("camera_left")
+	var joy_v = Input.get_action_strength("camera_down") - Input.get_action_strength("camera_up")
+	rotate_view(Vector2(joy_h, joy_v) * joy_sensitivity)
 
 
 func rotate_view(relative):

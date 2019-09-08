@@ -1,4 +1,6 @@
 extends "entity.gd"
+class_name Player
+
 
 const Inventory = preload("res://src/inventory.gd")
 
@@ -204,22 +206,27 @@ func _physics_process(delta):
 		direction = Vector3(0, 0, 0)
 		var camera = camera_node.get_global_transform()
 		# Player movements
+		var input = Vector3()
 		if Input.is_action_pressed("player_forward"):
-			direction -= Vector3(camera.basis.z.x, 0, camera.basis.z.z)
+			input -= camera.basis.z * Input.get_action_strength("player_forward")
 		if Input.is_action_pressed("player_backward"):
-			direction += Vector3(camera.basis.z.x, 0, camera.basis.z.z)
+			input += camera.basis.z * Input.get_action_strength("player_backward")
 		if Input.is_action_pressed("player_left"):
-			direction -= Vector3(camera.basis.x.x, 0, camera.basis.x.z)
+			input -= camera.basis.x * Input.get_action_strength("player_left")
 		if Input.is_action_pressed("player_right"):
-			direction += Vector3(camera.basis.x.x, 0, camera.basis.x.z)
+			input += camera.basis.x * Input.get_action_strength("player_right")
+		direction = input * Vector3(1, 0, 1)  # remove Y component from direction
 
 		if onscreen.is_visible():
 			var d = onscreen.direction
 			direction = d.y * camera.basis.z + d.x * camera.basis.x
 
 		direction = direction.normalized()
-		if direction != Vector3() and not running and not jumping:
-			walk()
+		if direction != Vector3():
+			if is_idle():
+				walk()
+		else:
+			stop()
 
 	# Player collision and physics
 	move_entity(delta)

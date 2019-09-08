@@ -9,11 +9,13 @@ var notify_queue = []
 func _ready():
 	# Get interact keys
 	var keys = InputMap.get_action_list("player_interact")
-	var string = ""
+	var strings: PoolStringArray = []
 	for key in keys:
-		string += OS.get_scancode_string(key.scancode) + ","
-	string[-1] = ""
-	$action.set_text(string)
+		if key is InputEventKey:
+			strings.append(OS.get_scancode_string(key.scancode))
+		elif key is InputEventJoypadButton:
+			strings.append("Joy" + str(key.button_index))
+	$action.set_text(strings.join(","))
 
 
 func _input(event):

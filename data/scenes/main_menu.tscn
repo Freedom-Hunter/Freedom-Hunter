@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://data/themes/main_menu/main.theme" type="Theme" id=1]
 [ext_resource path="res://src/main_menu.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://data/images/main_menu/background/bottom_bar.png" type="Texture" id=4]
 [ext_resource path="res://data/images/main_menu/background/top_bar.png" type="Texture" id=5]
 [ext_resource path="res://data/scenes/multiplayer/lobby.tscn" type="PackedScene" id=6]
+[ext_resource path="res://data/scenes/credits.tscn" type="PackedScene" id=7]
 
 [sub_resource type="Animation" id=1]
 resource_name = "background"
@@ -62,7 +63,6 @@ texture = ExtResource( 5 )
 expand = true
 
 [node name="mode" type="VBoxContainer" parent="."]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 500.0
@@ -75,43 +75,42 @@ alignment = 1
 
 [node name="singleplayer" type="Button" parent="mode"]
 margin_right = 920.0
-margin_bottom = 224.0
-focus_mode = 0
+margin_bottom = 167.0
+focus_neighbour_top = NodePath("../credits")
+focus_neighbour_bottom = NodePath("../multiplayer")
 size_flags_horizontal = 3
 size_flags_vertical = 3
-enabled_focus_mode = 0
 text = "Singleplayer"
 
 [node name="multiplayer" type="Button" parent="mode"]
-margin_top = 228.0
+margin_top = 171.0
 margin_right = 920.0
-margin_bottom = 452.0
-focus_mode = 0
+margin_bottom = 338.0
+focus_neighbour_top = NodePath("../singleplayer")
+focus_neighbour_bottom = NodePath("../credits")
 size_flags_horizontal = 3
 size_flags_vertical = 3
-enabled_focus_mode = 0
 text = "Multiplayer"
 
 [node name="options" type="Button" parent="mode"]
-margin_top = 456.0
+margin_top = 342.0
 margin_right = 920.0
-margin_bottom = 680.0
+margin_bottom = 509.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
 enabled_focus_mode = 0
 text = "Options"
 
-[node name="mods" type="Button" parent="mode"]
-visible = false
-margin_top = 588.0
-margin_right = 1720.0
-margin_bottom = 780.0
+[node name="credits" type="Button" parent="mode"]
+margin_top = 513.0
+margin_right = 920.0
+margin_bottom = 680.0
+focus_neighbour_top = NodePath("../multiplayer")
+focus_neighbour_bottom = NodePath("../singleplayer")
 size_flags_horizontal = 3
 size_flags_vertical = 3
-disabled = true
-enabled_focus_mode = 0
-text = "Mods"
+text = "Credits"
 
 [node name="Animation" type="AnimationPlayer" parent="."]
 autoplay = "background"
@@ -122,5 +121,20 @@ editor/display_folded = true
 visible = false
 margin_right = -1.0
 margin_bottom = -1.0
+
+[node name="credits" parent="." instance=ExtResource( 7 )]
+visible = false
+
+[node name="back" type="Button" parent="."]
+visible = false
+margin_left = 100.0
+margin_top = 100.0
+margin_right = 300.0
+margin_bottom = 200.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+text = "Back"
 [connection signal="pressed" from="mode/singleplayer" to="." method="_on_singleplayer_pressed"]
 [connection signal="pressed" from="mode/multiplayer" to="." method="_on_multiplayer_pressed"]
+[connection signal="pressed" from="mode/credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="back" to="." method="_on_back_pressed"]

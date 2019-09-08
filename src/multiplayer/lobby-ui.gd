@@ -18,25 +18,18 @@ onready var announce_node = get_node("direct/vbox/server/announce")
 func show():
 	.show()
 	OS.set_window_title("Freedom Hunter Multiplayer Lobby")
-	var err = config.load(CONF_FILE)
-	if err == OK:
-		load_config()
-	else:
-		print("Error %s occurred while loading config file." % err)
+	load_config()
 	networking.init_lobby()
 	request_servers_list()
 	server_validate_input()
 	client_validate_input()
 	$lobby/refresh.start()
-	set_process_input(true)
 
 
 func hide():
 	.hide()
-	$"../mode".show()
 	OS.set_window_title("Freedom Hunter")
 	$lobby/refresh.stop()
-	set_process_input(false)
 
 
 func report_error(message):
@@ -163,6 +156,10 @@ func _on_username_text_changed(text):
 
 
 func load_config():
+	var ret = config.load(CONF_FILE)
+	if ret != OK:
+		print("Error %s occurred while loading config file." % ret)
+		return
 	if config.has_section("client"):
 		client_host.set_text(config.get_value("client", "host", "127.0.0.1"))
 		client_port.set_text(config.get_value("client", "port", "30500"))
@@ -189,12 +186,6 @@ func save_config():
 	var err = config.save(CONF_FILE)
 	if err != OK:
 		printerr("Error %s occurred while saving configuration file." % err)
-
-
-func _input(event):
-	if event.is_action_pressed("ui_cancel") and not get_node("../mode").is_visible():
-		hide()
-		accept_event()
 
 
 func _on_start_pressed():

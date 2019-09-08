@@ -1,0 +1,170 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://src/credits.gd" type="Script" id=1]
+[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp-BoldOblique.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp-Oblique.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp-Bold.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp.ttf" type="DynamicFontData" id=5]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 0.588235 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 0, 0, 0, 1 )
+border_blend = true
+
+[sub_resource type="DynamicFont" id=2]
+size = 36
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 36
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 48
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 36
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 5 )
+
+[node name="credits" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="richtext" type="RichTextLabel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -606.0
+margin_top = -441.0
+margin_right = 594.0
+margin_bottom = 439.0
+rect_min_size = Vector2( 1200, 880 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/normal = SubResource( 1 )
+custom_fonts/bold_italics_font = SubResource( 2 )
+custom_fonts/italics_font = SubResource( 3 )
+custom_fonts/bold_font = SubResource( 4 )
+custom_fonts/normal_font = SubResource( 5 )
+bbcode_enabled = true
+bbcode_text = "[center]
+[b]Elinvention[/b]
+
+presents
+
+
+
+
+[b]Freedom Hunter[/b]
+
+
+
+
+Creator
+Luca Argentieri
+Elia Argentieri
+
+3d models
+Luca Argentieri
+From opengameart.org:
+\"Medieval Houses\" CC-BY 3.0 by Glitch Squirrel
+\"Basic Well\" CC0 by OwlishMedia
+
+Textures
+From cc0textures.com:
+\"Ground03\"
+\"WoodSiding02\"
+
+Music
+From opengameart.org:
+\"Rejoicing\" CC0 by RandomMind
+
+Sounds
+\"Beatbox\" from Android Open Source Project
+From freesound.org:
+\"Dragon Roar\" CC0 by JoelAudio
+\"Fire-breathing dragon\" CC-BY by CGEffex
+\"Potion Drink Long\" CC-BY by Jamius
+
+Fonts
+\"Medieval Sharp\" SIL Open Font License
+
+[b]Thanks for playing![/b]
+
+
+These credits are probabily incomplete. If you see your work in this game, contact us to get your work acknowledged.
+
+Copyleft 2016-2019
+[/center]"
+text = "
+Elinvention
+
+presents
+
+
+
+
+Freedom Hunter
+
+
+
+
+Creator
+Luca Argentieri
+Elia Argentieri
+
+3d models
+Luca Argentieri
+From opengameart.org:
+\"Medieval Houses\" CC-BY 3.0 by Glitch Squirrel
+\"Basic Well\" CC0 by OwlishMedia
+
+Textures
+From cc0textures.com:
+\"Ground03\"
+\"WoodSiding02\"
+
+Music
+From opengameart.org:
+\"Rejoicing\" CC0 by RandomMind
+
+Sounds
+\"Beatbox\" from Android Open Source Project
+From freesound.org:
+\"Dragon Roar\" CC0 by JoelAudio
+\"Fire-breathing dragon\" CC-BY by CGEffex
+\"Potion Drink Long\" CC-BY by Jamius
+
+Fonts
+\"Medieval Sharp\" SIL Open Font License
+
+Thanks for playing!
+
+
+These credits are probabily incomplete. If you see your work in this game, contact us to get your work acknowledged.
+
+Copyleft 2016-2019
+"
