@@ -58,7 +58,13 @@ var previous_origin: Vector3 = Vector3()
 
 
 func _str():
-	return "HP: %d/%d/%d\nStamina: %d/%d" % [hp, hp_regenerable, hp_max, stamina, stamina_max]
+	return """---\n
+		Entity %s\n
+		\tHP: %d/%d/%d\n
+		\tStamina: %d/%d\n
+		\t%s\n
+		---""" % [name, hp, hp_regenerable, hp_max, stamina, stamina_max, "Dead" if dead else "Alive"]
+
 
 func _ready():
 	animation_node = find_node("entity_animation")
