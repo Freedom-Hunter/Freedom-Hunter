@@ -70,7 +70,7 @@ func _ready():
 
 
 func dodge():
-	if not dodging and is_on_floor() and direction != Vector3() and stamina >= dodge_stamina:
+	if not attacking and not dodging and is_on_floor() and direction != Vector3() and stamina >= dodge_stamina:
 		if get_tree().has_network_peer():
 			rset_unreliable("dodging", true)
 		dodging = true
