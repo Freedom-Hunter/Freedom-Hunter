@@ -118,16 +118,21 @@ func check_target():
 func find_new_target():
 	# Find new target if there are candidates
 	var origin: Vector3 = global_transform.origin
+	var eyes: Vector3 = $eyes.global_transform.origin
 	var min_distance: float = INF
+	var space_state = get_node("/root/game").get_world().get_direct_space_state()
 
 	for player in players:
 		if not player.dead:
 			var target_direction = (player.global_transform.origin - origin).normalized()
-			if global_transform.basis.z.dot(target_direction) > cos(2*PI/3):
-				var target_distance = target_direction.length()
-				if target_distance < min_distance:
-					target_player = player
-					min_distance = target_distance
+			var angle = global_transform.basis.z.angle_to(target_direction)
+			if angle < deg2rad(120):
+				var ray_res = space_state.intersect_ray(eyes, player.global_transform.origin)
+				if not ray_res.empty() and ray_res["collider"] == player:
+					var target_distance = target_direction.length()
+					if target_distance < min_distance:
+						target_player = player
+						min_distance = target_distance
 	if target_player != null:
 		# Found a prey.
 		set_navigation_target(target_player.global_transform.origin)

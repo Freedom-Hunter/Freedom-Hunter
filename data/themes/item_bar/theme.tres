@@ -3,8 +3,6 @@
 [ext_resource path="res://data/themes/item_bar/bar_panel.tres" type="StyleBox" id=1]
 
 [resource]
-
 Panel/styles/panel = ExtResource( 1 )
 Panel/styles/panelf = null
 Panel/styles/panelnc = null
-

@@ -10,37 +10,37 @@
 [sub_resource type="CapsuleShape" id=1]
 height = 0.5
 
-[sub_resource type="CapsuleShape" id=19]
+[sub_resource type="CapsuleShape" id=2]
 radius = 0.2
 height = 0.5
 
-[sub_resource type="CapsuleShape" id=20]
+[sub_resource type="CapsuleShape" id=3]
 radius = 0.1
 height = 2.0
 
-[sub_resource type="BoxShape" id=21]
+[sub_resource type="BoxShape" id=4]
 extents = Vector3( 2.90474, 1.05119, 0.33881 )
 
-[sub_resource type="SphereShape" id=22]
+[sub_resource type="SphereShape" id=5]
 radius = 20.0
 
-[sub_resource type="BoxShape" id=23]
+[sub_resource type="BoxShape" id=6]
 extents = Vector3( 3.6, 1.7, 2.1 )
 
-[sub_resource type="Gradient" id=24]
+[sub_resource type="Gradient" id=7]
 offsets = PoolRealArray( 0, 0.0909091, 0.434783, 0.679348, 0.836364, 1 )
 colors = PoolColorArray( 0, 0, 0, 1, 0.979933, 0.218188, 0, 1, 0.96875, 0.62439, 0, 1, 0.804875, 0.578446, 0.167889, 1, 0.722656, 0.722656, 0.722656, 1, 0, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=25]
-gradient = SubResource( 24 )
+[sub_resource type="GradientTexture" id=8]
+gradient = SubResource( 7 )
 
-[sub_resource type="Curve" id=26]
+[sub_resource type="Curve" id=9]
 _data = [ Vector2( 0, 0.0973338 ), 0.0, 0.0, 0, 0, Vector2( 0.24312, 0.607378 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=27]
-curve = SubResource( 26 )
+[sub_resource type="CurveTexture" id=10]
+curve = SubResource( 9 )
 
-[sub_resource type="ParticlesMaterial" id=28]
+[sub_resource type="ParticlesMaterial" id=11]
 emission_shape = 1
 emission_sphere_radius = 0.2
 spread = 5.0
@@ -55,10 +55,10 @@ damping_random = 0.2
 angle = 360.0
 angle_random = 1.0
 scale_random = 0.2
-scale_curve = SubResource( 27 )
-color_ramp = SubResource( 25 )
+scale_curve = SubResource( 10 )
+color_ramp = SubResource( 8 )
 
-[sub_resource type="SpatialMaterial" id=29]
+[sub_resource type="SpatialMaterial" id=12]
 flags_unshaded = true
 vertex_color_use_as_albedo = true
 params_diffuse_mode = 4
@@ -71,10 +71,10 @@ particles_anim_v_frames = 1
 particles_anim_loop = false
 albedo_texture = ExtResource( 3 )
 
-[sub_resource type="QuadMesh" id=30]
-material = SubResource( 29 )
+[sub_resource type="QuadMesh" id=13]
+material = SubResource( 12 )
 
-[sub_resource type="SpatialMaterial" id=31]
+[sub_resource type="SpatialMaterial" id=14]
 flags_transparent = true
 flags_unshaded = true
 params_cull_mode = 2
@@ -84,8 +84,8 @@ particles_anim_v_frames = 1
 particles_anim_loop = false
 albedo_texture = ExtResource( 4 )
 
-[sub_resource type="QuadMesh" id=32]
-material = SubResource( 31 )
+[sub_resource type="QuadMesh" id=15]
+material = SubResource( 14 )
 
 [sub_resource type="Animation" id=16]
 length = 5.0
@@ -174,27 +174,27 @@ shape = SubResource( 1 )
 
 [node name="head_collision" type="CollisionShape" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1608, 1.18963 )
-shape = SubResource( 19 )
+shape = SubResource( 2 )
 
 [node name="tail_collision" type="CollisionShape" parent="." index="3"]
 transform = Transform( 1, 0, 0, 0, 0.997347, 0.0727945, 0, -0.0727945, 0.997347, 0, 0.985975, -1.76906 )
-shape = SubResource( 20 )
+shape = SubResource( 3 )
 
 [node name="wings_collision" type="CollisionShape" parent="." index="4"]
 transform = Transform( 1, 0, 0, 0, 0.742501, -0.669845, 0, 0.669845, 0.742501, 0, 1.65395, -0.648437 )
-shape = SubResource( 21 )
+shape = SubResource( 4 )
 
 [node name="view" type="Area" parent="." index="5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25136, 0 )
 
 [node name="radius" type="CollisionShape" parent="view" index="0"]
-shape = SubResource( 22 )
+shape = SubResource( 5 )
 
 [node name="interact" type="Area" parent="." index="6"]
 
 [node name="radius" type="CollisionShape" parent="interact" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
-shape = SubResource( 23 )
+shape = SubResource( 6 )
 
 [node name="fire" type="Particles" parent="." index="7"]
 transform = Transform( 1, 0, 0, 0, 0.939183, -0.343416, 0, 0.343416, 0.939183, 0, 2.0775, 1.63697 )
@@ -204,13 +204,13 @@ lifetime = 5.0
 explosiveness = 0.25
 randomness = 0.5
 local_coords = false
-process_material = SubResource( 28 )
-draw_pass_1 = SubResource( 30 )
+process_material = SubResource( 11 )
+draw_pass_1 = SubResource( 13 )
 
 [node name="exclamation" type="MeshInstance" parent="." index="8"]
 transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 3.07829, 1.44496 )
 visible = false
-mesh = SubResource( 32 )
+mesh = SubResource( 15 )
 material/0 = null
 
 [node name="animation" type="AnimationPlayer" parent="exclamation" index="0"]
@@ -223,5 +223,8 @@ anims/death = SubResource( 18 )
 [node name="entity_audio" type="AudioStreamPlayer3D" parent="." index="10"]
 stream = ExtResource( 6 )
 unit_size = 20.0
+
+[node name="eyes" type="Position3D" parent="." index="11"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.34988, 1.34893 )
 [connection signal="body_entered" from="view" to="." method="_on_view_body_entered"]
 [connection signal="body_exited" from="view" to="." method="_on_view_body_exited"]
