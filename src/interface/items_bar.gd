@@ -29,7 +29,6 @@ func get_active_item():
 
 func use_active_item():
 	var item = get_active_item()
-	print("Use %s" % item.name)
 	if item != null_item:
 		inventory.use_item(item)
 		update()

@@ -1,5 +1,6 @@
 extends "item.gd"
 
+
 var player  # Owner of the item
 var max_quantity
 
