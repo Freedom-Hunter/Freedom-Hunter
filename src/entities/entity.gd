@@ -313,3 +313,8 @@ func hp_natural_regeneration(delta):
 func _process(delta):
 	hp_natural_regeneration(delta)
 	stamina_natural_regeneration(delta)
+
+
+
+func is_idle() -> bool:
+	return not attacking and not dodging and not walking and not running and not jumping

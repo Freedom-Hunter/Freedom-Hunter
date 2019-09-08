@@ -8,7 +8,7 @@ func _init(_name, _icon, _quantity, _player, _stamina).(_name, _icon, _quantity,
 
 
 func effect():
-	if player.stamina_max < player.MAX_STAMINA:
+	if player.stamina_max < player.MAX_STAMINA and player.is_idle():
 		player.stamina_max_increase(stamina)
 		player.animation_node.play("eat")
 		return true
