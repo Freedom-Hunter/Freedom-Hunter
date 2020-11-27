@@ -1,8 +1,7 @@
 extends RigidBody
 
-const Entity = preload("res://src/entities/entity.gd")
 
-var velocity_last_frame = Vector3()
+var velocity_last_frame := Vector3()
 
 
 func _physics_process(delta):
@@ -10,23 +9,24 @@ func _physics_process(delta):
 
 
 func _on_CannonBall_body_entered(body:Node):
-	var momentum = velocity_last_frame.length() * mass
+	var momentum : float = velocity_last_frame.length() * mass
 	if momentum > 200:
-		$AnimationPlayer.play("explode")
+		($AnimationPlayer as AnimationPlayer).play("explode")
 		if body is Entity:
-			body.damage(momentum, 0.1)
+			(body as Entity).damage(momentum, 0.1)
 
 
 func _on_Timer_timeout():
 	queue_free()
 
 
-func _on_AnimationPlayer_animation_finished(anim_name):
+func _on_AnimationPlayer_animation_finished(anim_name: String):
 	if anim_name != "SETUP":
 		queue_free()
 
 
 func interact(player, node):
-	var remainder = player.add_item(load("res://src/items/cannon_ball.gd").new(1, null))
+	var item: Consumable = load("res://src/items/cannon_ball.gd").new(1)
+	var remainder = player.add_item(item)
 	if remainder == 0:
 		queue_free()

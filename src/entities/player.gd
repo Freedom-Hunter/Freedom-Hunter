@@ -50,16 +50,6 @@ func _ready():
 	equipment.weapon = load("res://data/scenes/equipment/weapon/lasersword/laser_sword.tscn").instance()
 	set_equipment(equipment.weapon, "weapon_L", "weapon")
 
-	# Item test
-	var Potion = preload("res://src/items/potion.gd")
-	var Whetstone = preload("res://src/items/whetstone.gd")
-	var Meat = preload("res://src/items/meat.gd")
-
-	var potion    = Potion.new("Potion",       preload("res://data/images/items/potion.png"),    10, self, 20)
-	var whetstone = Whetstone.new("Whetstone", preload("res://data/images/items/whetstone.png"), 10, self, 20)
-	var meat      = Meat.new("Meat",           preload("res://data/images/items/meat.png"),      5,  self, 25)
-
-	inventory.set_items([potion, whetstone, meat], 30)
 	inventory.set_position(Vector2(1370, 200))
 	inventory.set_name("player_inventory")
 
@@ -119,7 +109,6 @@ func _input(event):
 
 func add_item(item):
 	item = item.clone()
-	item.player = self
 	var remainder = inventory.add_item(item)
 	return remainder
 
@@ -178,7 +167,7 @@ func resume_player():
 	set_process(true)
 
 
-func _process(delta):
+func _process(_delta):
 	if dead:
 		return
 	if get_tree().has_network_peer() and not is_network_master():
@@ -225,6 +214,8 @@ func _physics_process(delta):
 		if direction != Vector3():
 			if is_idle():
 				walk()
+			if Input.is_action_pressed("player_run"):
+				run()
 		else:
 			stop()
 

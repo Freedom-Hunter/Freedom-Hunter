@@ -10,12 +10,66 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "",
+"class": "CannonBall",
+"language": "GDScript",
+"path": "res://src/items/cannon_ball.gd"
+}, {
+"base": "",
+"class": "Consumable",
+"language": "GDScript",
+"path": "res://src/items/usable_item.gd"
+}, {
+"base": "KinematicBody",
+"class": "Entity",
+"language": "GDScript",
+"path": "res://src/entities/entity.gd"
+}, {
+"base": "Object",
+"class": "GrassFactory",
+"language": "GDScript",
+"path": "res://src/grass_factory.gd"
+}, {
+"base": "Panel",
+"class": "Inventory",
+"language": "GDScript",
+"path": "res://src/inventory.gd"
+}, {
+"base": "Reference",
+"class": "Item",
+"language": "GDScript",
+"path": "res://src/items/item.gd"
+}, {
+"base": "",
+"class": "Meat",
+"language": "GDScript",
+"path": "res://src/items/meat.gd"
+}, {
+"base": "",
 "class": "Player",
 "language": "GDScript",
 "path": "res://src/entities/player.gd"
+}, {
+"base": "",
+"class": "Potion",
+"language": "GDScript",
+"path": "res://src/items/potion.gd"
+}, {
+"base": "",
+"class": "Whetstone",
+"language": "GDScript",
+"path": "res://src/items/whetstone.gd"
 } ]
 _global_script_class_icons={
-"Player": ""
+"CannonBall": "",
+"Consumable": "",
+"Entity": "",
+"GrassFactory": "",
+"Inventory": "",
+"Item": "",
+"Meat": "",
+"Player": "",
+"Potion": "",
+"Whetstone": ""
 }
 
 [application]

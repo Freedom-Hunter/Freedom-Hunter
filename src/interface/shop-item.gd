@@ -1,11 +1,11 @@
 extends HBoxContainer
 
-const Item = preload("res://src/items/item.gd")
+const Item = preload("res://src/items/usable_item.gd")
 
-var item:Item
-var item_cost = 1000
-var amount = 0
-var time = 0
+var item: Item
+var item_cost := 1000
+var amount := 0
+var time := 0
 
 signal buy(item, cost)
 
@@ -22,15 +22,15 @@ func _process(delta):
 			time = 0
 
 
-func set_item(item, cost_factor):
-	self.item = item
-	self.item_cost = (100 - item.rarity) * cost_factor
+func set_item(new_item: Item, new_cost_factor: float):
+	item = new_item
+	item_cost = (100 - item.rarity) * new_cost_factor
 	$Icon.texture = item.icon
 	$Name.text = item.name
-	$Quantity.value = 0
-	$Quantity.max_value = item.max_quantity
-	$QuantityLabel.text = "0"
-	$Cost.text = "%d£" % item_cost
+	($Quantity as Range).value = 0
+	($Quantity as Range).max_value = item.max_quantity
+	($QuantityLabel as Label).text = "0"
+	($Cost as Label).text = "%d£" % item_cost
 
 
 func _on_Reduce_button_down():

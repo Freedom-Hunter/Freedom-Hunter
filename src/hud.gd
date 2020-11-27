@@ -31,7 +31,7 @@ func _input(event):
 			open_inventories([global.local_player.inventory])
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	show_interact()
 	update_names()
 	update_debug()

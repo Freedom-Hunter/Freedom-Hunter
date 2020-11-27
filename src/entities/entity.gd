@@ -57,7 +57,7 @@ var animation_node: AnimationPlayer
 var previous_origin: Vector3 = Vector3()
 
 
-func _str():
+func _str() -> String:
 	return """---\n
 		Entity %s\n
 		\tHP: %d/%d/%d\n

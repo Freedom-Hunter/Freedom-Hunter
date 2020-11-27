@@ -1,21 +1,21 @@
 extends Control
 
-const Item = preload("res://src/items/usable_item.gd")
-var null_item = Item.new("None", preload("res://data/images/items/null.png"), 0, 0, 0, null)
 
-var inventory
+var null_item := Consumable.new("None", preload("res://data/images/items/null.png"), 0, 0, 0)
+
+var inventory: Inventory
 var active_item = 0  # active_item == 0 is null_item
 
 var touch_index = null
 var drag = 0
 
 
-func _on_inventory_modified(inventory):
-	self.inventory = inventory
+func _on_inventory_modified(inv: Inventory):
+	inventory = inv
 	update()
 
 
-func get_item(i):
+func get_item(i: int) -> Item:
 	if i % (inventory.items.size() + 1) == 0:
 		return null_item
 	if i > 0:
@@ -23,14 +23,14 @@ func get_item(i):
 	return inventory.get_item(i)
 
 
-func get_active_item():
+func get_active_item() -> Item:
 	return get_item(active_item)
 
 
 func use_active_item():
 	var item = get_active_item()
 	if item != null_item:
-		inventory.use_item(item)
+		inventory.use_item(item, global.local_player)
 		update()
 
 

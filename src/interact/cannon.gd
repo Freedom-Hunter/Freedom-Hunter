@@ -16,10 +16,10 @@ func interact(player:Player, node):
 			print_debug("Not a known node")
 
 
-func fire(player:Player):
+func fire(player: Player):
 	var cannon_ball: Item = player.inventory.find_item_by_name("Cannonball")
 	if cannon_ball != null and not $animation.is_playing() and not $rotate.is_active():
-		cannon_ball.fire(self)
+		cannon_ball.fire(player, self)
 		$animation.play("fire")
 
 

@@ -81,7 +81,7 @@ func _on_network_peer_disconnected(id):
 remote func register_player(id, username, transform):
 	# If I'm the server, let the new guy know about existing players
 	if get_tree().is_network_server():
-		if global.game.get_node("player_spawn").has_node(username):
+		if global.game.find_node("player_spawn").has_node(username):
 			rpc_id(id, "_register_error", "Username is in use")
 			peer.disconnect_peer(id)
 			print('Peer ID %d username "%s" already in use' % [id, username])

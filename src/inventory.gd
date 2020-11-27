@@ -1,28 +1,28 @@
 extends Panel
+class_name Inventory
 
-const Item = preload("res://src/items/usable_item.gd")
 
 const ITEM_SIZE = Vector2(50, 50)
 
-var items = []
-var max_slots
+var items := []
+var max_slots: int
 var dragging
 
 # emitted when an item is added, removed or modified
 signal modified
 
 
-func set_items(items_array, max_slots_int):
+func set_items(items_array: Array, max_slots_int: int):
 	items = items_array
 	max_slots = max_slots_int
-	var added = 0
+	var added := 0
 	for item in items:
 		if item.quantity > 0:
-			var slot = Slot.new(self, item)
+			var slot := Slot.new(self, item)
 			$items.add_child(slot)
 			added += 1
 	for _i in range(added, max_slots):
-		var slot = Slot.new(self)
+		var slot := Slot.new(self)
 		$items.add_child(slot)
 	emit_signal("modified", self)
 
@@ -81,12 +81,12 @@ func add_item(item, slot=null):
 	return overflow
 
 
-func get_item(i: int):
+func get_item(i: int) -> Item:
 	return items[wrapi(i, 0, items.size())]
 
 
-func use_item(item: Item):
-	item.use()
+func use_item(item: Item, player):
+	item.use(player)
 	if item.quantity <= 0:
 		erase_item(item)
 	emit_signal("modified", self)
@@ -155,7 +155,7 @@ class Slot extends Panel:
 			set_name(str(get_index() % columns, '|', int(get_index() / columns)))
 		stack.layout(item)
 
-	func get_drag_data(pos):
+	func get_drag_data(_pos):
 		if item != null:
 			var preview = ItemStack.new()
 			preview.layout(item)
@@ -165,10 +165,10 @@ class Slot extends Panel:
 			inventory.dragging = {'item': ret_item, 'slot': self, 'in_flight': true}
 			return inventory.dragging
 
-	func can_drop_data(pos, data):
+	func can_drop_data(_pos, data):
 		return item == null or (data.item != item and data.item.name == item.name and data.item.quantity + item.quantity <= data.item.max_quantity)
 
-	func drop_data(pos, data):
+	func drop_data(_pos, data):
 		data.in_flight = false
 		inventory.add_item(data.item, self) # take this item
 		inventory.dragging = null

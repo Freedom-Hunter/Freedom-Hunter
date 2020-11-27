@@ -3,7 +3,7 @@ extends Node
 var gravity = -10
 
 const PlayerScene = preload("res://data/scenes/player.tscn")
-const Player = preload("res://src/entities/player.gd")
+
 
 var game
 var players_spawn
@@ -65,6 +65,12 @@ func start_game(local_player_name):
 		local_player.set_network_master(networking.unique_id)
 		local_player.set_name(local_player_name)
 		local_player.inventory.connect("modified", $"/root/hud/margin/view/items", "_on_inventory_modified")
+
+		var potion    = Potion.new("Potion",       preload("res://data/images/items/potion.png"),    10, 20)
+		var whetstone = Whetstone.new("Whetstone", preload("res://data/images/items/whetstone.png"), 10, 20)
+		var meat      = Meat.new("Meat",           preload("res://data/images/items/meat.png"),      5,  25)
+		local_player.inventory.set_items([potion, whetstone, meat], 30)
+
 		local_player.connect("hp_changed", $"/root/hud/margin/view/status", "_on_hp_changed")
 		local_player.connect("stamina_changed", $"/root/hud/margin/view/status", "_on_stamina_changed")
 		# Connect signals BEFORE player._ready

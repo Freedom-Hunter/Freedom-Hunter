@@ -31,11 +31,11 @@ func new_random_stare():
 
 func _ready():
 	shop.set_items([
-		Potion.new("Potion",       preload("res://data/images/items/potion.png"),   10, self, 20),
-		Firework.new("Firework",   preload("res://data/images/items/firework.png"), 10, self),
-		Barrel.new("Barrel",       preload("res://data/images/items/barrel.png"),    5,  self),
-		Whetstone.new("Whetstone", preload("res://data/images/items/whetstone.png"), 10, self, 20),
-		Meat.new("Meat",           preload("res://data/images/items/meat.png"),      5,  self, 25)
+		Potion.new("Potion",       preload("res://data/images/items/potion.png"),    10, 20),
+		Firework.new("Firework",   preload("res://data/images/items/firework.png"),  10),
+		Barrel.new("Barrel",       preload("res://data/images/items/barrel.png"),    5),
+		Whetstone.new("Whetstone", preload("res://data/images/items/whetstone.png"), 10, 20),
+		Meat.new("Meat",           preload("res://data/images/items/meat.png"),      5, 25)
 	], 10)
 	new_random_stare()
 
