@@ -8,7 +8,7 @@ At the moment the game is quite limited. We need your help with 3D models, anima
 
 ## Installation
 
-**To run this game you need the development version of Godot Engine 3.0**.
+**To run this game you need the latest stable version of [Godot Engine][godot]**.
 
 Clone this repository or download and unzip the latest code in a folder, then import the folder using Godot's projects manager.
 
@@ -31,8 +31,10 @@ Key                     | Action
 <kbd>Middle click</kbd> | center camera
 <kbd>Tab</kbd>          | Show players list
 <kbd>F10</kbd>          | Lock camera pitch
-<kbd>CTRL + +</kbd>     | Zoom in
-<kbd>CTRL + -</kbd>     | Zoom out
+<kbd>CTRL</kbd> + <kbd>Scroll up</kbd>   | Camera pitch up
+<kbd>CTRL</kbd> + <kbd>Scroll down</kbd> | Camera pitch down
+<kbd>CTRL</kbd> + <kbd>+</kbd>           | Zoom in
+<kbd>CTRL</kbd> + <kbd>-</kbd>           | Zoom out
 
 ## Copyright
 
