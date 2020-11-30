@@ -42,15 +42,16 @@ curve = SubResource( 9 )
 
 [sub_resource type="ParticlesMaterial" id=11]
 emission_shape = 1
-emission_sphere_radius = 0.2
+emission_sphere_radius = 0.1
+direction = Vector3( 0, -1, 1 )
 spread = 5.0
 flatness = 0.25
-gravity = Vector3( 0, 0.4, 0 )
-initial_velocity = 2.0
+gravity = Vector3( 0, 0.6, 0 )
+initial_velocity = 2.5
 initial_velocity_random = 0.2
 angular_velocity = 20.0
 angular_velocity_random = 0.6
-damping = 0.4
+damping = 0.2
 damping_random = 0.2
 angle = 360.0
 angle_random = 1.0
@@ -160,7 +161,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 )
 }
 
-[node name="dragon" index="0" groups=[
+[node name="dragon" groups=[
 "monster",
 ] instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -197,12 +198,12 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
 shape = SubResource( 6 )
 
 [node name="fire" type="Particles" parent="." index="7"]
-transform = Transform( 1, 0, 0, 0, 0.939183, -0.343416, 0, 0.343416, 0.939183, 0, 2.0775, 1.63697 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0775, 1.63697 )
 emitting = false
 amount = 256
 lifetime = 5.0
-explosiveness = 0.25
 randomness = 0.5
+visibility_aabb = AABB( -16, -16, -16, 32, 32, 32 )
 local_coords = false
 process_material = SubResource( 11 )
 draw_pass_1 = SubResource( 13 )
@@ -221,7 +222,7 @@ anims/attack = SubResource( 17 )
 anims/death = SubResource( 18 )
 
 [node name="entity_audio" type="AudioStreamPlayer3D" parent="." index="10"]
-stream = ExtResource( 6 )
+stream = ExtResource( 5 )
 unit_size = 20.0
 
 [node name="eyes" type="Position3D" parent="." index="11"]

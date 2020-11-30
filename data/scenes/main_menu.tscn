@@ -117,7 +117,6 @@ autoplay = "background"
 anims/background = SubResource( 1 )
 
 [node name="multiplayer" parent="." instance=ExtResource( 6 )]
-editor/display_folded = true
 visible = false
 margin_right = -1.0
 margin_bottom = -1.0
