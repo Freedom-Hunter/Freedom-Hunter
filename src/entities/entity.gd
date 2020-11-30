@@ -84,7 +84,7 @@ func dodge():
 
 
 func jump():
-	if not jumping and stamina >= jump_stamina:
+	if not dodging and not jumping and stamina >= jump_stamina:
 		if get_tree().has_network_peer():
 			rset_unreliable("jumping", true)
 		jumping = true
