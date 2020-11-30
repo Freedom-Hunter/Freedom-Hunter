@@ -1,7 +1,6 @@
 extends KinematicBody
+class_name Entity
 
-onready var global = get_node("/root/global")
-#onready var networking = get_node("/root/networking")
 
 const MAX_SLOPE_ANGLE = deg2rad(40)
 const MAX_STAMINA = 200

@@ -85,21 +85,15 @@ func interact_with_nearest():
 
 func _input(event):
 	if event.is_action_pressed("player_attack_left"):
-		if get_tree().has_network_peer():
-			rpc("attack", "left_attack_0")
-		else:
-			attack("left_attack_0")
+		attack("left_attack_0")
 	elif event.is_action_pressed("player_attack_right"):
-		if get_tree().has_network_peer():
-			rpc("attack", "right_attack_0")
-		else:
-			attack("right_attack_0")
+		attack("right_attack_0")
 	elif event.is_action_pressed("player_dodge"):
 		if running:
 			jump()
 		else:
 			dodge()
-	elif event.is_action_pressed("player_run") and stamina > 0:
+	elif event.is_action_pressed("player_run"):
 		run()
 	elif event.is_action_released("player_run"):
 		walk()
