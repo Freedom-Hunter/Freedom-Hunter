@@ -7,7 +7,7 @@ const Item = preload("res://src/items/usable_item.gd")
 func interact(player:Player, node):
 	match node.name:
 		"fire":
-			fire(player)
+			fire_ball_from_inventory(player)
 		"clockwise":
 			tween_rotate(-15)
 		"anticlockwise":
@@ -16,10 +16,17 @@ func interact(player:Player, node):
 			print_debug("Not a known node")
 
 
-func fire(player: Player):
+func fire_ball_from_inventory(player: Player):
 	var cannon_ball: Item = player.inventory.find_item_by_name("Cannonball")
-	if cannon_ball != null and not $animation.is_playing() and not $rotate.is_active():
-		cannon_ball.fire(player, self)
+	if cannon_ball != null:
+		fire(cannon_ball)
+		if cannon_ball.quantity <= 0:
+			player.inventory.erase_item(cannon_ball)
+
+
+func fire(cannon_ball: CannonBall, spawn=null):
+	if not $animation.is_playing() and not $rotate.is_active():
+		cannon_ball.fire(self, spawn)
 		$animation.play("fire")
 
 

@@ -77,8 +77,10 @@ anims/fire = SubResource( 4 )
 [node name="audio" type="AudioStreamPlayer3D" parent="."]
 transform = Transform( -1, 0, -8.74229e-08, 0, 1, 0, 8.74229e-08, 0, -1, 0, 0.8, 0.4 )
 stream = ExtResource( 3 )
-unit_db = 20.0
+unit_db = 80.0
+max_distance = 300.0
 emission_angle_enabled = true
+emission_angle_degrees = 60.0
 
 [node name="ball" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0 )
