@@ -1,4 +1,6 @@
-extends "usable_item.gd"
+extends Consumable
+class_name Barrel
+
 
 var scene = preload("res://data/scenes/items/barrel.tscn")
 

@@ -1,10 +1,11 @@
 [gd_scene load_steps=21 format=2]
 
-[ext_resource path="res://src/items/firework-scene.gd" type="Script" id=1]
+[ext_resource path="res://src/items/scenes/firework-scene.gd" type="Script" id=1]
 [ext_resource path="res://data/sounds/firework_launch.wav" type="AudioStream" id=2]
 [ext_resource path="res://data/sounds/firework_boom.wav" type="AudioStream" id=3]
 [ext_resource path="res://data/textures/kenney_particlePack/spark_02.png" type="Texture" id=4]
 [ext_resource path="res://data/textures/kenney_particlePack/star_01.png" type="Texture" id=5]
+
 
 [sub_resource type="Animation" id=15]
 resource_name = "SETUP"

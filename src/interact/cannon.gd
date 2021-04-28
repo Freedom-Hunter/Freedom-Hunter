@@ -1,8 +1,5 @@
 extends Spatial
 
-const Player = preload("res://src/entities/player.gd")
-const Item = preload("res://src/items/usable_item.gd")
-
 
 func interact(player:Player, node):
 	match node.name:
@@ -17,7 +14,7 @@ func interact(player:Player, node):
 
 
 func fire_ball_from_inventory(player: Player):
-	var cannon_ball: Item = player.inventory.find_item_by_name("Cannonball")
+	var cannon_ball := player.inventory.find_item_by_name("Cannonball")
 	if cannon_ball != null:
 		fire(cannon_ball)
 		if cannon_ball.quantity <= 0:

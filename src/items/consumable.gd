@@ -4,7 +4,8 @@ extends "item.gd"
 var max_quantity: int
 
 
-func _init(_name, _icon, _quantity, _max_quantity, _rarity).(_name, _icon, _quantity, _rarity):
+func _init(_name: String, _icon: Texture, _quantity: int, _max_quantity: int, _rarity: int) \
+.(_name, _icon, _quantity, _rarity):
 	max_quantity = _max_quantity
 
 

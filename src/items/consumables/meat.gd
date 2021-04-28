@@ -1,5 +1,5 @@
-extends "usable_item.gd"
 class_name Meat
+extends Consumable
 
 
 var stamina

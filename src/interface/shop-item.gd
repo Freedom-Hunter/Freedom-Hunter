@@ -1,6 +1,5 @@
 extends HBoxContainer
 
-const Item = preload("res://src/items/usable_item.gd")
 
 var item: Item
 var item_cost := 1000

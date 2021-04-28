@@ -1,9 +1,10 @@
 [gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://data/models/items/barrel/barrel_wooden.gltf" type="PackedScene" id=1]
-[ext_resource path="res://src/items/barrel-scene.gd" type="Script" id=2]
+[ext_resource path="res://src/items/scenes/barrel-scene.gd" type="Script" id=2]
 [ext_resource path="res://data/textures/kenney_particlePack/scorch_03.png" type="Texture" id=3]
 [ext_resource path="res://data/sounds/explosion.wav" type="AudioStream" id=4]
+
 
 [sub_resource type="CylinderShape" id=1]
 radius = 0.425159

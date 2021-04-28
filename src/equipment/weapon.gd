@@ -1,7 +1,5 @@
 extends "equipment.gd"
 
-const Player = preload("res://src/entities/player.gd")
-const Entity = preload("res://src/entities/entity.gd")
 
 onready var sharpness_node = get_node("/root/hud/margin/view/status/sharpness/fading")
 

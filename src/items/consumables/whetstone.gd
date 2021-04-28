@@ -1,4 +1,4 @@
-extends "usable_item.gd"
+extends Consumable
 class_name Whetstone
 
 

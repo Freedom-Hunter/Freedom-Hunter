@@ -1,17 +1,11 @@
+class_name NPCShop
 extends Spatial
 
-const Player = preload("res://src/entities/player.gd")
-const Inventory = preload("res://src/inventory.gd")
 const Shop = preload("res://src/interface/shop.gd")
 
 onready var shop: Shop = preload("res://data/scenes/interface/shop.tscn").instance()
 onready var hud = get_node("/root/hud/margin/view")
 
-const Potion = preload("res://src/items/potion.gd")
-const Firework = preload("res://src/items/firework.gd")
-const Barrel = preload("res://src/items/barrel.gd")
-const Whetstone = preload("res://src/items/whetstone.gd")
-const Meat = preload("res://src/items/meat.gd")
 
 # Player with whom we are interacting with
 var player: Player = null

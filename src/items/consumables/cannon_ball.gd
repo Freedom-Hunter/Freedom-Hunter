@@ -1,5 +1,5 @@
-extends "usable_item.gd"
 class_name CannonBall
+extends Consumable
 
 
 const CannonBallScene = preload("res://data/scenes/items/cannon_ball.tscn")

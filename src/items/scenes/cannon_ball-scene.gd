@@ -26,7 +26,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String):
 
 
 func interact(player, node):
-	var item: Consumable = load("res://src/items/cannon_ball.gd").new(1)
+	var item: Consumable = load("res://src/items/consumables/cannon_ball.gd").new(1)
 	var remainder = player.add_item(item)
 	if remainder == 0:
 		queue_free()
