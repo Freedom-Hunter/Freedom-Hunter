@@ -34,6 +34,9 @@ puppet var running: bool = false
 var run_stamina: float = 5
 var run_speed: float = 7.5
 
+# Rest
+puppet var resting: bool = false
+
 # Walk
 puppet var walking: bool = false
 var walk_speed: float = 5
@@ -52,8 +55,8 @@ var velocity: Vector3 = Vector3()
 
 # Other
 var interpolation_factor: float = 10  # how fast we interpolate rotations
-var animation_node: AnimationPlayer
 var previous_origin: Vector3 = Vector3()
+onready var animation_node: AnimationPlayer = $AnimationPlayer
 
 
 func _str() -> String:
@@ -66,58 +69,70 @@ func _str() -> String:
 
 
 func _ready():
-	animation_node = find_node("entity_animation")
-	animation_node.connect("animation_finished", self, "_on_animation_finished")
-	animation_node.rpc_config("play", MultiplayerAPI.RPC_MODE_PUPPET)
+	$AnimationPlayer.connect("animation_finished", self, "_on_animation_finished")
+	$AnimationPlayer.rpc_config("play", MultiplayerAPI.RPC_MODE_PUPPET)
 	rset_config("transform", MultiplayerAPI.RPC_MODE_PUPPET)
 	emit_signal("hp_changed", hp, hp_regenerable, hp_max)
 	emit_signal("stamina_changed", stamina, stamina_max)
 
 
 func dodge():
-	if not attacking and not dodging and is_on_floor() and direction != Vector3() and stamina >= dodge_stamina:
+	if not resting and not attacking and not dodging and is_on_floor() and direction != Vector3() and stamina >= dodge_stamina:
 		if get_tree().has_network_peer():
 			rset_unreliable("dodging", true)
 		dodging = true
 		stamina -= dodge_stamina
 		emit_signal("stamina_changed", stamina, stamina_max)
+		$AnimationPlayer.play("dodge", 0.5)
 
 
 func jump():
-	if not dodging and not jumping and stamina >= jump_stamina:
+	if not resting and not dodging and not jumping and stamina >= jump_stamina:
 		if get_tree().has_network_peer():
 			rset_unreliable("jumping", true)
 		jumping = true
 		stamina -= jump_stamina
 		velocity.y += jump_speed
 		emit_signal("stamina_changed", stamina, stamina_max)
+		$AnimationPlayer.play("jump", 0.2)
 
 
 func run():
-	if not running and not attacking and stamina > 0:
+	if not dodging and not resting and not running and not attacking and stamina > 0:
 		if get_tree().has_network_peer():
 			rset_unreliable("running", true)
 			rset_unreliable("walking", false)
 		running = true
 		walking = false
+		$AnimationPlayer.play("run-loop", 0.5)
 
 
 func walk():
-	if not attacking and not dodging:
+	if not resting and not attacking and not dodging:
 		if get_tree().has_network_peer() and (running or not walking):
 			rset_unreliable("running", false)
 			rset_unreliable("walking", true)
 		running = false
 		walking = true
+		$AnimationPlayer.play("walk-loop", 0.5)
 
 
 func stop():
-	if not attacking and not dodging:
+	if not resting and not attacking and not dodging:
 		if get_tree().has_network_peer() and (running or walking):
 			rset_unreliable("running", false)
 			rset_unreliable("walking", false)
 		running = false
 		walking = false
+		$AnimationPlayer.play("idle-loop", 0.5)
+
+
+func rest():
+	if not resting and not attacking and not dodging:
+		resting = true
+		running = false
+		walking = false
+		$AnimationPlayer.play("rest")
 
 
 func move_entity(delta: float, gravity:bool=true):
@@ -131,13 +146,17 @@ func move_entity(delta: float, gravity:bool=true):
 	velocity.z = direction.z
 
 	if stamina <= 0:
-		running = false
+		stamina = 0
+		rest()
 
 	if jumping:
 		if running:
 			velocity *= Vector3(run_speed, 1, run_speed)
 		else:
 			velocity *= Vector3(walk_speed, 1, walk_speed)
+	elif resting:
+		velocity *= Vector3(0, 1, 0)
+		direction = Vector3()
 	elif dodging:
 		velocity *= Vector3(dodge_speed, 1, dodge_speed)
 	elif running and direction != Vector3():
@@ -182,7 +201,7 @@ func move_entity(delta: float, gravity:bool=true):
 
 
 func look_ahead(delta):
-	if direction.length() != 0:
+	if direction:
 		var target = Vector3(direction.x, 0, direction.z).normalized()
 		target = -(get_transform().basis.z).linear_interpolate(target, delta * interpolation_factor)
 		target += get_global_transform().origin
@@ -190,11 +209,11 @@ func look_ahead(delta):
 
 
 func _on_animation_finished(anim):
-	if anim == "run" and direction != Vector3() and Input.is_action_pressed("player_run"):
-		animation_node.play("run") # keep running
-	elif anim == "dodge" and running:
+	print("end anim " + anim)
+	if anim == "dodge":
 		dodging = false
-		animation_node.play("run") # keep running
+	elif anim == "rest":
+		resting = false
 	else:
 		dodging = false
 		running = false
@@ -234,6 +253,7 @@ puppet func respawn():
 	dodging = false
 	jumping = false
 	running = false
+	resting = false
 	set_process(true)
 	if get_tree().has_network_peer() and is_network_master():
 		rpc("respawn")
@@ -272,13 +292,13 @@ func damage(dmg, reg, weapon=null, entity=null):
 
 
 func attack(attack_name):
-	if not dodging and animation_node.has_animation(attack_name):
-		if not animation_node.is_playing() or animation_node.get_current_animation() != attack_name:
-			animation_node.play(attack_name)
+	if not dodging and $AnimationPlayer.has_animation(attack_name):
+		if not $AnimationPlayer.is_playing() or $AnimationPlayer.get_current_animation() != attack_name:
+			$AnimationPlayer.play(attack_name)
 			attacking = true
 			running = false
 			if get_tree().has_network_peer():
-				animation_node.rpc("play", attack_name)
+				$AnimationPlayer.rpc("play", attack_name)
 				rset("attacking", true)
 				rset("running", false)
 
@@ -292,6 +312,8 @@ func stamina_max_increase(amount):
 
 func stamina_natural_regeneration(delta):
 	if not dodging and (not running or direction == Vector3()):
+		if resting:
+			delta *= 2
 		stamina += stamina_regeneration * delta
 		if stamina > stamina_max:
 			stamina = stamina_max
@@ -322,4 +344,4 @@ func _process(delta):
 
 
 func is_idle() -> bool:
-	return not attacking and not dodging and not walking and not running and not jumping
+	return not attacking and not dodging and not walking and not running and not jumping and not resting

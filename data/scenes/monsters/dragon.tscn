@@ -199,7 +199,6 @@ shape = SubResource( 6 )
 
 [node name="fire" type="Particles" parent="." index="7"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0775, 1.63697 )
-emitting = false
 amount = 256
 lifetime = 5.0
 randomness = 0.5
@@ -217,7 +216,7 @@ material/0 = null
 [node name="animation" type="AnimationPlayer" parent="exclamation" index="0"]
 anims/exclamation = SubResource( 16 )
 
-[node name="entity_animation" type="AnimationPlayer" parent="." index="9"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="9"]
 anims/attack = SubResource( 17 )
 anims/death = SubResource( 18 )
 
@@ -227,5 +226,6 @@ unit_size = 20.0
 
 [node name="eyes" type="Position3D" parent="." index="11"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.34988, 1.34893 )
+
 [connection signal="body_entered" from="view" to="." method="_on_view_body_entered"]
 [connection signal="body_exited" from="view" to="." method="_on_view_body_exited"]

@@ -1,0 +1,230 @@
+[gd_scene load_steps=39 format=2]
+
+[ext_resource path="res://data/models/player/male.glb" type="PackedScene" id=1]
+[ext_resource path="res://src/entities/player.gd" type="Script" id=2]
+[ext_resource path="res://data/sounds/jump.wav" type="AudioStream" id=3]
+[ext_resource path="res://data/sounds/whetstone.wav" type="AudioStream" id=4]
+[ext_resource path="res://data/sounds/eat.wav" type="AudioStream" id=5]
+[ext_resource path="res://data/models/player/male/drink.anim" type="Animation" id=6]
+
+[sub_resource type="Animation" id=5]
+resource_name = "eat"
+tracks/0/type = "audio"
+tracks/0/path = NodePath("Armature/Skeleton/head/audio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 5 )
+} ],
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "jump"
+length = 0.15
+tracks/0/type = "audio"
+tracks/0/path = NodePath("Armature/Skeleton/head/audio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 3 )
+} ],
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 0.4, 0.9, 0.2 )
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 0.672363, 1, 0.10089 )
+
+[sub_resource type="AnimationNodeAnimation" id=6]
+animation = "dodge"
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "drink"
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "idle-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=9]
+animation = "jump"
+
+[sub_resource type="AnimationNodeAnimation" id=10]
+animation = "rest"
+
+[sub_resource type="AnimationNodeAnimation" id=11]
+animation = "run-loop"
+
+[sub_resource type="AnimationNodeAnimation" id=12]
+animation = "walk-loop"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
+advance_condition = "walking"
+xfade_time = 0.5
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=14]
+advance_condition = "running"
+xfade_time = 0.5
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+advance_condition = "dodging"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+advance_condition = "jumping"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+switch_mode = 2
+advance_condition = "walking"
+xfade_time = 0.5
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+switch_mode = 2
+advance_condition = "running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+advance_condition = "drinking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=20]
+switch_mode = 2
+advance_condition = "idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=21]
+advance_condition = "walking"
+xfade_time = 0.5
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=22]
+advance_condition = "idle"
+xfade_time = 0.5
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=23]
+switch_mode = 2
+advance_condition = "walking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+switch_mode = 2
+advance_condition = "walking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=25]
+switch_mode = 2
+advance_condition = "running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=26]
+switch_mode = 2
+advance_condition = "idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=27]
+switch_mode = 2
+advance_condition = "idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=28]
+advance_condition = "resting"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=29]
+advance_condition = "resting"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=30]
+advance_condition = "resting"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=31]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachine" id=32]
+states/dodge/node = SubResource( 6 )
+states/dodge/position = Vector2( 586, 239 )
+states/drink/node = SubResource( 7 )
+states/drink/position = Vector2( 306, -23 )
+states/idle-loop/node = SubResource( 8 )
+states/idle-loop/position = Vector2( 306, 111 )
+states/jump/node = SubResource( 9 )
+states/jump/position = Vector2( 856, 239 )
+states/rest/node = SubResource( 10 )
+states/rest/position = Vector2( 1107, 111 )
+states/run-loop/node = SubResource( 11 )
+states/run-loop/position = Vector2( 856, 111 )
+states/walk-loop/node = SubResource( 12 )
+states/walk-loop/position = Vector2( 586, 111 )
+transitions = [ "idle-loop", "walk-loop", SubResource( 13 ), "walk-loop", "run-loop", SubResource( 14 ), "walk-loop", "dodge", SubResource( 15 ), "run-loop", "jump", SubResource( 16 ), "dodge", "walk-loop", SubResource( 17 ), "jump", "run-loop", SubResource( 18 ), "idle-loop", "drink", SubResource( 19 ), "drink", "idle-loop", SubResource( 20 ), "run-loop", "walk-loop", SubResource( 21 ), "walk-loop", "idle-loop", SubResource( 22 ), "jump", "walk-loop", SubResource( 23 ), "drink", "walk-loop", SubResource( 24 ), "drink", "run-loop", SubResource( 25 ), "dodge", "idle-loop", SubResource( 26 ), "jump", "idle-loop", SubResource( 27 ), "run-loop", "rest", SubResource( 28 ), "jump", "rest", SubResource( 29 ), "dodge", "rest", SubResource( 30 ), "rest", "run-loop", SubResource( 31 ) ]
+start_node = "idle-loop"
+graph_offset = Vector2( 117.374, -129.069 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=33]
+
+[node name="player" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="Skeleton" parent="Armature" index="0"]
+bones/19/bound_children = [ NodePath("head") ]
+bones/41/bound_children = [ NodePath("weapon_L") ]
+bones/61/bound_children = [ NodePath("weapon_R") ]
+
+[node name="head" type="BoneAttachment" parent="Armature/Skeleton" index="1"]
+transform = Transform( 0.999976, 0.00570899, -0.00371391, -0.00618504, 0.989523, -0.144243, 0.00285155, 0.144263, 0.989535, 0.00268618, 2.43767, 0.0756028 )
+bone_name = "head"
+
+[node name="audio" type="AudioStreamPlayer3D" parent="Armature/Skeleton/head" index="0"]
+stream = ExtResource( 3 )
+unit_size = 10.0
+
+[node name="weapon_L" type="BoneAttachment" parent="Armature/Skeleton" index="2"]
+transform = Transform( -0.0703222, 0.173364, 0.910456, 0.925924, 0.0531658, 0.0613933, -0.0406268, 0.911619, -0.176723, 0.362449, 1.45855, -0.118917 )
+bone_name = "weapon_L"
+
+[node name="audio" type="AudioStreamPlayer3D" parent="Armature/Skeleton/weapon_L" index="0"]
+stream = ExtResource( 4 )
+unit_size = 10.0
+
+[node name="weapon_R" type="BoneAttachment" parent="Armature/Skeleton" index="3"]
+transform = Transform( 0.0200751, -0.03661, -0.92854, -0.82203, 0.432416, -0.0348214, 0.433351, 0.821953, -0.0230384, -0.32014, 1.45812, 0.305973 )
+bone_name = "weapon_R"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="audio" type="AudioStreamPlayer3D" parent="Armature/Skeleton/weapon_R" index="0"]
+unit_size = 10.0
+
+[node name="AnimationPlayer" parent="." index="1"]
+anims/drink = ExtResource( 6 )
+anims/eat = SubResource( 5 )
+anims/jump = SubResource( 4 )
+
+[node name="shape" type="CollisionShape" parent="." index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0 )
+shape = SubResource( 1 )
+
+[node name="drop_item" type="Position3D" parent="." index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2 )
+
+[node name="interact" type="Area" parent="." index="4"]
+
+[node name="shape" type="CollisionShape" parent="interact" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5 )
+shape = SubResource( 2 )
+
+[node name="name" type="Position3D" parent="." index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0 )
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="6"]
+tree_root = SubResource( 32 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource( 33 )
+parameters/conditions/dodging = false
+parameters/conditions/drinking = false
+parameters/conditions/idle = false
+parameters/conditions/jumping = false
+parameters/conditions/resting = false
+parameters/conditions/running = false
+parameters/conditions/walking = false

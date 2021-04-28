@@ -2,7 +2,7 @@ extends Node
 
 var gravity = -10
 
-const PlayerScene = preload("res://data/scenes/player.tscn")
+const PlayerScene = preload("res://data/scenes/player/male.tscn")
 
 
 var game
@@ -57,7 +57,7 @@ func start_game(local_player_name):
 	players_spawn = game.find_node("player_spawn")
 	monsters_spawn = game.find_node("monster_spawn")
 
-	add_monster("Dragon", preload("res://data/scenes/monsters/dragon.tscn"))
+	#add_monster("Dragon", preload("res://data/scenes/monsters/dragon.tscn"))
 
 	if local_player_name != null:
 		# Add local player

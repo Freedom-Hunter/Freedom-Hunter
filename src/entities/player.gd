@@ -7,7 +7,6 @@ const Inventory = preload("res://src/inventory.gd")
 onready var yaw_node = get_node("/root/game/yaw")
 onready var camera_node = yaw_node.get_node("pitch/camera")
 onready var camera_offset = yaw_node.get_translation().y
-onready var interact_node = get_node("interact")
 
 onready var hud = get_node("/root/hud/margin/view")
 onready var onscreen = get_node("/root/hud/onscreen")
@@ -63,7 +62,7 @@ func sort_by_distance(a, b):
 
 
 func get_nearest_interact():
-	var areas = interact_node.get_overlapping_areas()
+	var areas = $interact.get_overlapping_areas()
 	var interacts = []
 	for area in areas:
 		if area.is_in_group("interact"):
@@ -131,7 +130,7 @@ func get_defence():
 
 sync func died():
 	.died()
-	animation_node.play("death")
+	$AnimationPlayer.play("death")
 	set_process(false)
 	set_physics_process(false)
 	set_process_input(false)
@@ -151,7 +150,7 @@ func pause_player():
 	set_process_input(false)
 	set_physics_process(false)
 	set_process(false)
-	animation_node.play("idle")
+	$AnimationPlayer.play("idle-loop")
 
 
 func resume_player():
@@ -162,26 +161,9 @@ func resume_player():
 
 
 func _process(_delta):
-	if dead:
-		return
-	if get_tree().has_network_peer() and not is_network_master():
+	if not dead and get_tree().has_network_peer() and not is_network_master():
 		direction = (previous_origin - transform.origin).normalized()
 		previous_origin = transform.origin
-	var anim = animation_node.get_current_animation()
-	var playing = animation_node.is_playing()
-	if playing and (anim.find("attack") != -1 or anim in ["drink", "whetstone"]):
-		return
-	if direction.length() != 0:
-		if dodging:
-			if anim != "dodge" or not playing:
-				animation_node.play("dodge", 0.5)
-		elif running:
-			if anim != "run" or not playing:
-				animation_node.play("run", 0.5)
-		elif anim != "walk" or not playing:
-			animation_node.play("walk", 0.5)
-	elif anim in ["walk", "run", "death"] or not playing:
-		animation_node.play("idle", 0.5)
 
 
 func _physics_process(delta):

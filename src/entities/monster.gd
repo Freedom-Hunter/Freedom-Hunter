@@ -52,12 +52,12 @@ func _ready():
 sync func died():
 	.died()
 	set_physics_process(false)
-	animation_node.play("death")
+	$AnimationPlayer.play("death")
 	$fire.hide()
 	$interact.add_to_group("interact")
 	$view.disconnect("body_entered", self, "_on_view_body_entered")
 	$view.disconnect("body_exited", self, "_on_view_body_exited")
-	animation_node.disconnect("animation_finished", self, "_on_animation_finished")
+	$AnimationPlayer.disconnect("animation_finished", self, "_on_animation_finished")
 	call_deferred("set_script", preload("res://src/interact/monster drop.gd"))
 
 

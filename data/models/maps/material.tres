@@ -7,19 +7,16 @@
 
 [resource]
 albedo_texture = ExtResource( 1 )
+metallic_specular = 0.0
 roughness_texture = ExtResource( 4 )
 normal_enabled = true
-normal_scale = 0.7
+normal_scale = 1.0
 normal_texture = ExtResource( 3 )
 depth_enabled = true
 depth_scale = 0.5
-depth_deep_parallax = true
-depth_min_layers = 8
-depth_max_layers = 32
+depth_deep_parallax = false
 depth_flip_tangent = false
 depth_flip_binormal = false
 depth_texture = ExtResource( 2 )
-subsurf_scatter_enabled = true
-subsurf_scatter_strength = 0.0
 uv1_scale = Vector3( 0.05, 0.05, 0.05 )
 uv1_triplanar = true
