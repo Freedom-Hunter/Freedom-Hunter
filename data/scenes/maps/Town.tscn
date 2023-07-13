@@ -40,7 +40,6 @@ data = PoolVector3Array( -2.2, 2, 4.2, -2.2, 2, 3.8, -2.18, 2.8, 3.82, -2.18, 2.
 [node name="Town" instance=ExtResource( 1 )]
 
 [node name="MVK_House_08" parent="." index="0"]
-editor/display_folded = true
 transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -1.29634, 0, 24.8096 )
 
 [node name="StaticBody" type="StaticBody" parent="MVK_House_08" index="0"]
@@ -49,7 +48,6 @@ transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -1.29634, 0, 24.8096 )
 shape = SubResource( 1 )
 
 [node name="MVK_House_05" parent="." index="1"]
-editor/display_folded = true
 transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -21.3235, 0, -5.67031 )
 
 [node name="StaticBody" type="StaticBody" parent="MVK_House_05" index="0"]
@@ -58,7 +56,6 @@ transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -21.3235, 0, -5.67031 )
 shape = SubResource( 2 )
 
 [node name="MVK_House_07" parent="." index="2"]
-editor/display_folded = true
 transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -19.9331, 0, 14.9354 )
 
 [node name="StaticBody" type="StaticBody" parent="MVK_House_07" index="0"]
@@ -67,7 +64,6 @@ transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -19.9331, 0, 14.9354 )
 shape = SubResource( 3 )
 
 [node name="MVK_House_06" parent="." index="3"]
-editor/display_folded = true
 transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.183514, 0, -17.0842 )
 
 [node name="StaticBody" type="StaticBody" parent="MVK_House_06" index="0"]
@@ -76,7 +72,6 @@ transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.183514, 0, -17.0842 )
 shape = SubResource( 4 )
 
 [node name="MVK_House_02" parent="." index="4"]
-editor/display_folded = true
 transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 17.347, 0, -23.4983 )
 
 [node name="StaticBody" type="StaticBody" parent="MVK_House_02" index="0"]
@@ -85,7 +80,6 @@ transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 17.347, 0, -23.4983 )
 shape = SubResource( 5 )
 
 [node name="MVK_House_01" parent="." index="5"]
-editor/display_folded = true
 transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 15.4324, 0, -5.23676 )
 
 [node name="StaticBody" type="StaticBody" parent="MVK_House_01" index="0"]
@@ -94,7 +88,6 @@ transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 15.4324, 0, -5.23676 )
 shape = SubResource( 6 )
 
 [node name="MVK_House_04" parent="." index="6"]
-editor/display_folded = true
 transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 25.6064, 0, -5.30216 )
 
 [node name="StaticBody" type="StaticBody" parent="MVK_House_04" index="0"]
@@ -103,7 +96,6 @@ transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 25.6064, 0, -5.30216 )
 shape = SubResource( 7 )
 
 [node name="MVK_House_03" parent="." index="7"]
-editor/display_folded = true
 transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -19.0505, 0, -22.6645 )
 
 [node name="StaticBody" type="StaticBody" parent="MVK_House_03" index="0"]
@@ -112,7 +104,6 @@ transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -19.0505, 0, -22.6645 )
 shape = SubResource( 8 )
 
 [node name="MVK_House_09" parent="." index="8"]
-editor/display_folded = true
 transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 24.511, 0, 19.5958 )
 
 [node name="StaticBody" type="StaticBody" parent="MVK_House_09" index="0"]
@@ -121,7 +112,6 @@ transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 24.511, 0, 19.5958 )
 shape = SubResource( 9 )
 
 [node name="MVK_House_10" parent="." index="9"]
-editor/display_folded = true
 transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 11.4979, 0, 22.0623 )
 
 [node name="StaticBody" type="StaticBody" parent="MVK_House_10" index="0"]
@@ -133,6 +123,7 @@ shape = SubResource( 10 )
 stream = ExtResource( 2 )
 attenuation_model = 2
 unit_size = 30.0
+max_db = -9.0
 autoplay = true
 max_distance = 80.0
 

@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://data/scenes/maps/grass.shader" type="Shader" id=1]
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/color_top = Color( 0.0313726, 0.686275, 0.196078, 1 )
+shader_param/color_bottom = Color( 0.00784314, 0.309804, 0.172549, 1 )
+shader_param/deg_sway_pitch = 80.0
+shader_param/deg_sway_yaw = 45.0
+shader_param/wind_scale = 0.2
+shader_param/wind_speed = 0.4
+shader_param/wind_direction = Vector3( 0, 0, -1 )

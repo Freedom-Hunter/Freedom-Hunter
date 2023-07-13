@@ -20,7 +20,6 @@ fog_depth_end = 200.0
 tonemap_mode = 3
 tonemap_exposure = 0.2
 tonemap_white = 0.3
-ss_reflections_enabled = true
 ssao_enabled = true
 dof_blur_far_enabled = true
 dof_blur_far_distance = 50.0
@@ -43,9 +42,10 @@ polygon/verts_per_poly = 8.0
 [node name="World" type="Spatial"]
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 1, 0, 0, 0, -0.86139, 0.507944, 0, -0.507944, -0.86139, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, -0.86139, 0.507944, 0, -0.507944, -0.86139, 0, 6.30673, 0 )
 light_energy = 3.14
 light_indirect_energy = 1.66
+light_specular = 0.0
 shadow_enabled = true
 shadow_bias = 0.0
 directional_shadow_split_3 = 0.4

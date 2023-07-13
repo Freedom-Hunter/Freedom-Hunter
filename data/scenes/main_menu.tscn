@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://data/themes/main_menu/main.theme" type="Theme" id=1]
 [ext_resource path="res://src/main_menu.gd" type="Script" id=2]
@@ -9,7 +9,6 @@
 [ext_resource path="res://data/scenes/credits.tscn" type="PackedScene" id=7]
 
 [sub_resource type="Animation" id=1]
-resource_name = "background"
 length = 10.0
 loop = true
 tracks/0/type = "value"
@@ -25,6 +24,50 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 100 ), Vector2( -960, 100 ) ]
 }
 
+[sub_resource type="Animation" id=2]
+resource_name = "chose"
+length = 2.0
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("mode:modulate:r")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray(  ),
+"times": PoolRealArray(  )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("mode:modulate:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray(  ),
+"times": PoolRealArray(  )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("mode:modulate:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray(  ),
+"times": PoolRealArray(  )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("mode:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 0.4, -0.25, 0, 0.25, 0, 0.9, -0.25, 0, 0.25, 0, 0.4, -0.25, 0, 0.25, 0, 0.9, -0.25, 0, 0.25, 0, 0.4, -0.25, 0, 0.25, 0, 0.9, -0.25, 0, 0.25, 0, 0.6, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 2 )
+}
+
 [node name="main_menu" type="Control"]
 margin_right = 1920.0
 margin_bottom = 1080.0
@@ -32,6 +75,9 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="background" type="TextureRect" parent="."]
 anchor_right = 1.0
@@ -43,6 +89,9 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 texture = ExtResource( 3 )
 expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="bottom" type="TextureRect" parent="."]
 anchor_top = 1.0
@@ -61,21 +110,29 @@ anchor_right = 1.0
 margin_bottom = 100.0
 texture = ExtResource( 5 )
 expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="mode" type="VBoxContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 500.0
-margin_top = 200.0
-margin_right = -500.0
-margin_bottom = -200.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -460.0
+margin_top = -432.0
+margin_right = 460.0
+margin_bottom = 432.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="singleplayer" type="Button" parent="mode"]
 margin_right = 920.0
-margin_bottom = 167.0
+margin_bottom = 213.574
 focus_neighbour_top = NodePath("../credits")
 focus_neighbour_bottom = NodePath("../multiplayer")
 size_flags_horizontal = 3
@@ -83,9 +140,9 @@ size_flags_vertical = 3
 text = "Singleplayer"
 
 [node name="multiplayer" type="Button" parent="mode"]
-margin_top = 171.0
+margin_top = 217.0
 margin_right = 920.0
-margin_bottom = 338.0
+margin_bottom = 430.574
 focus_neighbour_top = NodePath("../singleplayer")
 focus_neighbour_bottom = NodePath("../credits")
 size_flags_horizontal = 3
@@ -93,9 +150,9 @@ size_flags_vertical = 3
 text = "Multiplayer"
 
 [node name="options" type="Button" parent="mode"]
-margin_top = 342.0
+margin_top = 434.0
 margin_right = 920.0
-margin_bottom = 509.0
+margin_bottom = 647.574
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
@@ -103,9 +160,9 @@ enabled_focus_mode = 0
 text = "Options"
 
 [node name="credits" type="Button" parent="mode"]
-margin_top = 513.0
+margin_top = 651.0
 margin_right = 920.0
-margin_bottom = 680.0
+margin_bottom = 864.574
 focus_neighbour_top = NodePath("../multiplayer")
 focus_neighbour_bottom = NodePath("../singleplayer")
 size_flags_horizontal = 3
@@ -115,6 +172,7 @@ text = "Credits"
 [node name="Animation" type="AnimationPlayer" parent="."]
 autoplay = "background"
 anims/background = SubResource( 1 )
+anims/chose = SubResource( 2 )
 
 [node name="multiplayer" parent="." instance=ExtResource( 6 )]
 visible = false
@@ -133,6 +191,7 @@ margin_bottom = 200.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Back"
+
 [connection signal="pressed" from="mode/singleplayer" to="." method="_on_singleplayer_pressed"]
 [connection signal="pressed" from="mode/multiplayer" to="." method="_on_multiplayer_pressed"]
 [connection signal="pressed" from="mode/credits" to="." method="_on_credits_pressed"]

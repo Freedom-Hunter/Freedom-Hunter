@@ -88,7 +88,7 @@ func _input(event):
 	elif event.is_action_pressed("player_attack_right"):
 		attack("right_attack_0")
 	elif event.is_action_pressed("player_dodge"):
-		if running:
+		if $AnimationTree["parameters/conditions/running"]:
 			jump()
 		else:
 			dodge()
@@ -161,13 +161,16 @@ func resume_player():
 
 
 func _process(_delta):
-	if not dead and get_tree().has_network_peer() and not is_network_master():
+	if state_machine.get_current_node() == "dead" and \
+			get_tree().has_network_peer() and \
+			not is_network_master():
 		direction = (previous_origin - transform.origin).normalized()
 		previous_origin = transform.origin
 
 
 func _physics_process(delta):
-	if not dodging:
+	var current_state := state_machine.get_current_node()
+	if current_state != "dodge":
 		direction = Vector3(0, 0, 0)
 		var camera = camera_node.get_global_transform()
 		# Player movements
@@ -188,7 +191,7 @@ func _physics_process(delta):
 
 		direction = direction.normalized()
 		if direction != Vector3():
-			if is_idle():
+			if current_state == "idle-loop":
 				walk()
 			if Input.is_action_pressed("player_run"):
 				run()

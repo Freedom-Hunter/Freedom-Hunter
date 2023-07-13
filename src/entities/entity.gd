@@ -20,43 +20,35 @@ var stamina_regeneration: float = 4
 signal stamina_changed(stamina, stamina_max)
 
 # Dodge
-puppet var dodging: bool = false
 var dodge_stamina: float = 10
 var dodge_speed: float = 8
 
 # Jump
-puppet var jumping: bool = false
 var jump_stamina: float = 15
 var jump_speed: float = 10
 
 # Run
-puppet var running: bool = false
 var run_stamina: float = 5
 var run_speed: float = 7.5
 
-# Rest
-puppet var resting: bool = false
-
 # Walk
-puppet var walking: bool = false
 var walk_speed: float = 5
 
 # Attack
-puppet var attacking: bool = false
 var attack_speed: float = 1
 
 # Time since latest damage
 var time_hit: float = 0
 
 # State
-var dead: bool = false
 var direction: Vector3 = Vector3()
 var velocity: Vector3 = Vector3()
 
 # Other
 var interpolation_factor: float = 10  # how fast we interpolate rotations
 var previous_origin: Vector3 = Vector3()
-onready var animation_node: AnimationPlayer = $AnimationPlayer
+
+onready var state_machine: AnimationNodeStateMachinePlayback = $AnimationTree["parameters/playback"]
 
 
 func _str() -> String:
@@ -65,7 +57,8 @@ func _str() -> String:
 		\tHP: %d/%d/%d\n
 		\tStamina: %d/%d\n
 		\t%s\n
-		---""" % [name, hp, hp_regenerable, hp_max, stamina, stamina_max, "Dead" if dead else "Alive"]
+		---""" % [name, hp, hp_regenerable, hp_max, stamina, stamina_max,
+			"Dead" if $AnimationTree["parameters/conditions/dead"] else "Alive"]
 
 
 func _ready():
@@ -77,62 +70,42 @@ func _ready():
 
 
 func dodge():
-	if not resting and not attacking and not dodging and is_on_floor() and direction != Vector3() and stamina >= dodge_stamina:
-		if get_tree().has_network_peer():
-			rset_unreliable("dodging", true)
-		dodging = true
+	if is_on_floor() and direction != Vector3() and stamina >= dodge_stamina:
 		stamina -= dodge_stamina
 		emit_signal("stamina_changed", stamina, stamina_max)
-		$AnimationPlayer.play("dodge", 0.5)
+		$AnimationTree["parameters/conditions/dodging"] = true
 
 
 func jump():
-	if not resting and not dodging and not jumping and stamina >= jump_stamina:
-		if get_tree().has_network_peer():
-			rset_unreliable("jumping", true)
-		jumping = true
+	if is_on_floor() and stamina >= jump_stamina:
 		stamina -= jump_stamina
 		velocity.y += jump_speed
 		emit_signal("stamina_changed", stamina, stamina_max)
-		$AnimationPlayer.play("jump", 0.2)
+		$AnimationTree["parameters/conditions/jumping"] = true
 
 
 func run():
-	if not dodging and not resting and not running and not attacking and stamina > 0:
-		if get_tree().has_network_peer():
-			rset_unreliable("running", true)
-			rset_unreliable("walking", false)
-		running = true
-		walking = false
-		$AnimationPlayer.play("run-loop", 0.5)
+	if stamina > 0:
+		$AnimationTree["parameters/conditions/idle"] = false
+		$AnimationTree["parameters/conditions/running"] = true
+		$AnimationTree["parameters/conditions/walking"] = false
 
 
 func walk():
-	if not resting and not attacking and not dodging:
-		if get_tree().has_network_peer() and (running or not walking):
-			rset_unreliable("running", false)
-			rset_unreliable("walking", true)
-		running = false
-		walking = true
-		$AnimationPlayer.play("walk-loop", 0.5)
+	$AnimationTree["parameters/conditions/idle"] = false
+	$AnimationTree["parameters/conditions/running"] = false
+	$AnimationTree["parameters/conditions/walking"] = true
 
 
 func stop():
-	if not resting and not attacking and not dodging:
-		if get_tree().has_network_peer() and (running or walking):
-			rset_unreliable("running", false)
-			rset_unreliable("walking", false)
-		running = false
-		walking = false
-		$AnimationPlayer.play("idle-loop", 0.5)
+	$AnimationTree["parameters/conditions/idle"] = true
+	$AnimationTree["parameters/conditions/running"] = false
+	$AnimationTree["parameters/conditions/walking"] = false
 
 
 func rest():
-	if not resting and not attacking and not dodging:
-		resting = true
-		running = false
-		walking = false
-		$AnimationPlayer.play("rest")
+	stop()
+	$AnimationTree["parameters/conditions/resting"] = true
 
 
 func move_entity(delta: float, gravity:bool=true):
@@ -149,23 +122,26 @@ func move_entity(delta: float, gravity:bool=true):
 		stamina = 0
 		rest()
 
-	if jumping:
-		if running:
+	var current_state = state_machine.get_current_node()
+	print(current_state)
+	if current_state == "jump":
+		if Input.get_action_strength("player_run") > 0:
 			velocity *= Vector3(run_speed, 1, run_speed)
 		else:
 			velocity *= Vector3(walk_speed, 1, walk_speed)
-	elif resting:
+	elif current_state == "rest":
 		velocity *= Vector3(0, 1, 0)
 		direction = Vector3()
-	elif dodging:
+	elif current_state == "dodge":
 		velocity *= Vector3(dodge_speed, 1, dodge_speed)
-	elif running and direction != Vector3():
-		velocity *= Vector3(run_speed, 1, run_speed)
-		stamina -= run_stamina * delta
-		emit_signal("stamina_changed", stamina, stamina_max)
-	elif attacking:
+	elif current_state == "run-loop":
+		if direction != Vector3():
+			velocity *= Vector3(run_speed, 1, run_speed)
+			stamina -= run_stamina * delta
+			emit_signal("stamina_changed", stamina, stamina_max)
+	elif current_state.find("attack") != -1:
 		velocity *= Vector3(attack_speed, 1, attack_speed)
-	elif walking:
+	elif current_state == "walk-loop":
 		velocity *= Vector3(walk_speed, 1, walk_speed)
 	else:
 		velocity *= Vector3(0, 1, 0)
@@ -180,9 +156,7 @@ func move_entity(delta: float, gravity:bool=true):
 		velocity.y = -1
 
 	if is_on_floor():
-		if jumping and get_tree().has_network_peer() and is_network_master():
-			rset_unreliable("jumping", false)
-		jumping = false
+		$AnimationTree["parameters/conditions/jumping"] = false
 		velocity.y = 0
 
 	var acceleration = (velocity - old_velocity).length()
@@ -211,13 +185,11 @@ func look_ahead(delta):
 func _on_animation_finished(anim):
 	print("end anim " + anim)
 	if anim == "dodge":
-		dodging = false
+		$AnimationTree["parameters/conditions/dodging"] = false
 	elif anim == "rest":
-		resting = false
-	else:
-		dodging = false
-		running = false
-		attacking = false
+		$AnimationTree["parameters/conditions/resting"] = false
+	elif anim == "drink":
+		$AnimationTree["parameters/conditions/drinking"] = false
 
 
 func get_pos():
@@ -225,7 +197,7 @@ func get_pos():
 
 
 master func die():
-	if not dead:
+	if not $AnimationTree["parameters/conditions/dead"]:
 		if get_tree().has_network_peer():
 			rpc("died")
 		else:
@@ -236,7 +208,8 @@ master func die():
 
 sync func died():
 	print("%s died" % [get_name()])
-	dead = true
+	$AnimationTree["parameters/conditions/dead"] = true
+	state_machine.travel("dead")
 	hp = 0
 	hp_regenerable = 0
 	velocity = Vector3()
@@ -249,11 +222,13 @@ puppet func respawn():
 	hp = hp_max
 	hp_regenerable = hp_max
 	stamina = stamina_max
-	dead = false
-	dodging = false
-	jumping = false
-	running = false
-	resting = false
+	$AnimationTree["parameters/conditions/dead"] = false
+	$AnimationTree["parameters/conditions/dodging"] = false
+	$AnimationTree["parameters/conditions/jumping"] = false
+	$AnimationTree["parameters/conditions/running"] = false
+	$AnimationTree["parameters/conditions/resting"] = false
+	$AnimationTree["parameters/conditions/drinking"] = false
+	$AnimationTree["parameters/conditions/idle"] = true
 	set_process(true)
 	if get_tree().has_network_peer() and is_network_master():
 		rpc("respawn")
@@ -292,15 +267,7 @@ func damage(dmg, reg, weapon=null, entity=null):
 
 
 func attack(attack_name):
-	if not dodging and $AnimationPlayer.has_animation(attack_name):
-		if not $AnimationPlayer.is_playing() or $AnimationPlayer.get_current_animation() != attack_name:
-			$AnimationPlayer.play(attack_name)
-			attacking = true
-			running = false
-			if get_tree().has_network_peer():
-				$AnimationPlayer.rpc("play", attack_name)
-				rset("attacking", true)
-				rset("running", false)
+	$AnimationTree["parameters/conditions/" + attack_name] = true
 
 
 func stamina_max_increase(amount):
@@ -310,9 +277,9 @@ func stamina_max_increase(amount):
 		emit_signal("stamina_changed", stamina, stamina_max)
 
 
-func stamina_natural_regeneration(delta):
-	if not dodging and (not running or direction == Vector3()):
-		if resting:
+func stamina_natural_regeneration(delta, current_state):
+	if current_state != "dodge" and (current_state != "run-loop" or direction == Vector3()):
+		if current_state == "rest":
 			delta *= 2
 		stamina += stamina_regeneration * delta
 		if stamina > stamina_max:
@@ -327,8 +294,8 @@ func stamina_boost(amount):
 	emit_signal("stamina_changed", stamina, stamina_max)
 
 
-func hp_natural_regeneration(delta):
-	if not dodging and not running:
+func hp_natural_regeneration(delta, current_state):
+	if not current_state in ["dodge", "run", "jump"]:
 		time_hit += delta
 		if time_hit > hp_regeneration_interval:
 			time_hit = 0
@@ -338,10 +305,6 @@ func hp_natural_regeneration(delta):
 
 
 func _process(delta):
-	hp_natural_regeneration(delta)
-	stamina_natural_regeneration(delta)
-
-
-
-func is_idle() -> bool:
-	return not attacking and not dodging and not walking and not running and not jumping and not resting
+	var current_state = state_machine.get_current_node()
+	hp_natural_regeneration(delta, current_state)
+	stamina_natural_regeneration(delta, current_state)

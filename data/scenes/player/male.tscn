@@ -1,13 +1,13 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://data/models/player/male.glb" type="PackedScene" id=1]
 [ext_resource path="res://src/entities/player.gd" type="Script" id=2]
 [ext_resource path="res://data/sounds/jump.wav" type="AudioStream" id=3]
 [ext_resource path="res://data/sounds/whetstone.wav" type="AudioStream" id=4]
 [ext_resource path="res://data/sounds/eat.wav" type="AudioStream" id=5]
-[ext_resource path="res://data/models/player/male/drink.anim" type="Animation" id=6]
+[ext_resource path="res://data/sounds/potion_drink.wav" type="AudioStream" id=6]
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=1]
 resource_name = "eat"
 tracks/0/type = "audio"
 tracks/0/path = NodePath("Armature/Skeleton/head/audio")
@@ -24,7 +24,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 )
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 resource_name = "jump"
 length = 0.15
 tracks/0/type = "audio"
@@ -42,124 +42,155 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 )
 }
 
-[sub_resource type="BoxShape" id=1]
+[sub_resource type="BoxShape" id=3]
 extents = Vector3( 0.4, 0.9, 0.2 )
 
-[sub_resource type="BoxShape" id=2]
+[sub_resource type="BoxShape" id=4]
 extents = Vector3( 0.672363, 1, 0.10089 )
 
-[sub_resource type="AnimationNodeAnimation" id=6]
-animation = "dodge"
+[sub_resource type="AnimationNodeAnimation" id=33]
+animation = "death"
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=6]
 animation = "drink"
 
-[sub_resource type="AnimationNodeAnimation" id=8]
+[sub_resource type="AnimationNodeAnimation" id=7]
 animation = "idle-loop"
 
-[sub_resource type="AnimationNodeAnimation" id=9]
+[sub_resource type="AnimationNodeAnimation" id=38]
+animation = "left_attack_0"
+
+[sub_resource type="AnimationNodeAnimation" id=39]
+animation = "dodge"
+
+[sub_resource type="AnimationNodeAnimation" id=40]
 animation = "jump"
 
-[sub_resource type="AnimationNodeAnimation" id=10]
-animation = "rest"
-
-[sub_resource type="AnimationNodeAnimation" id=11]
+[sub_resource type="AnimationNodeAnimation" id=41]
 animation = "run-loop"
 
-[sub_resource type="AnimationNodeAnimation" id=12]
+[sub_resource type="AnimationNodeAnimation" id=42]
 animation = "walk-loop"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=13]
-advance_condition = "walking"
-xfade_time = 0.5
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=14]
+[sub_resource type="AnimationNodeStateMachineTransition" id=43]
+switch_mode = 1
 advance_condition = "running"
 xfade_time = 0.5
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=15]
-advance_condition = "dodging"
+[sub_resource type="AnimationNodeStateMachineTransition" id=44]
+switch_mode = 1
+advance_condition = "walking"
+xfade_time = 0.5
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+[sub_resource type="AnimationNodeStateMachineTransition" id=45]
+switch_mode = 2
 advance_condition = "jumping"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+[sub_resource type="AnimationNodeStateMachineTransition" id=46]
+advance_condition = "running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=47]
 switch_mode = 2
 advance_condition = "walking"
-xfade_time = 0.5
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=48]
+switch_mode = 2
+advance_condition = "walking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=49]
+advance_condition = "dodging"
+
+[sub_resource type="AnimationNodeStateMachine" id=50]
+states/dodge/node = SubResource( 39 )
+states/dodge/position = Vector2( 225.12, 349 )
+states/jump/node = SubResource( 40 )
+states/jump/position = Vector2( 479.12, 349 )
+states/run-loop/node = SubResource( 41 )
+states/run-loop/position = Vector2( 479.12, 191 )
+states/walk-loop/node = SubResource( 42 )
+states/walk-loop/position = Vector2( 225.12, 191 )
+transitions = [ "walk-loop", "run-loop", SubResource( 43 ), "run-loop", "walk-loop", SubResource( 44 ), "run-loop", "jump", SubResource( 45 ), "jump", "run-loop", SubResource( 46 ), "jump", "walk-loop", SubResource( 47 ), "dodge", "walk-loop", SubResource( 48 ), "walk-loop", "dodge", SubResource( 49 ) ]
+graph_offset = Vector2( -25.8804, 37 )
+
+[sub_resource type="AnimationNodeAnimation" id=9]
+animation = "rest"
+
+[sub_resource type="AnimationNodeAnimation" id=51]
+animation = "whetstone"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=18]
-switch_mode = 2
-advance_condition = "running"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=19]
 advance_condition = "drinking"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=20]
-switch_mode = 2
-advance_condition = "idle"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=21]
-advance_condition = "walking"
-xfade_time = 0.5
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=22]
-advance_condition = "idle"
-xfade_time = 0.5
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=23]
-switch_mode = 2
-advance_condition = "walking"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=24]
-switch_mode = 2
-advance_condition = "walking"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=25]
-switch_mode = 2
-advance_condition = "running"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=26]
-switch_mode = 2
-advance_condition = "idle"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=27]
-switch_mode = 2
-advance_condition = "idle"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=28]
-advance_condition = "resting"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=29]
-advance_condition = "resting"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=30]
-advance_condition = "resting"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=31]
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
 switch_mode = 2
 auto_advance = true
 
-[sub_resource type="AnimationNodeStateMachine" id=32]
-states/dodge/node = SubResource( 6 )
-states/dodge/position = Vector2( 586, 239 )
-states/drink/node = SubResource( 7 )
-states/drink/position = Vector2( 306, -23 )
-states/idle-loop/node = SubResource( 8 )
-states/idle-loop/position = Vector2( 306, 111 )
-states/jump/node = SubResource( 9 )
-states/jump/position = Vector2( 856, 239 )
-states/rest/node = SubResource( 10 )
-states/rest/position = Vector2( 1107, 111 )
-states/run-loop/node = SubResource( 11 )
-states/run-loop/position = Vector2( 856, 111 )
-states/walk-loop/node = SubResource( 12 )
-states/walk-loop/position = Vector2( 586, 111 )
-transitions = [ "idle-loop", "walk-loop", SubResource( 13 ), "walk-loop", "run-loop", SubResource( 14 ), "walk-loop", "dodge", SubResource( 15 ), "run-loop", "jump", SubResource( 16 ), "dodge", "walk-loop", SubResource( 17 ), "jump", "run-loop", SubResource( 18 ), "idle-loop", "drink", SubResource( 19 ), "drink", "idle-loop", SubResource( 20 ), "run-loop", "walk-loop", SubResource( 21 ), "walk-loop", "idle-loop", SubResource( 22 ), "jump", "walk-loop", SubResource( 23 ), "drink", "walk-loop", SubResource( 24 ), "drink", "run-loop", SubResource( 25 ), "dodge", "idle-loop", SubResource( 26 ), "jump", "idle-loop", SubResource( 27 ), "run-loop", "rest", SubResource( 28 ), "jump", "rest", SubResource( 29 ), "dodge", "rest", SubResource( 30 ), "rest", "run-loop", SubResource( 31 ) ]
-start_node = "idle-loop"
-graph_offset = Vector2( 117.374, -129.069 )
+[sub_resource type="AnimationNodeStateMachineTransition" id=34]
+advance_condition = "dead"
+xfade_time = 0.2
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=33]
+[sub_resource type="AnimationNodeStateMachineTransition" id=35]
+advance_condition = "idle"
+xfade_time = 1.0
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=37]
+advance_condition = "idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=52]
+advance_condition = "whetstone"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=53]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=54]
+advance_condition = "walking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=55]
+advance_condition = "resting"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=56]
+advance_condition = "walking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=57]
+advance_condition = "idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=58]
+advance_condition = "attacking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=59]
+advance_condition = "attacking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=60]
+switch_mode = 2
+advance_condition = "idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=61]
+switch_mode = 2
+advance_condition = "walking"
+
+[sub_resource type="AnimationNodeStateMachine" id=31]
+states/death/node = SubResource( 33 )
+states/death/position = Vector2( -30.626, 111 )
+states/drink/node = SubResource( 6 )
+states/drink/position = Vector2( 306, -23 )
+states/idle-loop/node = SubResource( 7 )
+states/idle-loop/position = Vector2( 306, 111 )
+states/left_attack_0/node = SubResource( 38 )
+states/left_attack_0/position = Vector2( 704, -23 )
+states/movement/node = SubResource( 50 )
+states/movement/position = Vector2( 704, 111 )
+states/rest/node = SubResource( 9 )
+states/rest/position = Vector2( 704, 255 )
+states/whetstone/node = SubResource( 51 )
+states/whetstone/position = Vector2( -30.626, -23 )
+transitions = [ "idle-loop", "drink", SubResource( 18 ), "drink", "idle-loop", SubResource( 19 ), "idle-loop", "death", SubResource( 34 ), "death", "idle-loop", SubResource( 35 ), "rest", "idle-loop", SubResource( 37 ), "idle-loop", "whetstone", SubResource( 52 ), "whetstone", "idle-loop", SubResource( 53 ), "idle-loop", "movement", SubResource( 54 ), "movement", "rest", SubResource( 55 ), "rest", "movement", SubResource( 56 ), "movement", "idle-loop", SubResource( 57 ), "idle-loop", "left_attack_0", SubResource( 58 ), "movement", "left_attack_0", SubResource( 59 ), "left_attack_0", "idle-loop", SubResource( 60 ), "left_attack_0", "movement", SubResource( 61 ) ]
+start_node = "idle-loop"
+graph_offset = Vector2( -123.186, -144.069 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=32]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=62]
 
 [node name="player" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -170,15 +201,15 @@ bones/41/bound_children = [ NodePath("weapon_L") ]
 bones/61/bound_children = [ NodePath("weapon_R") ]
 
 [node name="head" type="BoneAttachment" parent="Armature/Skeleton" index="1"]
-transform = Transform( 0.999976, 0.00570899, -0.00371391, -0.00618504, 0.989523, -0.144243, 0.00285155, 0.144263, 0.989535, 0.00268618, 2.43767, 0.0756028 )
+transform = Transform( 0.999977, 0.00567695, -0.0036919, -0.00614856, 0.989604, -0.14369, 0.00283773, 0.143709, 0.989616, -0.0108432, 2.43744, 0.0745752 )
 bone_name = "head"
 
 [node name="audio" type="AudioStreamPlayer3D" parent="Armature/Skeleton/head" index="0"]
-stream = ExtResource( 3 )
+stream = ExtResource( 6 )
 unit_size = 10.0
 
 [node name="weapon_L" type="BoneAttachment" parent="Armature/Skeleton" index="2"]
-transform = Transform( -0.0703222, 0.173364, 0.910456, 0.925924, 0.0531658, 0.0613933, -0.0406268, 0.911619, -0.176723, 0.362449, 1.45855, -0.118917 )
+transform = Transform( -0.0589262, -0.0360466, 0.926908, 0.924587, 0.0726281, 0.0616033, -0.0748162, 0.925935, 0.0312526, 0.383239, 1.42731, 0.0684402 )
 bone_name = "weapon_L"
 
 [node name="audio" type="AudioStreamPlayer3D" parent="Armature/Skeleton/weapon_L" index="0"]
@@ -186,7 +217,7 @@ stream = ExtResource( 4 )
 unit_size = 10.0
 
 [node name="weapon_R" type="BoneAttachment" parent="Armature/Skeleton" index="3"]
-transform = Transform( 0.0200751, -0.03661, -0.92854, -0.82203, 0.432416, -0.0348214, 0.433351, 0.821953, -0.0230384, -0.32014, 1.45812, 0.305973 )
+transform = Transform( -0.077626, -0.22054, -0.899593, -0.925837, -0.00789321, 0.0818257, -0.0270548, 0.902901, -0.219017, -0.377096, 1.41211, -0.0836954 )
 bone_name = "weapon_R"
 __meta__ = {
 "_editor_description_": ""
@@ -196,13 +227,12 @@ __meta__ = {
 unit_size = 10.0
 
 [node name="AnimationPlayer" parent="." index="1"]
-anims/drink = ExtResource( 6 )
-anims/eat = SubResource( 5 )
-anims/jump = SubResource( 4 )
+anims/eat = SubResource( 1 )
+anims/jump = SubResource( 2 )
 
 [node name="shape" type="CollisionShape" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0 )
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 
 [node name="drop_item" type="Position3D" parent="." index="3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2 )
@@ -211,20 +241,25 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2 )
 
 [node name="shape" type="CollisionShape" parent="interact" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 
 [node name="name" type="Position3D" parent="." index="5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0 )
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="6"]
-tree_root = SubResource( 32 )
+tree_root = SubResource( 31 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 33 )
-parameters/conditions/dodging = false
+parameters/playback = SubResource( 32 )
+parameters/conditions/attacking = false
+parameters/conditions/dead = false
 parameters/conditions/drinking = false
 parameters/conditions/idle = false
-parameters/conditions/jumping = false
 parameters/conditions/resting = false
-parameters/conditions/running = false
 parameters/conditions/walking = false
+parameters/conditions/whetstone = false
+parameters/movement/playback = SubResource( 62 )
+parameters/movement/conditions/dodging = false
+parameters/movement/conditions/jumping = false
+parameters/movement/conditions/running = false
+parameters/movement/conditions/walking = false
