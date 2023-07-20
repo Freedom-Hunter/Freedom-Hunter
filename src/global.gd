@@ -1,3 +1,4 @@
+class_name GlobalAutoload
 extends Node
 
 var gravity = -10
@@ -50,8 +51,8 @@ func start_game(local_player_name):
 	if local_player_name != null:
 		hud = preload("res://data/scenes/hud.tscn").instantiate()
 		$"/root".add_child(hud)
-		connect("player_connected", Callable(hud.get_node("margin/view"), "_on_player_connected"))
-		connect("player_disconnected", Callable(hud.get_node("margin/view"), "_on_player_disconnected"))
+		player_connected.connect(hud.get_node("margin/view")._on_player_connected)
+		player_disconnected.connect(hud.get_node("margin/view")._on_player_disconnected)
 
 	game = preload("res://data/scenes/game.tscn").instantiate()
 	$"/root".add_child(game)
@@ -72,11 +73,11 @@ func start_game(local_player_name):
 		var meat      = Meat.new("Meat",           preload("res://data/images/items/meat.png"),      5,  25)
 		local_player.inventory.set_items([potion, whetstone, meat], 30)
 
-		local_player.connect("hp_changed", Callable($"/root/hud/margin/view/status", "_on_hp_changed"))
-		local_player.connect("stamina_changed", Callable($"/root/hud/margin/view/status", "_on_stamina_changed"))
+		local_player.hp_changed.connect($/root/hud/margin/view/status._on_hp_changed)
+		local_player.stamina_changed.connect($/root/hud/margin/view/status._on_stamina_changed)
 		# Connect signals BEFORE player._ready
 		players_spawn.add_child(local_player)
-		emit_signal("player_connected", local_player_name)
+		player_connected.emit(local_player_name)
 		prints(local_player_name, "is local player")
 
 	get_tree().set_current_scene(game)
@@ -87,7 +88,7 @@ func stop_game():
 	if game != null:
 		game.queue_free()
 		game = null
-		$"/root/hud".queue_free()
+		$/root/hud.queue_free()
 	get_node("/root/networking").stop()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_tree().paused = false

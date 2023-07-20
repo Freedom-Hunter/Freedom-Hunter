@@ -1,3 +1,4 @@
+class_name Lobby
 extends Node
 
 const BASE_URL = "https://elinvention.ovh"

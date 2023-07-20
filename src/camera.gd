@@ -2,6 +2,8 @@ extends Camera3D
 
 @onready var yaw_node: Node3D = get_node("../..")
 @onready var pitch_node: Node3D = get_node("..")
+@onready var onscreen: OnscreenControls = $/root/hud/onscreen
+
 
 var target_yaw: float
 var target_pitch: float
@@ -59,13 +61,13 @@ func rotate_view(relative: Vector2):
 
 func _input(event: InputEvent):
 	if event is InputEventScreenTouch:
-		if event.is_pressed() and event.index != $"/root/hud/onscreen".touch_index:
+		if event.is_pressed() and event.index != onscreen.touch_index:
 			touch_index = event.index
 		else:
 			touch_index = null
-	elif event is InputEventScreenDrag and event.index == touch_index and event.index != $"/root/hud/oncreen".touch_index:
+	elif event is InputEventScreenDrag and event.index == touch_index and event.index != onscreen.touch_index:
 		rotate_view(event.relative * touch_sensitivity)
-	elif event is InputEventMouseMotion and not $"/root/hud/onscreen".is_visible():
+	elif event is InputEventMouseMotion and not onscreen.is_visible():
 		rotate_view(event.relative * mouse_sensitivity)
 	elif event.is_action_released("player_camera_reset"):
 		var player_basis = global.local_player.get_transform().basis

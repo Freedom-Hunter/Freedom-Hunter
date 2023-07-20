@@ -13,7 +13,7 @@ func set_items(items, cost_factor):
 		$ScrollContainer/VBoxContainer.remove_child(child)
 	for item in items:
 		var item_shop = ShopItemScene.instantiate()
-		var actual_item_shop = item_shop.get_node("MarginContainer/HBoxContainer")
+		var actual_item_shop := item_shop.get_node("MarginContainer/HBoxContainer")
 		actual_item_shop.set_item(item, cost_factor)
 		$ScrollContainer/VBoxContainer.add_child(item_shop)
 		shop_items.append(actual_item_shop)

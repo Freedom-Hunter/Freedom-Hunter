@@ -11,11 +11,11 @@ extends "entity.gd"
 @export_range(-100, 100) var paralysis = 0
 
 
-var weakness = {}
-var players = []
+var weakness := {}
+var players := []
 var random_target: Vector3
-var target_player
-var combat = false
+var target_player: Player
+var combat := false
 @onready var nav: NavigationAgent3D = $NavigationAgent3D
 var old_target_origin: Vector3
 
@@ -40,12 +40,12 @@ func _init():
 
 func _ready():
 	super()
-	var singleplayer_or_server = not multiplayer.has_multiplayer_peer() or is_multiplayer_authority()
+	var singleplayer_or_server := not multiplayer.has_multiplayer_peer() or is_multiplayer_authority()
 	set_physics_process(singleplayer_or_server)
 	if multiplayer.has_multiplayer_peer() and is_multiplayer_authority():
 		set_process_mode(Node.PROCESS_MODE_ALWAYS)
 	if singleplayer_or_server:
-		new_random_target()
+		call_deferred("new_random_target")
 
 
 # @override from entity.gd
@@ -75,22 +75,23 @@ func set_navigation_target(target: Vector3, debug=false):
 
 
 func debug_navigation():
-		var path = nav.get_current_navigation_path()
-		prints("New path", path)
-		var path_m = nav.get_node("path")
-		if path_m != null:
-			path_m.name = "path.old"
-			path_m.queue_free()
-		path_m = Node3D.new()
-		path_m.name = "path"
-		nav.add_child(path_m)
-		for i in range(0, path.size()):
-			var mesh = MeshInstance3D.new()
-			mesh.mesh = SphereMesh.new()
-			mesh.mesh.radius = i * 0.05
-			mesh.mesh.height = mesh.mesh.radius * 2
-			mesh.transform.origin = path[i]
-			path_m.add_child(mesh)
+	var path := nav.get_current_navigation_path()
+	prints("New path", path)
+	var path_m := nav.get_node("path")
+	if path_m != null:
+		path_m.name = "path.old"
+		path_m.queue_free()
+	path_m = Node3D.new()
+	path_m.name = "path"
+	nav.add_child(path_m)
+	for i in range(0, path.size()):
+		var mesh := MeshInstance3D.new()
+		var sphere := SphereMesh.new()
+		sphere.radius = i * 0.05
+		sphere.height = i * 0.05 * 2
+		mesh.mesh = sphere
+		mesh.transform.origin = path[i]
+		path_m.add_child(mesh)
 
 
 func follow_path():
