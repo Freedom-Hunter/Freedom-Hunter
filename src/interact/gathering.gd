@@ -21,7 +21,7 @@ func interact(player, node):
 		if last <= rand and rand < last + item.rarity:
 			print("Get item: ", item.name)
 			var remainder = player.add_item(item)
-			if not get_tree().has_network_peer() or player.is_network_master():
+			if not multiplayer.has_multiplayer_peer() or player.is_multiplayer_authority():
 				if remainder > 0:
 					player.hud.notify("You can't carry more than %d %s" % [item.max_quantity, item.name])
 				else:

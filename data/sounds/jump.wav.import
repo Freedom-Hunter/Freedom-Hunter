@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/jump.wav-7e82ca53fefd72f678c57d79fcef89e8.sample"
+type="AudioStreamWAV"
+uid="uid://c58vfvdw528qr"
+path="res://.godot/imported/jump.wav-7e82ca53fefd72f678c57d79fcef89e8.sample"
 
 [deps]
 
 source_file="res://data/sounds/jump.wav"
-dest_files=[ "res://.import/jump.wav-7e82ca53fefd72f678c57d79fcef89e8.sample" ]
+dest_files=["res://.godot/imported/jump.wav-7e82ca53fefd72f678c57d79fcef89e8.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=true
 edit/normalize=true
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

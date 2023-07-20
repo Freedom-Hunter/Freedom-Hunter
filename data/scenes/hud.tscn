@@ -1,114 +1,146 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=14 format=3 uid="uid://bkj0gvwmgnq7g"]
 
-[ext_resource path="res://data/fonts/RobotoCondensed-Light.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://data/scenes/onscreen_controls.tscn" type="PackedScene" id=2]
-[ext_resource path="res://src/hud.gd" type="Script" id=3]
-[ext_resource path="res://data/scenes/interface/items/bar.tscn" type="PackedScene" id=4]
-[ext_resource path="res://data/scenes/interface/status.tscn" type="PackedScene" id=5]
-[ext_resource path="res://src/FPS.gd" type="Script" id=6]
-[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp.ttf" type="DynamicFontData" id=7]
-[ext_resource path="res://data/sounds/beatbox.wav" type="AudioStream" id=8]
-[ext_resource path="res://data/scenes/game_menu.tscn" type="PackedScene" id=9]
+[ext_resource type="PackedScene" uid="uid://cawiyyo8kqls8" path="res://data/scenes/onscreen_controls.tscn" id="2"]
+[ext_resource type="Script" path="res://src/hud.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://bmsugvru6w6kw" path="res://data/scenes/interface/items/bar.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://hurwpv6wr4w3" path="res://data/scenes/interface/status.tscn" id="5"]
+[ext_resource type="Script" path="res://src/FPS.gd" id="6"]
+[ext_resource type="FontFile" uid="uid://nprnupm46ucy" path="res://data/fonts/Medieval Sharp/MedievalSharp.ttf" id="7"]
+[ext_resource type="AudioStream" uid="uid://b1qwrp70gatp0" path="res://data/sounds/beatbox.wav" id="8"]
+[ext_resource type="PackedScene" uid="uid://bj0cxkkbkpebi" path="res://data/scenes/pause_menu.tscn" id="9"]
 
-[sub_resource type="DynamicFont" id=1]
-font_data = ExtResource( 1 )
+[sub_resource type="FontFile" id="1"]
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="Theme" id=2]
-default_font = SubResource( 1 )
-Label/colors/font_color = Color( 1, 1, 1, 1 )
-Label/colors/font_color_shadow = Color( 0.196078, 0.196078, 0.196078, 1 )
+[sub_resource type="Theme" id="2"]
+default_font = SubResource("1")
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_color_shadow = Color(0.196078, 0.196078, 0.196078, 1)
 Label/constants/line_spacing = 0
 Label/constants/shadow_as_outline = 1
 Label/constants/shadow_offset_x = 1
 Label/constants/shadow_offset_y = 1
-Label/fonts/font = null
+Label/fonts/font = SubResource("1")
 
-[sub_resource type="DynamicFont" id=3]
-size = 32
-font_data = ExtResource( 7 )
+[sub_resource type="FontFile" id="3"]
+fallbacks = Array[Font]([ExtResource("7")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id="4"]
 length = 2.0
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array(0, 0.3, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [ Vector2( 660, -100 ), Vector2( 660, 500 ), Vector2( 660, 500 ) ]
+"values": [Vector2(660, -100), Vector2(660, 500), Vector2(660, 500)]
 }
 tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
 tracks/1/path = NodePath(".:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1.5, 2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array(0, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
 tracks/2/path = NodePath("ringtone:playing")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ true ]
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5oav4"]
+_data = {
+"show": SubResource("4")
 }
 
 [node name="hud" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
-theme = SubResource( 2 )
+theme = SubResource("2")
 
-[node name="onscreen" parent="." instance=ExtResource( 2 )]
+[node name="onscreen" parent="." instance=ExtResource("2")]
+custom_minimum_size = Vector2(1920, 1080)
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
 
 [node name="margin" type="MarginContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 20
-custom_constants/margin_top = 20
-custom_constants/margin_left = 20
-custom_constants/margin_bottom = 20
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
 [node name="view" type="Control" parent="margin"]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 1900.0
-margin_bottom = 1060.0
-script = ExtResource( 3 )
+layout_mode = 2
+script = ExtResource("3")
 
-[node name="items" parent="margin/view" instance=ExtResource( 4 )]
-margin_top = -144.0
+[node name="items" parent="margin/view" instance=ExtResource("4")]
+layout_mode = 1
+offset_top = -144.0
+grow_vertical = 0
 
-[node name="status" parent="margin/view" instance=ExtResource( 5 )]
-margin_right = 600.0
-margin_bottom = 114.0
+[node name="status" parent="margin/view" instance=ExtResource("5")]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 600.0
+offset_bottom = 114.0
 
 [node name="FPS" type="Label" parent="margin/view"]
+layout_mode = 0
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -46.0
-margin_bottom = 22.0
+offset_left = -46.0
+offset_bottom = 22.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "FPS: 60"
-align = 2
-script = ExtResource( 6 )
+script = ExtResource("6")
 
 [node name="names" type="Control" parent="margin/view"]
+anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 2
@@ -116,109 +148,93 @@ size_flags_vertical = 2
 
 [node name="action" type="Button" parent="margin/view"]
 visible = false
-margin_right = 20.0
-margin_bottom = 28.0
+layout_mode = 0
+offset_right = 20.0
+offset_bottom = 28.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "E"
 
 [node name="notification" type="Panel" parent="margin/view"]
-editor/display_folded = true
-modulate = Color( 1, 1, 1, 0 )
-margin_left = 660.0
-margin_top = 500.0
-margin_right = 1260.0
-margin_bottom = 600.0
-rect_min_size = Vector2( 600, 100 )
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(600, 100)
+layout_mode = 0
+offset_left = 660.0
+offset_top = 500.0
+offset_right = 1260.0
+offset_bottom = 600.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 
 [node name="text" type="Label" parent="margin/view/notification"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 3 )
+theme_override_fonts/font = SubResource("3")
 text = "Hai ottenuto: %s"
-align = 1
-valign = 1
 
 [node name="animation" type="AnimationPlayer" parent="margin/view/notification"]
-anims/show = SubResource( 4 )
+libraries = {
+"": SubResource("AnimationLibrary_5oav4")
+}
 
 [node name="ringtone" type="AudioStreamPlayer" parent="margin/view/notification"]
-stream = ExtResource( 8 )
+stream = ExtResource("8")
 volume_db = -20.0
 
 [node name="players_list" type="VBoxContainer" parent="margin/view"]
-editor/display_folded = true
 visible = false
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 0
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_top = -100.0
-margin_right = 400.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 400, 200 )
+offset_top = -100.0
+offset_right = 400.0
+offset_bottom = 100.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 
 [node name="list" type="Label" parent="margin/view/players_list"]
-margin_right = 164.0
-margin_bottom = 22.0
+layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "Lista dei giocatori collegati:"
-valign = 1
 
 [node name="inventory" type="Popup" parent="margin/view"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_min_size = Vector2( 100, 100 )
-size_flags_horizontal = 2
-size_flags_vertical = 2
+size = Vector2i(334, 100)
 
 [node name="quit" type="Button" parent="margin/view/inventory"]
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -215.0
-margin_top = 50.0
-margin_right = -40.0
-margin_bottom = 100.0
+offset_left = -215.0
+offset_top = 50.0
+offset_right = -40.0
+offset_bottom = 100.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Quit"
 
 [node name="respawn" type="AcceptDialog" parent="margin/view"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -76.0
-margin_top = -37.0
-margin_right = 76.0
-margin_bottom = 37.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-window_title = "Respawn"
 dialog_text = "Respawn in 5 seconds"
 
 [node name="debug" type="Label" parent="margin/view"]
+custom_minimum_size = Vector2(400, 150)
+layout_mode = 0
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -400.0
-margin_top = -150.0
-rect_min_size = Vector2( 400, 150 )
-text = "Debug placeholder
-"
-align = 2
-valign = 2
-autowrap = true
+offset_left = -400.0
+offset_top = -150.0
+text = "Debug placeholder"
 clip_text = true
 
-[node name="game_menu" parent="." instance=ExtResource( 9 )]
+[node name="pause_menu" parent="." instance=ExtResource("9")]
+visible = false
+
 [connection signal="pressed" from="margin/view/action" to="." method="_on_action_pressed"]
 [connection signal="pressed" from="margin/view/inventory/quit" to="margin/view" method="close_inventories"]
 [connection signal="confirmed" from="margin/view/respawn" to="margin/view" method="_on_respawn_confirmed"]
-[connection signal="popup_hide" from="margin/view/respawn" to="margin/view" method="_on_respawn_confirmed"]

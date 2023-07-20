@@ -29,7 +29,7 @@ func set_items(items_array: Array, max_slots_int: int):
 
 # Input handling is needed to detect when the user drags and drops an item where he can't
 func _input(event):
-	if event is InputEventMouseButton and not event.is_pressed() and event.button_index == BUTTON_LEFT:
+	if event is InputEventMouseButton and not event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
 		call_deferred("give_back_dragged_item")
 
 
@@ -56,7 +56,7 @@ func find_item_by_name(_name: String) -> Item:
 
 
 # If slot is null will look for the first free slot
-func add_item(item, slot=null):
+func add_item(item, slot=null) -> int:
 	var overflow = item.quantity
 	if slot == null:
 		var found = find_item_by_name(item.name)
@@ -97,7 +97,7 @@ func remove_item(i, slot=null):
 	if slot == null:
 		slot = $items.get_node(items[i].name)
 	slot.set_item(null)
-	items.remove(i)
+	items.remove_at(i)
 	emit_signal("modified", self)
 
 
@@ -114,7 +114,7 @@ class ItemStack extends TextureRect:
 	func _init():
 		label.set_name("quantity")
 		add_child(label)
-		set_expand(true)
+		expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
 		set_stretch_mode(STRETCH_KEEP_ASPECT)
 		set_size(ITEM_SIZE)
 
@@ -155,7 +155,7 @@ class Slot extends Panel:
 			set_name(str(get_index() % columns, '|', int(get_index() / columns)))
 		stack.layout(item)
 
-	func get_drag_data(_pos):
+	func _get_drag_data(_pos):
 		if item != null:
 			var preview = ItemStack.new()
 			preview.layout(item)
@@ -165,10 +165,10 @@ class Slot extends Panel:
 			inventory.dragging = {'item': ret_item, 'slot': self, 'in_flight': true}
 			return inventory.dragging
 
-	func can_drop_data(_pos, data):
+	func _can_drop_data(_pos, data):
 		return item == null or (data.item != item and data.item.name == item.name and data.item.quantity + item.quantity <= data.item.max_quantity)
 
-	func drop_data(_pos, data):
+	func _drop_data(_pos, data):
 		data.in_flight = false
 		inventory.add_item(data.item, self) # take this item
 		inventory.dragging = null

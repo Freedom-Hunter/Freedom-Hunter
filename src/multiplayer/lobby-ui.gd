@@ -3,21 +3,21 @@ extends Control
 
 const CONF_FILE = "user://multiplayer.conf"
 
-onready var config = ConfigFile.new()
-onready var lobby_grid = get_node("lobby/scroll/grid")
-onready var client_port = get_node("direct/vbox/client/input/port")
-onready var client_host = get_node("direct/vbox/client/input/host")
-onready var server_port = get_node("direct/vbox/server/input/port")
-onready var server_host = get_node("direct/vbox/server/input/host")
-onready var username_node = get_node("header/vbox/input/username")
-onready var server_start = get_node("direct/vbox/server/start")
-onready var client_connect = get_node("direct/vbox/client/connect")
-onready var announce_node = get_node("direct/vbox/server/announce")
+@onready var config = ConfigFile.new()
+@onready var lobby_grid = get_node("lobby/scroll/grid")
+@onready var client_port = get_node("direct/vbox/client/input/port")
+@onready var client_host = get_node("direct/vbox/client/input/host")
+@onready var server_port = get_node("direct/vbox/server/input/port")
+@onready var server_host = get_node("direct/vbox/server/input/host")
+@onready var username_node = get_node("header/vbox/input/username")
+@onready var server_start = get_node("direct/vbox/server/start")
+@onready var client_connect = get_node("direct/vbox/client/connect")
+@onready var announce_node = get_node("direct/vbox/server/announce")
 
 
-func show():
-	.show()
-	OS.set_window_title("Freedom Hunter Multiplayer Lobby")
+func my_show():
+	super.show()
+	get_window().set_title("Freedom Hunter Multiplayer Lobby")
 	load_config()
 	networking.init_lobby()
 	request_servers_list()
@@ -26,9 +26,9 @@ func show():
 	$lobby/refresh.start()
 
 
-func hide():
-	.hide()
-	OS.set_window_title("Freedom Hunter")
+func my_hide():
+	super.hide()
+	get_window().set_title("Freedom Hunter")
 	$lobby/refresh.stop()
 
 
@@ -39,7 +39,7 @@ func report_error(message):
 
 func is_valid_port(port):
 	var port_int = int(port)
-	return port.is_valid_integer() and port_int > 0 and port_int < 65535
+	return port.is_valid_int() and port_int > 0 and port_int < 65535
 
 
 func is_valid_host(host):
@@ -101,12 +101,12 @@ func request_servers_list():  # called every 10 seconds by refresh timer
 
 
 func _on_servers_list_received(result, response_code, headers, body):
-	networking.lobby.http.disconnect("request_completed", self, "_on_servers_list_received")
+	networking.lobby.http.disconnect("request_completed", Callable(self, "_on_servers_list_received"))
 	if result != HTTPRequest.RESULT_SUCCESS or response_code != 200:
 		report_error("Can't retrieve servers list")
 		$lobby/refresh.stop()
 	else:
-		var servers = str2var(body.get_string_from_utf8())
+		var servers = str_to_var(body.get_string_from_utf8())
 		if typeof(servers) == TYPE_ARRAY:
 			update_servers_list(servers)
 		else:
@@ -133,7 +133,7 @@ func update_servers_list(servers):
 		connect_btn.set_name(str("connect|", server.id))
 		connect_btn.set_disabled(disable)
 		lobby_grid.add_child(connect_btn)
-		connect_btn.connect("pressed", self, "_on_lobby_connect_pressed", [connect_btn])
+		connect_btn.connect("pressed", Callable(self, "_on_lobby_connect_pressed").bind(connect_btn))
 
 
 func _on_lobby_connect_pressed(button):
@@ -208,8 +208,8 @@ func _on_connect_pressed():
 		child.hide()
 	$connecting.popup_centered()
 	$lobby/refresh.stop()
-	get_tree().connect("connection_failed", self, "_connection_failed", [ip, port])
-	get_tree().connect("connected_to_server", self, "_connected_to_server")
+	get_tree().connect("connection_failed", Callable(self, "_connection_failed").bind(ip, port))
+	get_tree().connect("connected_to_server", Callable(self, "_connected_to_server"))
 
 
 func _connection_failed(ip, port):
@@ -218,7 +218,7 @@ func _connection_failed(ip, port):
 	$connecting.hide()
 	$lobby/refresh.start()
 	report_error("Connection to %s:%s failed" % [ip, port])
-	get_tree().disconnect("connection_failed", self, "_connection_failed")
+	get_tree().disconnect("connection_failed", Callable(self, "_connection_failed"))
 
 
 func _connected_to_server():

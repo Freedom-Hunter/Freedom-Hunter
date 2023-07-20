@@ -1,15 +1,15 @@
 extends "equipment.gd"
 
 
-onready var sharpness_node = get_node("/root/hud/margin/view/status/sharpness/fading")
+@onready var sharpness_node = get_node("/root/hud/margin/view/status/sharpness/fading")
 
-export(int, 0, 100) var red_sharpness    = 0
-export(int, 0, 100) var orange_sharpness = 0
-export(int, 0, 100) var yellow_sharpness = 0
-export(int, 0, 100) var green_sharpness  = 0
-export(int, 0, 100) var blue_sharpness   = 0
-export(int, 0, 100) var white_sharpness  = 0
-export(int, 0, 100) var purple_sharpness = 0
+@export var red_sharpness    = 0 # (int, 0, 100)
+@export var orange_sharpness = 0 # (int, 0, 100)
+@export var yellow_sharpness = 0 # (int, 0, 100)
+@export var green_sharpness  = 0 # (int, 0, 100)
+@export var blue_sharpness   = 0 # (int, 0, 100)
+@export var white_sharpness  = 0 # (int, 0, 100)
+@export var purple_sharpness = 0 # (int, 0, 100)
 
 
 class Sharp:
@@ -23,7 +23,7 @@ class Sharp:
 		value = v
 		max_val = v
 
-onready var sharpness = [
+@onready var sharpness = [
 	Sharp.new("purple",	purple_sharpness),
 	Sharp.new("white",	white_sharpness),
 	Sharp.new("blue",	blue_sharpness),
@@ -33,7 +33,7 @@ onready var sharpness = [
 	Sharp.new("red",	red_sharpness)
 ]
 
-onready var player = $"../../../.."
+@onready var player = $"../../../.."
 
 
 func _ready():
@@ -89,8 +89,9 @@ func get_weapon_damage(body, impact):
 	return strength
 
 
-func _on_sword_body_enter(body):
-	if body != player and body is Entity and not body.dead:
+func _on_body_entered(body):
+	if body != player and body is Entity and not body.is_dead():
 		body.damage(get_weapon_damage(body, null), 0.0, self, player)
 		$audio.play()
 		blunt(1)
+

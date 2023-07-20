@@ -1,265 +1,314 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=48 format=3 uid="uid://bilt86k6syy32"]
 
-[ext_resource path="res://data/models/player/male.glb" type="PackedScene" id=1]
-[ext_resource path="res://src/entities/player.gd" type="Script" id=2]
-[ext_resource path="res://data/sounds/jump.wav" type="AudioStream" id=3]
-[ext_resource path="res://data/sounds/whetstone.wav" type="AudioStream" id=4]
-[ext_resource path="res://data/sounds/eat.wav" type="AudioStream" id=5]
-[ext_resource path="res://data/sounds/potion_drink.wav" type="AudioStream" id=6]
+[ext_resource type="PackedScene" uid="uid://b0o6ikspetwkp" path="res://data/models/player/male.glb" id="1"]
+[ext_resource type="Script" path="res://src/entities/player.gd" id="2"]
+[ext_resource type="AudioStream" uid="uid://pt4sotpx1v2k" path="res://data/sounds/whetstone.wav" id="4"]
+[ext_resource type="AudioStream" uid="uid://b2hdooeqtalk3" path="res://data/sounds/potion_drink.wav" id="6"]
 
-[sub_resource type="Animation" id=1]
-resource_name = "eat"
-tracks/0/type = "audio"
-tracks/0/path = NodePath("Armature/Skeleton/head/audio")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"clips": [ {
-"end_offset": 0.0,
-"start_offset": 0.0,
-"stream": ExtResource( 5 )
-} ],
-"times": PoolRealArray( 0 )
-}
+[sub_resource type="BoxShape3D" id="BoxShape3D_2nmet"]
+size = Vector3(0.5, 1.8, 0.2)
 
-[sub_resource type="Animation" id=2]
-resource_name = "jump"
-length = 0.15
-tracks/0/type = "audio"
-tracks/0/path = NodePath("Armature/Skeleton/head/audio")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"clips": [ {
-"end_offset": 0.0,
-"start_offset": 0.0,
-"stream": ExtResource( 3 )
-} ],
-"times": PoolRealArray( 0 )
-}
+[sub_resource type="BoxShape3D" id="4"]
+size = Vector3(1.5, 2, 0.4)
 
-[sub_resource type="BoxShape" id=3]
-extents = Vector3( 0.4, 0.9, 0.2 )
+[sub_resource type="AnimationNodeAnimation" id="33"]
+animation = &"death"
 
-[sub_resource type="BoxShape" id=4]
-extents = Vector3( 0.672363, 1, 0.10089 )
+[sub_resource type="AnimationNodeAnimation" id="6"]
+animation = &"drink"
 
-[sub_resource type="AnimationNodeAnimation" id=33]
-animation = "death"
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vsnsp"]
+animation = &"eat"
 
-[sub_resource type="AnimationNodeAnimation" id=6]
-animation = "drink"
+[sub_resource type="AnimationNodeAnimation" id="7"]
+animation = &"idle"
 
-[sub_resource type="AnimationNodeAnimation" id=7]
-animation = "idle-loop"
+[sub_resource type="AnimationNodeAnimation" id="38"]
+animation = &"left_attack_0"
 
-[sub_resource type="AnimationNodeAnimation" id=38]
-animation = "left_attack_0"
+[sub_resource type="AnimationNodeAnimation" id="39"]
+animation = &"dodge"
 
-[sub_resource type="AnimationNodeAnimation" id=39]
-animation = "dodge"
+[sub_resource type="AnimationNodeAnimation" id="40"]
+animation = &"walk"
 
-[sub_resource type="AnimationNodeAnimation" id=40]
-animation = "jump"
+[sub_resource type="AnimationNodeAnimation" id="41"]
+animation = &"run"
 
-[sub_resource type="AnimationNodeAnimation" id=41]
-animation = "run-loop"
+[sub_resource type="AnimationNodeAnimation" id="42"]
+animation = &"walk"
 
-[sub_resource type="AnimationNodeAnimation" id=42]
-animation = "walk-loop"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=43]
-switch_mode = 1
-advance_condition = "running"
+[sub_resource type="AnimationNodeStateMachineTransition" id="43"]
 xfade_time = 0.5
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=44]
 switch_mode = 1
-advance_condition = "walking"
+advance_mode = 2
+advance_condition = &"running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="44"]
 xfade_time = 0.5
+switch_mode = 1
+advance_mode = 2
+advance_condition = &"walking"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=45]
+[sub_resource type="AnimationNodeStateMachineTransition" id="45"]
+advance_mode = 2
+advance_condition = &"jumping"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="46"]
 switch_mode = 2
-advance_condition = "jumping"
+advance_mode = 2
+advance_condition = &"running"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=46]
-advance_condition = "running"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=47]
+[sub_resource type="AnimationNodeStateMachineTransition" id="47"]
 switch_mode = 2
-advance_condition = "walking"
+advance_mode = 2
+advance_condition = &"walking"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=48]
+[sub_resource type="AnimationNodeStateMachineTransition" id="48"]
 switch_mode = 2
-advance_condition = "walking"
+advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=49]
-advance_condition = "dodging"
+[sub_resource type="AnimationNodeStateMachineTransition" id="49"]
+advance_mode = 2
+advance_condition = &"dodging"
 
-[sub_resource type="AnimationNodeStateMachine" id=50]
-states/dodge/node = SubResource( 39 )
-states/dodge/position = Vector2( 225.12, 349 )
-states/jump/node = SubResource( 40 )
-states/jump/position = Vector2( 479.12, 349 )
-states/run-loop/node = SubResource( 41 )
-states/run-loop/position = Vector2( 479.12, 191 )
-states/walk-loop/node = SubResource( 42 )
-states/walk-loop/position = Vector2( 225.12, 191 )
-transitions = [ "walk-loop", "run-loop", SubResource( 43 ), "run-loop", "walk-loop", SubResource( 44 ), "run-loop", "jump", SubResource( 45 ), "jump", "run-loop", SubResource( 46 ), "jump", "walk-loop", SubResource( 47 ), "dodge", "walk-loop", SubResource( 48 ), "walk-loop", "dodge", SubResource( 49 ) ]
-graph_offset = Vector2( -25.8804, 37 )
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_levmv"]
+advance_mode = 2
 
-[sub_resource type="AnimationNodeAnimation" id=9]
-animation = "rest"
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2c4do"]
+advance_mode = 2
 
-[sub_resource type="AnimationNodeAnimation" id=51]
-animation = "whetstone"
+[sub_resource type="AnimationNodeStateMachine" id="50"]
+state_machine_type = 2
+states/End/position = Vector2(60.12, 349)
+states/Start/position = Vector2(60.12, 191)
+states/dodge/node = SubResource("39")
+states/dodge/position = Vector2(225.12, 349)
+states/jump/node = SubResource("40")
+states/jump/position = Vector2(479.12, 349)
+states/run-loop/node = SubResource("41")
+states/run-loop/position = Vector2(479.12, 191)
+states/walk-loop/node = SubResource("42")
+states/walk-loop/position = Vector2(225.12, 191)
+transitions = ["walk-loop", "run-loop", SubResource("43"), "run-loop", "walk-loop", SubResource("44"), "run-loop", "jump", SubResource("45"), "jump", "run-loop", SubResource("46"), "jump", "walk-loop", SubResource("47"), "dodge", "walk-loop", SubResource("48"), "walk-loop", "dodge", SubResource("49"), "Start", "walk-loop", SubResource("AnimationNodeStateMachineTransition_levmv"), "walk-loop", "End", SubResource("AnimationNodeStateMachineTransition_2c4do")]
+graph_offset = Vector2(-259.88, 143.738)
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=18]
-advance_condition = "drinking"
+[sub_resource type="AnimationNodeAnimation" id="9"]
+animation = &"rest"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+[sub_resource type="AnimationNodeAnimation" id="51"]
+animation = &"whetstone"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="18"]
+advance_mode = 2
+advance_condition = &"drinking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="19"]
 switch_mode = 2
-auto_advance = true
+advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=34]
-advance_condition = "dead"
+[sub_resource type="AnimationNodeStateMachineTransition" id="34"]
 xfade_time = 0.2
+advance_mode = 2
+advance_condition = &"dead"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=35]
-advance_condition = "idle"
+[sub_resource type="AnimationNodeStateMachineTransition" id="35"]
 xfade_time = 1.0
+advance_condition = &"idle"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=37]
-advance_condition = "idle"
+[sub_resource type="AnimationNodeStateMachineTransition" id="37"]
+advance_mode = 2
+advance_condition = &"idle"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=52]
-advance_condition = "whetstone"
+[sub_resource type="AnimationNodeStateMachineTransition" id="52"]
+advance_mode = 2
+advance_condition = &"whetstone"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=53]
+[sub_resource type="AnimationNodeStateMachineTransition" id="53"]
 switch_mode = 2
-auto_advance = true
+advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=54]
-advance_condition = "walking"
+[sub_resource type="AnimationNodeStateMachineTransition" id="54"]
+advance_mode = 2
+advance_condition = &"moving"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=55]
-advance_condition = "resting"
+[sub_resource type="AnimationNodeStateMachineTransition" id="55"]
+advance_mode = 2
+advance_condition = &"resting"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=56]
-advance_condition = "walking"
+[sub_resource type="AnimationNodeStateMachineTransition" id="56"]
+advance_mode = 2
+advance_condition = &"moving"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=57]
-advance_condition = "idle"
+[sub_resource type="AnimationNodeStateMachineTransition" id="57"]
+advance_mode = 2
+advance_condition = &"idle"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=58]
-advance_condition = "attacking"
+[sub_resource type="AnimationNodeStateMachineTransition" id="58"]
+advance_mode = 2
+advance_condition = &"attacking"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=59]
-advance_condition = "attacking"
+[sub_resource type="AnimationNodeStateMachineTransition" id="59"]
+advance_mode = 2
+advance_condition = &"attacking"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=60]
+[sub_resource type="AnimationNodeStateMachineTransition" id="60"]
 switch_mode = 2
-advance_condition = "idle"
+advance_mode = 2
+advance_condition = &"idle"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=61]
+[sub_resource type="AnimationNodeStateMachineTransition" id="61"]
 switch_mode = 2
-advance_condition = "walking"
+advance_mode = 2
+advance_condition = &"moving"
 
-[sub_resource type="AnimationNodeStateMachine" id=31]
-states/death/node = SubResource( 33 )
-states/death/position = Vector2( -30.626, 111 )
-states/drink/node = SubResource( 6 )
-states/drink/position = Vector2( 306, -23 )
-states/idle-loop/node = SubResource( 7 )
-states/idle-loop/position = Vector2( 306, 111 )
-states/left_attack_0/node = SubResource( 38 )
-states/left_attack_0/position = Vector2( 704, -23 )
-states/movement/node = SubResource( 50 )
-states/movement/position = Vector2( 704, 111 )
-states/rest/node = SubResource( 9 )
-states/rest/position = Vector2( 704, 255 )
-states/whetstone/node = SubResource( 51 )
-states/whetstone/position = Vector2( -30.626, -23 )
-transitions = [ "idle-loop", "drink", SubResource( 18 ), "drink", "idle-loop", SubResource( 19 ), "idle-loop", "death", SubResource( 34 ), "death", "idle-loop", SubResource( 35 ), "rest", "idle-loop", SubResource( 37 ), "idle-loop", "whetstone", SubResource( 52 ), "whetstone", "idle-loop", SubResource( 53 ), "idle-loop", "movement", SubResource( 54 ), "movement", "rest", SubResource( 55 ), "rest", "movement", SubResource( 56 ), "movement", "idle-loop", SubResource( 57 ), "idle-loop", "left_attack_0", SubResource( 58 ), "movement", "left_attack_0", SubResource( 59 ), "left_attack_0", "idle-loop", SubResource( 60 ), "left_attack_0", "movement", SubResource( 61 ) ]
-start_node = "idle-loop"
-graph_offset = Vector2( -123.186, -144.069 )
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_woypf"]
+advance_mode = 2
+advance_condition = &"eating"
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=32]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hfk4m"]
+switch_mode = 2
+advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=62]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nkk7y"]
+advance_mode = 2
 
-[node name="player" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nsdr3"]
+advance_mode = 2
+advance_condition = &"resting"
 
-[node name="Skeleton" parent="Armature" index="0"]
-bones/19/bound_children = [ NodePath("head") ]
-bones/41/bound_children = [ NodePath("weapon_L") ]
-bones/61/bound_children = [ NodePath("weapon_R") ]
+[sub_resource type="AnimationNodeStateMachine" id="31"]
+states/End/position = Vector2(454, -39)
+states/Start/position = Vector2(192, -39)
+states/death/node = SubResource("33")
+states/death/position = Vector2(-30.626, 111)
+states/drink/node = SubResource("6")
+states/drink/position = Vector2(306, -23)
+states/eat/node = SubResource("AnimationNodeAnimation_vsnsp")
+states/eat/position = Vector2(306, 287.678)
+states/idle-loop/node = SubResource("7")
+states/idle-loop/position = Vector2(306, 111)
+states/left_attack_0/node = SubResource("38")
+states/left_attack_0/position = Vector2(704, -23)
+states/movement/node = SubResource("50")
+states/movement/position = Vector2(704, 111)
+states/rest/node = SubResource("9")
+states/rest/position = Vector2(704, 255)
+states/whetstone/node = SubResource("51")
+states/whetstone/position = Vector2(-30.626, -23)
+transitions = ["idle-loop", "drink", SubResource("18"), "drink", "idle-loop", SubResource("19"), "idle-loop", "death", SubResource("34"), "death", "idle-loop", SubResource("35"), "rest", "idle-loop", SubResource("37"), "idle-loop", "whetstone", SubResource("52"), "whetstone", "idle-loop", SubResource("53"), "idle-loop", "movement", SubResource("54"), "movement", "rest", SubResource("55"), "rest", "movement", SubResource("56"), "movement", "idle-loop", SubResource("57"), "idle-loop", "left_attack_0", SubResource("58"), "movement", "left_attack_0", SubResource("59"), "left_attack_0", "idle-loop", SubResource("60"), "left_attack_0", "movement", SubResource("61"), "idle-loop", "eat", SubResource("AnimationNodeStateMachineTransition_woypf"), "eat", "idle-loop", SubResource("AnimationNodeStateMachineTransition_hfk4m"), "Start", "idle-loop", SubResource("AnimationNodeStateMachineTransition_nkk7y"), "idle-loop", "rest", SubResource("AnimationNodeStateMachineTransition_nsdr3")]
+graph_offset = Vector2(-127.186, -73.2793)
 
-[node name="head" type="BoneAttachment" parent="Armature/Skeleton" index="1"]
-transform = Transform( 0.999977, 0.00567695, -0.0036919, -0.00614856, 0.989604, -0.14369, 0.00283773, 0.143709, 0.989616, -0.0108432, 2.43744, 0.0745752 )
+[node name="player" groups=["player"] instance=ExtResource("1")]
+floor_max_angle = 0.698132
+script = ExtResource("2")
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/2/rotation = Quaternion(-0.5, 0.5, -0.5, -0.5)
+bones/3/rotation = Quaternion(-7.62139e-10, 4.73238e-17, 1, -1.49012e-08)
+bones/6/scale = Vector3(0.929479, 0.929479, 0.929479)
+bones/8/rotation = Quaternion(0.5, 0.5, -0.5, 0.5)
+bones/12/scale = Vector3(0.929479, 0.929479, 0.929479)
+bones/14/position = Vector3(-5.28139e-09, 1.46244, 0.00262246)
+bones/14/rotation = Quaternion(-0.707107, -6.18171e-08, 0.707107, 2.51215e-15)
+bones/17/rotation = Quaternion(-0.0233542, -0.132028, 0.00202927, 0.990969)
+bones/19/rotation = Quaternion(-0.0478548, 0.0696769, -0.0135176, 0.996329)
+bones/20/rotation = Quaternion(-0.0689711, 0.838202, 0.533948, 0.0869464)
+bones/21/rotation = Quaternion(-0.0682253, 0.838315, 0.534024, 0.085981)
+bones/22/rotation = Quaternion(0.615478, 0.583338, 0.312942, -0.42775)
+bones/23/rotation = Quaternion(-0.582556, 0.671776, -0.329585, 0.317364)
+bones/24/rotation = Quaternion(0.125404, -0.0153155, -0.0317954, 0.991478)
+bones/25/rotation = Quaternion(0.0138397, 0.704571, 0.00910546, 0.70944)
+bones/26/rotation = Quaternion(0.0518087, -0.0104003, 0.00425776, 0.998594)
+bones/27/rotation = Quaternion(0.060713, -0.00477687, -0.00330745, 0.998138)
+bones/28/rotation = Quaternion(0.0562069, 0.000558056, 0.00991247, 0.99837)
+bones/29/rotation = Quaternion(0.0527111, -0.00772492, -0.046893, 0.997478)
+bones/30/rotation = Quaternion(0.0619768, -0.00432639, -0.00333113, 0.998063)
+bones/31/rotation = Quaternion(0.0574511, 0.001304, 0.0226543, 0.99809)
+bones/32/rotation = Quaternion(0.0295123, -0.00360804, 0.0537077, 0.998114)
+bones/33/rotation = Quaternion(0.0382746, -0.00526259, -0.00339407, 0.999248)
+bones/34/rotation = Quaternion(0.0337731, -0.000375039, -0.0110977, 0.999368)
+bones/35/rotation = Quaternion(0.0536431, -0.00739588, -0.0650091, 0.996414)
+bones/36/rotation = Quaternion(0.0615042, -0.00236575, 0.0192499, 0.997918)
+bones/37/rotation = Quaternion(0.0577743, -0.000419448, -0.00724781, 0.998303)
+bones/38/rotation = Quaternion(-0.0537003, 0.290138, 0.179798, 0.938408)
+bones/39/rotation = Quaternion(0.110408, -0.00904662, -0.00226653, 0.993843)
+bones/40/rotation = Quaternion(0.111492, -0.0011935, -0.011473, 0.993698)
+bones/42/rotation = Quaternion(0.627949, -0.569673, -0.319944, -0.422833)
+bones/46/rotation = Quaternion(0.0798093, -0.00241784, 0.0012099, 0.996807)
+bones/50/rotation = Quaternion(0.0887134, 0.00453745, 0.00320206, 0.996042)
+bones/51/rotation = Quaternion(0.0841896, -0.00191079, -0.0226099, 0.996191)
+bones/52/rotation = Quaternion(0.0792719, 0.00210006, -0.0557724, 0.99529)
+bones/53/rotation = Quaternion(0.0879998, 0.00542479, 0.00312782, 0.996101)
+bones/54/rotation = Quaternion(0.0835099, 0.000927353, 0.0110652, 0.996445)
+bones/56/rotation = Quaternion(0.087495, 0.00186303, -0.0193052, 0.995976)
+bones/62/rotation = Quaternion(0.967643, 0.099195, 0.170042, 0.157838)
+bones/62/scale = Vector3(0.999962, 0.999996, 0.999938)
+bones/63/rotation = Quaternion(0.353048, -0.00814884, 0.218611, 0.90967)
+bones/64/rotation = Quaternion(-0.667368, -0.178454, -0.121262, 0.71279)
+bones/64/scale = Vector3(0.999951, 1.00007, 0.999983)
+bones/65/rotation = Quaternion(0.00518108, 0.960671, -0.276524, -0.0248708)
+bones/66/rotation = Quaternion(0.969933, -0.103101, -0.155068, 0.156695)
+bones/66/scale = Vector3(0.999955, 0.999995, 0.999927)
+bones/67/rotation = Quaternion(0.353048, 0.00814906, -0.21861, 0.909671)
+bones/67/scale = Vector3(0.999993, 1.00002, 0.999985)
+bones/68/rotation = Quaternion(-0.667085, 0.176604, 0.11932, 0.713842)
+bones/68/scale = Vector3(0.999943, 1.00008, 0.99998)
+
+[node name="head" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="1"]
+transform = Transform3D(0.999995, 0.00259463, -0.00168025, -0.00273703, 0.995831, -0.0911798, 0.00143665, 0.091184, 0.995833, -0.00839715, 2.39022, 0.0546161)
 bone_name = "head"
+bone_idx = 19
 
-[node name="audio" type="AudioStreamPlayer3D" parent="Armature/Skeleton/head" index="0"]
-stream = ExtResource( 6 )
-unit_size = 10.0
+[node name="audio" type="AudioStreamPlayer3D" parent="Armature/Skeleton3D/head" index="0"]
+stream = ExtResource("6")
 
-[node name="weapon_L" type="BoneAttachment" parent="Armature/Skeleton" index="2"]
-transform = Transform( -0.0589262, -0.0360466, 0.926908, 0.924587, 0.0726281, 0.0616033, -0.0748162, 0.925935, 0.0312526, 0.383239, 1.42731, 0.0684402 )
+[node name="weapon_L" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="2"]
+transform = Transform3D(-0.055102, -0.0355335, 0.927163, 0.921743, 0.10424, 0.058775, -0.106227, 0.922931, 0.0290582, 0.381485, 1.37884, 0.0828198)
 bone_name = "weapon_L"
+bone_idx = 41
 
-[node name="audio" type="AudioStreamPlayer3D" parent="Armature/Skeleton/weapon_L" index="0"]
-stream = ExtResource( 4 )
-unit_size = 10.0
+[node name="audio" type="AudioStreamPlayer3D" parent="Armature/Skeleton3D/weapon_L" index="0"]
+stream = ExtResource("4")
 
-[node name="weapon_R" type="BoneAttachment" parent="Armature/Skeleton" index="3"]
-transform = Transform( -0.077626, -0.22054, -0.899593, -0.925837, -0.00789321, 0.0818257, -0.0270548, 0.902901, -0.219017, -0.377096, 1.41211, -0.0836954 )
+[node name="weapon_R" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="3"]
+transform = Transform3D(-0.0814772, -0.220364, -0.899296, -0.92589, 0.0237491, 0.0780672, 0.0044694, 0.902667, -0.221595, -0.378942, 1.36163, -0.0686436)
 bone_name = "weapon_R"
-__meta__ = {
-"_editor_description_": ""
-}
+bone_idx = 61
 
-[node name="audio" type="AudioStreamPlayer3D" parent="Armature/Skeleton/weapon_R" index="0"]
-unit_size = 10.0
+[node name="audio" type="AudioStreamPlayer3D" parent="Armature/Skeleton3D/weapon_R" index="0"]
 
-[node name="AnimationPlayer" parent="." index="1"]
-anims/eat = SubResource( 1 )
-anims/jump = SubResource( 2 )
+[node name="shape" type="CollisionShape3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("BoxShape3D_2nmet")
 
-[node name="shape" type="CollisionShape" parent="." index="2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0 )
-shape = SubResource( 3 )
+[node name="drop_item" type="Marker3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
 
-[node name="drop_item" type="Position3D" parent="." index="3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2 )
+[node name="interact" type="Area3D" parent="." index="4"]
 
-[node name="interact" type="Area" parent="." index="4"]
+[node name="shape" type="CollisionShape3D" parent="interact" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5)
+shape = SubResource("4")
 
-[node name="shape" type="CollisionShape" parent="interact" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5 )
-shape = SubResource( 4 )
-
-[node name="name" type="Position3D" parent="." index="5"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0 )
+[node name="name" type="Marker3D" parent="." index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="6"]
-tree_root = SubResource( 31 )
+tree_root = SubResource("31")
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 32 )
 parameters/conditions/attacking = false
 parameters/conditions/dead = false
 parameters/conditions/drinking = false
-parameters/conditions/idle = false
+parameters/conditions/eating = false
+parameters/conditions/idle = true
+parameters/conditions/moving = false
 parameters/conditions/resting = false
-parameters/conditions/walking = false
 parameters/conditions/whetstone = false
-parameters/movement/playback = SubResource( 62 )
 parameters/movement/conditions/dodging = false
 parameters/movement/conditions/jumping = false
 parameters/movement/conditions/running = false
 parameters/movement/conditions/walking = false
+
+[connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]

@@ -7,17 +7,18 @@ var time: float = 0
 
 func _ready():
 	set_process(false)
-	$richtext.get_v_scroll().connect("scrolling", self, "set_process", [false])
+	var rich : RichTextLabel = $richtext
+	rich.get_v_scroll_bar().connect("scrolling", Callable(self, "set_process").bind(false))
 
 
-func show():
-	.show()
+func my_show():
+	super.show()
 	time = 0
 	set_process(true)
 
 
-func hide():
-	.hide()
+func my_hide():
+	super.hide()
 	set_process(false)
 
 

@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/hinge_chest.wav-d7bb1a1771a76cc586b2ab14f9702cca.sample"
+type="AudioStreamWAV"
+uid="uid://bt2y6ms62e2sh"
+path="res://.godot/imported/hinge_chest.wav-d7bb1a1771a76cc586b2ab14f9702cca.sample"
 
 [deps]
 
 source_file="res://data/sounds/hinge_chest.wav"
-dest_files=[ "res://.import/hinge_chest.wav-d7bb1a1771a76cc586b2ab14f9702cca.sample" ]
+dest_files=["res://.godot/imported/hinge_chest.wav-d7bb1a1771a76cc586b2ab14f9702cca.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=true
 edit/normalize=true
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

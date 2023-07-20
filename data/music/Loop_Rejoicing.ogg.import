@@ -1,15 +1,19 @@
 [remap]
 
-importer="ogg_vorbis"
-type="AudioStreamOGGVorbis"
-path="res://.import/Loop_Rejoicing.ogg-45d777fc26d5fb51771fcebbd5b1dd55.oggstr"
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://fpjyebpbfgnv"
+path="res://.godot/imported/Loop_Rejoicing.ogg-45d777fc26d5fb51771fcebbd5b1dd55.oggvorbisstr"
 
 [deps]
 
 source_file="res://data/music/Loop_Rejoicing.ogg"
-dest_files=[ "res://.import/Loop_Rejoicing.ogg-45d777fc26d5fb51771fcebbd5b1dd55.oggstr" ]
+dest_files=["res://.godot/imported/Loop_Rejoicing.ogg-45d777fc26d5fb51771fcebbd5b1dd55.oggvorbisstr"]
 
 [params]
 
 loop=true
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

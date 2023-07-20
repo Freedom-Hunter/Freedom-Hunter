@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/firework_boom.wav-53a130c7de3b639e165957b1f1a4c9cb.sample"
+type="AudioStreamWAV"
+uid="uid://bfav5cluwc2fe"
+path="res://.godot/imported/firework_boom.wav-53a130c7de3b639e165957b1f1a4c9cb.sample"
 
 [deps]
 
 source_file="res://data/sounds/firework_boom.wav"
-dest_files=[ "res://.import/firework_boom.wav-53a130c7de3b639e165957b1f1a4c9cb.sample" ]
+dest_files=["res://.godot/imported/firework_boom.wav-53a130c7de3b639e165957b1f1a4c9cb.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

@@ -2,22 +2,22 @@
 
 [ext_resource path="res://data/models/items/barrel/barrel_wooden.gltf" type="PackedScene" id=1]
 [ext_resource path="res://src/items/scenes/barrel-scene.gd" type="Script" id=2]
-[ext_resource path="res://data/textures/kenney_particlePack/scorch_03.png" type="Texture" id=3]
+[ext_resource path="res://data/textures/kenney_particlePack/scorch_03.png" type="Texture2D" id=3]
 [ext_resource path="res://data/sounds/explosion.wav" type="AudioStream" id=4]
 
 
-[sub_resource type="CylinderShape" id=1]
+[sub_resource type="CylinderShape3D" id=1]
 radius = 0.425159
 height = 1.18327
 
-[sub_resource type="SphereShape" id=2]
+[sub_resource type="SphereShape3D" id=2]
 radius = 10.0
 
 [sub_resource type="Gradient" id=3]
-offsets = PoolRealArray( 0, 0.713004, 1 )
-colors = PoolColorArray( 0.957031, 0.846047, 0.672913, 1, 0.945312, 0.387091, 0.114471, 1, 1, 1, 1, 0 )
+offsets = PackedFloat32Array( 0, 0.713004, 1 )
+colors = PackedColorArray( 0.957031, 0.846047, 0.672913, 1, 0.945312, 0.387091, 0.114471, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=4]
+[sub_resource type="GradientTexture2D" id=4]
 gradient = SubResource( 3 )
 
 [sub_resource type="Curve" id=5]
@@ -26,7 +26,7 @@ _data = [ Vector2( 0, 0 ), 0.0, -0.00556208, 0, 0, Vector2( 0.21825, 1 ), 0.0078
 [sub_resource type="CurveTexture" id=6]
 curve = SubResource( 5 )
 
-[sub_resource type="ParticlesMaterial" id=7]
+[sub_resource type="ParticleProcessMaterial" id=7]
 emission_shape = 1
 emission_sphere_radius = 0.5
 spread = 180.0
@@ -46,7 +46,7 @@ scale_random = 0.3
 scale_curve = SubResource( 6 )
 color_ramp = SubResource( 4 )
 
-[sub_resource type="SpatialMaterial" id=8]
+[sub_resource type="StandardMaterial3D" id=8]
 flags_transparent = true
 flags_unshaded = true
 vertex_color_use_as_albedo = true
@@ -69,8 +69,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1.5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 1.5 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
 }
@@ -81,8 +81,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PackedFloat32Array( 0, 0.2, 1.5 ),
+"transitions": PackedFloat32Array( 1, 1, 1 ),
 "update": 0,
 "values": [ 0.0, 5.0, 0.0 ]
 }
@@ -93,8 +93,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
@@ -105,8 +105,8 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array( 0, 0.3 ),
+"transitions": PackedFloat32Array( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
 }
@@ -117,8 +117,8 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0.3 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0.3 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
@@ -129,8 +129,8 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0.3 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0.3 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
@@ -141,13 +141,13 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0.3 ),
-"transitions": PoolRealArray( 1 ),
+"times": PackedFloat32Array( 0.3 ),
+"transitions": PackedFloat32Array( 1 ),
 "update": 1,
 "values": [ true ]
 }
 
-[node name="barrel" type="Spatial" groups=[
+[node name="barrel" type="Node3D" groups=[
 "explosive",
 ]]
 
@@ -155,19 +155,19 @@ tracks/6/keys = {
 "explosive",
 ] instance=ExtResource( 1 )]
 mass = 100.0
-contacts_reported = 1
+max_contacts_reported = 1
 contact_monitor = true
 script = ExtResource( 2 )
 
 [node name="barrel_wooden_new" parent="barrel" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, 0 )
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, 0 )
 
-[node name="CollisionShape" type="CollisionShape" parent="barrel"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="barrel"]
 shape = SubResource( 1 )
 
-[node name="explosion" type="Area" parent="barrel"]
+[node name="explosion" type="Area3D" parent="barrel"]
 
-[node name="radius" type="CollisionShape" parent="barrel/explosion"]
+[node name="radius" type="CollisionShape3D" parent="barrel/explosion"]
 shape = SubResource( 2 )
 
 [node name="particles" type="Particles" parent="barrel/explosion"]
@@ -179,7 +179,7 @@ local_coords = false
 process_material = SubResource( 7 )
 draw_pass_1 = SubResource( 9 )
 
-[node name="light" type="OmniLight" parent="barrel/explosion"]
+[node name="light" type="OmniLight3D" parent="barrel/explosion"]
 light_energy = 0.0
 
 [node name="animation" type="AnimationPlayer" parent="barrel/explosion"]

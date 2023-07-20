@@ -6,7 +6,8 @@ var firework = Firework.new("Firework", preload("res://data/images/items/firewor
 var barrel = Barrel.new("Barrel", preload("res://data/images/items/barrel.png"), 1)
 
 
-func _init().([barrel, firework, potion], rand_range(2,5)):
+func _init():
+	super([barrel, firework, potion], randf_range(2,5))
 	pass
 
 

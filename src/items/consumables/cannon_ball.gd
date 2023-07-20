@@ -8,34 +8,33 @@ const Icon = preload("res://data/images/items/cannonball.png")
 const fire_speed = 200
 
 
-func _init(_quantity).("Cannonball", Icon, _quantity, 1, 10):
+func _init(_quantity):
+	super("Cannonball", Icon, _quantity, 1, 10)
 	pass
 
 
-func clone():
+func clone() -> CannonBall:
 	return get_script().new(quantity)
 
 
-func fire(cannon, spawn=null):
+func fire(from_cannon: CannonNode, spawn:Node3D=null) -> void:
 	if spawn == null:
-		spawn = cannon.get_parent()
-	var cannon_ball: RigidBody = CannonBallScene.instance()
+		spawn = from_cannon.get_parent()
+	var cannon_ball: CannonBallNode = CannonBallScene.instantiate()
 	# Position the cannon ball inside the cannon, but put it in cannon's parent
 	# because we don't want the cannon's transform to affect the ball
-	var position = cannon.get_node("ball").global_transform.origin
+	var position := from_cannon.ball_spawn.global_position
 	spawn.add_child(cannon_ball)
 	cannon_ball.global_transform.origin = position
 	# The projectile should travel forward (-Z in Godot) from the cannon
-	var a: Basis = cannon.get_global_transform().basis
-	var velocity = Vector3(-a.x.z, a.y.z, a.z.z) * fire_speed
-	cannon_ball.set_linear_velocity(velocity)
-	cannon_ball.get_node("Timer").start()
-	cannon_ball.connect("body_entered", cannon_ball, "_on_CannonBall_body_entered")
+	var a: Basis = from_cannon.global_transform.basis
+	var velocity := Vector3(-a.x.z, a.y.z, a.z.z) * fire_speed
+	cannon_ball.fire(velocity)
 	self.quantity -= 1
 
 
-func effect(player):
+func effect(player: Player) -> bool:
 	# If the player uses the cannon ball (presses Q) just drop it on the ground.
-	var cannon_ball: RigidBody = CannonBallScene.instance()
+	var cannon_ball: CannonBallNode = CannonBallScene.instantiate()
 	player.drop_item_on_floor(cannon_ball)
 	return true

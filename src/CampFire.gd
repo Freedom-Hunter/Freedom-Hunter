@@ -1,4 +1,4 @@
-extends Area
+extends Area3D
 
 const Entity = preload("res://src/entities/entity.gd")
 
@@ -9,7 +9,7 @@ func _on_CampFire_body_entered(body):
 		timer.name = "burning"
 		timer.wait_time = 1.0
 		timer.autostart = true
-		timer.connect("timeout", self, "_on_burning_timer_timeout", [body])
+		timer.connect("timeout", Callable(self, "_on_burning_timer_timeout").bind(body))
 		body.add_child(timer)
 
 

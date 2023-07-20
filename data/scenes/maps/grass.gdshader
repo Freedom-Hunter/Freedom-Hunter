@@ -1,8 +1,8 @@
 shader_type spatial;
 render_mode cull_disabled;
 
-uniform vec4 color_top:hint_color = vec4(1,1,1,1);
-uniform vec4 color_bottom:hint_color = vec4(0,0,0,1);
+uniform vec4 color_top:source_color = vec4(1,1,1,1);
+uniform vec4 color_bottom:source_color = vec4(0,0,0,1);
 
 uniform float deg_sway_pitch = 80.0;
 uniform float deg_sway_yaw = 45.0;
@@ -15,7 +15,6 @@ varying float wind;
 const vec3 UP = vec3(0,1,0);
 const vec3 RIGHT = vec3(1,0,0);
 
-const float PI = 3.14159;
 const float DEG2RAD = (PI / 180.0);
 
 uniform vec3 wind_direction = vec3(0,0,-1);
@@ -61,11 +60,11 @@ void vertex() {
 	vec3 vertex = VERTEX;	
 	vec3 wind_direction_normalized = normalize(wind_direction);
 	float time = TIME * wind_speed;
-	vec2 uv = (WORLD_MATRIX * vec4(vertex, -1.0)).xz * wind_scale;
+	vec2 uv = (MODEL_MATRIX * vec4(vertex, -1.0)).xz * wind_scale;
 	uv += wind_direction_normalized.xz * time;
 	wind = pow(worley2(uv), 2.0) * UV2.y;
 	
-	mat3 to_model = inverse(mat3(WORLD_MATRIX));
+	mat3 to_model = inverse(mat3(MODEL_MATRIX));
 	vec3 wind_forward = to_model * wind_direction_normalized;
 	vec3 wind_right = normalize((cross(wind_forward, UP)));
 	

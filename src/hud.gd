@@ -1,25 +1,26 @@
+class_name HUD
 extends Control
 
-onready var global = get_node("/root/global")
-onready var networking = get_node("/root/networking")
+@onready var global = get_node("/root/global")
+@onready var networking = get_node("/root/networking")
 
 var notify_queue = []
 
 
 func _ready():
 	# Get interact keys
-	var keys = InputMap.get_action_list("player_interact")
-	var strings: PoolStringArray = []
+	var keys = InputMap.action_get_events("player_interact")
+	var strings: PackedStringArray = []
 	for key in keys:
 		if key is InputEventKey:
-			strings.append(OS.get_scancode_string(key.scancode))
+			strings.append(OS.get_keycode_string(key.keycode))
 		elif key is InputEventJoypadButton:
 			strings.append("Joy" + str(key.button_index))
-	$action.set_text(strings.join(","))
+	$action.set_text(",".join(strings))
 
 
 func _input(event):
-	if get_tree().has_network_peer():
+	if multiplayer.has_multiplayer_peer():
 		if event.is_action_pressed("players_list"):
 			$players_list.show()
 		elif event.is_action_released("players_list"):
@@ -42,17 +43,17 @@ func _physics_process(_delta):
 func open_inventories(inventories):
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	global.local_player.pause_player()
-	get_viewport().get_camera().set_process_input(false)
+	get_viewport().get_camera_3d().set_process_input(false)
 	for inv in inventories:
 		$inventory.add_child(inv)
 	$inventory.popup()
-	$inventory.connect("popup_hide", self, "close_inventories", [], CONNECT_ONESHOT)
+	$inventory.connect("popup_hide", Callable(self, "close_inventories").bind(), CONNECT_ONE_SHOT)
 
 
 func close_inventories():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	global.local_player.resume_player()
-	get_viewport().get_camera().set_process_input(true)
+	get_viewport().get_camera_3d().set_process_input(true)
 	for child in $inventory.get_children():
 		if child.get_name() != "quit":
 			$inventory.remove_child(child)
@@ -60,7 +61,7 @@ func close_inventories():
 
 
 func show_interact():
-	var camera_node = get_viewport().get_camera()
+	var camera_node = get_viewport().get_camera_3d()
 	var interact = global.local_player.get_nearest_interact()
 	if interact != null:
 		var pos = interact.get_global_transform().origin + Vector3.UP
@@ -94,10 +95,10 @@ func _on_player_disconnected(player_name):
 
 
 func update_names():
-	var camera_node = get_viewport().get_camera()
+	var camera_node = get_viewport().get_camera_3d()
 	var camera_pos = camera_node.get_global_transform().origin
-	var space_state = get_node("/root/game").get_world().get_direct_space_state()
-	if get_tree().has_network_peer():
+	var space_state = get_node("/root/game").get_world_3d().get_direct_space_state()
+	if multiplayer.has_multiplayer_peer():
 		for player in networking.get_players():
 			var _name = player.get_name()
 			var player_pos = player.get_node("name").get_global_transform().origin
@@ -107,22 +108,22 @@ func update_names():
 			else:
 				# use global coordinates, not local to node
 				var result = space_state.intersect_ray(camera_pos, player_pos, networking.get_players())
-				if not result.empty():
+				if not result.is_empty():
 					label.hide()
 				else:
 					label.show()
 					var pos = camera_node.unproject_position(player_pos)
-					var size = label.get_size()
-					label.rect_global_position = pos - Vector2(size.x/2, size.y/2)
+					var label_size = label.get_size()
+					label.global_position = pos - label_size / 2
 	else:
-		var label = $names.get_node(global.local_player.get_name())
-		var pos = camera_node.unproject_position(global.local_player.get_node("name").get_global_transform().origin)
-		var size = label.get_size()
-		label.rect_global_position = pos - Vector2(size.x/2, size.y/2)
+		var label: Label = $names.get_node(global.local_player.get_name())
+		var pos: Vector2 = camera_node.unproject_position(global.local_player.get_node("name").get_global_transform().origin)
+		var label_size: Vector2 = label.get_size()
+		label.global_position = pos - label_size / 2
 
 
 func update_debug():
-	var pos = global.local_player.get_translation()
+	var pos = global.local_player.get_position()
 	var out = "POS: %.2f %.2f %.2f" % [pos.x, pos.y, pos.z]
 	if not networking.is_client_connected():
 		out += "\nClient is not connected!"
@@ -132,7 +133,7 @@ func update_debug():
 func play_notify(text):
 	$notification/text.text = text
 	$notification/animation.play("show")
-	yield($notification/animation, "animation_finished")
+	await $notification/animation.animation_finished
 
 
 func notify(text):
@@ -141,11 +142,11 @@ func notify(text):
 
 func prompt_respawn():
 	$respawn.popup_centered()
-	get_viewport().get_camera().set_process_input(false)
+	get_viewport().get_camera_3d().set_process_input(false)
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
 func _on_respawn_confirmed():
 	global.local_player.respawn()
-	get_viewport().get_camera().set_process_input(true)
+	get_viewport().get_camera_3d().set_process_input(true)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

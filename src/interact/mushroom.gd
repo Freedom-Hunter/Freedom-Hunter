@@ -8,5 +8,6 @@ var whetstone = Whetstone.new("Whetstone", preload("res://data/images/items/whet
 var meat      = Meat.new("Meat",           preload("res://data/images/items/meat.png"),      1, 50)
 
 
-func _init().([barrel, firework, potion, meat], rand_range(2, 10)):
+func _init():
+	super([barrel, firework, potion, meat], randf_range(2, 10))
 	pass

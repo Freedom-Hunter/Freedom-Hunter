@@ -1,13 +1,13 @@
-tool
-extends MultiMeshInstance
+@tool
+extends MultiMeshInstance3D
 
 
-export(float) var span = 5.0 setget set_span
-export(int) var count = 1000 setget set_count
-export(Vector2) var width = Vector2(0.01, 0.02) setget set_width
-export(Vector2) var height = Vector2(0.04, 0.08) setget set_height
-export(Vector2) var sway_yaw = Vector2(0.0, 10.0) setget set_sway_yaw
-export(Vector2) var sway_pitch = Vector2(0.0, 10.0) setget set_sway_pitch
+@export var span: float = 5.0: set = set_span
+@export var count: int = 1000: set = set_count
+@export var width: Vector2 = Vector2(0.01, 0.02): set = set_width
+@export var height: Vector2 = Vector2(0.04, 0.08): set = set_height
+@export var sway_yaw: Vector2 = Vector2(0.0, 10.0): set = set_sway_yaw
+@export var sway_pitch: Vector2 = Vector2(0.0, 10.0): set = set_sway_pitch
 
 
 func _init():
@@ -29,14 +29,14 @@ func rebuild():
 	multimesh.instance_count = count
 	
 	for index in (multimesh.instance_count):
-		var pos = Vector3(rand_range(-span, span), 0.0, rand_range(-span, span))
-		var basis = Basis(Vector3.UP, deg2rad(rand_range(0, 359)))
-		multimesh.set_instance_transform(index, Transform(basis, pos))
+		var pos = Vector3(randf_range(-span, span), 0.0, randf_range(-span, span))
+		var basis = Basis(Vector3.UP, deg_to_rad(randf_range(0, 359)))
+		multimesh.set_instance_transform(index, Transform3D(basis, pos))
 		multimesh.set_instance_custom_data(index, Color(
-			rand_range(width.x, width.y),
-			rand_range(height.x, height.y),
-			deg2rad(rand_range(sway_pitch.x, sway_pitch.y)),
-			deg2rad(rand_range(sway_yaw.x, sway_yaw.y))
+			randf_range(width.x, width.y),
+			randf_range(height.x, height.y),
+			deg_to_rad(randf_range(sway_pitch.x, sway_pitch.y)),
+			deg_to_rad(randf_range(sway_yaw.x, sway_yaw.y))
 		))
 
 

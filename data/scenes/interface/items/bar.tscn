@@ -1,186 +1,197 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=3 uid="uid://bmsugvru6w6kw"]
 
-[ext_resource path="res://data/themes/item_bar/theme.tres" type="Theme" id=1]
-[ext_resource path="res://src/interface/items_bar.gd" type="Script" id=2]
-[ext_resource path="res://data/images/items/null.png" type="Texture" id=3]
-[ext_resource path="res://data/images/hud/item_bar/quantity.png" type="Texture" id=4]
-[ext_resource path="res://data/fonts/RobotoCondensed-Light.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://data/images/hud/item_bar/name.png" type="Texture" id=6]
-[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp.ttf" type="DynamicFontData" id=7]
-[ext_resource path="res://data/sounds/switch.ogg" type="AudioStream" id=8]
+[ext_resource type="Theme" path="res://data/themes/item_bar/theme.tres" id="1"]
+[ext_resource type="Script" path="res://src/interface/items_bar.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://ce5dildskx2n8" path="res://data/images/items/null.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://dkd5nevfhba4l" path="res://data/images/hud/item_bar/quantity.png" id="4"]
+[ext_resource type="FontFile" uid="uid://buawnp6lacskj" path="res://data/fonts/RobotoCondensed-Light.ttf" id="5_1kcin"]
+[ext_resource type="Texture2D" uid="uid://t0imr7qk6kdi" path="res://data/images/hud/item_bar/name.png" id="6"]
+[ext_resource type="FontFile" uid="uid://nprnupm46ucy" path="res://data/fonts/Medieval Sharp/MedievalSharp.ttf" id="7"]
+[ext_resource type="AudioStream" uid="uid://cbirj7jr2stqv" path="res://data/sounds/switch.ogg" id="8"]
 
-[sub_resource type="DynamicFont" id=1]
-size = 20
-font_data = ExtResource( 5 )
+[sub_resource type="FontFile" id="1"]
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="DynamicFont" id=2]
-size = 24
-font_data = ExtResource( 7 )
+[sub_resource type="LabelSettings" id="LabelSettings_7j7cn"]
+line_spacing = 4.0
+font = ExtResource("5_1kcin")
+shadow_color = Color(0, 0, 0, 0.47451)
+
+[sub_resource type="FontFile" id="2"]
+fallbacks = Array[Font]([ExtResource("7")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
 [node name="items" type="VBoxContainer"]
+anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -148.0
-margin_right = 400.0
-theme = ExtResource( 1 )
-script = ExtResource( 2 )
+offset_top = -148.0
+offset_right = 400.0
+theme = ExtResource("1")
+script = ExtResource("2")
 
 [node name="bar" type="HBoxContainer" parent="."]
-margin_right = 400.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 400, 80 )
+custom_minimum_size = Vector2(400, 80)
+layout_mode = 2
 alignment = 1
 
 [node name="left_2" type="Panel" parent="bar"]
-editor/display_folded = true
-margin_left = 8.0
-margin_top = 10.0
-margin_right = 68.0
-margin_bottom = 70.0
-rect_min_size = Vector2( 60, 60 )
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
 
 [node name="icon" type="TextureRect" parent="bar/left_2"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 5.0
-margin_right = -5.0
-margin_bottom = -5.0
-texture = ExtResource( 3 )
-expand = true
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+texture = ExtResource("3")
+expand_mode = 1
 
 [node name="left_1" type="Panel" parent="bar"]
-editor/display_folded = true
-margin_left = 83.0
-margin_top = 5.0
-margin_right = 153.0
-margin_bottom = 75.0
-rect_min_size = Vector2( 70, 70 )
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
 
 [node name="icon" type="TextureRect" parent="bar/left_1"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 7.0
-margin_top = 7.0
-margin_right = -7.0
-margin_bottom = -7.0
-texture = ExtResource( 3 )
-expand = true
+offset_left = 7.0
+offset_top = 7.0
+offset_right = -7.0
+offset_bottom = -7.0
+texture = ExtResource("3")
+expand_mode = 1
 
 [node name="use" type="Panel" parent="bar"]
-editor/display_folded = true
-margin_left = 160.0
-margin_right = 240.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 80, 80 )
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
 
 [node name="icon" type="TextureRect" parent="bar/use"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 8.0
-margin_right = -8.0
-margin_bottom = -8.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 3 )
-expand = true
+texture = ExtResource("3")
+expand_mode = 1
 
 [node name="quantity" type="TextureRect" parent="bar/use"]
-editor/display_folded = true
+layout_mode = 0
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -25.0
-margin_top = -25.0
+offset_left = -25.0
+offset_top = -25.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 4 )
-expand = true
+texture = ExtResource("4")
+expand_mode = 1
 
 [node name="label" type="Label" parent="bar/use/quantity"]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 1 )
+theme_override_fonts/font = SubResource("1")
 text = "10"
-align = 1
-valign = 1
+label_settings = SubResource("LabelSettings_7j7cn")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="right_1" type="Panel" parent="bar"]
-editor/display_folded = true
-margin_left = 247.0
-margin_top = 5.0
-margin_right = 317.0
-margin_bottom = 75.0
-rect_min_size = Vector2( 70, 70 )
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
 
 [node name="icon" type="TextureRect" parent="bar/right_1"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 7.0
-margin_top = 7.0
-margin_right = -7.0
-margin_bottom = -7.0
+offset_left = 7.0
+offset_top = 7.0
+offset_right = -7.0
+offset_bottom = -7.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 3 )
-expand = true
+texture = ExtResource("3")
+expand_mode = 1
 
 [node name="right_2" type="Panel" parent="bar"]
-editor/display_folded = true
-margin_left = 332.0
-margin_top = 10.0
-margin_right = 392.0
-margin_bottom = 70.0
-rect_min_size = Vector2( 60, 60 )
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
 
 [node name="icon" type="TextureRect" parent="bar/right_2"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 5.0
-margin_right = -5.0
-margin_bottom = -5.0
-texture = ExtResource( 3 )
-expand = true
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+texture = ExtResource("3")
+expand_mode = 1
 
 [node name="name" type="TextureRect" parent="."]
-margin_top = 84.0
-margin_right = 400.0
-margin_bottom = 144.0
-rect_min_size = Vector2( 400, 60 )
-texture = ExtResource( 6 )
-expand = true
+custom_minimum_size = Vector2(400, 60)
+layout_mode = 2
+texture = ExtResource("6")
+expand_mode = 1
 
 [node name="label" type="Label" parent="name"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 2 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 1
-custom_constants/line_spacing = 1
-custom_constants/shadow_offset_y = 1
-custom_constants/shadow_as_outline = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 1
+theme_override_constants/line_spacing = 1
+theme_override_fonts/font = SubResource("2")
 text = "(Nessuna selezione)"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="sound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 8 )
+stream = ExtResource("8")
 volume_db = -20.0

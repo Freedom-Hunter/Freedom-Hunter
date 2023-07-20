@@ -1,47 +1,28 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://dyl65ti8dtyfa"]
 
-[ext_resource path="res://src/equipment/weapon.gd" type="Script" id=1]
-[ext_resource path="res://data/models/weapons/lasersword.mesh" type="ArrayMesh" id=2]
-[ext_resource path="res://data/sounds/laser.wav" type="AudioStream" id=3]
+[ext_resource type="Script" path="res://src/equipment/weapon.gd" id="1"]
+[ext_resource type="AudioStream" uid="uid://ccrav47xiq85d" path="res://data/sounds/laser.wav" id="3"]
+[ext_resource type="PackedScene" uid="uid://mxgo8e0cpd27" path="res://data/models/weapons/lasersword.blend" id="3_bh4bs"]
 
-[sub_resource type="SpatialMaterial" id=1]
-albedo_color = Color( 1, 0, 0, 1 )
-roughness = 0.0
-emission_enabled = true
-emission = Color( 1, 0, 0, 1 )
-emission_energy = 10.0
-emission_operator = 0
-emission_on_uv2 = false
+[sub_resource type="BoxShape3D" id="BoxShape3D_n81c1"]
+size = Vector3(0.0705158, 0.0697443, 1.13542)
 
-[sub_resource type="SpatialMaterial" id=2]
-albedo_color = Color( 0, 0, 0, 1 )
-roughness = 0.0
-
-[sub_resource type="BoxShape" id=3]
-extents = Vector3( 0.0705158, 0.0697443, 1.13542 )
-
-[node name="light" type="Area"]
-input_ray_pickable = true
-script = ExtResource( 1 )
-strength = 100
+[node name="light" instance=ExtResource("3_bh4bs")]
+script = ExtResource("1")
 red_sharpness = 20
 orange_sharpness = 30
 yellow_sharpness = 20
 green_sharpness = 10
 blue_sharpness = 5
+strength = 100
 
-[node name="sword" type="MeshInstance" parent="."]
-mesh = ExtResource( 2 )
-material/0 = SubResource( 1 )
-material/1 = SubResource( 2 )
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.18938, 0)
+shape = SubResource("BoxShape3D_n81c1")
 
-[node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.88569, 0 )
-shape = SubResource( 3 )
-
-[node name="audio" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource( 3 )
+[node name="audio" type="AudioStreamPlayer3D" parent="." index="3"]
+stream = ExtResource("3")
 unit_size = 20.0
 max_db = 4.0
 
-[connection signal="body_entered" from="." to="." method="_on_sword_body_enter"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

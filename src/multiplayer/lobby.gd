@@ -18,19 +18,19 @@ func _ready():
 
 func servers_list(object, method):
 	http.request(BASE_URL + "/fh/cmd.php?cmd=list_servers")
-	http.connect("request_completed", object, method)
+	http.connect("request_completed", Callable(object, method))
 
 
 func register_player(_name, id=server_id):
 	print("Register player")
 	http.request(BASE_URL + "/fh/cmd.php?cmd=register_player&name=%s&server=%s&status=connected" % [_name, id])
-	http.connect("request_completed", self, "_on_register_player_completed")
+	http.connect("request_completed", Callable(self, "_on_register_player_completed"))
 
 
 func _on_register_player_completed(result, response_code, headers, body):
-	http.disconnect("request_completed", self, "_on_register_player_completed")
+	http.disconnect("request_completed", Callable(self, "_on_register_player_completed"))
 	if result == HTTPRequest.RESULT_SUCCESS and response_code == 200:
-		player_id = str2var(body.get_string_from_utf8())
+		player_id = str_to_var(body.get_string_from_utf8())
 		print("Player registered to lobby with ID: %s" % player_id)
 	else:
 		printerr("Can't register player to the multiplayer lobby")
@@ -45,13 +45,13 @@ func unregister_player():
 func register_server(host, port):
 	print("Register server")
 	http.request(BASE_URL + "/fh/cmd.php?cmd=register_server&hostname=%s&port=%s&max_players=10" % [host, port])
-	http.connect("request_completed", self, "_on_register_server_completed")
+	http.connect("request_completed", Callable(self, "_on_register_server_completed"))
 
 
 func _on_register_server_completed(result, response_code, headers, body):
-	http.disconnect("request_completed", self, "_on_register_server_completed")
+	http.disconnect("request_completed", Callable(self, "_on_register_server_completed"))
 	if result == HTTPRequest.RESULT_SUCCESS and response_code == 200:
-		server_id = str2var(body.get_string_from_utf8())
+		server_id = str_to_var(body.get_string_from_utf8())
 	else:
 		printerr("Can't register server to the multiplayer lobby")
 

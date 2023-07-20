@@ -1,6 +1,6 @@
 extends Control
 
-onready var global = get_node("/root/global")
+@onready var global = get_node("/root/global")
 
 
 func _ready():
@@ -18,14 +18,14 @@ func _input(event: InputEvent):
 
 func _on_singleplayer_pressed():
 	$Animation.play("chose")
-	yield($Animation, "animation_finished")
+	await $Animation.animation_finished
 	global.start_game("Player")
 	queue_free()
 
 
 func _on_multiplayer_pressed():
 	$Animation.play("chose")
-	yield($Animation, "animation_finished")
+	await $Animation.animation_finished
 	$mode.hide()
 	$multiplayer.show()
 	$back.show()
@@ -34,7 +34,7 @@ func _on_multiplayer_pressed():
 
 func _on_credits_pressed():
 	$Animation.play("chose")
-	yield($Animation, "animation_finished")
+	await $Animation.animation_finished
 	$mode.hide()
 	$credits.show()
 	$back.show()

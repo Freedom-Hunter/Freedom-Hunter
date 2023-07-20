@@ -1,193 +1,197 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=3 uid="uid://dhja1fjwo5mj2"]
 
-[ext_resource path="res://data/themes/main_menu/main.theme" type="Theme" id=1]
-[ext_resource path="res://src/main_menu.gd" type="Script" id=2]
-[ext_resource path="res://data/images/main_menu/background/background.png" type="Texture" id=3]
-[ext_resource path="res://data/images/main_menu/background/bottom_bar.png" type="Texture" id=4]
-[ext_resource path="res://data/images/main_menu/background/top_bar.png" type="Texture" id=5]
-[ext_resource path="res://data/scenes/multiplayer/lobby.tscn" type="PackedScene" id=6]
-[ext_resource path="res://data/scenes/credits.tscn" type="PackedScene" id=7]
+[ext_resource type="Theme" path="res://data/themes/main_menu/main.theme" id="1"]
+[ext_resource type="Script" path="res://src/main_menu.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://gj5hg080nsx" path="res://data/images/main_menu/background/background.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://dr1enx8dbe2u8" path="res://data/images/main_menu/background/bottom_bar.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://dfr57w5oh70so" path="res://data/images/main_menu/background/top_bar.png" id="5"]
+[ext_resource type="PackedScene" path="res://data/scenes/multiplayer/lobby.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://data/scenes/credits.tscn" id="7"]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id="1"]
 length = 10.0
-loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("background:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
+tracks/0/path = NodePath("background:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 10 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [ Vector2( 0, 100 ), Vector2( -960, 100 ) ]
+"values": [Vector2(0, 100), Vector2(-960, 100)]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id="2"]
 resource_name = "chose"
 length = 2.0
 tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath("mode:modulate:r")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"points": PoolRealArray(  ),
-"times": PoolRealArray(  )
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
 }
 tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
 tracks/1/path = NodePath("mode:modulate:g")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
 tracks/1/keys = {
-"points": PoolRealArray(  ),
-"times": PoolRealArray(  )
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
 }
 tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
 tracks/2/path = NodePath("mode:modulate:b")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
 tracks/2/keys = {
-"points": PoolRealArray(  ),
-"times": PoolRealArray(  )
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
 }
 tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
 tracks/3/path = NodePath("mode:modulate:a")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 0.4, -0.25, 0, 0.25, 0, 0.9, -0.25, 0, 0.25, 0, 0.4, -0.25, 0, 0.25, 0, 0.9, -0.25, 0, 0.25, 0, 0.4, -0.25, 0, 0.25, 0, 0.9, -0.25, 0, 0.25, 0, 0.6, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 2 )
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u6epe"]
+_data = {
+"background": SubResource("1"),
+"chose": SubResource("2")
 }
 
 [node name="main_menu" type="Control"]
-margin_right = 1920.0
-margin_bottom = 1080.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-theme = ExtResource( 1 )
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="background" type="TextureRect" parent="."]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 100.0
-margin_right = 961.0
-margin_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1")
+script = ExtResource("2")
+
+[node name="background" type="TextureRect" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 100.0
+offset_right = 961.0
+offset_bottom = -100.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 3 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture = ExtResource("3")
+expand_mode = 1
 
 [node name="bottom" type="TextureRect" parent="."]
+layout_mode = 0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -100.0
-margin_right = -1.0
-margin_bottom = -1.0
+offset_top = -100.0
+offset_right = -1.0
+offset_bottom = -1.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-texture = ExtResource( 4 )
-expand = true
+texture = ExtResource("4")
+expand_mode = 1
 
 [node name="top" type="TextureRect" parent="."]
+layout_mode = 0
 anchor_right = 1.0
-margin_bottom = 100.0
-texture = ExtResource( 5 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_bottom = 100.0
+texture = ExtResource("5")
+expand_mode = 1
 
 [node name="mode" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -460.0
-margin_top = -432.0
-margin_right = 460.0
-margin_bottom = 432.0
+offset_left = -460.0
+offset_top = -432.0
+offset_right = 460.0
+offset_bottom = 432.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="singleplayer" type="Button" parent="mode"]
-margin_right = 920.0
-margin_bottom = 213.574
-focus_neighbour_top = NodePath("../credits")
-focus_neighbour_bottom = NodePath("../multiplayer")
-size_flags_horizontal = 3
+layout_mode = 2
 size_flags_vertical = 3
+focus_neighbor_top = NodePath("../credits")
+focus_neighbor_bottom = NodePath("../multiplayer")
 text = "Singleplayer"
 
 [node name="multiplayer" type="Button" parent="mode"]
-margin_top = 217.0
-margin_right = 920.0
-margin_bottom = 430.574
-focus_neighbour_top = NodePath("../singleplayer")
-focus_neighbour_bottom = NodePath("../credits")
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+focus_neighbor_top = NodePath("../singleplayer")
+focus_neighbor_bottom = NodePath("../credits")
 text = "Multiplayer"
 
 [node name="options" type="Button" parent="mode"]
-margin_top = 434.0
-margin_right = 920.0
-margin_bottom = 647.574
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+focus_mode = 0
 disabled = true
-enabled_focus_mode = 0
 text = "Options"
 
 [node name="credits" type="Button" parent="mode"]
-margin_top = 651.0
-margin_right = 920.0
-margin_bottom = 864.574
-focus_neighbour_top = NodePath("../multiplayer")
-focus_neighbour_bottom = NodePath("../singleplayer")
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+focus_neighbor_top = NodePath("../multiplayer")
+focus_neighbor_bottom = NodePath("../singleplayer")
 text = "Credits"
 
 [node name="Animation" type="AnimationPlayer" parent="."]
 autoplay = "background"
-anims/background = SubResource( 1 )
-anims/chose = SubResource( 2 )
+libraries = {
+"": SubResource("AnimationLibrary_u6epe")
+}
 
-[node name="multiplayer" parent="." instance=ExtResource( 6 )]
+[node name="multiplayer" parent="." instance=ExtResource("6")]
 visible = false
-margin_right = -1.0
-margin_bottom = -1.0
+anchors_preset = 0
+offset_right = -1.0
+offset_bottom = -1.0
 
-[node name="credits" parent="." instance=ExtResource( 7 )]
+[node name="credits" parent="." instance=ExtResource("7")]
 visible = false
+anchors_preset = 0
 
 [node name="back" type="Button" parent="."]
 visible = false
-margin_left = 100.0
-margin_top = 100.0
-margin_right = 300.0
-margin_bottom = 200.0
+layout_mode = 0
+offset_left = 100.0
+offset_top = 100.0
+offset_right = 300.0
+offset_bottom = 200.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Back"

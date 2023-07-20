@@ -1,10 +1,10 @@
 class_name NPCShop
-extends Spatial
+extends Node3D
 
 const Shop = preload("res://src/interface/shop.gd")
 
-onready var shop: Shop = preload("res://data/scenes/interface/shop.tscn").instance()
-onready var hud = get_node("/root/hud/margin/view")
+@onready var shop: Shop = preload("res://data/scenes/interface/shop.tscn").instantiate()
+@onready var hud = get_node("/root/hud/margin/view")
 
 
 # Player with whom we are interacting with
@@ -17,9 +17,9 @@ var stare_time: float
 
 
 func new_random_stare():
-	random_angle = rand_range(0, 2*PI)
+	random_angle = randf_range(0, 2*PI)
 	random_basis = global_transform.basis.rotated(Vector3.UP, random_angle)
-	stare_wait = rand_range(1, 10)
+	stare_wait = randf_range(1, 10)
 	stare_time = 0
 
 
@@ -38,16 +38,16 @@ func interact(new_player: Player, node):
 	assert(player == null)
 	player = new_player
 	player.pause_player()
-	get_viewport().get_camera().set_process_input(false)
+	get_viewport().get_camera_3d().set_process_input(false)
 	hud.open_inventories([shop, player.inventory])
 	for shop_item in shop.shop_items:
-		shop_item.connect("buy", player, "buy_item")
+		shop_item.connect("buy", player.buy_item)
 	$ohayou.play()
-	yield(hud.get_node("inventory"), "popup_hide")
+	await hud.get_node("inventory").popup_hide
 	for shop_item in shop.shop_items:
-		shop_item.disconnect("buy", player, "buy_item")
+		shop_item.disconnect("buy", player.buy_item)
 	player.resume_player()
-	get_viewport().get_camera().set_process_input(true)
+	get_viewport().get_camera_3d().set_process_input(true)
 	player = null
 
 
@@ -81,7 +81,7 @@ func _process(delta):
 		global_transform.basis = global_transform.basis.slerp(random_basis, 10 * delta).orthonormalized()
 		# CHeck if rotation completed
 		var remaining_rotation = abs(global_transform.basis.z.angle_to(random_basis.z))
-		if remaining_rotation < deg2rad(5):
+		if remaining_rotation < deg_to_rad(5):
 			# rotation completed, stare for a while
 			stare_time += delta
 			if stare_time > stare_wait:

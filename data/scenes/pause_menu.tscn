@@ -1,0 +1,81 @@
+[gd_scene load_steps=5 format=3 uid="uid://bj0cxkkbkpebi"]
+
+[ext_resource type="Theme" uid="uid://f86hai17xk26" path="res://data/themes/main_menu/main.theme" id="1"]
+[ext_resource type="Script" path="res://src/pause_menu.gd" id="2_6lp2y"]
+[ext_resource type="Texture2D" uid="uid://c8j0g4e2x1vmq" path="res://data/images/pause_menu/background.png" id="3"]
+
+[sub_resource type="StyleBoxFlat" id="1"]
+bg_color = Color(0, 0, 0, 0.736002)
+border_blend = true
+
+[node name="pause_menu" type="Popup"]
+process_mode = 3
+disable_3d = true
+title = "Pause Menu"
+size = Vector2i(1920, 1080)
+exclusive = true
+content_scale_mode = 1
+theme = ExtResource("1")
+script = ExtResource("2_6lp2y")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_left = 550.0
+offset_top = 300.0
+offset_right = 550.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("1")
+
+[node name="TextureFrame" type="TextureRect" parent="PanelContainer"]
+layout_mode = 2
+texture = ExtResource("3")
+
+[node name="CenterContainer" type="CenterContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/CenterContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="fullscreen" type="Button" parent="PanelContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+focus_neighbor_top = NodePath("../return")
+focus_neighbor_bottom = NodePath("../main_menu")
+text = "Fullscreen (F11)"
+
+[node name="main_menu" type="Button" parent="PanelContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+focus_neighbor_top = NodePath("../fullscreen")
+focus_neighbor_bottom = NodePath("../quit")
+text = "Return to Main Menu"
+
+[node name="quit" type="Button" parent="PanelContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+focus_neighbor_top = NodePath("../main_menu")
+focus_neighbor_bottom = NodePath("../return")
+text = "Quit to Desktop"
+
+[node name="return" type="Button" parent="PanelContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+focus_neighbor_top = NodePath("../quit")
+focus_neighbor_bottom = NodePath("../fullscreen")
+text = "Return to Game"
+
+[connection signal="popup_hide" from="." to="." method="_on_popup_hide"]
+[connection signal="pressed" from="PanelContainer/CenterContainer/VBoxContainer/fullscreen" to="." method="_on_fullscreen_pressed"]
+[connection signal="pressed" from="PanelContainer/CenterContainer/VBoxContainer/main_menu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="PanelContainer/CenterContainer/VBoxContainer/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="PanelContainer/CenterContainer/VBoxContainer/return" to="." method="_on_return_pressed"]

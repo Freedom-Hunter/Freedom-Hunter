@@ -1,10 +1,11 @@
-extends RigidBody
+class_name CannonBallNode
+extends RigidBody3D
 
 
 var velocity_last_frame := Vector3()
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	velocity_last_frame = linear_velocity
 
 
@@ -30,3 +31,8 @@ func interact(player, node):
 	var remainder = player.add_item(item)
 	if remainder == 0:
 		queue_free()
+
+
+func fire(velocity: Vector3) -> void:
+	set_linear_velocity(velocity)
+	body_entered.connect(_on_CannonBall_body_entered)

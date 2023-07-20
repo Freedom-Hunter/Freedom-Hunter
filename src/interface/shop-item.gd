@@ -22,12 +22,11 @@ func _process(delta):
 
 
 func set_item(new_item: Item, new_cost_factor: float):
-	item = new_item
-	item_cost = (100 - item.rarity) * new_cost_factor
-	$Icon.texture = item.icon
-	$Name.text = item.name
+	item_cost = (100 - new_item.rarity) * new_cost_factor
+	$Icon.texture = new_item.icon
+	$Name.text = new_item.name
 	($Quantity as Range).value = 0
-	($Quantity as Range).max_value = item.max_quantity
+	($Quantity as Range).max_value = new_item.max_quantity
 	($QuantityLabel as Label).text = "0"
 	($Cost as Label).text = "%d£" % item_cost
 

@@ -1,10 +1,10 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://src/credits.gd" type="Script" id=1]
-[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp-BoldOblique.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp-Oblique.ttf" type="DynamicFontData" id=3]
-[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp-Bold.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp-BoldOblique.ttf" type="FontFile" id=2]
+[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp-Oblique.ttf" type="FontFile" id=3]
+[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp-Bold.ttf" type="FontFile" id=4]
+[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp.ttf" type="FontFile" id=5]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 0.588235 )
@@ -15,7 +15,7 @@ border_width_bottom = 5
 border_color = Color( 0, 0, 0, 1 )
 border_blend = true
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="FontFile" id=2]
 size = 36
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
@@ -23,7 +23,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="FontFile" id=3]
 size = 36
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
@@ -31,7 +31,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="FontFile" id=4]
 size = 48
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
@@ -39,7 +39,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="FontFile" id=5]
 size = 36
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
@@ -57,20 +57,20 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -606.0
-margin_top = -441.0
-margin_right = 594.0
-margin_bottom = 439.0
-rect_min_size = Vector2( 1200, 880 )
+offset_left = -606.0
+offset_top = -441.0
+offset_right = 594.0
+offset_bottom = 439.0
+custom_minimum_size = Vector2( 1200, 880 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/normal = SubResource( 1 )
-custom_fonts/bold_italics_font = SubResource( 2 )
-custom_fonts/italics_font = SubResource( 3 )
-custom_fonts/bold_font = SubResource( 4 )
-custom_fonts/normal_font = SubResource( 5 )
+theme_override_styles/normal = SubResource( 1 )
+theme_override_fonts/bold_italics_font = SubResource( 2 )
+theme_override_fonts/italics_font = SubResource( 3 )
+theme_override_fonts/bold_font = SubResource( 4 )
+theme_override_fonts/normal_font = SubResource( 5 )
 bbcode_enabled = true
-bbcode_text = "[center]
+text = "[center]
 [b]Elinvention[/b]
 
 presents

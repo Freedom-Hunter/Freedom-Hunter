@@ -1,4 +1,4 @@
-extends RigidBody
+extends RigidBody3D
 
 const Entity = preload("res://src/entities/entity.gd")
 
@@ -20,9 +20,9 @@ func _on_timer_timeout():
 				var body_timer: Timer = body.get_node("explosion/timer")
 				if body_timer.time_left > 0.5:
 					body_timer.stop()
-					body_timer.set_wait_time(0.5 - rand_range(0, 0.4))
+					body_timer.set_wait_time(0.5 - randf_range(0, 0.4))
 					body_timer.start()
 
 
-func _on_animation_finished(animation):
+func _on_animation_finished(_animation):
 	queue_free()

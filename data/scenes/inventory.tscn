@@ -1,142 +1,84 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://57knw6hvrp1h"]
 
-[ext_resource path="res://data/fonts/RobotoCondensed-Light.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://src/inventory.gd" type="Script" id=2]
+[ext_resource type="Script" path="res://src/inventory.gd" id="2"]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="FontFile" id="1"]
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-size = 15
-use_mipmaps = false
-use_filter = false
-font_data = ExtResource( 1 )
-
-[sub_resource type="Theme" id=2]
-
-default_font = SubResource( 1 )
-Label/colors/font_color = Color( 1, 1, 1, 1 )
-Label/colors/font_color_shadow = Color( 0.196078, 0.196078, 0.196078, 1 )
+[sub_resource type="Theme" id="2"]
+default_font = SubResource("1")
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_color_shadow = Color(0.196078, 0.196078, 0.196078, 1)
 Label/constants/line_spacing = 1
 Label/constants/shadow_as_outline = 1
 Label/constants/shadow_offset_x = 1
 Label/constants/shadow_offset_y = 1
-Label/fonts/font = null
+Label/fonts/font = SubResource("1")
 
 [node name="inventory" type="Panel"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 10.0
-margin_top = 200.0
-margin_right = 550.0
-margin_bottom = 790.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
+offset_left = 10.0
+offset_top = 200.0
+offset_right = 550.0
+offset_bottom = 790.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-theme = SubResource( 2 )
-script = ExtResource( 2 )
+theme = SubResource("2")
+script = ExtResource("2")
 
-[node name="sort" type="Container" parent="."]
-
-anchor_left = 0.0
-anchor_top = 0.0
+[node name="sort" type="Control" parent="."]
+anchors_preset = 0
 anchor_right = 1.0
-anchor_bottom = 0.0
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 20.0
-margin_bottom = 50.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 20.0
+offset_bottom = 50.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 
 [node name="Label" type="Label" parent="sort"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 90.0
-margin_bottom = 30.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
+layout_mode = 2
+offset_right = 90.0
+offset_bottom = 30.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "Sort by:"
-align = 2
-valign = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
 
 [node name="OptionButton" type="OptionButton" parent="sort"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 100.0
-margin_right = 411.0
-margin_bottom = 30.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
+layout_mode = 2
+offset_left = 100.0
+offset_right = 411.0
+offset_bottom = 30.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
+focus_mode = 0
 toggle_mode = false
-enabled_focus_mode = 0
-shortcut = null
-group = null
-text = "Name"
-flat = false
-align = 0
-selected = 0
-items = [ "Name", null, false, -1, null, "Quantity", null, false, -1, null, "Rarety", null, false, -1, null ]
 
 [node name="Button" type="Button" parent="sort"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 420.0
-margin_right = 500.0
-margin_bottom = 30.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
+layout_mode = 2
+offset_left = 420.0
+offset_right = 500.0
+offset_bottom = 30.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
 text = "Sort"
-flat = false
 
 [node name="items" type="GridContainer" parent="."]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
+layout_mode = 0
 anchor_bottom = 1.0
-margin_left = 20.0
-margin_top = 70.0
-margin_right = 520.0
-margin_bottom = 20.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
+offset_left = 20.0
+offset_top = 70.0
+offset_right = 520.0
+offset_bottom = 20.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
-custom_constants/vseparation = 0
-custom_constants/hseparation = 0
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
 columns = 10
-
-

@@ -1,15 +1,19 @@
 [remap]
 
-importer="ogg_vorbis"
-type="AudioStreamOGGVorbis"
-path="res://.import/ohayou.ogg-e5d45b2cc4d56627a8212f083c78a12e.oggstr"
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://ie5e1jsyd7ac"
+path="res://.godot/imported/ohayou.ogg-e5d45b2cc4d56627a8212f083c78a12e.oggvorbisstr"
 
 [deps]
 
 source_file="res://data/sounds/ohayou.ogg"
-dest_files=[ "res://.import/ohayou.ogg-e5d45b2cc4d56627a8212f083c78a12e.oggstr" ]
+dest_files=["res://.godot/imported/ohayou.ogg-e5d45b2cc4d56627a8212f083c78a12e.oggvorbisstr"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,9 +1,9 @@
-[gd_resource type="Theme" load_steps=2 format=2]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cv4ef23jt6x3k"]
 
-[sub_resource type="StyleBoxTexture" id=1]
-region_rect = Rect2( 0, 0, 100, 100 )
+[sub_resource type="StyleBoxTexture" id="1"]
+region_rect = Rect2(0, 0, 100, 100)
 
 [resource]
-Panel/styles/panel = SubResource( 1 )
+Panel/styles/panel = SubResource("1")
 Panel/styles/panelf = null
 Panel/styles/panelnc = null

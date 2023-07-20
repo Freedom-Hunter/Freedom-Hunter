@@ -5,14 +5,15 @@ extends Consumable
 var stamina
 
 
-func _init(_name, _icon, _quantity, _stamina).(_name, _icon, _quantity, 10, 50):
+func _init(_name, _icon, _quantity, _stamina):
+	super(_name, _icon, _quantity, 10, 50)
 	stamina = _stamina
 
 
-func effect(_player):
-	if _player.stamina_max < _player.MAX_STAMINA and _player.is_idle():
-		_player.stamina_max_increase(stamina)
-		_player.animation_node.play("eat")
+func effect(target: Player):
+	if target.stamina_max < target.MAX_STAMINA and target.is_idle():
+		target.stamina_max_increase(stamina)
+		target.state_machine.travel("eat")
 		return true
 	return false
 
