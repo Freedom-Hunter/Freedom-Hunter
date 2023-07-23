@@ -6,8 +6,8 @@ var gravity = -10
 const PlayerScene = preload("res://data/scenes/player/male.tscn")
 
 
-var game
-var hud
+var game: Node3D
+var hud: Control
 var players_spawn: Marker3D
 var monsters_spawn: Marker3D
 
@@ -38,7 +38,7 @@ func add_player(_name, id=1, transform=null):
 		prints(_name, "is remote player")
 	if transform != null:
 		player.transform = transform
-	emit_signal("player_connected", _name)
+	player_connected.emit(_name)
 	return player
 
 
@@ -51,8 +51,6 @@ func start_game(local_player_name):
 	if local_player_name != null:
 		hud = preload("res://data/scenes/hud.tscn").instantiate()
 		$"/root".add_child(hud)
-		player_connected.connect(hud.get_node("margin/view")._on_player_connected)
-		player_disconnected.connect(hud.get_node("margin/view")._on_player_disconnected)
 
 	game = preload("res://data/scenes/game.tscn").instantiate()
 	$"/root".add_child(game)
@@ -66,15 +64,15 @@ func start_game(local_player_name):
 		local_player = PlayerScene.instantiate()
 		local_player.set_multiplayer_authority(networking.unique_id)
 		local_player.set_name(local_player_name)
-		local_player.inventory.connect("modified", Callable($"/root/hud/margin/view/items", "_on_inventory_modified"))
-
+		local_player.inventory.connect("modified", $/root/hud/items._on_inventory_modified)
+		
 		var potion    = Potion.new("Potion",       preload("res://data/images/items/potion.png"),    10, 20)
 		var whetstone = Whetstone.new("Whetstone", preload("res://data/images/items/whetstone.png"), 10, 20)
 		var meat      = Meat.new("Meat",           preload("res://data/images/items/meat.png"),      5,  25)
 		local_player.inventory.set_items([potion, whetstone, meat], 30)
 
-		local_player.hp_changed.connect($/root/hud/margin/view/status._on_hp_changed)
-		local_player.stamina_changed.connect($/root/hud/margin/view/status._on_stamina_changed)
+		local_player.hp_changed.connect($/root/hud/status._on_hp_changed)
+		local_player.stamina_changed.connect($/root/hud/status._on_stamina_changed)
 		# Connect signals BEFORE player._ready
 		players_spawn.add_child(local_player)
 		player_connected.emit(local_player_name)

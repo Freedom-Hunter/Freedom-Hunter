@@ -1,15 +1,15 @@
 extends "equipment.gd"
 
 
-@onready var sharpness_node = get_node("/root/hud/margin/view/status/sharpness/fading")
+@onready var sharpness_node = get_node("/root/hud/status/sharpness/fading")
 
-@export var red_sharpness    = 0 # (int, 0, 100)
-@export var orange_sharpness = 0 # (int, 0, 100)
-@export var yellow_sharpness = 0 # (int, 0, 100)
-@export var green_sharpness  = 0 # (int, 0, 100)
-@export var blue_sharpness   = 0 # (int, 0, 100)
-@export var white_sharpness  = 0 # (int, 0, 100)
-@export var purple_sharpness = 0 # (int, 0, 100)
+@export_range(0, 100) var red_sharpness    = 0
+@export_range(0, 100) var orange_sharpness = 0
+@export_range(0, 100) var yellow_sharpness = 0
+@export_range(0, 100) var green_sharpness  = 0
+@export_range(0, 100) var blue_sharpness   = 0
+@export_range(0, 100) var white_sharpness  = 0
+@export_range(0, 100) var purple_sharpness = 0
 
 
 class Sharp:

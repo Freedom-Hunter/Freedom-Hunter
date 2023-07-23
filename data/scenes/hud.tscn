@@ -1,13 +1,19 @@
-[gd_scene load_steps=14 format=3 uid="uid://bkj0gvwmgnq7g"]
+[gd_scene load_steps=20 format=3 uid="uid://bkj0gvwmgnq7g"]
 
 [ext_resource type="PackedScene" uid="uid://cawiyyo8kqls8" path="res://data/scenes/onscreen_controls.tscn" id="2"]
-[ext_resource type="Script" path="res://src/hud.gd" id="3"]
+[ext_resource type="Script" path="res://src/interface/hud/names.gd" id="2_nkqxo"]
 [ext_resource type="PackedScene" uid="uid://bmsugvru6w6kw" path="res://data/scenes/interface/items/bar.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://hurwpv6wr4w3" path="res://data/scenes/interface/status.tscn" id="5"]
 [ext_resource type="Script" path="res://src/FPS.gd" id="6"]
 [ext_resource type="FontFile" uid="uid://nprnupm46ucy" path="res://data/fonts/Medieval Sharp/MedievalSharp.ttf" id="7"]
+[ext_resource type="Script" path="res://src/interface/hud/interact.gd" id="7_spimr"]
 [ext_resource type="AudioStream" uid="uid://b1qwrp70gatp0" path="res://data/sounds/beatbox.wav" id="8"]
+[ext_resource type="Script" path="res://src/interface/hud/notification.gd" id="8_lr1ew"]
 [ext_resource type="PackedScene" uid="uid://bj0cxkkbkpebi" path="res://data/scenes/pause_menu.tscn" id="9"]
+[ext_resource type="Script" path="res://src/interface/hud/players_list.gd" id="9_cc5pw"]
+[ext_resource type="Script" path="res://src/interface/hud/debug.gd" id="10_hm8xl"]
+[ext_resource type="Script" path="res://src/interface/hud/inventory.gd" id="12_i0015"]
+[ext_resource type="Script" path="res://src/interface/hud/respawn.gd" id="13_0cvck"]
 
 [sub_resource type="FontFile" id="1"]
 face_index = null
@@ -47,38 +53,62 @@ length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
+tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3, 1.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(660, -100), Vector2(660, 500), Vector2(660, 500)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.5, 2),
+"times": PackedFloat32Array(0, 1.4, 1.9),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ringtone:playing")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ringtone:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:offset_top")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-650, 0, 0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:offset_bottom")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-550, -100, -100.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5oav4"]
@@ -99,74 +129,83 @@ theme = SubResource("2")
 
 [node name="onscreen" parent="." instance=ExtResource("2")]
 custom_minimum_size = Vector2(1920, 1080)
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
+layout_mode = 1
 
-[node name="margin" type="MarginContainer" parent="."]
-layout_mode = 0
+[node name="names" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+script = ExtResource("2_nkqxo")
 
-[node name="view" type="Control" parent="margin"]
-layout_mode = 2
-script = ExtResource("3")
-
-[node name="items" parent="margin/view" instance=ExtResource("4")]
+[node name="items" parent="." instance=ExtResource("4")]
 layout_mode = 1
-offset_top = -144.0
+anchors_preset = -1
+offset_left = 20.0
+offset_top = -164.0
+offset_right = 420.0
+offset_bottom = -20.0
 grow_vertical = 0
 
-[node name="status" parent="margin/view" instance=ExtResource("5")]
-layout_mode = 0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 600.0
-offset_bottom = 114.0
+[node name="status" parent="." instance=ExtResource("5")]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 404.0
+offset_bottom = 110.0
 
-[node name="FPS" type="Label" parent="margin/view"]
-layout_mode = 0
+[node name="FPS" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -46.0
-offset_bottom = 22.0
+offset_left = -70.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 36.0
+grow_horizontal = 0
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "FPS: 60"
 script = ExtResource("6")
 
-[node name="names" type="Control" parent="margin/view"]
-anchors_preset = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-
-[node name="action" type="Button" parent="margin/view"]
+[node name="interact" type="Button" parent="."]
 visible = false
-layout_mode = 0
-offset_right = 20.0
-offset_bottom = 28.0
+layout_mode = 2
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 36.0
+offset_bottom = 44.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "E"
+script = ExtResource("7_spimr")
 
-[node name="notification" type="Panel" parent="margin/view"]
+[node name="notification" type="Panel" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(600, 100)
-layout_mode = 0
-offset_left = 660.0
-offset_top = 500.0
-offset_right = 1260.0
-offset_bottom = 600.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_right = 300.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
+script = ExtResource("8_lr1ew")
 
-[node name="text" type="Label" parent="margin/view/notification"]
+[node name="text" type="Label" parent="notification"]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -175,37 +214,42 @@ size_flags_vertical = 3
 theme_override_fonts/font = SubResource("3")
 text = "Hai ottenuto: %s"
 
-[node name="animation" type="AnimationPlayer" parent="margin/view/notification"]
+[node name="animation" type="AnimationPlayer" parent="notification"]
 libraries = {
 "": SubResource("AnimationLibrary_5oav4")
 }
 
-[node name="ringtone" type="AudioStreamPlayer" parent="margin/view/notification"]
+[node name="ringtone" type="AudioStreamPlayer" parent="notification"]
 stream = ExtResource("8")
 volume_db = -20.0
 
-[node name="players_list" type="VBoxContainer" parent="margin/view"]
+[node name="players_list" type="VBoxContainer" parent="."]
 visible = false
 custom_minimum_size = Vector2(400, 200)
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_top = -100.0
 offset_right = 400.0
 offset_bottom = 100.0
+grow_vertical = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
+script = ExtResource("9_cc5pw")
 
-[node name="list" type="Label" parent="margin/view/players_list"]
+[node name="list" type="Label" parent="players_list"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "Lista dei giocatori collegati:"
 
-[node name="inventory" type="Popup" parent="margin/view"]
-size = Vector2i(334, 100)
+[node name="inventory" type="Popup" parent="."]
+title = "Player's Inventory"
+size = Vector2i(156, 100)
+script = ExtResource("12_i0015")
 
-[node name="quit" type="Button" parent="margin/view/inventory"]
+[node name="quit" type="Button" parent="inventory"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -217,24 +261,31 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Quit"
 
-[node name="respawn" type="AcceptDialog" parent="margin/view"]
+[node name="respawn" type="AcceptDialog" parent="."]
+initial_position = 4
+size = Vector2i(158, 100)
 dialog_text = "Respawn in 5 seconds"
+script = ExtResource("13_0cvck")
 
-[node name="debug" type="Label" parent="margin/view"]
+[node name="debug" type="Label" parent="."]
+visible = false
+clip_contents = true
 custom_minimum_size = Vector2(400, 150)
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -400.0
 offset_top = -150.0
+grow_horizontal = 0
+grow_vertical = 0
 text = "Debug placeholder"
 clip_text = true
+script = ExtResource("10_hm8xl")
 
 [node name="pause_menu" parent="." instance=ExtResource("9")]
 visible = false
 
-[connection signal="pressed" from="margin/view/action" to="." method="_on_action_pressed"]
-[connection signal="pressed" from="margin/view/inventory/quit" to="margin/view" method="close_inventories"]
-[connection signal="confirmed" from="margin/view/respawn" to="margin/view" method="_on_respawn_confirmed"]
+[connection signal="confirmed" from="respawn" to="respawn" method="_on_respawn_confirmed"]

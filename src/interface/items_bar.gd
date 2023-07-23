@@ -4,10 +4,10 @@ extends Control
 var null_item := Consumable.new("None", preload("res://data/images/items/null.png"), 0, 0, 0)
 
 var inventory: Inventory
-var active_item = 0  # active_item == 0 is null_item
+var active_item := 0  # active_item == 0 is null_item
 
 var touch_index = null
-var drag = 0
+var drag := 0
 
 
 func _on_inventory_modified(inv: Inventory):
@@ -28,7 +28,7 @@ func get_active_item() -> Item:
 
 
 func use_active_item():
-	var item = get_active_item()
+	var item := get_active_item()
 	if item != null_item:
 		inventory.use_item(item, global.local_player)
 		update()

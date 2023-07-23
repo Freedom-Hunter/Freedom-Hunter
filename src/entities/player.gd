@@ -8,7 +8,7 @@ const Inventory = preload("res://src/inventory.gd")
 @onready var camera_node: Camera3D = yaw_node.get_node("pitch/camera")
 @onready var camera_offset := yaw_node.get_position().y
 
-@onready var hud: HUD = get_node("/root/hud/margin/view")
+@onready var hud = get_node("/root/hud/margin/view")
 @onready var onscreen: OnscreenControls = get_node("/root/hud/onscreen")
 
 var equipment = {"weapon": null, "armour": {"head": null, "torso": null, "rightarm": null, "leftarm": null, "leg": null}}
@@ -223,4 +223,8 @@ func _on_animation_tree_animation_finished(anim_name: String):
 		"drink":
 			animation_tree["parameters/conditions/drink"] = false
 			stop()
+
+
+func get_name_position() -> Vector3:
+	return $name.global_position
 

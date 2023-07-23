@@ -1,12 +1,55 @@
-[gd_scene load_steps=12 format=3 uid="uid://hurwpv6wr4w3"]
+[gd_scene load_steps=18 format=3 uid="uid://hurwpv6wr4w3"]
 
 [ext_resource type="Script" path="res://src/interface/status.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://q567rjecu8o6" path="res://data/images/hud/sharpening/sharpening.png" id="2"]
 [ext_resource type="Texture2D" uid="uid://c461earldswuy" path="res://data/images/hud/sharpening/sharpening_type.png" id="3"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bvfcu"]
+bg_color = Color(0, 0, 0, 0)
+skew = Vector2(0.5, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.980392, 0.768627, 0, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slkpc"]
+bg_color = Color(0, 0.745098, 0, 1)
+skew = Vector2(0.5, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fem6u"]
+bg_color = Color(0, 0, 0, 1)
+skew = Vector2(0.5, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ertw2"]
+bg_color = Color(0.933333, 0, 0, 1)
+skew = Vector2(0.5, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tupdr"]
+bg_color = Color(0, 0, 0, 1)
+skew = Vector2(0.5, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.980392, 0.768627, 0, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8err1"]
+bg_color = Color(0.878431, 0.513726, 0, 1)
+skew = Vector2(0.5, 0)
+
 [sub_resource type="Animation" id="7"]
 resource_name = "blue"
 length = 2.0
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -23,6 +66,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="8"]
 resource_name = "green"
 length = 2.0
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -39,6 +83,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="9"]
 resource_name = "orange"
 length = 1.6
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -55,6 +100,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="10"]
 resource_name = "purple"
 length = 2.0
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -71,6 +117,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="11"]
 resource_name = "red"
 length = 1.4
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -87,6 +134,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="12"]
 resource_name = "white"
 length = 2.0
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -103,6 +151,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="13"]
 resource_name = "yellow"
 length = 1.8
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -146,7 +195,9 @@ text = "100/100"
 custom_minimum_size = Vector2(300, 14)
 layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 2
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_bvfcu")
+theme_override_styles/fill = SubResource("StyleBoxFlat_slkpc")
 step = 1.0
 value = 50.0
 show_percentage = false
@@ -157,6 +208,8 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_fem6u")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ertw2")
 step = 1.0
 value = 75.0
 show_percentage = false
@@ -173,8 +226,10 @@ text = "100/100"
 custom_minimum_size = Vector2(300, 14)
 layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 2
+size_flags_vertical = 4
 size_flags_stretch_ratio = 0.0
+theme_override_styles/background = SubResource("StyleBoxFlat_tupdr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_8err1")
 max_value = 50.0
 value = 50.0
 show_percentage = false
@@ -194,7 +249,7 @@ texture = ExtResource("2")
 expand_mode = 1
 
 [node name="type" type="TextureRect" parent="sharpness"]
-modulate = Color(0.252208, 0.438262, 0.996425, 0.915152)
+modulate = Color(0.740162, 1, 0.740168, 0.395944)
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
