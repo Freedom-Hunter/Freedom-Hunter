@@ -47,3 +47,4 @@ func _on_back_pressed():
 	$multiplayer.hide()
 	$credits.hide()
 	$mode/singleplayer.grab_focus()
+	$Animation.play_backwards("chose")

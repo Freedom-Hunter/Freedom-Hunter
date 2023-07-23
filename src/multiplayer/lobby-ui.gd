@@ -4,15 +4,15 @@ extends Control
 const CONF_FILE = "user://multiplayer.conf"
 
 @onready var config = ConfigFile.new()
-@onready var lobby_grid = get_node("lobby/scroll/grid")
-@onready var client_port = get_node("direct/vbox/client/input/port")
-@onready var client_host = get_node("direct/vbox/client/input/host")
-@onready var server_port = get_node("direct/vbox/server/input/port")
-@onready var server_host = get_node("direct/vbox/server/input/host")
-@onready var username_node = get_node("header/vbox/input/username")
-@onready var server_start = get_node("direct/vbox/server/start")
-@onready var client_connect = get_node("direct/vbox/client/connect")
-@onready var announce_node = get_node("direct/vbox/server/announce")
+@onready var lobby_grid = get_node("grid/hbox/lobby/scroll/grid")
+@onready var client_port = get_node("grid/hbox/direct/vbox/client/input/port")
+@onready var client_host = get_node("grid/hbox/direct/vbox/client/input/host")
+@onready var server_port = get_node("grid/hbox/direct/vbox/server/input/port")
+@onready var server_host = get_node("grid/hbox/direct/vbox/server/input/host")
+@onready var username_node = get_node("grid/header/vbox/input/username")
+@onready var server_start = get_node("grid/hbox/direct/vbox/server/start")
+@onready var client_connect = get_node("grid/hbox/direct/vbox/client/connect")
+@onready var announce_node = get_node("grid/hbox/direct/vbox/server/announce")
 
 
 func my_show():
@@ -145,7 +145,7 @@ func _on_lobby_connect_pressed(button):
 	get_parent().queue_free()
 
 
-func _on_username_text_changed(text):
+func _on_username_text_changed(text: String):
 	if text.length() < 2:
 		var disable = get_valid_username() == null
 		for child in lobby_grid.get_children():

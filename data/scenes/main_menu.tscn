@@ -1,15 +1,16 @@
 [gd_scene load_steps=11 format=3 uid="uid://dhja1fjwo5mj2"]
 
-[ext_resource type="Theme" path="res://data/themes/main_menu/main.theme" id="1"]
+[ext_resource type="Theme" uid="uid://f86hai17xk26" path="res://data/themes/main_menu/main.theme" id="1"]
 [ext_resource type="Script" path="res://src/main_menu.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://gj5hg080nsx" path="res://data/images/main_menu/background/background.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://dr1enx8dbe2u8" path="res://data/images/main_menu/background/bottom_bar.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://dfr57w5oh70so" path="res://data/images/main_menu/background/top_bar.png" id="5"]
-[ext_resource type="PackedScene" path="res://data/scenes/multiplayer/lobby.tscn" id="6"]
-[ext_resource type="PackedScene" path="res://data/scenes/credits.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://cqd63o2n4lgh" path="res://data/scenes/multiplayer/lobby.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://dx2hm2wj3evh3" path="res://data/scenes/credits.tscn" id="7"]
 
 [sub_resource type="Animation" id="1"]
 length = 10.0
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -25,50 +26,17 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="2"]
 resource_name = "chose"
-length = 2.0
-tracks/0/type = "bezier"
+tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("mode:modulate:r")
+tracks/0/path = NodePath("mode:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(),
-"points": PackedFloat32Array(),
-"times": PackedFloat32Array()
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("mode:modulate:g")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(),
-"points": PackedFloat32Array(),
-"times": PackedFloat32Array()
-}
-tracks/2/type = "bezier"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("mode:modulate:b")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"handle_modes": PackedInt32Array(),
-"points": PackedFloat32Array(),
-"times": PackedFloat32Array()
-}
-tracks/3/type = "bezier"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("mode:modulate:a")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"handle_modes": PackedInt32Array(),
-"points": PackedFloat32Array(),
-"times": PackedFloat32Array()
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.5, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.709804), Color(1, 1, 1, 1), Color(1, 1, 1, 0.4), Color(1, 1, 1, 0.47451), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_u6epe"]
@@ -102,36 +70,33 @@ texture = ExtResource("3")
 expand_mode = 1
 
 [node name="bottom" type="TextureRect" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -100.0
-offset_right = -1.0
-offset_bottom = -1.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 texture = ExtResource("4")
 expand_mode = 1
 
 [node name="top" type="TextureRect" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
 anchor_right = 1.0
 offset_bottom = 100.0
+grow_horizontal = 2
 texture = ExtResource("5")
 expand_mode = 1
 
 [node name="mode" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -460.0
-offset_top = -432.0
-offset_right = 460.0
-offset_bottom = 432.0
+anchors_preset = -1
+anchor_left = 0.3
+anchor_top = 0.1
+anchor_right = 0.7
+anchor_bottom = 0.9
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 2
@@ -177,21 +142,25 @@ libraries = {
 
 [node name="multiplayer" parent="." instance=ExtResource("6")]
 visible = false
-anchors_preset = 0
-offset_right = -1.0
-offset_bottom = -1.0
+layout_mode = 1
+anchors_preset = -1
+offset_left = 50.0
+offset_top = 110.0
+offset_right = -50.0
+offset_bottom = -110.0
 
 [node name="credits" parent="." instance=ExtResource("7")]
 visible = false
-anchors_preset = 0
+layout_mode = 1
 
 [node name="back" type="Button" parent="."]
 visible = false
-layout_mode = 0
-offset_left = 100.0
-offset_top = 100.0
-offset_right = 300.0
-offset_bottom = 200.0
+layout_mode = 1
+anchors_preset = -1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 100.0
+offset_bottom = 50.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Back"

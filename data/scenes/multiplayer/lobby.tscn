@@ -1,363 +1,296 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://cqd63o2n4lgh"]
 
-[ext_resource path="res://data/themes/main_menu/main.theme" type="Theme" id=1]
-[ext_resource path="res://src/multiplayer/lobby-ui.gd" type="Script" id=2]
-[ext_resource path="res://data/fonts/Medieval Sharp/MedievalSharp.ttf" type="FontFile" id=3]
+[ext_resource type="Theme" uid="uid://f86hai17xk26" path="res://data/themes/main_menu/main.theme" id="1"]
+[ext_resource type="Script" path="res://src/multiplayer/lobby-ui.gd" id="2"]
+[ext_resource type="FontFile" uid="uid://nprnupm46ucy" path="res://data/fonts/Medieval Sharp/MedievalSharp.ttf" id="3"]
 
-[sub_resource type="FontFile" id=1]
-size = 84
-font_data = ExtResource( 3 )
+[sub_resource type="FontFile" id="1"]
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
+fallbacks = Array[Font]([ExtResource("3"), ExtResource("3")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="Theme" id=2]
-default_font = SubResource( 1 )
+[sub_resource type="Theme" id="2"]
+default_font = SubResource("1")
 
 [node name="multiplayer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-theme = ExtResource( 1 )
-script = ExtResource( 2 )
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1")
+script = ExtResource("2")
 
-[node name="header" type="PanelContainer" parent="."]
-editor/display_folded = true
+[node name="connecting" type="PopupPanel" parent="."]
+disable_3d = true
+initial_position = 4
+size = Vector2i(200, 100)
+
+[node name="Label" type="Label" parent="connecting"]
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-offset_left = -400.0
-offset_top = 100.0
-offset_right = 400.0
-offset_bottom = 219.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 196.0
+offset_bottom = 96.0
+theme = SubResource("2")
+text = "Connecting"
 
-[node name="vbox" type="VBoxContainer" parent="header"]
-offset_left = 7.0
-offset_top = 7.0
-offset_right = 793.0
-offset_bottom = 112.0
+[node name="error_dialog" type="AcceptDialog" parent="."]
+initial_position = 4
+size = Vector2i(300, 200)
+dialog_text = "Network Error"
+
+[node name="grid" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+
+[node name="header" type="PanelContainer" parent="grid"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="vbox" type="VBoxContainer" parent="grid/header"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
 theme_override_constants/separation = 15
 
-[node name="title" type="Label" parent="header/vbox"]
-offset_right = 786.0
-offset_bottom = 40.0
+[node name="title" type="Label" parent="grid/header/vbox"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
 text = "Freedom Hunter Multiplayer Lobby"
-align = 1
 
-[node name="input" type="HBoxContainer" parent="header/vbox"]
-offset_top = 55.0
-offset_right = 786.0
-offset_bottom = 105.0
+[node name="input" type="HBoxContainer" parent="grid/header/vbox"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
 theme_override_constants/separation = 15
 
-[node name="username-label" type="Label" parent="header/vbox/input"]
-offset_right = 156.0
-offset_bottom = 40.0
+[node name="username-label" type="Label" parent="grid/header/vbox/input"]
+layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Username:"
-align = 2
-valign = 1
 
-[node name="username" type="LineEdit" parent="header/vbox/input"]
-offset_left = 207.0
-offset_right = 786.0
-offset_bottom = 50.0
+[node name="username" type="LineEdit" parent="grid/header/vbox/input"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
 size_flags_stretch_ratio = 3.0
 placeholder_text = "Enter player's name"
 
-[node name="direct" type="PanelContainer" parent="."]
-editor/display_folded = true
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -600.0
-offset_top = -800.0
-offset_right = -50.0
-offset_bottom = -50.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
+[node name="hbox" type="HBoxContainer" parent="grid"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 30
 
-[node name="vbox" type="VBoxContainer" parent="direct"]
-offset_left = 7.0
-offset_top = 7.0
-offset_right = 543.0
-offset_bottom = 743.0
+[node name="lobby" type="PanelContainer" parent="grid/hbox"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 0
 
-[node name="title" type="Label" parent="direct/vbox"]
-offset_right = 536.0
-offset_bottom = 40.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-text = "Direct Connection"
-align = 1
-
-[node name="client" type="VBoxContainer" parent="direct/vbox"]
-offset_top = 148.0
-offset_right = 536.0
-offset_bottom = 416.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-theme_override_constants/separation = 20
-
-[node name="Label" type="Label" parent="direct/vbox/client"]
-offset_right = 536.0
-offset_bottom = 40.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-text = "Client"
-align = 1
-
-[node name="input" type="GridContainer" parent="direct/vbox/client"]
-offset_top = 60.0
-offset_right = 536.0
-offset_bottom = 170.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-theme_override_constants/v_separation = 10
-theme_override_constants/h_separation = 10
-columns = 2
-
-[node name="host-label" type="Label" parent="direct/vbox/client/input"]
-offset_right = 263.0
-offset_bottom = 40.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-text = "Host: "
-align = 2
-
-[node name="host" type="LineEdit" parent="direct/vbox/client/input"]
-offset_left = 273.0
-offset_right = 536.0
-offset_bottom = 50.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-placeholder_text = "IP address or hostname"
-
-[node name="port-label" type="Label" parent="direct/vbox/client/input"]
-offset_top = 60.0
-offset_right = 263.0
-offset_bottom = 100.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-text = "UDP port: "
-align = 2
-
-[node name="port" type="LineEdit" parent="direct/vbox/client/input"]
-offset_left = 273.0
-offset_top = 60.0
-offset_right = 536.0
-offset_bottom = 110.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-size_flags_stretch_ratio = 2.0
-text = "30500"
-max_length = 5
-placeholder_text = "UDP port"
-
-[node name="connect" type="Button" parent="direct/vbox/client"]
-offset_top = 190.0
-offset_right = 536.0
-offset_bottom = 268.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-text = "Connect"
-
-[node name="server" type="VBoxContainer" parent="direct/vbox"]
-offset_top = 416.0
-offset_right = 536.0
-offset_bottom = 736.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-theme_override_constants/separation = 20
-
-[node name="Label" type="Label" parent="direct/vbox/server"]
-offset_right = 536.0
-offset_bottom = 40.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-text = "Server"
-align = 1
-
-[node name="input" type="GridContainer" parent="direct/vbox/server"]
-offset_top = 60.0
-offset_right = 536.0
-offset_bottom = 170.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-theme_override_constants/v_separation = 10
-theme_override_constants/h_separation = 10
-columns = 2
-
-[node name="host-label" type="Label" parent="direct/vbox/server/input"]
-offset_right = 263.0
-offset_bottom = 40.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-text = "Host:"
-align = 2
-
-[node name="host" type="LineEdit" parent="direct/vbox/server/input"]
-offset_left = 273.0
-offset_right = 536.0
-offset_bottom = 50.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-placeholder_text = "External address"
-
-[node name="port-label" type="Label" parent="direct/vbox/server/input"]
-offset_top = 60.0
-offset_right = 263.0
-offset_bottom = 100.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-text = "UDP port: "
-align = 2
-
-[node name="port" type="LineEdit" parent="direct/vbox/server/input"]
-offset_left = 273.0
-offset_top = 60.0
-offset_right = 536.0
-offset_bottom = 110.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-size_flags_stretch_ratio = 2.0
-text = "30500"
-max_length = 5
-placeholder_text = "UDP port"
-
-[node name="announce" type="CheckButton" parent="direct/vbox/server"]
-offset_top = 190.0
-offset_right = 536.0
-offset_bottom = 222.0
-size_flags_horizontal = 7
-size_flags_vertical = 2
-text = "Announce"
-
-[node name="start" type="Button" parent="direct/vbox/server"]
-offset_top = 242.0
-offset_right = 536.0
-offset_bottom = 320.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-text = "Start Server"
-
-[node name="lobby" type="PanelContainer" parent="."]
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 50.0
-offset_top = -800.0
-offset_right = 1300.0
-offset_bottom = -50.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
-
-[node name="refresh" type="Timer" parent="lobby"]
+[node name="refresh" type="Timer" parent="grid/hbox/lobby"]
 wait_time = 10.0
 
-[node name="scroll" type="ScrollContainer" parent="lobby"]
-offset_left = 7.0
-offset_top = 7.0
-offset_right = 1243.0
-offset_bottom = 743.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="scroll" type="ScrollContainer" parent="grid/hbox/lobby"]
+layout_mode = 2
 
-[node name="grid" type="GridContainer" parent="lobby/scroll"]
-offset_right = 1236.0
-offset_bottom = 78.0
+[node name="grid" type="GridContainer" parent="grid/hbox/lobby/scroll"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
-theme_override_constants/v_separation = 20
 theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 20
 columns = 5
 
-[node name="hostname" type="Label" parent="lobby/scroll/grid"]
-offset_right = 144.0
-offset_bottom = 40.0
+[node name="hostname" type="Label" parent="grid/hbox/lobby/scroll/grid"]
+layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "Hostname"
 
-[node name="port" type="Label" parent="lobby/scroll/grid"]
-offset_left = 250.0
-offset_right = 316.0
-offset_bottom = 40.0
+[node name="port" type="Label" parent="grid/hbox/lobby/scroll/grid"]
+layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "Port"
 
-[node name="players" type="Label" parent="lobby/scroll/grid"]
-offset_left = 500.0
-offset_right = 612.0
-offset_bottom = 40.0
+[node name="players" type="Label" parent="grid/hbox/lobby/scroll/grid"]
+layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "Players"
 
-[node name="max_players" type="Label" parent="lobby/scroll/grid"]
-offset_left = 750.0
-offset_right = 927.0
-offset_bottom = 40.0
+[node name="max_players" type="Label" parent="grid/hbox/lobby/scroll/grid"]
+layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "Max players"
 
-[node name="refresh" type="Button" parent="lobby/scroll/grid"]
-offset_left = 1000.0
-offset_right = 1235.0
-offset_bottom = 78.0
+[node name="refresh" type="Button" parent="grid/hbox/lobby/scroll/grid"]
+layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Refresh"
 
-[node name="connecting" type="PopupPanel" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -500.0
-offset_top = -124.5
-offset_right = 500.0
-offset_bottom = 124.5
+[node name="direct" type="PanelContainer" parent="grid/hbox"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="connecting"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -496.0
-offset_top = -120.5
-offset_right = 496.0
-offset_bottom = 120.5
-theme = SubResource( 2 )
-text = "Connecting"
-align = 1
-valign = 1
+[node name="vbox" type="VBoxContainer" parent="grid/hbox/direct"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 50
 
-[node name="error_dialog" type="AcceptDialog" parent="."]
-offset_right = 211.0
-offset_bottom = 142.0
-window_title = "Network error"
-dialog_text = "Network Error"
-[connection signal="text_changed" from="header/vbox/input/username" to="." method="_on_username_text_changed"]
-[connection signal="text_changed" from="direct/vbox/client/input/host" to="." method="client_validate_input"]
-[connection signal="text_changed" from="direct/vbox/client/input/port" to="." method="client_validate_input"]
-[connection signal="pressed" from="direct/vbox/client/connect" to="." method="_on_connect_pressed"]
-[connection signal="text_changed" from="direct/vbox/server/input/host" to="." method="server_validate_input"]
-[connection signal="text_changed" from="direct/vbox/server/input/port" to="." method="server_validate_input"]
-[connection signal="toggled" from="direct/vbox/server/announce" to="." method="server_validate_input"]
-[connection signal="pressed" from="direct/vbox/server/start" to="." method="_on_start_pressed"]
-[connection signal="timeout" from="lobby/refresh" to="." method="request_servers_list"]
-[connection signal="pressed" from="lobby/scroll/grid/refresh" to="." method="request_servers_list"]
+[node name="title" type="Label" parent="grid/hbox/direct/vbox"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Direct Connection"
+
+[node name="client" type="VBoxContainer" parent="grid/hbox/direct/vbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="grid/hbox/direct/vbox/client"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+text = "Client"
+
+[node name="input" type="GridContainer" parent="grid/hbox/direct/vbox/client"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="host-label" type="Label" parent="grid/hbox/direct/vbox/client/input"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+text = "Host: "
+
+[node name="host" type="LineEdit" parent="grid/hbox/direct/vbox/client/input"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+placeholder_text = "IP address or hostname"
+
+[node name="port-label" type="Label" parent="grid/hbox/direct/vbox/client/input"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+text = "UDP port: "
+
+[node name="port" type="LineEdit" parent="grid/hbox/direct/vbox/client/input"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+size_flags_stretch_ratio = 2.0
+text = "30500"
+placeholder_text = "UDP port"
+max_length = 5
+
+[node name="connect" type="Button" parent="grid/hbox/direct/vbox/client"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+text = "Connect"
+
+[node name="server" type="VBoxContainer" parent="grid/hbox/direct/vbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="grid/hbox/direct/vbox/server"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+text = "Server"
+
+[node name="input" type="GridContainer" parent="grid/hbox/direct/vbox/server"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="host-label" type="Label" parent="grid/hbox/direct/vbox/server/input"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+text = "Host:"
+
+[node name="host" type="LineEdit" parent="grid/hbox/direct/vbox/server/input"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+placeholder_text = "External address"
+
+[node name="port-label" type="Label" parent="grid/hbox/direct/vbox/server/input"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+text = "UDP port: "
+
+[node name="port" type="LineEdit" parent="grid/hbox/direct/vbox/server/input"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+size_flags_stretch_ratio = 2.0
+text = "30500"
+placeholder_text = "UDP port"
+max_length = 5
+
+[node name="announce" type="CheckButton" parent="grid/hbox/direct/vbox/server"]
+layout_mode = 2
+size_flags_horizontal = 7
+size_flags_vertical = 2
+text = "Announce"
+
+[node name="start" type="Button" parent="grid/hbox/direct/vbox/server"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+text = "Start Server"
+
+[connection signal="text_changed" from="grid/header/vbox/input/username" to="." method="_on_username_text_changed"]
+[connection signal="timeout" from="grid/hbox/lobby/refresh" to="." method="request_servers_list"]
+[connection signal="pressed" from="grid/hbox/lobby/scroll/grid/refresh" to="." method="request_servers_list"]
+[connection signal="text_changed" from="grid/hbox/direct/vbox/client/input/host" to="." method="client_validate_input"]
+[connection signal="text_changed" from="grid/hbox/direct/vbox/client/input/port" to="." method="client_validate_input"]
+[connection signal="pressed" from="grid/hbox/direct/vbox/client/connect" to="." method="_on_connect_pressed"]
+[connection signal="text_changed" from="grid/hbox/direct/vbox/server/input/host" to="." method="server_validate_input"]
+[connection signal="text_changed" from="grid/hbox/direct/vbox/server/input/port" to="." method="server_validate_input"]
+[connection signal="toggled" from="grid/hbox/direct/vbox/server/announce" to="." method="server_validate_input"]
+[connection signal="pressed" from="grid/hbox/direct/vbox/server/start" to="." method="_on_start_pressed"]

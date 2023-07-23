@@ -233,6 +233,7 @@ text = "Debug placeholder"
 clip_text = true
 
 [node name="pause_menu" parent="." instance=ExtResource("9")]
+visible = false
 
 [connection signal="pressed" from="margin/view/action" to="." method="_on_action_pressed"]
 [connection signal="pressed" from="margin/view/inventory/quit" to="margin/view" method="close_inventories"]

@@ -1,6 +1,6 @@
-extends Popup
+extends Window
 
-@onready var global = get_node("/root/global")
+@onready var global: GlobalAutoload = get_node("/root/global")
 
 
 func _on_quit_pressed():
@@ -23,6 +23,21 @@ func _on_popup_hide():
 	global.unpause()
 
 
-func _input(event):
+func _input(event: InputEvent):
 	global._input(event)
+
+
+func _notification(what: int):
+	match what:
+		NOTIFICATION_WM_SIZE_CHANGED:
+			print("new size: ", get_window().size)
+		NOTIFICATION_APPLICATION_PAUSED:
+			print("paused")
+			#popup_centered()
+		NOTIFICATION_APPLICATION_RESUMED:
+			print("resumed")
+			#hide()
+		NOTIFICATION_WM_WINDOW_FOCUS_OUT:
+			print("focus out")
+			#global.pause()
 
