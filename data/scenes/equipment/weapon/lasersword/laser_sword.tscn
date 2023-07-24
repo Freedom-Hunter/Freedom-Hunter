@@ -25,4 +25,4 @@ stream = ExtResource("3")
 unit_size = 20.0
 max_db = 4.0
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered" flags=18]
