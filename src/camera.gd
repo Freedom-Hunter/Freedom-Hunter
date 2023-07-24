@@ -37,7 +37,7 @@ func _process(delta: float):
 	pitch = lerp(pitch, target_pitch, delta * 5)
 	yaw_node.set_rotation_degrees(Vector3(0, yaw, 0))
 	pitch_node.set_rotation_degrees(Vector3(pitch, 0, 0))
-	camera_zoom(delta * 10)
+	camera_zoom(delta * 10.)
 	if gyro_enabled:
 		var gyro := Input.get_gyroscope()
 		if gyro != Vector3():

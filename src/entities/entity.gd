@@ -250,6 +250,7 @@ func get_pos():
 	$AnimationTree["parameters/conditions/resting"] = false
 	$AnimationTree["parameters/conditions/drinking"] = false
 	$AnimationTree["parameters/conditions/idle"] = true
+	state_machine.travel("idle-loop")
 	set_process(true)
 	if multiplayer.has_multiplayer_peer() and is_multiplayer_authority():
 		rpc("respawn")
