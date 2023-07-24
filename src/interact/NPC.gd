@@ -4,7 +4,7 @@ extends Node3D
 const Shop = preload("res://src/interface/shop.gd")
 
 @onready var shop: Shop = preload("res://data/scenes/interface/shop.tscn").instantiate()
-@onready var hud = get_node("/root/hud/margin/view")
+@onready var hud_inventory = $/root/hud/inventory
 
 
 # Player with whom we are interacting with
@@ -39,11 +39,11 @@ func interact(new_player: Player, node):
 	player = new_player
 	player.pause_player()
 	get_viewport().get_camera_3d().set_process_input(false)
-	hud.open_inventories([shop, player.inventory])
+	hud_inventory.open_inventories([shop, player.inventory])
 	for shop_item in shop.shop_items:
 		shop_item.connect("buy", player.buy_item)
 	$ohayou.play()
-	await hud.get_node("inventory").popup_hide
+	await hud_inventory.popup_hide
 	for shop_item in shop.shop_items:
 		shop_item.disconnect("buy", player.buy_item)
 	player.resume_player()

@@ -23,9 +23,9 @@ func interact(player, node):
 			var remainder = player.add_item(item)
 			if not multiplayer.has_multiplayer_peer() or player.is_multiplayer_authority():
 				if remainder > 0:
-					player.hud.notify("You can't carry more than %d %s" % [item.max_quantity, item.name])
+					$/root/hud/notification.notify("You can't carry more than %d %s" % [item.max_quantity, item.name])
 				else:
-					player.hud.notify("You got %d %s" % [item.quantity, item.name])
+					$/root/hud/notification.notify("You got %d %s" % [item.quantity, item.name])
 			break
 		last += item.rarity
 	quantity -= 1;
