@@ -8,8 +8,7 @@ const Inventory = preload("res://src/inventory.gd")
 @onready var camera_node: Camera3D = yaw_node.get_node("pitch/camera")
 @onready var camera_offset := yaw_node.get_position().y
 
-@onready var hud = get_node("/root/hud/margin/view")
-@onready var onscreen: OnscreenControls = get_node("/root/hud/onscreen")
+@onready var onscreen: OnscreenControls = $/root/hud/onscreen
 
 var equipment = {"weapon": null, "armour": {"head": null, "torso": null, "rightarm": null, "leftarm": null, "leg": null}}
 var inventory: Inventory = preload("res://data/scenes/inventory.tscn").instantiate()
@@ -75,7 +74,7 @@ func get_nearest_interact() -> Area3D:
 
 
 func interact_with(interact: Node3D):
-	if interact != null and not hud.get_node("notification/animation").is_playing():
+	if interact != null and not $/root/hud/notification/animation.is_playing():
 		interact.get_parent().interact(self, interact)
 
 
@@ -135,7 +134,7 @@ func get_defence() -> int:
 	set_physics_process(false)
 	set_process_input(false)
 	if not multiplayer.has_multiplayer_peer() or is_multiplayer_authority():
-		hud.prompt_respawn()
+		$/root/hud/respawn.prompt_respawn()
 	$shape.disabled = true
 
 
@@ -221,7 +220,7 @@ func _on_animation_tree_animation_finished(anim_name: String):
 			animation_tree["parameters/conditions/whetstone"] = false
 			stop()
 		"drink":
-			animation_tree["parameters/conditions/drink"] = false
+			animation_tree["parameters/conditions/drinking"] = false
 			stop()
 
 
