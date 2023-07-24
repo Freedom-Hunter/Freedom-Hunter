@@ -210,7 +210,7 @@ func _physics_process(delta: float):
 	move_entity(delta)
 
 	# Camera follows the player
-	yaw_node.set_position(get_position() + Vector3(0, camera_offset, 0))
+	yaw_node.global_position = global_position + Vector3(0, camera_offset, 0)
 
 
 func _on_animation_tree_animation_finished(anim_name: String):
