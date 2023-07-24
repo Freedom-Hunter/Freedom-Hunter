@@ -10,6 +10,8 @@ extends "entity.gd"
 @export_range(-100, 100) var poison    = 0
 @export_range(-100, 100) var paralysis = 0
 
+@export_range(-3.14, 3.14, 0.001, "radians") var field_of_view = deg_to_rad(120)
+
 
 var weakness := {}
 var players := []
@@ -17,10 +19,13 @@ var random_target: Vector3
 var target_player: Player
 var combat := false
 @onready var nav: NavigationAgent3D = $NavigationAgent3D
+@onready var space_state := get_world_3d().get_direct_space_state()
 var old_target_origin: Vector3
+var red_material := StandardMaterial3D.new()
 
 
 func _init():
+	red_material.albedo_color = Color.RED
 	hp = 500
 	hp_max = 500
 	hp_regenerable = 500
@@ -75,8 +80,10 @@ func set_navigation_target(target: Vector3, debug=false):
 
 
 func debug_navigation():
-	var path := nav.get_current_navigation_path()
-	prints("New path", path)
+	visualize_path(nav.get_current_navigation_path())
+
+
+func visualize_path(path: Array):
 	var path_m := nav.get_node("path")
 	if path_m != null:
 		path_m.name = "path.old"
@@ -92,23 +99,18 @@ func debug_navigation():
 		mesh.mesh = sphere
 		mesh.transform.origin = path[i]
 		path_m.add_child(mesh)
+		if i == path.size() - 1:
+			mesh.material_override = red_material
 
 
 func follow_path():
-	var origin := global_transform.origin
-	var to_target := nav.get_next_path_position() - origin
-
-	# This while loop skips intermediate points that are too near (they would cause jerky movement)
-	var path_index := 0
 	var path := nav.get_current_navigation_path()
-	
-	while to_target.length() < 1 and path_index < path.size():
-		prints("while", path_index, to_target.length())
-		path_index += 1
-		if path_index < path.size():
-			to_target = path[path_index] - origin
-	
-	direction = to_target.normalized()
+	if path.size() == 0 or nav.is_target_reached():
+		target_player = null
+		print("Target reached")
+	else:
+		var to_target := nav.get_next_path_position() - global_position
+		direction = to_target.normalized()
 
 
 func check_target():
@@ -122,6 +124,19 @@ func check_target():
 		players.erase(target_player)
 
 
+func line_of_sight(vector: Vector3) -> Dictionary:
+	var origin := global_transform.origin
+	var eyes: Vector3 = $eyes.global_transform.origin
+	var direction := (vector - origin).normalized()
+	var angle := global_transform.basis.z.angle_to(direction)
+	if angle < field_of_view:
+		var query = PhysicsRayQueryParameters3D.new()
+		query.from = eyes
+		query.to = vector
+		return space_state.intersect_ray(query)
+	return {}
+
+
 func find_new_target():
 	# Find new target if there are candidates
 	var origin: Vector3 = global_transform.origin
@@ -131,32 +146,24 @@ func find_new_target():
 
 	for player in players:
 		if not player.is_dead():
-			var target_direction: Vector3 = (player.global_transform.origin - origin).normalized()
-			var angle := global_transform.basis.z.angle_to(target_direction)
-			if angle < deg_to_rad(120):
-				var query = PhysicsRayQueryParameters3D.new()
-				query.from = eyes
-				query.to = player.global_transform.origin
-				var ray_res := space_state.intersect_ray(query)
-				if not ray_res.is_empty() and ray_res["collider"] == player:
-					var target_distance = target_direction.length()
-					if target_distance < min_distance:
-						target_player = player
-						min_distance = target_distance
+			var ray := line_of_sight(player.global_position)
+			if not ray.is_empty() and ray["collider"] == player:
+				var target_distance: float = (player.global_position - global_position).length()
+				if target_distance < min_distance:
+					target_player = player
+					min_distance = target_distance
 	if target_player != null:
 		# Found a prey.
 		set_navigation_target(target_player.global_transform.origin, true)
 
 
 func hunt_target():
-	var origin: Vector3 = global_transform.origin
-
 	if not combat:
 		prints(name, "exclamation")
 		combat = true
 		$exclamation/AnimationPlayer.play("exclamation")
 
-	var to_target: Vector3 = target_player.global_transform.origin - origin
+	var to_target := target_player.global_position - global_position
 	var distance_from_target = to_target.length()
 	if $AnimationTree["parameters/conditions/attacking"]:
 		direction = to_target.normalized()
@@ -176,7 +183,7 @@ func hunt_target():
 		direction = to_target.normalized()
 		stop()
 
-	if old_target_origin.distance_to(target_player.global_transform.origin) > 1:
+	if target_player and old_target_origin.distance_to(target_player.global_position) > 1:
 		# Prey is trying to escape. Need a new path
 		# This avoids to recompute a new path on every frame. Do it only when needed.
 		set_navigation_target(target_player.global_transform.origin, true)
@@ -192,7 +199,7 @@ func scout():
 		new_random_target()
 
 
-func _physics_process(delta):
+func _physics_process(delta: float):
 	direction = Vector3()
 
 	if target_player != null:
