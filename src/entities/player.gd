@@ -98,6 +98,8 @@ func _input(event: InputEvent):
 		walk()
 	elif event.is_action_pressed("player_interact"):
 		interact_with_nearest()
+	elif event.is_action_released("player_inventory"):
+		$/root/hud/inventory.open_player_inventory()
 
 
 func add_item(item: Item) -> int:

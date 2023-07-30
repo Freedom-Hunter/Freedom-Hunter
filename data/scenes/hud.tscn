@@ -245,21 +245,27 @@ size_flags_vertical = 0
 text = "Lista dei giocatori collegati:"
 
 [node name="inventory" type="Popup" parent="."]
+disable_3d = true
 title = "Player's Inventory"
-size = Vector2i(156, 100)
+position = Vector2i(40, 150)
+size = Vector2i(400, 400)
 script = ExtResource("12_i0015")
 
 [node name="quit" type="Button" parent="inventory"]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -215.0
-offset_top = 50.0
-offset_right = -40.0
-offset_bottom = 100.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
+offset_right = 37.0
+offset_bottom = 24.0
+size_flags_vertical = 0
 text = "Quit"
+
+[node name="hbox" type="HBoxContainer" parent="inventory"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="respawn" type="AcceptDialog" parent="."]
 initial_position = 4
@@ -288,4 +294,6 @@ script = ExtResource("10_hm8xl")
 [node name="pause_menu" parent="." instance=ExtResource("9")]
 visible = false
 
+[connection signal="popup_hide" from="inventory" to="inventory" method="_on_popup_hide"]
+[connection signal="pressed" from="inventory/quit" to="inventory" method="_on_quit_pressed"]
 [connection signal="confirmed" from="respawn" to="respawn" method="_on_respawn_confirmed"]

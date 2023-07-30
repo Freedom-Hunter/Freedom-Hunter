@@ -19,12 +19,12 @@ func set_items(items_array: Array, max_slots_int: int):
 	for item in items:
 		if item.quantity > 0:
 			var slot := Slot.new(self, item)
-			$items.add_child(slot)
+			$vbox/items.add_child(slot)
 			added += 1
 	for _i in range(added, max_slots):
 		var slot := Slot.new(self)
-		$items.add_child(slot)
-	emit_signal("modified", self)
+		$vbox/items.add_child(slot)
+	modified.emit(self)
 
 
 # Input handling is needed to detect when the user drags and drops an item where he can't
@@ -34,6 +34,7 @@ func _input(event):
 
 
 func give_back_dragged_item():
+	print_stack()
 	if dragging != null:
 		if dragging.in_flight:
 			dragging.in_flight = false
@@ -42,7 +43,7 @@ func give_back_dragged_item():
 
 
 func find_free_slot() -> Slot:
-	for slot in $items.get_children():
+	for slot in $vbox/items.get_children():
 		if slot.item == null:
 			return slot
 	return null
@@ -62,7 +63,7 @@ func add_item(item, slot=null) -> int:
 		var found = find_item_by_name(item.name)
 		if found != null:
 			overflow = found.add(item.quantity)
-			$items.get_node(item.name).stack.layout(found)
+			$vbox/items.get_node(item.name).stack.layout(found)
 		else:
 			var clone = item.clone()
 			items.append(clone)
@@ -95,7 +96,7 @@ func use_item(item: Item, player):
 
 func remove_item(i, slot=null):
 	if slot == null:
-		slot = $items.get_node(items[i].name)
+		slot = $vbox/items.get_node(items[i].name)
 	slot.set_item(null)
 	items.remove_at(i)
 	emit_signal("modified", self)
@@ -132,9 +133,9 @@ class ItemStack extends TextureRect:
 # Manage drag and drop
 class Slot extends Panel:
 	const Item = preload("res://src/items/item.gd")
-	var item:Item
-	var stack
-	var inventory
+	var item: Item
+	var stack: ItemStack
+	var inventory: Inventory
 
 	func _init(inv, _item = null):
 		inventory = inv
@@ -151,11 +152,12 @@ class Slot extends Panel:
 			set_name(item.name)
 		else:
 			set_theme(preload("res://data/themes/inventory/slot_empty.tres"))
-			var columns = inventory.get_node("items").get_columns()
+			var columns = inventory.get_node("vbox/items").get_columns()
 			set_name(str(get_index() % columns, '|', int(get_index() / columns)))
 		stack.layout(item)
 
-	func _get_drag_data(_pos):
+	func _get_drag_data(_at_position: Vector2):
+		print_stack()
 		if item != null:
 			var preview = ItemStack.new()
 			preview.layout(item)
@@ -165,10 +167,14 @@ class Slot extends Panel:
 			inventory.dragging = {'item': ret_item, 'slot': self, 'in_flight': true}
 			return inventory.dragging
 
-	func _can_drop_data(_pos, data):
-		return item == null or (data.item != item and data.item.name == item.name and data.item.quantity + item.quantity <= data.item.max_quantity)
+	func _can_drop_data(_at_position: Vector2, data: Variant):
+		print_stack()
+		return item == null or (data.item != item and data.item.name == item.name and
+			data.item.quantity + item.quantity <= data.item.max_quantity)
 
-	func _drop_data(_pos, data):
+	func _drop_data(_at_position: Vector2, data: Variant):
+		print_stack()
 		data.in_flight = false
 		inventory.add_item(data.item, self) # take this item
 		inventory.dragging = null
+

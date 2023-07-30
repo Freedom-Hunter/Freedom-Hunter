@@ -24,61 +24,57 @@ Label/constants/shadow_offset_y = 1
 Label/fonts/font = SubResource("1")
 
 [node name="inventory" type="Panel"]
-offset_left = 10.0
-offset_top = 200.0
-offset_right = 550.0
-offset_bottom = 790.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
+custom_minimum_size = Vector2(540, 590)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 theme = SubResource("2")
 script = ExtResource("2")
 
-[node name="sort" type="Control" parent="."]
-anchors_preset = 0
+[node name="vbox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
 anchor_right = 1.0
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 20.0
-offset_bottom = 50.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Label" type="Label" parent="sort"]
+[node name="sort" type="HBoxContainer" parent="vbox"]
 layout_mode = 2
-offset_right = 90.0
-offset_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_constants/separation = 30
+
+[node name="Label" type="Label" parent="vbox/sort"]
+layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "Sort by:"
 
-[node name="OptionButton" type="OptionButton" parent="sort"]
+[node name="OptionButton" type="OptionButton" parent="vbox/sort"]
 layout_mode = 2
-offset_left = 100.0
-offset_right = 411.0
-offset_bottom = 30.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 focus_mode = 0
 toggle_mode = false
 
-[node name="Button" type="Button" parent="sort"]
+[node name="Button" type="Button" parent="vbox/sort"]
 layout_mode = 2
-offset_left = 420.0
-offset_right = 500.0
-offset_bottom = 30.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 text = "Sort"
 
-[node name="items" type="GridContainer" parent="."]
-layout_mode = 0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = 70.0
-offset_right = 520.0
-offset_bottom = 20.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
+[node name="items" type="GridContainer" parent="vbox"]
+layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 10
