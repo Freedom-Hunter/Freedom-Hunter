@@ -3,7 +3,7 @@ extends StaticBody3D
 @onready var inventory = preload("res://data/scenes/inventory.tscn").instantiate()
 @onready var inventory_items = inventory.get_node("items")
 @onready var hud_inventory = $/root/hud/inventory
-@onready var animation = get_node("model/AnimationPlayer")
+@onready var animation = $AnimationPlayer
 
 var player = null
 

@@ -3,28 +3,28 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dvxlh1cbmrchf"
-path="res://.godot/imported/chest.dae-0cd8a68f7b9477077d81d5dbfa565295.scn"
+uid="uid://ddnhimnvnlyjg"
+path="res://.godot/imported/chest.glb-338cfbebedf9623aa361fd4f31f004c5.scn"
 
 [deps]
 
-source_file="res://data/models/interact/chest/chest.dae"
-dest_files=["res://.godot/imported/chest.dae-0cd8a68f7b9477077d81d5dbfa565295.scn"]
+source_file="res://data/models/interact/chest/chest.glb"
+dest_files=["res://.godot/imported/chest.glb-338cfbebedf9623aa361fd4f31f004c5.scn"]
 
 [params]
 
-nodes/root_type="Node3D"
-nodes/root_name="model"
+nodes/root_type="StaticBody3D"
+nodes/root_name="chest"
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
 meshes/ensure_tangents=true
 meshes/generate_lods=true
 meshes/create_shadow_meshes=true
-meshes/light_baking=0
-meshes/lightmap_texel_size=0.1
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
 skins/use_named_skins=true
 animation/import=true
-animation/fps=15
+animation/fps=30
 animation/trimming=false
 animation/remove_immutable_tracks=true
 import_script/path=""
