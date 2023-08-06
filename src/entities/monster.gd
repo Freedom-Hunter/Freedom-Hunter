@@ -18,6 +18,7 @@ var players := []
 var random_target: Vector3
 var target_player: Player
 var combat := false
+var pointing := false
 @onready var nav: NavigationAgent3D = $NavigationAgent3D
 @onready var space_state := get_world_3d().get_direct_space_state()
 var old_target_origin: Vector3
@@ -104,11 +105,7 @@ func visualize_path(path: Array):
 
 
 func follow_path():
-	var path := nav.get_current_navigation_path()
-	if path.size() == 0 or nav.is_target_reached():
-		target_player = null
-		print("Target reached")
-	else:
+	if not nav.is_navigation_finished():
 		var to_target := nav.get_next_path_position() - global_position
 		direction = to_target.normalized()
 
@@ -177,11 +174,20 @@ func hunt_target():
 		attack("attack")
 		direction = to_target.normalized()
 
-	if not nav.is_target_reachable():
-		# Can't reach the prey?
-		print("target not reachable")
-		direction = to_target.normalized()
-		stop()
+	if nav.is_navigation_finished():
+		if not nav.is_target_reachable():
+			# Can't reach the prey?
+			if not pointing:
+				prints(name, "pointing at not reachable", target_player.name)
+				pointing = true
+			direction = to_target.normalized()
+			stop()
+		else:
+			prints(name, "gave up on", target_player.name)
+			target_player = null
+			pointing = false
+	else:
+		pointing = false
 
 	if target_player and old_target_origin.distance_to(target_player.global_position) > 1:
 		# Prey is trying to escape. Need a new path
@@ -194,7 +200,7 @@ func scout():
 	combat = false
 	walk()
 	follow_path()
-	if nav.is_target_reached():
+	if nav.is_navigation_finished():
 		print("scout done")
 		new_random_target()
 
@@ -228,11 +234,11 @@ func _on_view_body_entered(body: Node):
 	if body.is_in_group("player"):
 		if not body.is_dead() and not body in players:
 			players.push_front(body)
-			print(get_name(), " saw ", body.get_name())
+			prints(body.name, "inside", name, "view radius")
 
 
 func _on_view_body_exited(body: Node):
 	if body.is_in_group("player"):
 		players.erase(body)
-		print(get_name(), " lost ", body.get_name())
+		prints(body.name, "exited", name, "view radius")
 
