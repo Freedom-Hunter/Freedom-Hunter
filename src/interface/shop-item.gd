@@ -1,7 +1,7 @@
 extends HBoxContainer
 
 
-var item: Item
+var item: Consumable
 var item_cost := 1000
 var amount := 0
 var time := 0
@@ -21,10 +21,11 @@ func _process(delta):
 			time = 0
 
 
-func set_item(new_item: Item, new_cost_factor: float):
+func set_item(new_item: Consumable, new_cost_factor: float):
+	item = new_item
 	item_cost = (100 - new_item.rarity) * new_cost_factor
-	$Icon.texture = new_item.icon
-	$Name.text = new_item.name
+	($Icon as TextureRect).texture = new_item.icon
+	($Name as Label).text = new_item.name
 	($Quantity as Range).value = 0
 	($Quantity as Range).max_value = new_item.max_quantity
 	($QuantityLabel as Label).text = "0"
