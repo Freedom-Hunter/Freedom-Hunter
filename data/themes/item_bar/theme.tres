@@ -1,8 +1,8 @@
-[gd_resource type="Theme" load_steps=2 format=2]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://f5wlv53newpm"]
 
-[ext_resource path="res://data/themes/item_bar/bar_panel.tres" type="StyleBox" id=1]
+[ext_resource type="StyleBox" uid="uid://yvq03fhqfnut" path="res://data/themes/item_bar/bar_panel.tres" id="1"]
 
 [resource]
-Panel/styles/panel = ExtResource( 1 )
+Panel/styles/panel = ExtResource("1")
 Panel/styles/panelf = null
 Panel/styles/panelnc = null

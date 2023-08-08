@@ -1,15 +1,14 @@
-[gd_resource type="StandardMaterial3D" load_steps=5 format=2]
+[gd_resource type="StandardMaterial3D" load_steps=5 format=3 uid="uid://onk426y8ljc6"]
 
-[ext_resource path="res://data/textures/[2K]WoodSiding02/WoodSiding02_col.jpg" type="Texture2D" id=1]
-[ext_resource path="res://data/textures/[2K]WoodSiding02/WoodSiding02_met.jpg" type="Texture2D" id=2]
-[ext_resource path="res://data/textures/[2K]WoodSiding02/WoodSiding02_nrm.jpg" type="Texture2D" id=3]
-[ext_resource path="res://data/textures/[2K]WoodSiding02/WoodSiding02_rgh.jpg" type="Texture2D" id=4]
+[ext_resource type="Texture2D" uid="uid://3duu1j1pggis" path="res://data/textures/[2K]WoodSiding02/WoodSiding02_col.jpg" id="1"]
+[ext_resource type="Texture2D" uid="uid://bcgiuwmj81wha" path="res://data/textures/[2K]WoodSiding02/WoodSiding02_met.jpg" id="2"]
+[ext_resource type="Texture2D" uid="uid://b7a7cdc6lr4r1" path="res://data/textures/[2K]WoodSiding02/WoodSiding02_nrm.jpg" id="3"]
+[ext_resource type="Texture2D" uid="uid://dgwg5geotuqm7" path="res://data/textures/[2K]WoodSiding02/WoodSiding02_rgh.jpg" id="4"]
 
 [resource]
-albedo_texture = ExtResource( 1 )
-metallic_texture = ExtResource( 2 )
-roughness_texture = ExtResource( 4 )
+albedo_texture = ExtResource("1")
+metallic_texture = ExtResource("2")
+roughness_texture = ExtResource("4")
 normal_enabled = true
-normal_scale = 1.0
-normal_texture = ExtResource( 3 )
+normal_texture = ExtResource("3")
 uv1_triplanar = true

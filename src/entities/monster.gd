@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Elia Argentieri
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 extends "entity.gd"
 
 @export_range(-100, 100) var strength  = 0

@@ -1,8 +1,6 @@
-[gd_resource type="StyleBoxTexture" load_steps=2 format=2]
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://yvq03fhqfnut"]
 
-[ext_resource path="res://data/images/hud/item_bar/slot.png" type="Texture2D" id=1]
+[ext_resource type="Texture2D" uid="uid://b48v4ugioonod" path="res://data/images/hud/item_bar/slot.png" id="1"]
 
 [resource]
-
-texture = ExtResource( 1 )
-
+texture = ExtResource("1")

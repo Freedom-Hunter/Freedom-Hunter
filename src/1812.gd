@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Elia Argentieri
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 extends Area3D
 
 const FireworkScene = preload("res://data/scenes/items/firework.tscn")

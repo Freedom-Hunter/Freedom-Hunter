@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Elia Argentieri
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 extends PanelContainer
 
 const ShopItemScene = preload("res://data/scenes/interface/items/shop-item.tscn")

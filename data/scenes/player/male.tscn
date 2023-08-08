@@ -205,12 +205,12 @@ bones/3/rotation = Quaternion(-7.62139e-10, 4.73238e-17, 1, -1.49012e-08)
 bones/6/scale = Vector3(0.929479, 0.929479, 0.929479)
 bones/8/rotation = Quaternion(0.5, 0.5, -0.5, 0.5)
 bones/12/scale = Vector3(0.929479, 0.929479, 0.929479)
-bones/14/position = Vector3(-1.2184e-08, 1.45648, 0.00262247)
+bones/14/position = Vector3(-1.31496e-08, 1.46752, 0.00262247)
 bones/14/rotation = Quaternion(-0.707107, -6.18171e-08, 0.707107, 2.51215e-15)
-bones/17/rotation = Quaternion(-0.0254284, -0.132012, 0.00179842, 0.99092)
-bones/19/rotation = Quaternion(-0.0471797, 0.0697505, -0.0132315, 0.99636)
-bones/20/rotation = Quaternion(-0.0682765, 0.838236, 0.534024, 0.0866983)
-bones/21/rotation = Quaternion(-0.0675439, 0.838347, 0.534097, 0.0857445)
+bones/17/rotation = Quaternion(-0.0216022, -0.132041, 0.00222423, 0.991006)
+bones/19/rotation = Quaternion(-0.0483068, 0.0696071, -0.0137779, 0.996309)
+bones/20/rotation = Quaternion(-0.0696075, 0.838173, 0.533878, 0.0871528)
+bones/21/rotation = Quaternion(-0.0688497, 0.838287, 0.533955, 0.0861771)
 bones/22/rotation = Quaternion(0.615478, 0.583338, 0.312942, -0.42775)
 bones/23/rotation = Quaternion(-0.582556, 0.671776, -0.329585, 0.317364)
 bones/24/rotation = Quaternion(0.125404, -0.0153155, -0.0317954, 0.991478)
@@ -238,21 +238,21 @@ bones/52/rotation = Quaternion(0.0792719, 0.00210006, -0.0557724, 0.99529)
 bones/53/rotation = Quaternion(0.0879998, 0.00542479, 0.00312782, 0.996101)
 bones/54/rotation = Quaternion(0.0835099, 0.000927353, 0.0110652, 0.996445)
 bones/56/rotation = Quaternion(0.087495, 0.00186303, -0.0193052, 0.995976)
-bones/62/rotation = Quaternion(0.966636, 0.10151, 0.169712, 0.162812)
+bones/62/rotation = Quaternion(0.968489, 0.0971995, 0.170319, 0.153536)
 bones/62/scale = Vector3(0.999962, 0.999996, 0.999938)
-bones/63/rotation = Quaternion(0.361534, -0.00810743, 0.223866, 0.905048)
-bones/64/rotation = Quaternion(-0.671217, -0.176833, -0.122168, 0.709418)
+bones/63/rotation = Quaternion(0.345685, -0.0081838, 0.214052, 0.913574)
+bones/64/rotation = Quaternion(-0.664029, -0.179843, -0.120473, 0.715687)
 bones/64/scale = Vector3(0.999951, 1.00007, 0.999983)
 bones/65/rotation = Quaternion(0.00518108, 0.960671, -0.276524, -0.0248708)
-bones/66/rotation = Quaternion(0.968915, -0.105503, -0.154747, 0.161634)
+bones/66/rotation = Quaternion(0.970788, -0.101031, -0.155338, 0.152424)
 bones/66/scale = Vector3(0.999955, 0.999995, 0.999927)
-bones/67/rotation = Quaternion(0.361535, 0.00810769, -0.223865, 0.905048)
+bones/67/rotation = Quaternion(0.345685, 0.00818403, -0.214051, 0.913574)
 bones/67/scale = Vector3(0.999993, 1.00002, 0.999985)
-bones/68/rotation = Quaternion(-0.670931, 0.174964, 0.120227, 0.710482)
+bones/68/rotation = Quaternion(-0.663749, 0.178008, 0.118531, 0.71673)
 bones/68/scale = Vector3(0.999943, 1.00008, 0.99998)
 
 [node name="head" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.999996, 0.00242647, -0.00157553, -0.00255619, 0.996086, -0.0883527, 0.00135495, 0.0883563, 0.996088, -0.008099, 2.38442, 0.0521818)
+transform = Transform3D(0.999994, 0.00275776, -0.00177757, -0.00291235, 0.995586, -0.0938049, 0.00151102, 0.0938096, 0.995589, -0.00864888, 2.39516, 0.0566716)
 bone_name = "head"
 bone_idx = 19
 
@@ -260,7 +260,7 @@ bone_idx = 19
 stream = ExtResource("6")
 
 [node name="weapon_L" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="2"]
-transform = Transform3D(-0.0546383, -0.0354592, 0.927193, 0.921323, 0.108082, 0.0584259, -0.110046, 0.922492, 0.0287945, 0.381272, 1.37297, 0.0845696)
+transform = Transform3D(-0.0554952, -0.03559, 0.927137, 0.922086, 0.100994, 0.0590698, -0.103001, 0.92329, 0.029277, 0.381665, 1.38385, 0.0813414)
 bone_name = "weapon_L"
 bone_idx = 41
 
@@ -268,7 +268,7 @@ bone_idx = 41
 stream = ExtResource("4")
 
 [node name="weapon_R" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="3"]
-transform = Transform3D(-0.0819459, -0.220332, -0.899261, -0.925823, 0.0276022, 0.0776033, 0.00830895, 0.902565, -0.221899, -0.379168, 1.35552, -0.0668061)
+transform = Transform3D(-0.0810814, -0.220387, -0.899326, -0.925935, 0.0204955, 0.0784577, 0.00122764, 0.902741, -0.221334, -0.378752, 1.36685, -0.0701933)
 bone_name = "weapon_R"
 bone_idx = 61
 

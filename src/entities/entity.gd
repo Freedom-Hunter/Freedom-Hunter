@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Elia Argentieri
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 extends CharacterBody3D
 class_name Entity
 

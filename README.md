@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2023 Elia Argentieri
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 # Freedom-Hunter
 
 Monster Hunter like action RPG game, made with [Godot Engine][godot].
