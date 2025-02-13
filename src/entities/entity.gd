@@ -17,10 +17,20 @@ var hp_regeneration_interval: int = 5
 signal hp_changed(hp, hp_reg, hp_max)
 
 # Stamina
-var stamina: float = 100
+signal stamina_changed(stamina, stamina_max)
+var stamina: float = 100:
+	get:
+		return stamina
+	set(value):
+		var previous := stamina
+		if value > stamina_max:
+			stamina = stamina_max
+		else:
+			stamina = value
+		if previous != stamina:
+			stamina_changed.emit(stamina, stamina_max)
 var stamina_max: int = 100
 var stamina_regeneration: float = 4
-signal stamina_changed(stamina, stamina_max)
 
 # Dodge
 var dodge_stamina: float = 10
@@ -145,7 +155,7 @@ func move_entity(delta: float, gravity:bool=true):
 
 	match current_state:
 		"rest":
-			velocity *= Vector3(0, 1, 0)
+			velocity *= Vector3.UP
 			direction = Vector3()
 		"attack":
 			velocity *= Vector3(attack_speed, 1, attack_speed)
@@ -160,7 +170,7 @@ func move_entity(delta: float, gravity:bool=true):
 						stamina_changed.emit(stamina, stamina_max)
 				"dodge":
 					velocity *= Vector3(dodge_speed, 1, dodge_speed)
-				"jump":
+				"jump", "falling", "screaming":
 					if Input.get_action_strength("player_run") > 0:
 						velocity *= Vector3(run_speed, 1, run_speed)
 					else:
@@ -215,6 +225,8 @@ func _on_animation_tree_animation_finished(anim_name: String):
 			$AnimationTree["parameters/conditions/resting"] = false
 		"drink":
 			$AnimationTree["parameters/conditions/drinking"] = false
+		"screaming":
+			stop()
 
 
 func get_pos():
@@ -312,26 +324,22 @@ func stamina_max_increase(amount):
 		stamina_changed.emit(stamina, stamina_max)
 
 
-func stamina_natural_regeneration(delta, current_state):
-	match current_state:
+func stamina_natural_regeneration(delta: float):
+	match state_machine.get_current_node():
 		"idle-loop":
 			stamina += stamina_regeneration * delta
 		"rest":
-			stamina += stamina_regeneration * delta * 2
-	if stamina > stamina_max:
-		stamina = stamina_max
-	stamina_changed.emit(stamina, stamina_max)
+			stamina += stamina_regeneration * delta * 3.0
+	if movement_state_machine.get_current_node() == "walk-loop":
+		stamina += stamina_regeneration * delta * 0.5
 
 
-func stamina_boost(amount):
+func stamina_boost(amount: float):
 	stamina += amount
-	if stamina > stamina_max:
-		stamina = stamina_max
-	stamina_changed.emit(stamina, stamina_max)
 
 
-func hp_natural_regeneration(delta, current_state):
-	if not current_state in ["dodge", "run", "jump"]:
+func hp_natural_regeneration(delta: float):
+	if state_machine.get_current_node() != "movement":
 		time_hit += delta
 		if time_hit > hp_regeneration_interval:
 			time_hit = 0
@@ -341,6 +349,5 @@ func hp_natural_regeneration(delta, current_state):
 
 
 func _process(delta):
-	var current_state = state_machine.get_current_node()
-	hp_natural_regeneration(delta, current_state)
-	stamina_natural_regeneration(delta, current_state)
+	hp_natural_regeneration(delta)
+	stamina_natural_regeneration(delta)

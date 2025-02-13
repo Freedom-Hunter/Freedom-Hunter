@@ -9,7 +9,7 @@ extends Control
 
 
 func _ready():
-	if multiplayer.has_multiplayer_peer():
+	if not multiplayer.is_server():
 		global.player_connected.connect(_on_player_connected)
 		global.player_disconnected.connect(_on_player_disconnected)
 	else:
@@ -62,3 +62,4 @@ func _process(delta: float):
 		var pos := camera_node.unproject_position(global.local_player.get_name_position())
 		var label_size: Vector2 = label.get_size()
 		label.global_position = pos - label_size / 2
+

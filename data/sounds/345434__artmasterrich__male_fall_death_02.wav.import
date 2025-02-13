@@ -1,0 +1,28 @@
+; SPDX-FileCopyrightText: 2023 Elia Argentieri
+;
+; SPDX-License-Identifier: CC0-1.0
+
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bisxhaaucd88j"
+path="res://.godot/imported/345434__artmasterrich__male_fall_death_02.wav-2ff403fc2e692d62254df072d3cfd72f.sample"
+
+[deps]
+
+source_file="res://data/sounds/345434__artmasterrich__male_fall_death_02.wav"
+dest_files=["res://.godot/imported/345434__artmasterrich__male_fall_death_02.wav-2ff403fc2e692d62254df072d3cfd72f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

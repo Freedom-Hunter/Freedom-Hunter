@@ -38,7 +38,6 @@ func _input(event):
 
 
 func give_back_dragged_item():
-	print_stack()
 	if dragging != null:
 		if dragging.in_flight:
 			dragging.in_flight = false
@@ -161,7 +160,6 @@ class Slot extends Panel:
 		stack.layout(item)
 
 	func _get_drag_data(_at_position: Vector2):
-		print_stack()
 		if item != null:
 			var preview = ItemStack.new()
 			preview.layout(item)
@@ -172,12 +170,10 @@ class Slot extends Panel:
 			return inventory.dragging
 
 	func _can_drop_data(_at_position: Vector2, data: Variant):
-		print_stack()
 		return item == null or (data.item != item and data.item.name == item.name and
 			data.item.quantity + item.quantity <= data.item.max_quantity)
 
 	func _drop_data(_at_position: Vector2, data: Variant):
-		print_stack()
 		data.in_flight = false
 		inventory.add_item(data.item, self) # take this item
 		inventory.dragging = null

@@ -233,3 +233,7 @@ func _on_animation_tree_animation_finished(anim_name: String):
 func get_name_position() -> Vector3:
 	return $name.global_position
 
+
+func can_consume() -> bool:
+	return state_machine.get_current_node() == 'idle-loop'
+

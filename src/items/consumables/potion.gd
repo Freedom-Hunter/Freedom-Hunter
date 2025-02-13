@@ -15,7 +15,7 @@ func _init(_name, _icon, _quantity, _heal):
 
 
 func effect(target: Player):
-	if target.hp < target.hp_max:
+	if target.can_consume() and target.hp < target.hp_max:
 		target.heal(heal)
 		target.state_machine.travel("drink")
 		return true
