@@ -57,28 +57,28 @@ float worley2(vec2 p) {
 
 void vertex() {
 	NORMAL = UP;
-	vec3 vertex = VERTEX;	
+	vec3 vertex = VERTEX;
 	vec3 wind_direction_normalized = normalize(wind_direction);
 	float time = TIME * wind_speed;
 	vec2 uv = (MODEL_MATRIX * vec4(vertex, -1.0)).xz * wind_scale;
 	uv += wind_direction_normalized.xz * time;
 	wind = pow(worley2(uv), 2.0) * UV2.y;
-	
+
 	mat3 to_model = inverse(mat3(MODEL_MATRIX));
 	vec3 wind_forward = to_model * wind_direction_normalized;
 	vec3 wind_right = normalize((cross(wind_forward, UP)));
-	
+
 	float sway_pitch = (deg_sway_pitch * DEG2RAD * wind) + INSTANCE_CUSTOM.z;
 	float sway_yaw = (deg_sway_yaw * DEG2RAD * sin(time) * wind) + INSTANCE_CUSTOM.w;
-	
+
 	mat3 rot_right = mat3_from_axis_angle(sway_pitch, wind_right);
 	mat3 rot_forward = mat3_from_axis_angle(sway_yaw, wind_forward);
-	
+
 	vertex.xy *= INSTANCE_CUSTOM.x;
 	vertex.y *= INSTANCE_CUSTOM.y;
 
 	VERTEX = rot_right * rot_forward * vertex;
-	
+
 	COLOR = mix(color_bottom, color_top, UV2.y);
 	//COLOR = vec4(wind, wind, wind, 1.0);
 }

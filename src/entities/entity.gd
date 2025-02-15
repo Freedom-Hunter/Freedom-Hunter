@@ -32,6 +32,10 @@ var stamina: float = 100:
 var stamina_max: int = 100
 var stamina_regeneration: float = 4
 
+# Ailments
+signal ailment_added(ailment)
+var ailments := {}
+
 # Dodge
 var dodge_stamina: float = 10
 var dodge_speed: float = 8
@@ -85,6 +89,16 @@ func _ready():
 			rpc("_update_stamina", stam, max))
 	hp_changed.emit(hp, hp_regenerable, hp_max)
 	stamina_changed.emit(stamina, stamina_max)
+
+
+func effect_over_time(name: String, wait_time: float, repeat: int, effect: Callable, end: Callable) -> void:
+	for i in range(repeat):
+		await get_tree().create_timer(wait_time, false).timeout
+		if is_dead():
+			break
+		print(name, " effect over time ", i, "/", repeat)
+		effect.call()
+	end.call()
 
 
 func dodge():
@@ -272,10 +286,15 @@ func get_pos():
 		rpc("respawn")
 	hp_changed.emit(hp, hp_regenerable, hp_max)
 	stamina_changed.emit(stamina, stamina_max)
+	ailments = {}
 
 
-func get_defence():
+func get_defence() -> int:
 	return 0
+
+
+func get_actual_damage(damage_in: int) -> int:
+	return damage_in - get_defence()
 
 
 func heal(amount):
@@ -296,16 +315,23 @@ func heal(amount):
 	self.stamina_max = stamina_max
 
 
-func damage(dmg, reg, weapon=null, entity=null):
+func damage(damage_in: int, regenerable: float, element=null, weapon=null, entity=null):
 	if hp > 0:
 		time_hit = 0
-		var defence = get_defence()
-		hp -= dmg - defence
-		hp_regenerable = int(hp + dmg * reg)
+		var defence: int = get_defence()
+		var actual_damage := get_actual_damage(damage_in)
+
+		if element:
+			if not ailments.has(element):
+				ailment_added.emit(element)
+			ailments[element] = Time.get_ticks_msec()
+
+		hp -= actual_damage
+		hp_regenerable = int(hp + damage_in * regenerable)
 		if weapon != null and entity != null:
-			print("%s was hit by %s with %s and lost %s - %s = %s health points. HP: %s (+%s)" % [name, entity.name, weapon.name, dmg, defence, dmg - defence, hp, hp_regenerable])
+			print("%s was hit by %s with %s and lost %s - %s = %s health points. HP: %s (+%s)" % [name, entity.name, weapon.name, damage_in, defence, actual_damage, hp, hp_regenerable])
 		else:
-			print("%s lost %s - %s = %s health points. HP: %s (+%s)" % [name, dmg, defence, dmg - defence, hp, hp_regenerable])
+			print("%s lost %s - %s = %s health points. HP: %s (+%s)" % [name, damage_in, defence, actual_damage, hp, hp_regenerable])
 		if hp <= 0:
 			die()
 		hp_changed.emit(hp, hp_regenerable, hp_max)

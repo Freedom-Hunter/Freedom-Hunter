@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 extends "equipment.gd"
+class_name Weapon
 
 
 @onready var sharpness_node = get_node("/root/hud/status/sharpness/fading")

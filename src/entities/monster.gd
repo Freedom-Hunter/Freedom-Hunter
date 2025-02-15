@@ -14,7 +14,7 @@ extends "entity.gd"
 @export_range(-100, 100) var poison    = 0
 @export_range(-100, 100) var paralysis = 0
 
-@export_range(-3.14, 3.14, 0.001, "radians") var field_of_view = deg_to_rad(120)
+@export_range(0, 360, 0.1, "radians_as_degrees") var field_of_view = deg_to_rad(120)
 
 
 var weakness := {}
@@ -27,6 +27,7 @@ var pointing := false
 @onready var space_state := get_world_3d().get_direct_space_state()
 var old_target_origin: Vector3
 var red_material := StandardMaterial3D.new()
+var last_damage := 0
 
 
 func _init():
@@ -88,6 +89,7 @@ func set_navigation_target(target: Vector3):
 
 
 func follow_path():
+	$fire/RayCast3D.enabled = false
 	if not nav.is_navigation_finished():
 		var to_target := nav.get_next_path_position() - global_position
 		direction = to_target.normalized()
@@ -95,13 +97,20 @@ func follow_path():
 
 func check_target():
 	# Check if target is still a possible target
-	if not target_player in players:
-		print("%s let %s escape. This time..." % [name, target_player.name])
-		target_player = null
-	elif target_player.is_dead():
+	if target_player.is_dead():
 		print("%s didn't let %s escape. I told you!" % [name, target_player.name])
 		target_player = null
 		players.erase(target_player)
+	elif not target_player in players:
+		print("%s let %s escape. This time..." % [name, target_player.name])
+		target_player = null
+
+
+func cast_ray(from: Vector3, to: Vector3) -> Dictionary:
+	var query = PhysicsRayQueryParameters3D.new()
+	query.from = from
+	query.to = to
+	return space_state.intersect_ray(query)
 
 
 func line_of_sight(vector: Vector3) -> Dictionary:
@@ -110,11 +119,19 @@ func line_of_sight(vector: Vector3) -> Dictionary:
 	var direction := (vector - origin).normalized()
 	var angle := global_transform.basis.z.angle_to(direction)
 	if angle < field_of_view:
-		var query = PhysicsRayQueryParameters3D.new()
-		query.from = eyes
-		query.to = vector
-		return space_state.intersect_ray(query)
+		return cast_ray(eyes, vector)
 	return {}
+
+
+func check_fire_collision():
+	$fire/RayCast3D.enabled = true
+	var to_target := target_player.global_position - global_position
+	if $AnimationTree["parameters/conditions/attacking"] and to_target.length() < 5:
+		if $fire/RayCast3D.is_colliding() and $fire/RayCast3D.get_collider() == target_player:
+			if Time.get_ticks_msec() - last_damage > 1000:
+				print_debug("collided with", target_player.name)
+				target_player.damage(10, 0.3, "fire")
+				last_damage = Time.get_ticks_msec()
 
 
 func find_new_target():
@@ -145,6 +162,7 @@ func hunt_target():
 	var distance_from_target = to_target.length()
 	if $AnimationTree["parameters/conditions/attacking"]:
 		direction = to_target.normalized()
+		check_fire_collision()
 	elif distance_from_target > 10:
 		run()
 		follow_path()
@@ -155,7 +173,7 @@ func hunt_target():
 		attack("attack")
 		direction = to_target.normalized()
 
-	if nav.is_navigation_finished():
+	if distance_from_target > 5 and nav.is_navigation_finished():
 		if not nav.is_target_reachable():
 			# Can't reach the prey?
 			if not pointing:
@@ -164,8 +182,6 @@ func hunt_target():
 			direction = to_target.normalized()
 			stop()
 		else:
-			prints(name, "gave up on", target_player.name)
-			target_player = null
 			pointing = false
 	else:
 		pointing = false
@@ -203,8 +219,8 @@ func _physics_process(delta: float):
 	move_entity(delta)
 
 
-func damage(dmg, reg, weapon=null, entity=null):
-	super.damage(dmg, reg, weapon, entity)
+func damage(dmg, reg, element=null, weapon=null, entity=null):
+	super.damage(dmg, reg, element, weapon, entity)
 	if entity != null and entity.is_in_group("player"):
 		if not entity in players:
 			players.push_front(entity)

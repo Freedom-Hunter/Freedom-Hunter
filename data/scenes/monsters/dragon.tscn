@@ -1,4 +1,4 @@
-[gd_scene load_steps=92 format=3 uid="uid://1slcsl1anmcw"]
+[gd_scene load_steps=91 format=3 uid="uid://1slcsl1anmcw"]
 
 [ext_resource type="PackedScene" uid="uid://bs15ktcu284ny" path="res://data/models/monster/dragon.gltf" id="1"]
 [ext_resource type="Script" path="res://src/entities/monster.gd" id="2"]
@@ -109,21 +109,21 @@ radius = 20.0
 [sub_resource type="BoxShape3D" id="6"]
 size = Vector3(3.6, 1.7, 2.1)
 
-[sub_resource type="Gradient" id="7"]
+[sub_resource type="Gradient" id="Gradient_7vnlj"]
 offsets = PackedFloat32Array(0, 0.0909091, 0.434783, 0.679348, 0.836364, 1)
 colors = PackedColorArray(0, 0, 0, 1, 0.979933, 0.218188, 0, 1, 0.96875, 0.62439, 0, 1, 0.804875, 0.578446, 0.167889, 1, 0.722656, 0.722656, 0.722656, 1, 0, 0, 0, 1)
 
-[sub_resource type="GradientTexture2D" id="8"]
-gradient = SubResource("7")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dlrbq"]
+gradient = SubResource("Gradient_7vnlj")
 
 [sub_resource type="Curve" id="9"]
 _data = [Vector2(0, 0.0973338), 0.0, 0.0, 0, 0, Vector2(0.24312, 0.607378), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="10"]
+[sub_resource type="CurveTexture" id="CurveTexture_476rd"]
 curve = SubResource("9")
 
-[sub_resource type="ParticleProcessMaterial" id="11"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_uo45p"]
 lifetime_randomness = 0.1
 emission_shape = 1
 emission_sphere_radius = 0.1
@@ -133,8 +133,11 @@ flatness = 0.25
 initial_velocity_min = 1.2
 initial_velocity_max = 1.5
 gravity = Vector3(0, 0.3, 0)
-scale_curve = SubResource("10")
-color_ramp = SubResource("8")
+scale_curve = SubResource("CurveTexture_476rd")
+color_ramp = SubResource("GradientTexture1D_dlrbq")
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.5
 
 [sub_resource type="StandardMaterial3D" id="12"]
 blend_mode = 1
@@ -149,7 +152,7 @@ particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="QuadMesh" id="13"]
+[sub_resource type="QuadMesh" id="QuadMesh_25tcn"]
 material = SubResource("12")
 
 [sub_resource type="StandardMaterial3D" id="14"]
@@ -166,6 +169,21 @@ particles_anim_loop = false
 [sub_resource type="QuadMesh" id="15"]
 material = SubResource("14")
 size = Vector2(0.5, 0.5)
+
+[sub_resource type="Animation" id="Animation_p3wg4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.1, 0.1, 0.1)]
+}
 
 [sub_resource type="Animation" id="Animation_7to38"]
 resource_name = "exclamation"
@@ -193,21 +211,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(0.1, 0.1, 0.1), Vector3(1, 1, 1), Vector3(1, 1, 1), Vector3(0.1, 0.1, 0.1)]
-}
-
-[sub_resource type="Animation" id="Animation_p3wg4"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.1, 0.1, 0.1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_n6ese"]
@@ -377,8 +380,6 @@ _data = {
 "run": SubResource("Animation_avujm"),
 "walk": SubResource("Animation_2flsa")
 }
-
-[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_qxib0"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_81ucd"]
 animation = &"attack"
@@ -664,8 +665,11 @@ amount = 256
 lifetime = 5.0
 randomness = 0.5
 visibility_aabb = AABB(-16, -16, -16, 32, 32, 32)
-process_material = SubResource("11")
-draw_pass_1 = SubResource("13")
+process_material = SubResource("ParticleProcessMaterial_uo45p")
+draw_pass_1 = SubResource("QuadMesh_25tcn")
+
+[node name="RayCast3D" type="RayCast3D" parent="fire" index="0"]
+target_position = Vector3(0, -3, 5)
 
 [node name="exclamation" type="MeshInstance3D" parent="." index="36"]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 3.07829, 1.44496)
@@ -684,7 +688,7 @@ libraries = {
 autoplay = "idle"
 
 [node name="entity_audio" type="AudioStreamPlayer3D" parent="." index="38"]
-stream = SubResource("AudioStreamPolyphonic_qxib0")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.17704, 1.2889)
 unit_size = 20.0
 
 [node name="eyes" type="Marker3D" parent="." index="39"]

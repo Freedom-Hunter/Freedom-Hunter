@@ -55,6 +55,17 @@ func _ready():
 	inventory.set_name("player_inventory")
 
 	resume_player()
+	ailment_added.connect(_on_ailment_added)
+
+
+func _on_ailment_added(ailment):
+	prints(name, ailment)
+	match ailment:
+		"fire":
+			$Flames.emitting = true
+			effect_over_time("burning", 1.0, 3, damage.bind(10, 0.5), func():
+				ailments.erase("fire")
+				$Flames.emitting = false)
 
 
 func sort_by_distance(a: Node3D, b: Node3D) -> bool:

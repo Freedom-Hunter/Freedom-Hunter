@@ -11,13 +11,13 @@ func _on_CampFire_body_entered(body):
 		timer.name = "burning"
 		timer.wait_time = 1.0
 		timer.autostart = true
-		timer.connect("timeout", Callable(self, "_on_burning_timer_timeout").bind(body))
+		timer.timeout.connect(self._on_burning_timer_timeout.bind(body))
 		body.add_child(timer)
 
 
 func _on_burning_timer_timeout(body: Entity):
 	if body is Entity:
-		body.damage(10, 0.3)
+		body.damage(10, 0.3, "fire")
 
 
 func _on_CampFire_body_exited(body):
