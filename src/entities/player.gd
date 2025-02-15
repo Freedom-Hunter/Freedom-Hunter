@@ -28,28 +28,28 @@ func _notification(what: int):
 		inventory.free()
 
 
-func set_equipment(model, bone, _name=null):
+func set_equipment(model, bone):
 	var skel = $Armature/Skeleton3D
 	for node in skel.get_children():
 		if node is BoneAttachment3D:
 			if node.get_bone_name() == bone:
+				prints("found bone", bone)
 				node.add_child(model)
-				if _name != null:
-					node.set_name(name)
+				node.set_name(bone)
 				return
 	var ba = BoneAttachment3D.new()
-	if _name != null:
-		ba.set_name(_name)
+	ba.set_name(bone)
 	ba.set_bone_name(bone)
 	ba.add_child(model)
 	skel.add_child(ba)
+	prints("created bone attachment for", bone)
 
 
 func _ready():
 	super()
 	# TEST CODE
 	equipment.weapon = load("res://data/scenes/equipment/weapon/lasersword/laser_sword.tscn").instantiate()
-	set_equipment(equipment.weapon, "weapon_L", "weapon")
+	set_equipment(equipment.weapon, "weapon_L")
 
 	inventory.set_position(Vector2(1370, 200))
 	inventory.set_name("player_inventory")
