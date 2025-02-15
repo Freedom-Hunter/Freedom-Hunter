@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://ct5jr4cl5kaaw" path="res://data/scenes/interact/cannon.tscn" id="2"]
 [ext_resource type="Script" path="res://src/1812.gd" id="4"]
 
-[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_i8a1w"]
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_whhnl"]
 
 [sub_resource type="SphereShape3D" id="1"]
 radius = 9.0632
@@ -148,17 +148,17 @@ sky = SubResource("3")
 script = ExtResource("4")
 
 [node name="Overture" type="AudioStreamPlayer" parent="."]
-stream = SubResource("AudioStreamPolyphonic_i8a1w")
+stream = SubResource("AudioStreamPolyphonic_whhnl")
 
 [node name="trigger" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.509107, 0)
 shape = SubResource("1")
 
 [node name="Tchaikovsky" type="AnimationPlayer" parent="."]
-playback_default_blend_time = 1.0
 libraries = {
 "": SubResource("AnimationLibrary_i6d2t")
 }
+playback_default_blend_time = 1.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.819152, -0.573577, 0, 0.573577, 0.819152, 0, 1, 88.8977)

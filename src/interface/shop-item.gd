@@ -10,6 +10,7 @@ var item_cost := 1000
 var amount := 0
 var time := 0
 
+# is this a good place to use a signal?
 signal buy(item, cost)
 
 
@@ -27,7 +28,7 @@ func _process(delta):
 
 func set_item(new_item: Consumable, new_cost_factor: float):
 	item = new_item
-	item_cost = (100 - new_item.rarity) * new_cost_factor
+	item_cost = int((100 - new_item.rarity) * new_cost_factor)
 	($Icon as TextureRect).texture = new_item.icon
 	($Name as Label).text = new_item.name
 	($Quantity as Range).value = 0
@@ -58,7 +59,7 @@ func _on_Buy_pressed():
 	var player_item = item.clone()
 	player_item.quantity = $Quantity.value
 	print("Buy %s x%d for %d£" % [$Name.text, $Quantity.value, item_cost])
-	emit_signal("buy", player_item, item_cost)
+	buy.emit(player_item, item_cost)
 
 
 func _on_Quantity_value_changed(value):

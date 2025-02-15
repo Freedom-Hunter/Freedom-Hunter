@@ -37,4 +37,3 @@ func _input(event: InputEvent) -> void:
 		show()
 	elif event.is_action_released("players_list"):
 		hide()
-

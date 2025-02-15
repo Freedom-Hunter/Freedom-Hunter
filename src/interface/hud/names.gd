@@ -62,4 +62,3 @@ func _process(delta: float):
 		var pos := camera_node.unproject_position(global.local_player.get_name_position())
 		var label_size: Vector2 = label.get_size()
 		label.global_position = pos - label_size / 2
-

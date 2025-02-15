@@ -56,14 +56,14 @@ func update():
 		var item = get_item(active_item + i)
 		child.get_node("icon").set_texture(item.icon)
 		i += 1
-	var item = get_active_item()
-	if item == null_item:
+	var a = get_active_item()
+	if a == null_item:
 		$bar/use/quantity.visible = false
 	else:
 		$bar/use/quantity.visible = true
-		$bar/use/quantity/label.text = str(item.quantity)
-		item.set_label_color($bar/use/quantity/label)
-	$name/label.text = item.name
+		$bar/use/quantity/label.text = str(a.quantity)
+		a.set_label_color($bar/use/quantity/label)
+	$name/label.text = a.name
 
 
 func _input(event):

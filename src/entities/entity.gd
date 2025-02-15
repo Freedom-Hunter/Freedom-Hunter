@@ -313,7 +313,7 @@ func damage(dmg, reg, weapon=null, entity=null):
 		prints(get_name(), "is already dead")
 
 
-func attack(attack_name):
+func attack(_attack_name):
 	$AnimationTree["parameters/conditions/attacking"] = true
 
 

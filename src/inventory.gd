@@ -135,7 +135,6 @@ class ItemStack extends TextureRect:
 
 # Manage drag and drop
 class Slot extends Panel:
-	const Item = preload("res://src/items/item.gd")
 	var item: Item
 	var stack: ItemStack
 	var inventory: Inventory
@@ -177,4 +176,3 @@ class Slot extends Panel:
 		data.in_flight = false
 		inventory.add_item(data.item, self) # take this item
 		inventory.dragging = null
-

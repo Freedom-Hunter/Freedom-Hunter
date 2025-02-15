@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://cqw0qsnudx81k"]
 
-[ext_resource type="PackedScene" path="res://data/scenes/items/cannon_ball.tscn" id="1"]
-[ext_resource type="Material" path="res://data/scenes/interact/cannonball_heap_material.tres" id="2"]
+[ext_resource type="PackedScene" uid="uid://c6v6cdc1vbni7" path="res://data/scenes/items/cannon_ball.tscn" id="1"]
+[ext_resource type="Material" uid="uid://onk426y8ljc6" path="res://data/scenes/interact/cannonball_heap_material.tres" id="2"]
 
 [sub_resource type="GDScript" id="4"]
 script/source = "extends Node3D
@@ -18,7 +18,7 @@ script/source = "extends Node3D
 
 const ROT = PI/36
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_pressed(\"player_left\"):
 		rotate_y(-ROT)
 	elif Input.is_action_pressed(\"player_right\"):

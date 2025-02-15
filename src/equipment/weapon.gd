@@ -98,4 +98,3 @@ func _on_body_entered(body):
 		body.damage(get_weapon_damage(body, null), 0.0, self, player)
 		$audio.play()
 		blunt(1)
-

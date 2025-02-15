@@ -21,34 +21,34 @@ signal player_connected(player_name)
 signal player_disconnected(player_name)
 
 
-static func add_entity(_name, scene, spawn, id=1):
+static func add_entity(entity_name, scene, spawn, id=1):
 	var entity = scene.instantiate()
 	entity.set_multiplayer_authority(id)
-	entity.set_name(_name)
+	entity.set_name(entity_name)
 	spawn.add_child(entity)
 	return entity
 
 
-func add_monster(_name, scene):
-	return self.add_entity(_name, scene, monsters_spawn)
+func add_monster(monster_name, scene):
+	return self.add_entity(monster_name, scene, monsters_spawn)
 
 
-func add_player(_name, id=1, transform=null):
-	var player = self.add_entity(_name, PlayerScene, players_spawn, id)
+func add_player(player_name, id=1, transform=null):
+	var player = self.add_entity(player_name, PlayerScene, players_spawn, id)
 	if id == networking.unique_id:
-		prints(_name, "is local player")
+		prints(player_name, "is local player")
 		local_player = player
 	else:
-		prints(_name, "is remote player")
+		prints(player_name, "is remote player")
 	if transform != null:
 		player.transform = transform
-	player_connected.emit(_name)
+	player_connected.emit(player_name)
 	return player
 
 
-func remove_player(_name):
-	players_spawn.get_node(_name).queue_free()
-	emit_signal("player_disconnected", _name)
+func remove_player(player_name):
+	players_spawn.get_node(player_name).queue_free()
+	player_disconnected.emit(player_name)
 
 
 func start_game(local_player_name):
@@ -139,4 +139,3 @@ func _input(event):
 			unpause()
 	if event.is_action_pressed("ui_fullscreen"):
 		toggle_fullscreen()
-

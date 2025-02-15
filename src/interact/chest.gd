@@ -5,7 +5,6 @@
 extends StaticBody3D
 
 @onready var inventory = preload("res://data/scenes/inventory.tscn").instantiate()
-@onready var inventory_items = inventory.get_node("items")
 @onready var hud_inventory = $/root/hud/inventory
 @onready var animation = $AnimationPlayer
 
@@ -58,4 +57,3 @@ func close():
 func _input(event: InputEvent):
 	if event.is_action_pressed("player_interact"):
 		close()
-

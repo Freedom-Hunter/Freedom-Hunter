@@ -32,7 +32,7 @@ func register_player(_name, id=server_id):
 	http.connect("request_completed", Callable(self, "_on_register_player_completed"))
 
 
-func _on_register_player_completed(result, response_code, headers, body):
+func _on_register_player_completed(result, response_code, _headers, body):
 	http.disconnect("request_completed", Callable(self, "_on_register_player_completed"))
 	if result == HTTPRequest.RESULT_SUCCESS and response_code == 200:
 		player_id = str_to_var(body.get_string_from_utf8())

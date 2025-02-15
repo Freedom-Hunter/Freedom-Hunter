@@ -6,8 +6,6 @@ extends "entity.gd"
 class_name Player
 
 
-const Inventory = preload("res://src/inventory.gd")
-
 @onready var yaw_node: Node3D = get_node("/root/game/yaw")
 @onready var camera_node: Camera3D = yaw_node.get_node("pitch/camera")
 @onready var camera_offset := yaw_node.get_position().y
@@ -122,8 +120,8 @@ func buy_item(item: Item, cost: int) -> bool:
 
 func drop_item_on_floor(item: Node3D):
 	var drop_origin: Vector3 = $drop_item.global_transform.origin
-	item.global_transform.origin = drop_origin
 	get_parent().add_child(item)
+	item.global_transform.origin = drop_origin
 
 
 func get_defence() -> int:
@@ -166,8 +164,8 @@ func resume_player():
 	set_process(true)
 
 
-func consume_item_animation(name: String):
-	animation_tree["parameters/conditions/" + name] = true
+func consume_item_animation(anim_name: String):
+	animation_tree["parameters/conditions/" + anim_name] = true
 	stop()
 
 
@@ -236,4 +234,3 @@ func get_name_position() -> Vector3:
 
 func can_consume() -> bool:
 	return state_machine.get_current_node() == 'idle-loop'
-

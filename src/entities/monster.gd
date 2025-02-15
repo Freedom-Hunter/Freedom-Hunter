@@ -50,7 +50,13 @@ func _init():
 
 func _ready():
 	super()
+	set_physics_process(false)
+	call_deferred("setup_monster")
+
+
+func setup_monster():
 	var singleplayer_or_server := not multiplayer.has_multiplayer_peer() or is_multiplayer_authority()
+	await NavigationServer3D.map_changed
 	set_physics_process(singleplayer_or_server)
 	if multiplayer.has_multiplayer_peer() and is_multiplayer_authority():
 		set_process_mode(Node.PROCESS_MODE_ALWAYS)
@@ -71,41 +77,14 @@ func _ready():
 
 func new_random_target():
 	random_target = Vector3(randf_range(-100, 100), 0, randf_range(-100, 100))
-	set_navigation_target(random_target, true)
+	set_navigation_target(random_target)
 	prints(get_name(), "is going to", random_target)
 
 
-func set_navigation_target(target: Vector3, debug=false):
+func set_navigation_target(target: Vector3):
 	prints(name, "has a new target:", target)
 	nav.target_position = target
 	old_target_origin = target
-
-	if debug:
-		call_deferred("debug_navigation")
-
-
-func debug_navigation():
-	visualize_path(nav.get_current_navigation_path())
-
-
-func visualize_path(path: Array):
-	var path_m := nav.get_node("path")
-	if path_m != null:
-		path_m.name = "path.old"
-		path_m.queue_free()
-	path_m = Node3D.new()
-	path_m.name = "path"
-	nav.add_child(path_m)
-	for i in range(0, path.size()):
-		var mesh := MeshInstance3D.new()
-		var sphere := SphereMesh.new()
-		sphere.radius = i * 0.05
-		sphere.height = i * 0.05 * 2
-		mesh.mesh = sphere
-		mesh.transform.origin = path[i]
-		path_m.add_child(mesh)
-		if i == path.size() - 1:
-			mesh.material_override = red_material
 
 
 func follow_path():
@@ -140,10 +119,7 @@ func line_of_sight(vector: Vector3) -> Dictionary:
 
 func find_new_target():
 	# Find new target if there are candidates
-	var origin: Vector3 = global_transform.origin
-	var eyes: Vector3 = $eyes.global_transform.origin
 	var min_distance: float = INF
-	var space_state: PhysicsDirectSpaceState3D = get_node("/root/game").get_world_3d().get_direct_space_state()
 
 	for player in players:
 		if not player.is_dead():
@@ -153,9 +129,10 @@ func find_new_target():
 				if target_distance < min_distance:
 					target_player = player
 					min_distance = target_distance
+
 	if target_player != null:
 		# Found a prey.
-		set_navigation_target(target_player.global_transform.origin, true)
+		set_navigation_target(target_player.global_transform.origin)
 
 
 func hunt_target():
@@ -196,7 +173,7 @@ func hunt_target():
 	if target_player and old_target_origin.distance_to(target_player.global_position) > 1:
 		# Prey is trying to escape. Need a new path
 		# This avoids to recompute a new path on every frame. Do it only when needed.
-		set_navigation_target(target_player.global_transform.origin, true)
+		set_navigation_target(target_player.global_transform.origin)
 
 
 func scout():
@@ -245,4 +222,3 @@ func _on_view_body_exited(body: Node):
 	if body.is_in_group("player"):
 		players.erase(body)
 		prints(body.name, "exited", name, "view radius")
-

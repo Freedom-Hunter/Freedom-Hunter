@@ -41,4 +41,3 @@ func _on_quit_pressed():
 func _on_popup_hide():
 	if $hbox.get_children().size() > 0:
 		close_inventories()
-

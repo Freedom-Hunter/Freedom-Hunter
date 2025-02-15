@@ -135,10 +135,10 @@ focus_neighbor_bottom = NodePath("../singleplayer")
 text = "Credits"
 
 [node name="Animation" type="AnimationPlayer" parent="."]
-autoplay = "background"
 libraries = {
 "": SubResource("AnimationLibrary_u6epe")
 }
+autoplay = "background"
 
 [node name="multiplayer" parent="." instance=ExtResource("6")]
 visible = false

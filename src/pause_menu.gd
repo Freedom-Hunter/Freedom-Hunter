@@ -44,4 +44,3 @@ func _notification(what: int):
 		NOTIFICATION_WM_WINDOW_FOCUS_OUT:
 			print("focus out")
 			#global.pause()
-

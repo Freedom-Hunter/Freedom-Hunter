@@ -72,4 +72,3 @@ func set_sway_yaw(p_sway_yaw):
 func set_sway_pitch(p_sway_pitch):
 	sway_pitch = p_sway_pitch
 	rebuild()
-

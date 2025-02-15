@@ -38,21 +38,21 @@ func _ready():
 	new_random_stare()
 
 
-func interact(new_player: Player, node):
-	assert(player == null)
-	player = new_player
-	player.pause_player()
-	get_viewport().get_camera_3d().set_process_input(false)
-	hud_inventory.open_inventories([shop, player.inventory])
-	for shop_item in shop.shop_items:
-		shop_item.connect("buy", player.buy_item)
-	$ohayou.play()
-	await hud_inventory.popup_hide
-	for shop_item in shop.shop_items:
-		shop_item.disconnect("buy", player.buy_item)
-	player.resume_player()
-	get_viewport().get_camera_3d().set_process_input(true)
-	player = null
+func interact(new_player: Player, _node):
+	if player == null:
+		player = new_player
+		player.pause_player()
+		get_viewport().get_camera_3d().set_process_input(false)
+		hud_inventory.open_inventories([shop, player.inventory])
+		for shop_item in shop.shop_items:
+			shop_item.buy.connect(player.buy_item)
+		$ohayou.play()
+		await hud_inventory.popup_hide
+		for shop_item in shop.shop_items:
+			shop_item.buy.disconnect(player.buy_item)
+		player.resume_player()
+		get_viewport().get_camera_3d().set_process_input(true)
+		player = null
 
 
 func slerp_look_at(target: Vector3, slerp_factor: float):

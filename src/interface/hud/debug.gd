@@ -26,4 +26,3 @@ func _process(delta):
 			if time - Time.get_ticks_msec() > 10000:
 				messages.erase(time)
 		text += "\n".join(messages.values())
-

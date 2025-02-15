@@ -103,7 +103,7 @@ func request_servers_list():  # called every 10 seconds by refresh timer
 		$lobby/refresh.start()
 
 
-func _on_servers_list_received(result, response_code, headers, body):
+func _on_servers_list_received(result, response_code, _headers, body):
 	networking.lobby.http.disconnect("request_completed", Callable(self, "_on_servers_list_received"))
 	if result != HTTPRequest.RESULT_SUCCESS or response_code != 200:
 		report_error("Can't retrieve servers list")

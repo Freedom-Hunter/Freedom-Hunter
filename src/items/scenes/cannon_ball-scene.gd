@@ -30,7 +30,7 @@ func _on_AnimationPlayer_animation_finished(anim_name: String):
 		queue_free()
 
 
-func interact(player, node):
+func interact(player, _node):
 	var item: Consumable = load("res://src/items/consumables/cannon_ball.gd").new(1)
 	var remainder = player.add_item(item)
 	if remainder == 0:

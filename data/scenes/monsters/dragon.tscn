@@ -1,4 +1,4 @@
-[gd_scene load_steps=91 format=3 uid="uid://1slcsl1anmcw"]
+[gd_scene load_steps=92 format=3 uid="uid://1slcsl1anmcw"]
 
 [ext_resource type="PackedScene" uid="uid://bs15ktcu284ny" path="res://data/models/monster/dragon.gltf" id="1"]
 [ext_resource type="Script" path="res://src/entities/monster.gd" id="2"]
@@ -130,9 +130,9 @@ emission_sphere_radius = 0.1
 direction = Vector3(0, -1, 1)
 spread = 5.0
 flatness = 0.25
-gravity = Vector3(0, 0.3, 0)
 initial_velocity_min = 1.2
 initial_velocity_max = 1.5
+gravity = Vector3(0, 0.3, 0)
 scale_curve = SubResource("10")
 color_ramp = SubResource("8")
 
@@ -158,12 +158,14 @@ cull_mode = 2
 shading_mode = 0
 albedo_texture = ExtResource("4")
 billboard_mode = 3
+billboard_keep_scale = true
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
 [sub_resource type="QuadMesh" id="15"]
 material = SubResource("14")
+size = Vector2(0.5, 0.5)
 
 [sub_resource type="Animation" id="Animation_7to38"]
 resource_name = "exclamation"
@@ -193,8 +195,24 @@ tracks/1/keys = {
 "values": [Vector3(0.1, 0.1, 0.1), Vector3(1, 1, 1), Vector3(1, 1, 1), Vector3(0.1, 0.1, 0.1)]
 }
 
+[sub_resource type="Animation" id="Animation_p3wg4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.1, 0.1, 0.1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_n6ese"]
 _data = {
+"RESET": SubResource("Animation_p3wg4"),
 "exclamation": SubResource("Animation_7to38")
 }
 
@@ -660,10 +678,10 @@ libraries = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="37"]
-autoplay = "idle"
 libraries = {
 "": SubResource("AnimationLibrary_fqfgx")
 }
+autoplay = "idle"
 
 [node name="entity_audio" type="AudioStreamPlayer3D" parent="." index="38"]
 stream = SubResource("AudioStreamPolyphonic_qxib0")
@@ -675,7 +693,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.34988, 1.34893)
 [node name="AnimationTree" type="AnimationTree" parent="." index="40"]
 tree_root = SubResource("AnimationNodeStateMachine_1on7c")
 anim_player = NodePath("../AnimationPlayer")
-active = true
 parameters/conditions/attacking = false
 parameters/conditions/dead = false
 parameters/conditions/idle = false
@@ -687,8 +704,12 @@ parameters/movement/conditions/running = false
 parameters/movement/conditions/walking = false
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." index="41"]
+target_desired_distance = 5.0
 path_max_distance = 30.01
+simplify_path = true
+simplify_epsilon = 0.2
+debug_enabled = true
 
-[connection signal="body_entered" from="view" to="." method="_on_view_body_entered" flags=18]
-[connection signal="body_exited" from="view" to="." method="_on_view_body_exited" flags=18]
+[connection signal="body_entered" from="view" to="." method="_on_view_body_entered"]
+[connection signal="body_exited" from="view" to="." method="_on_view_body_exited"]
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]

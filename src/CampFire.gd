@@ -4,8 +4,6 @@
 
 extends Area3D
 
-const Entity = preload("res://src/entities/entity.gd")
-
 
 func _on_CampFire_body_entered(body):
 	if body is Entity:

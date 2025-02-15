@@ -4,8 +4,6 @@
 
 extends RigidBody3D
 
-const Entity = preload("res://src/entities/entity.gd")
-
 
 func _on_timer_timeout():
 	$"explosion/animation".play("explode")

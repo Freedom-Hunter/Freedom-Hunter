@@ -10,6 +10,7 @@ const CannonBallScene = preload("res://data/scenes/items/cannon_ball.tscn")
 const Icon = preload("res://data/images/items/cannonball.png")
 
 const fire_speed = 200
+const fire_angle = deg_to_rad(5)
 
 
 func _init(_quantity):
@@ -31,7 +32,8 @@ func fire(from_cannon: CannonNode, spawn:Node3D=null) -> void:
 	spawn.add_child(cannon_ball)
 	cannon_ball.global_transform.origin = position
 	# The projectile should travel forward (-Z in Godot) from the cannon
-	var a: Basis = from_cannon.global_transform.basis
+	# and slightly upward (the cannon is rotated 
+	var a: Basis = from_cannon.global_transform.basis.rotated(Vector3.RIGHT, fire_angle)
 	var velocity := Vector3(-a.x.z, a.y.z, a.z.z) * fire_speed
 	cannon_ball.fire(velocity)
 	self.quantity -= 1

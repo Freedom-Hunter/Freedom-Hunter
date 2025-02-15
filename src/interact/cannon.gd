@@ -54,4 +54,3 @@ func tween_rotate(angle, duration=0.5):
 		tween.tween_property(self, "rotation_degrees", final, duration)
 		tween.tween_callback(func(): self.tween = null)
 		tween.play()
-
